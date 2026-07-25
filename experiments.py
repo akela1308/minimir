@@ -84,7 +84,7 @@ def _measure_inner(job):
     # измерительный участок: обнуляем накопители, меряем стационар
     eng.reset_metrics()
     if track:
-        eng.individual_hist = {}                             # только измерительное окно
+        eng.reset_individual()                               # только измерительное окно
 
     measure_ticks = ticks - warm
     block_mis = []

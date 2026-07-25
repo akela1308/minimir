@@ -36,7 +36,17 @@ class Engine:
         self.energy_action_hist = np.zeros((10, N_ACTIONS), dtype=np.int64)
         self.window_hist = np.zeros((10, N_ACTIONS), dtype=np.int64)
         self.policy_fn = policies.get(cfg.policy)
-        self.individual_hist = {} if cfg.track_individual else None
+        # Индивидуальные гистограммы: плотный массив (max_pop, 10, N_ACTIONS)
+        # вместо питоновского цикла по агентам и словаря. Слот переиспользуется
+        # при рождении нового агента, поэтому гистограмму умершего снимаем
+        # (harvest) в ind_done до обнуления среза — так ни одна жизнь не теряется.
+        self.track_individual = cfg.track_individual
+        if self.track_individual:
+            self.ind_arr = np.zeros((cfg.max_pop, 10, N_ACTIONS), dtype=np.int32)
+            self.ind_birth = np.full(cfg.max_pop, -1, dtype=np.int64)
+            self.ind_done = []
+        else:
+            self.ind_arr = None
         self.last_hidden_cost = None
         self.forage_hits = 0
         self.forage_moves = 0
@@ -57,6 +67,36 @@ class Engine:
         self.action_counts[:] = 0
         self.forage_hits = self.forage_moves = 0
         self.coop_events = self.defect_events = 0
+
+    def reset_individual(self):
+        """Обнулить индивидуальные накопители на старте измерительного окна.
+
+        Живым агентам счётчик обнуляется, но их слоты остаются «занятыми»
+        (ind_birth = текущий birth_tick), чтобы в окно попадали только
+        измерительные сэмплы, а не история прогрева.
+        """
+        if not self.track_individual:
+            return
+        self.ind_arr[:] = 0
+        self.ind_birth[:] = -1
+        self.ind_done = []
+        ids = self.pop.ids()
+        self.ind_birth[ids] = self.pop.birth_tick[ids]
+
+    def all_individual_hists(self):
+        """Все накопленные индивидуальные гистограммы: снятые + текущие непустые.
+
+        Непустой срез — это либо живой агент, либо умерший, чей слот ещё не
+        переиспользован; и то и другое суть завершённые/идущие жизни, и обе
+        версии кода их учитывали.
+        """
+        if not self.track_individual:
+            return []
+        out = list(self.ind_done)
+        flat = self.ind_arr.reshape(self.cfg.max_pop, -1).sum(axis=1)
+        for s in np.flatnonzero(flat > 0).tolist():
+            out.append(self.ind_arr[s])
+        return out
 
     # ------------------------------------------------------------------ сенсоры
     def _neighbourhood(self, ids):
@@ -371,14 +411,17 @@ class Engine:
         bins = np.clip((pop.E[ids] / self.cfg.e_max * 10).astype(np.int64), 0, 9)
         np.add.at(self.energy_action_hist, (bins, act), 1)
         np.add.at(self.window_hist, (bins, act), 1)
-        if self.individual_hist is not None:
-            for i, aid in enumerate(ids.tolist()):
-                key = (aid, int(pop.birth_tick[aid]))
-                h = self.individual_hist.get(key)
-                if h is None:
-                    h = np.zeros((10, N_ACTIONS), dtype=np.int32)
-                    self.individual_hist[key] = h
-                h[bins[i], act[i]] += 1
+        if self.track_individual:
+            # слоты, чей занимающий сменился (переиспользование) — снять и обнулить
+            bt = pop.birth_tick[ids]
+            changed = np.flatnonzero(bt != self.ind_birth[ids])
+            for j in changed.tolist():
+                s = int(ids[j])
+                if self.ind_birth[s] >= 0 and self.ind_arr[s].sum() > 0:
+                    self.ind_done.append(self.ind_arr[s].copy())
+                self.ind_arr[s] = 0
+                self.ind_birth[s] = bt[j]
+            np.add.at(self.ind_arr, (ids, bins, act), 1)
         np.add.at(self.action_counts, act, 1)
 
         e_before = pop.E[ids].copy()

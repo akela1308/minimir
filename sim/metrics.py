@@ -188,12 +188,15 @@ def within_agent_dependence(engine, min_samples=200):
 
     Требует включённого engine.track_individual.
     """
-    hists = getattr(engine, "individual_hist", None)
+    if getattr(engine, "track_individual", False):
+        hists = engine.all_individual_hists()
+    else:
+        hists = None
     if not hists:
         return dict(mean_mi_bits=None, n_agents=0,
                     note="включите cfg.track_individual")
     vals = []
-    for h in hists.values():
+    for h in hists:
         if h.sum() >= min_samples:
             r = mi_from_hist(h)
             if r.get("mi_corrected_bits") is not None:
