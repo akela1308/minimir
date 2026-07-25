@@ -17,6 +17,11 @@ import numpy as np
 
 from .config import N_IN, N_OUT, N_ACTIONS, A_FORWARD, A_EAT, A_GIVE, A_TAKE
 
+# Форма генома задаётся тройкой (N_IN, n_hidden, N_OUT). Имя кэша обязано
+# содержать все три: раньше в нём был только N_IN, и при изменении числа
+# выходов молча подхватывался несовместимый предок другой формы.
+
+
 
 def _random_genome(rng, cfg):
     h, sg = cfg.n_hidden, cfg.init_weight_sigma
@@ -58,10 +63,13 @@ def _passes_simulation(cfg, g, ticks=3000):
 
 
 def find_viable_ancestor(cfg, cache_dir="runs/ancestors", verbose=False):
-    cache = Path(cache_dir) / f"seed{cfg.seed}_h{cfg.n_hidden}_in{N_IN}.npz"
+    cache = Path(cache_dir) / f"seed{cfg.seed}_h{cfg.n_hidden}_in{N_IN}_out{N_OUT}.npz"
     if cache.exists():
         d = np.load(cache)
-        return (d["W1"], d["b1"], d["W2"], d["b2"]), int(d["tries"])
+        g = (d["W1"], d["b1"], d["W2"], d["b2"])
+        # страховка: форма кэша обязана совпасть с текущей формой генома
+        if g[0].shape == (N_IN, cfg.n_hidden) and g[2].shape == (cfg.n_hidden, N_OUT):
+            return g, int(d["tries"])
 
     rng = np.random.default_rng(cfg.seed * 1000003 + 7)
     synth = 0
