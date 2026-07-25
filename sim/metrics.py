@@ -149,6 +149,43 @@ def hunger_vs_cooperation(engine):
                 social_events=int(social.sum()))
 
 
+def within_agent_hunger_vs_cooperation(engine, min_social=30):
+    """Внутриагентная версия hunger_vs_cooperation — закрывает главный confound.
+
+    Популяционная доля кооперации по децилям энергии обогащена «отнимающими»
+    в верхних децилях по построению: `take` сам поднимает энергию агента,
+    перемешивая агентов между децилями. Здесь для каждого агента считаем
+    give/(give+take) по его собственным децилям за его жизнь и корреляцию с
+    децилем, затем усредняем корреляции по агентам. Это свойство индивида,
+    а не популяционного облака.
+
+    Требует track_individual=True.
+    """
+    if not getattr(engine, "track_individual", False):
+        return dict(mean_correlation=None, n_agents=0, note="нужен track_individual")
+    corrs = []
+    for h in engine.all_individual_hists():
+        give = h[:, 5].astype(np.float64)
+        take = h[:, 6].astype(np.float64)
+        social = give + take
+        if social.sum() < min_social:
+            continue
+        valid = social > 0
+        if valid.sum() < 3:
+            continue
+        rate = give[valid] / social[valid]
+        x = np.arange(10)[valid]
+        if rate.std() < 1e-9:
+            continue
+        corrs.append(float(np.corrcoef(x, rate)[0, 1]))
+    if not corrs:
+        return dict(mean_correlation=None, n_agents=0)
+    c = np.array(corrs, float)
+    return dict(mean_correlation=float(c.mean()),
+                sd=float(c.std(ddof=1)) if c.size > 1 else 0.0,
+                median=float(np.median(c)), n_agents=int(c.size))
+
+
 def genome_diversity(engine):
     ids = engine.pop.ids()
     if ids.size < 2:
@@ -174,6 +211,32 @@ def energy_occupancy(engine):
     return dict(distribution=p.tolist(),
                 entropy_bits=float(-(nz * np.log2(nz)).sum()),
                 occupied_deciles=int((p > 0.01).sum()))
+
+
+def sign_metrics(engine):
+    """Метрики знакового слоя (этап 3), калибруются в C.2/C.3.
+
+    * mark_rate — доля тиков-действий MARK;
+    * mi_state_content_bits — MI(дециль энергии; класс содержания метки):
+      «метка вообще о чём-то?» Около нуля -> знака нет, смотреть нечего;
+    * own_mark_freshness — средний возраст читаемых СВОИХ меток. Возраст ~1
+      означает обход к рекуррентности, а не знак (STAGE3_DESIGN §3);
+    * own_vs_other_reads — доля прочтений собственных меток среди всех.
+    """
+    total_actions = int(engine.action_counts.sum())
+    mark_rate = (engine.action_counts[7] / total_actions) if total_actions else 0.0
+    mi = mi_from_hist(engine.mark_state_hist)
+    fresh = (engine.own_mark_age_sum / engine.own_mark_age_count
+             if engine.own_mark_age_count else None)
+    reads = engine.own_mark_reads + engine.other_mark_reads
+    return dict(mark_rate=float(mark_rate),
+                marks_made=int(engine.marks_made),
+                mi_state_content_bits=mi.get("mi_corrected_bits"),
+                mi_samples=mi.get("samples"),
+                own_mark_freshness=fresh,
+                own_mark_reads=int(engine.own_mark_reads),
+                other_mark_reads=int(engine.other_mark_reads),
+                own_read_fraction=(engine.own_mark_reads / reads) if reads else None)
 
 
 def within_agent_dependence(engine, min_samples=200):

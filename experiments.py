@@ -73,6 +73,11 @@ def _measure_inner(job):
     block_avg = job.get("block_avg", False)
     if "warm_ticks" in job:
         warm = int(job["warm_ticks"])
+    elif block_avg and ticks >= 3 * BLOCK_TICKS:
+        # ровно 5 измерительных блоков после прогрева (preregistration §4),
+        # но не меньше трети прогона на прогрев
+        want = ticks - 5 * BLOCK_TICKS
+        warm = max(want, int(ticks * 0.35))
     else:
         warm = int(ticks * job.get("warm_frac", 0.75))
     warm = max(0, min(warm, ticks))
@@ -90,17 +95,21 @@ def _measure_inner(job):
     block_mis = []
     if block_avg and measure_ticks >= BLOCK_TICKS:
         nblocks = measure_ticks // BLOCK_TICKS
-        for _ in range(nblocks):
+        for i in range(nblocks):
             eng.run(BLOCK_TICKS, on_log=rec)
             r = metrics.behaviour_depends_on_energy(eng)
             block_mis.append(r.get("mi_corrected_bits"))
-            # обнуляем только популяционные накопители; individual_hist копится
-            eng.energy_action_hist[:] = 0
-            eng.window_hist[:] = 0
-            eng.action_counts[:] = 0
-            eng.forage_hits = eng.forage_moves = 0
-            eng.coop_events = eng.defect_events = 0
-        # последний блок оставляем в накопителях для occupancy/switch
+            # обнуляем популяционные накопители ПЕРЕД следующим блоком, но
+            # НЕ после последнего: occupancy/switch/итоговое MI должны считаться
+            # по данным последнего блока, а не по пустой гистограмме.
+            # individual_hist не трогаем — он копится за всё окно.
+            if i < nblocks - 1:
+                eng.energy_action_hist[:] = 0
+                eng.window_hist[:] = 0
+                eng.action_counts[:] = 0
+                eng.forage_hits = eng.forage_moves = 0
+                eng.coop_events = eng.defect_events = 0
+        # хвост (обычно 0 тиков) досчитываем в накопители последнего блока
         eng.run(measure_ticks - nblocks * BLOCK_TICKS, on_log=rec)
     else:
         eng.run(measure_ticks, on_log=rec)

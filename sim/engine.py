@@ -54,6 +54,12 @@ class Engine:
         self.defect_events = 0
         self.marks_made = 0
         self.sign_content = None
+        # инструментарий этапа 3 (метрики знака), копится только при signs=True
+        self.mark_state_hist = np.zeros((10, 4), dtype=np.int64)  # (дециль энергии; класс содержания)
+        self.own_mark_age_sum = 0.0     # свежесть читаемых СВОИХ меток
+        self.own_mark_age_count = 0
+        self.own_mark_reads = 0
+        self.other_mark_reads = 0
         self.action_counts = np.zeros(N_ACTIONS, dtype=np.int64)
         self.extinct_at = None
 
@@ -67,6 +73,12 @@ class Engine:
         self.action_counts[:] = 0
         self.forage_hits = self.forage_moves = 0
         self.coop_events = self.defect_events = 0
+        self.marks_made = 0
+        self.mark_state_hist[:] = 0
+        self.own_mark_age_sum = 0.0
+        self.own_mark_age_count = 0
+        self.own_mark_reads = 0
+        self.other_mark_reads = 0
 
     def reset_individual(self):
         """Обнулить индивидуальные накопители на старте измерительного окна.
@@ -224,6 +236,19 @@ class Engine:
         author = w.sign_author[y, x]
         present = np.abs(w.signs[y, x]).sum(axis=1) > 1e-3
         mine = (np.abs(author - pop.face[ids]).sum(axis=1) < cfg.face_tolerance) & present
+
+        # свежесть читаемых меток: возраст метки под агентом, отдельно для
+        # своих и чужих. Если агент читает только собственные метки возрастом
+        # ~1 тик, это обход к рекуррентности, а не знак (STAGE3_DESIGN §3).
+        if present.any():
+            ages = w.sign_age[y, x]
+            own_here = mine & present
+            other_here = (~mine) & present
+            if own_here.any():
+                self.own_mark_age_sum += float(ages[own_here].sum())
+                self.own_mark_age_count += int(own_here.sum())
+                self.own_mark_reads += int(own_here.sum())
+            self.other_mark_reads += int(other_here.sum())
 
         if mode == "others":
             # свои метки для агента невидимы: гасим содержание там, где метка своя
@@ -423,6 +448,21 @@ class Engine:
                 self.ind_birth[s] = bt[j]
             np.add.at(self.ind_arr, (ids, bins, act), 1)
         np.add.at(self.action_counts, act, 1)
+        # хук для внешнего анализа (например, размер выборки A.1): действия
+        # текущего тика по агентам. Ничего не стоит, если никто не читает.
+        self._last_ids = ids
+        self._last_bins = bins
+        self._last_act = act
+
+        # метрика знака: совместное распределение (дециль энергии; класс
+        # содержания метки) на событиях MARK. Класс — знаковый квадрант
+        # двумерного содержания. Если MI≈0 — содержание не о состоянии.
+        if self.cfg.signs and self.sign_content is not None:
+            mk = act == A_MARK
+            if mk.any():
+                c = self.sign_content[mk]
+                cls = (2 * (c[:, 0] > 0) + (c[:, 1] > 0)).astype(np.int64)
+                np.add.at(self.mark_state_hist, (bins[mk], cls), 1)
 
         e_before = pop.E[ids].copy()
         self._apply(ids, act, partner_adj, crowd)
