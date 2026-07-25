@@ -1,5 +1,9 @@
 .venv/
-runs/
 __pycache__/
 *.pyc
 .pytest_cache/
+# байпродукты прогонов (не деливерятся), но сырые числа/графики/скрипты — храним
+runs/*.db
+runs/ancestors/
+runs/*.log
+runs/*.npz
