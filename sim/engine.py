@@ -370,6 +370,9 @@ class Engine:
                 w.signs[cy, cx] = self.sign_content[m]
                 w.sign_author[cy, cx] = pop.face[sub]
                 w.sign_age[cy, cx] = 0.0
+                # авторство и возраст автора — для теста порядка развития (C.4)
+                w.sign_author_id[cy, cx] = sub
+                w.sign_author_age[cy, cx] = pop.age[sub].astype(np.float32)
                 cost[m] += cfg.mark_cost
                 self.marks_made += sub.size
 
@@ -453,6 +456,15 @@ class Engine:
         self._last_ids = ids
         self._last_bins = bins
         self._last_act = act
+        # пред-ходовой контекст метки под агентом (для теста порядка развития
+        # C.4): есть ли метка, кто и в каком возрасте автор. Позиции ещё не
+        # сдвинуты — контекст совпадает с тем, на основе чего выбрано действие.
+        if self.cfg.signs:
+            w = self.world
+            yy = pop.y[ids]; xx = pop.x[ids]
+            self._ctx_present = np.abs(w.signs[yy, xx]).sum(axis=1) > 1e-2
+            self._ctx_author_id = w.sign_author_id[yy, xx]
+            self._ctx_author_age = w.sign_author_age[yy, xx]
 
         # метрика знака: совместное распределение (дециль энергии; класс
         # содержания метки) на событиях MARK. Класс — знаковый квадрант

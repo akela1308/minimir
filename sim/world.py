@@ -21,6 +21,9 @@ class World:
         self.signs = np.zeros((self.H, self.W, 2), dtype=np.float32)
         self.sign_author = np.zeros((self.H, self.W, 3), dtype=np.float32)
         self.sign_age = np.zeros((self.H, self.W), dtype=np.float32)
+        # для теста порядка развития (C.4): кто и в каком возрасте оставил метку
+        self.sign_author_id = np.full((self.H, self.W), -1, dtype=np.int64)
+        self.sign_author_age = np.zeros((self.H, self.W), dtype=np.float32)
 
     def _make_capacity(self):
         """Пятна через низкочастотную фильтрацию белого шума в спектре (без зависимостей)."""
