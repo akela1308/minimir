@@ -1,0 +1,32 @@
+[
+ {
+  "policy": "mark_always",
+  "pop": 155,
+  "mark_rate": 0.3703234997503256,
+  "marks_made": 151289,
+  "mi_state_content": 0.0,
+  "mi_samples": 151289,
+  "freshness": 46.67866362523645,
+  "own_read_fraction": 0.8117494569218193
+ },
+ {
+  "policy": "mark_when_hungry_follow_own",
+  "pop": 0,
+  "mark_rate": 0.8058690744920993,
+  "marks_made": 357,
+  "mi_state_content": null,
+  "mi_samples": 357,
+  "freshness": 1.045945945945946,
+  "own_read_fraction": 1.0
+ },
+ {
+  "policy": "ignore_marks",
+  "pop": 176,
+  "mark_rate": 0.0,
+  "marks_made": 0,
+  "mi_state_content": null,
+  "mi_samples": 0,
+  "freshness": null,
+  "own_read_fraction": null
+ }
+]

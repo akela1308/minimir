@@ -27,11 +27,11 @@ for name, over in CONDS.items():
     for seed in SEEDS:
         cfg = Config(seed=seed, **over)
         eng = Engine(cfg)
-        peak = 0
-        def rec(e):
-            nonlocal peak
-            if e.pop.count > peak: peak = e.pop.count
+        peak_box = [0]
+        def rec(e, _p=peak_box):
+            if e.pop.count > _p[0]: _p[0] = e.pop.count
         eng.run(TICKS, on_log=rec)
+        peak = peak_box[0]
         ids = eng.pop.ids()
         lifespans = np.array(eng.pop.lifespans, float)
         med_life = float(np.median(lifespans)) if lifespans.size else 0.0
@@ -44,9 +44,10 @@ for name, over in CONDS.items():
                          lr_start=cfg.hebb_rate_init,
                          hebbian=over["hebbian"], signs=over["signs"]))
         r = rows[-1]
+        lrs = f"{r['lr_mean']:.5f}" if r['lr_mean'] is not None else "—"
         print(f"{name:>22} seed{seed}: pop={r['pop']:>4} peak={peak:>4} "
               f"med_life={med_life:>6.0f} extinct={r['extinct']} "
-              f"lr={r['lr_mean']:.5f}" + ("" if not over["hebbian"] else " <hebb>"),
+              f"lr={lrs}" + ("" if not over["hebbian"] else " <hebb>"),
               flush=True)
 
 with open("runs/c1_pilot.json", "w") as f:
