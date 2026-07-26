@@ -8,7 +8,25 @@ N = 100, 200, 400, 800. Ищем минимальное N, при котором
 import json
 import numpy as np
 from sim import Config, Engine
-from sim.metrics import mi_from_hist
+
+
+def mi_corrected_small(h):
+    """MI с поправкой на смещение БЕЗ порога n>=1000 из mi_from_hist:
+    здесь весь смысл — поведение оценки при малых N (100..800)."""
+    h = np.asarray(h, dtype=np.float64)
+    n = h.sum()
+    if n < 20:
+        return None
+    p = h / n
+    pe = p.sum(axis=1, keepdims=True)
+    pa = p.sum(axis=0, keepdims=True)
+    denom = pe * pa
+    nz = (p > 0) & (denom > 0)
+    mi = float((p[nz] * np.log2(p[nz] / denom[nz])).sum())
+    r = int((h.sum(axis=1) > 0).sum())
+    c = int((h.sum(axis=0) > 0).sum())
+    chance = (r - 1) * (c - 1) / (2 * n * np.log(2)) if r > 1 and c > 1 else 0.0
+    return float(mi - chance)
 
 SEED = 1
 WARM = 40000          # прогрев/эволюция
@@ -46,8 +64,7 @@ def mi_first_n(stream, n):
     h = np.zeros((10, 8), dtype=np.int64)
     for b, a in stream[:n]:
         h[b, a] += 1
-    r = mi_from_hist(h)
-    return r.get("mi_corrected_bits")
+    return mi_corrected_small(h)
 
 rows = {}
 for n in NS:
