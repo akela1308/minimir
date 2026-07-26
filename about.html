@@ -1,0 +1,244 @@
+<title>мини-мир — о проекте</title>
+<style>
+  :root{
+    --ground:#0a0e11; --panel:#10161a; --panel2:#0d1317; --hair:#1c262c;
+    --ink:#e9f1f2; --dim:#93a6ae; --faint:#5b6f77;
+    --cyan:#46c6d0; --amber:#e8734a; --mark:#e6c14a; --coop:#4fd08a;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--mono);
+    -webkit-font-smoothing:antialiased;line-height:1.68;font-size:15px}
+  a{color:var(--cyan);text-decoration:none;border-bottom:1px solid #29464b}
+  a:hover{border-bottom-color:var(--cyan)}
+  .wrap{max-width:720px;margin:0 auto;padding:0 22px 80px}
+
+  /* герой */
+  .hero{position:relative;padding:64px 22px 40px;margin:0 -22px;overflow:hidden;
+    border-bottom:1px solid var(--hair)}
+  .hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+  .hero .inner{position:relative;max-width:720px;margin:0 auto}
+  .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--faint)}
+  h1{font-size:38px;font-weight:600;letter-spacing:1px;margin:12px 0 0;text-wrap:balance}
+  h1 .dot{color:var(--cyan)}
+  .lede{color:var(--dim);font-size:16px;line-height:1.6;margin:16px 0 0;max-width:60ch}
+  .lede b{color:var(--ink);font-weight:600}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+  .btn{display:inline-block;background:var(--cyan);color:var(--ground);
+    border:0;border-radius:5px;padding:11px 20px;font-family:var(--mono);
+    font-size:13px;font-weight:600;letter-spacing:.5px;cursor:pointer}
+  .btn:hover{filter:brightness(1.12);border-bottom:0}
+  .btn.ghost{background:#14202699;color:var(--ink);border:1px solid var(--hair)}
+
+  section{padding-top:38px}
+  h2{font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cyan);
+    margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  h2::before{content:"";width:22px;height:1px;background:var(--cyan);opacity:.6}
+  h3{font-size:19px;font-weight:600;margin:2px 0 10px;letter-spacing:.3px;text-wrap:balance}
+  p{color:var(--dim);margin:10px 0}
+  p b, li b{color:var(--ink);font-weight:600}
+  .accent{color:var(--cyan)}
+
+  /* карточки ступеней */
+  .stages{display:grid;gap:12px;margin-top:14px}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--hair);border-radius:8px;padding:16px 18px;
+    border-left:2px solid var(--seg,#2a3a41)}
+  .card .n{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint)}
+  .card h4{margin:4px 0 6px;font-size:15px;font-weight:600;color:var(--ink)}
+  .card p{margin:0;font-size:13.5px}
+  .card.s1{--seg:var(--cyan)} .card.s2{--seg:var(--coop)} .card.s3{--seg:var(--mark)}
+
+  ul.refs{list-style:none;padding:0;margin:12px 0}
+  ul.refs li{position:relative;padding-left:16px;margin:11px 0;color:var(--dim);
+    font-size:13.5px;line-height:1.55}
+  ul.refs li::before{content:"·";position:absolute;left:2px;color:var(--cyan);font-weight:700}
+
+  /* результаты */
+  .find{display:flex;gap:12px;align-items:flex-start;margin:14px 0;
+    background:var(--panel2);border:1px solid var(--hair);border-radius:8px;padding:14px 16px}
+  .tag{flex:none;font-size:10px;letter-spacing:.8px;text-transform:uppercase;
+    padding:3px 9px;border-radius:11px;font-weight:600;margin-top:1px}
+  .tag.no{background:#e8734a22;color:#f0956e;border:1px solid #6b3a2a}
+  .tag.part{background:#e6c14a22;color:#e6c14a;border:1px solid #6b5b2a}
+  .tag.now{background:#46c6d022;color:var(--cyan);border:1px solid #2a4a4f}
+  .find div{font-size:13.5px;color:var(--dim);line-height:1.55}
+  .find .h{color:var(--ink);font-weight:600}
+
+  .callout{margin-top:20px;background:#0e1a1c;border:1px solid #234;border-radius:8px;
+    padding:16px 18px;color:var(--dim);font-size:13.5px}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);
+    color:var(--faint);font-size:12.5px;line-height:1.7}
+</style>
+
+<div class="hero">
+  <canvas id="amb"></canvas>
+  <div class="inner">
+    <div class="eyebrow">искусственная жизнь · открытое исследование</div>
+    <h1>мини<span class="dot">·</span>мир</h1>
+    <p class="lede"><b>Крошечный цифровой мир, где живут простые существа: они
+      ищут еду, тратят силы, размножаются и умирают насовсем.</b> Мы смотрим,
+      появится ли у них само собой поведение, похожее на желание, — без того,
+      чтобы мы это желание заранее в них заложили.</p>
+    <div class="cta">
+      <a class="btn" href="https://claude.ai/code/artifact/e9a5c20f-0137-466d-8f7b-769b5a24db34" target="_blank" rel="noopener">▶ смотреть живую симуляцию</a>
+      <a class="btn ghost" href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">код · данные · отчёт</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <h2>что это</h2>
+    <h3>Эволюция без судьи</h3>
+    <p>Мы построили маленький мир и населили его существами. Каждым управляет
+      крошечная «нервная система», которая передаётся потомкам с небольшими
+      изменениями — как гены. Существа ищут еду, тратят силы на движение,
+      размножаются, когда накопят достаточно, и <b>умирают насовсем</b>, если
+      силы кончились. <b>Никакого судьи и никаких оценок нет</b> — мы не
+      говорим, что «хорошо». Выживают и оставляют потомство те, кто лучше
+      справляется, и мир сам, поколение за поколением, «настраивает» существ
+      под выживание.</p>
+  </section>
+
+  <section>
+    <h2>главный вопрос</h2>
+    <h3>Достаточно ли одной уязвимости, чтобы появилось «хочу»?</h3>
+    <p>Существо может умереть и «чувствует» своё состояние — голод. Хватит ли
+      только этого, чтобы у него само собой возникло поведение, похожее на
+      <b>желание</b> («хочу есть», «поберегусь»), — без того, чтобы мы заранее
+      вписали в него награду за правильные поступки? Это старый вопрос о том,
+      откуда берутся потребности. Мы пробуем ответить на него <b>измерением, а
+      не рассуждением</b>, и разбили его на три ступени.</p>
+    <div class="stages">
+      <div class="card s1"><div class="n">ступень 1</div>
+        <h4>Знание о себе</h4>
+        <p>Ведёт ли себя существо иначе, когда «видит» свой голод, чем когда ему
+          подсунули такой же по виду, но чужой сигнал?</p></div>
+      <div class="card s2"><div class="n">ступень 2</div>
+        <h4>Забота о других</h4>
+        <p>Появляется ли сотрудничество — делиться едой — именно тогда, когда
+          еды становится мало?</p></div>
+      <div class="card s3"><div class="n">ступень 3</div>
+        <h4>Знак</h4>
+        <p>Может ли метка, которую существо оставляет <i>для других</i>, со
+          временем стать инструментом <i>для себя самого</i>?</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>откуда растёт идея</h2>
+    <h3>Выготский и Ильенков</h3>
+    <p>Ступень 3 — это прямая проверка мысли психолога
+      <a href="https://ru.wikipedia.org/wiki/Выготский,_Лев_Семёнович" target="_blank" rel="noopener">Льва Выготского</a>:
+      <b>всякая способность появляется дважды — сначала между людьми, потом
+      внутри человека</b>. Сначала слово или знак — это способ обратиться к
+      другому («посмотри туда»), и лишь позже тот же знак человек применяет к
+      себе и так перестраивает собственное мышление. Его пример — узелок на
+      платке «чтобы не забыть»: внешняя подсказка, которую сам себе оставил.
+      Наш вопрос ровно такой: <b>сменит ли метка адресата с «другого» на «себя»
+      в течение жизни одного существа?</b></p>
+    <p>Философ
+      <a href="https://ru.wikipedia.org/wiki/Ильенков,_Эвальд_Васильевич" target="_blank" rel="noopener">Эвальд Ильенков</a>
+      довёл эту мысль до предела: <b>смыслы и «идеальное» живут не в мозге, а во
+      внешних вещах и совместных делах людей</b> — в знаках, орудиях, культуре;
+      а мозг лишь «подключается» к этому полю. Отсюда его сильное утверждение —
+      <b>потребности и саму психику можно собрать извне</b>. Он ссылался на
+      Загорский интернат, где у слепоглухих детей внутренний мир и потребности
+      выстраивали снаружи, через совместную деятельность со взрослыми.</p>
+    <div class="callout">Почему это важно для нас: до сих пор всё «внутреннее» у
+      наших существ было врождённым, зашитым в гены. Знак — <b>первое место, где
+      нечто, управляющее поведением, могло бы прийти извне</b>, из
+      взаимодействия, а не из генома. Пройди существо этот путь в нужном
+      порядке — у идеи «потребность можно дать извне» появилось бы не
+      рассуждение, а измерение. Не проходит — это тоже ответ: значит, одной
+      уязвимости и меток мало, нужно что-то ещё.</div>
+  </section>
+
+  <section>
+    <h2>на что мы опираемся</h2>
+    <h3>Мы не первые — и это хорошо</h3>
+    <p>Похожие идеи уже проверяли. Мы стоим на этих работах, а наша задача —
+      закрыть щель, которую они оставили:</p>
+    <ul class="refs">
+      <li><a href="https://arxiv.org/pdf/2401.08999" target="_blank" rel="noopener">Керамати и Гуткин (2011)</a>
+        — доказали, что «иметь потребность» и «вести себя целенаправленно» —
+        математически одно и то же. Но у них награда задана заранее; мы
+        проверяем, хватит ли <b>одного отбора</b>, без заданной награды.</li>
+      <li><a href="https://shinyverse.org/larryy/Polyworld.html" target="_blank" rel="noopener">Polyworld, Йегер (1994)</a>
+        — почти наш проект, но на 30 лет раньше: существа, нейросети и никакого
+        судьи.</li>
+      <li><a href="https://arxiv.org/pdf/1312.3450" target="_blank" rel="noopener">Рекехо и Камачо</a>
+        — предсказали, что при нехватке еды выживают те, кто сотрудничает
+        (ступень 2).</li>
+      <li><a href="https://arxiv.org/abs/2412.12103" target="_blank" rel="noopener">Йошида и Ман (2024)</a>
+        — показали, что доступ к состоянию другого рождает заботу о нём.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>что мы уже узнали</h2>
+    <h3>Честно — в том числе о том, что не подтвердилось</h3>
+    <p>Отрицательный результат здесь такой же ценный, как положительный: он
+      говорит, чего в рецепте не хватает, и не даёт обмануть себя.</p>
+    <div class="find"><span class="tag part">частично</span>
+      <div><span class="h">Ступень 1 — знание о себе.</span> Существа, «видящие»
+        свой голод, и правда ведут себя иначе, чем с чужим сигналом, — устойчиво
+        и повторяемо. Но эффект оказался <b>слабее случайных колебаний</b> самого
+        мира между запусками, поэтому по нашему строгому порогу мы не засчитали
+        его как доказанный.</div></div>
+    <div class="find"><span class="tag no">не подтвердилось</span>
+      <div><span class="h">Ступень 2 — забота о других.</span> Предсказанного
+        «сотрудничества при нехватке» мы чисто не увидели — и <b>нашли, почему</b>:
+        в модели делиться едой было нечестно выгодно (это «создавало» лишнюю
+        энергию). А знаменитая связь «голодные добрее» оказалась в основном
+        обманом измерения.</div></div>
+    <div class="find"><span class="tag no">не подтвердилось</span>
+      <div><span class="h">Ступень 3 — знак.</span> Существа почти не пользуются
+        метками, а способность «доучиваться» при жизни отбор вообще
+        <b>выключает</b>. Превращения знака «для других» в знак «для себя» не
+        произошло — самонаправленность оказалась врождённой, а не выученной.</div></div>
+    <div class="find"><span class="tag now">изучаем сейчас</span>
+      <div>Чиним «энергетику» сотрудничества, чтобы честно перепроверить
+        ступень 2, и думаем, как дать меткам реальную пользу, — иначе ступень 3
+        в принципе непроверяема.</div></div>
+    <div class="callout">Итог по-честному: пока ни одна из трёх ступеней не
+      «выстрелила» в полную силу — но в каждом случае мы понимаем, <b>что именно
+      мешает</b>, и это уже результат. Выводы обновляются по мере новых
+      экспериментов.</div>
+  </section>
+
+  <footer>
+    Открытое исследование. Полный отчёт с числами, весь код и сырые данные —
+    <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.
+    · <a href="https://claude.ai/code/artifact/e9a5c20f-0137-466d-8f7b-769b5a24db34" target="_blank" rel="noopener">живая симуляция</a>
+  </footer>
+</div>
+
+<script>
+// ненавязчивая «чашка Петри»: медленно дрейфующие точки цвета энергии
+(function(){
+  const c=document.getElementById('amb'), x=c.getContext('2d');
+  let W,H,pts;
+  function ec(t){let r,g,b;if(t<.5){const u=t/.5;r=0xe8+(0xd9-0xe8)*u;g=0x73+(0xc2-0x73)*u;b=0x4a+(0x6a-0x4a)*u;}
+    else{const u=(t-.5)/.5;r=0xd9+(0x46-0xd9)*u;g=0xc2+(0xc6-0xc2)*u;b=0x6a+(0xd0-0x6a)*u;}
+    return `rgba(${r|0},${g|0},${b|0},`;}
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;
+    pts=Array.from({length:Math.min(70,Math.floor(W/14))},()=>({
+      x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,
+      vy:(Math.random()-.5)*.25,e:Math.random(),r:1+Math.random()*2}));}
+  resize();addEventListener('resize',resize);
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function frame(){
+    x.clearRect(0,0,W,H);
+    for(const p of pts){
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      x.fillStyle=ec(p.e)+'0.5)';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();
+    }
+    if(!reduce)requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
