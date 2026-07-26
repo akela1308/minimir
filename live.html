@@ -1,30 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mini·world — live artificial-life experiment</title>
-<meta name="description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
-<meta name="keywords" content="artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
-<meta name="author" content="akela1308">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-<link rel="canonical" href="https://akela1308.github.io/minimir/">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="mini-world">
-<meta property="og:title" content="mini·world — live artificial-life experiment">
-<meta property="og:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
-<meta property="og:url" content="https://akela1308.github.io/minimir/">
-<meta property="og:image" content="https://akela1308.github.io/minimir/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="mini·world — live artificial-life experiment">
-<meta name="twitter:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
-<meta name="twitter:image" content="https://akela1308.github.io/minimir/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://akela1308.github.io/minimir/#website","name":"mini-world","alternateName":"мини-мир","url":"https://akela1308.github.io/minimir/","description":"A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://akela1308.github.io/minimir/"}]}</script>
-</head>
-<body>
+<title>mini-world — live experiment</title>
 <style>
   :root{--ground:#0a0e11;--panel:#10161a;--panel2:#0d1317;--hair:#1c262c;
     --ink:#e9f1f2;--dim:#93a6ae;--faint:#5b6f77;--cyan:#46c6d0;--amber:#e8734a;
@@ -459,6 +433,3 @@ fetch('ancestors.json').then(r=>r.json()).then(d=>{
   POOL=d.ancestors.map(unpackGenome);newTrial();loop();})
   .catch(err=>{splash.textContent='error: '+err;});
 </script>
-
-</body>
-</html>

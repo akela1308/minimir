@@ -16,9 +16,6 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: PerplexityBot/1.0
-Allow: /
-
 User-agent: ClaudeBot
 Allow: /
 
@@ -44,9 +41,6 @@ User-agent: cohere-ai
 Allow: /
 
 User-agent: Meta-ExternalAgent
-Allow: /
-
-User-agent: Timpibot
 Allow: /
 
 User-agent: YouBot
