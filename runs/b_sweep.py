@@ -91,8 +91,8 @@ def main():
     print(f"[B] {len(done)} готово, {len(jobs)} осталось", file=sys.stderr)
     if not jobs:
         return
-    workers = max(1, (os.cpu_count() or 2) - 0)  # 4 логических ядра
-    workers = min(4, workers, len(jobs))
+    # 2 воркера = 2 физических ядра машины: без oversubscription BLAS/потоков
+    workers = min(2, len(jobs))
     t0 = time.time(); n = 0
     with mp.Pool(workers) as pool:
         for res in pool.imap_unordered(one, jobs):
