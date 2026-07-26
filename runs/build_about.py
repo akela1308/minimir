@@ -599,8 +599,55 @@ ZH = dict(
     f'<a href="{SIM}" target="_blank" rel="noopener">实时模拟</a>',
 )
 
-LANGS = {"en": EN, "ru": RU, "de": DE, "zh": ZH}
-LABELS = {"en": "EN", "ru": "RU", "de": "DE", "zh": "中文"}
+ES = dict(
+  eyebrow="vida artificial · investigación abierta",
+  brand='mini<span class="dot">·</span>mundo',
+  lede='<b>Un diminuto mundo digital donde viven criaturas simples: buscan comida, gastan energía, se reproducen y mueren para siempre.</b> Observamos si por sí solo surge un comportamiento que parece un <i>deseo</i> — sin que nosotros metamos ese deseo de antemano.',
+  cta_sim="▶ ver la simulación en vivo", cta_gh="código · datos · informe",
+  what_h2="qué es", what_h3="Evolución sin árbitro",
+  what_p='Construimos un pequeño mundo y lo poblamos con criaturas. A cada una la gobierna un diminuto “sistema nervioso” que pasa a su descendencia con pequeños cambios — como genes. Las criaturas buscan comida, gastan energía al moverse, se reproducen cuando tienen suficiente y <b>mueren para siempre</b> cuando su energía se agota. <b>No hay árbitro ni puntuación</b> — nunca decimos qué es “bueno”. Sobreviven y se reproducen quienes se las arreglan mejor, y el mundo, generación tras generación, ajusta a las criaturas para sobrevivir.',
+  q_h2="la pregunta central", q_h3="¿Basta la vulnerabilidad para un “quiero”?",
+  q_p='Una criatura puede morir y “percibe” su propio estado — el hambre. ¿Basta solo con eso para que surja por sí mismo un comportamiento parecido a un <b>deseo</b> (“quiero comer”, “voy con cuidado”) — sin que escribamos una recompensa por los actos correctos? Es una vieja pregunta sobre de dónde vienen las necesidades. Intentamos responderla <b>midiendo, no argumentando</b>, dividida en tres etapas.',
+  s1_n="etapa 1", s1_t="Conocerse a sí mismo",
+  s1_d="¿Se comporta la criatura de otro modo cuando “ve” su propia hambre que cuando se le da una señal de aspecto igual pero ajena?",
+  s2_n="etapa 2", s2_t="Cuidar de los demás",
+  s2_d="¿Surge la cooperación — compartir comida — justo cuando la comida escasea?",
+  s3_n="etapa 3", s3_t="El signo",
+  s3_d="¿Puede una marca que la criatura deja <i>para otros</i> volverse, con el tiempo, una herramienta <i>para sí misma</i>?",
+  roots_h2="de dónde nace la idea", roots_h3="Vygotsky e Ilyenkov",
+  roots_p1='La etapa 3 pone a prueba directamente una idea del psicólogo <a href="https://es.wikipedia.org/wiki/Lev_Vygotski" target="_blank" rel="noopener">Lev Vygotsky</a>: <b>toda capacidad aparece dos veces — primero entre personas, luego dentro de la persona</b>. Al principio una palabra o un signo es un modo de dirigirse a otro (“mira allí”), y solo después la persona aplica ese mismo signo a sí misma y así reorganiza su propio pensamiento. Su ejemplo: un nudo en el pañuelo “para no olvidar” — una pista externa que uno se deja a sí mismo. Nuestra pregunta es justo esa: <b>¿cambiará una marca de destinatario, del “otro” a “uno mismo”, dentro de la vida de una sola criatura?</b>',
+  roots_p2='El filósofo <a href="https://es.wikipedia.org/wiki/Evald_Iliénkov" target="_blank" rel="noopener">Evald Ilyenkov</a> llevó esta idea al límite: <b>los significados y lo “ideal” no viven en el cerebro, sino en las cosas externas y en la actividad compartida de las personas</b> — en signos, herramientas, cultura; el cerebro solo se “conecta” a ese campo. De ahí su fuerte afirmación — <b>las necesidades y la propia psique pueden ensamblarse desde fuera</b>. Se refería al internado de Zagorsk, donde el mundo interior y las necesidades de niños sordociegos se construyeron desde fuera, mediante la actividad conjunta con adultos.',
+  roots_call="Por qué nos importa: hasta ahora todo lo “interno” en nuestras criaturas era innato, escrito en los genes. El signo es el <b>primer lugar donde algo que gobierna el comportamiento podría venir de fuera</b>, de la interacción y no del genoma. Si una criatura recorriera este camino en el orden correcto, la afirmación “las necesidades se pueden dar desde fuera” tendría una medición, no solo un argumento. Si no lo hace — también es una respuesta: la vulnerabilidad y las marcas por sí solas no bastan.",
+  refs_h2="en qué nos apoyamos", refs_h3="No somos los primeros — y eso es bueno",
+  refs_p="Ideas parecidas ya se han puesto a prueba. Nos apoyamos en estos trabajos, y nuestra tarea es cerrar el hueco que dejaron:",
+  ref1=f'<a href="{KERAMATI}" target="_blank" rel="noopener">Keramati y Gutkin (2011)</a> — demostraron que “tener una necesidad” y “actuar con un fin” son matemáticamente lo mismo. Pero allí la recompensa está fijada de antemano; nosotros probamos si basta <b>la selección sola</b>.',
+  ref2=f'<a href="{POLY}" target="_blank" rel="noopener">Polyworld, Yaeger (1994)</a> — casi nuestro proyecto, 30 años antes: criaturas, redes neuronales, sin árbitro.',
+  ref3=f'<a href="{CREATURES}" target="_blank" rel="noopener">Creatures, Grand (1996)</a> — criaturas con cerebro, una bioquímica simulada y aprendizaje durante la vida. Pero sus impulsos están <b>incorporados por el diseñador</b> — justo aquello de lo que probamos si se puede prescindir.',
+  ref4=f'<a href="{REQUEJO}" target="_blank" rel="noopener">Requejo y Camacho</a> — predijeron que la escasez hace ganar a los cooperadores incondicionales (etapa 2); y <a href="{YOSHIDA}" target="_blank" rel="noopener">Yoshida y Man (2024)</a> — que el acceso al estado de otro hace surgir el cuidado hacia él.',
+  coop_h2="a fondo · etapa 2", coop_h3="La cooperación — el caso más difícil",
+  coop_intro="Nuestro mundo no tiene un “juego con puntos” prescrito. La cooperación y el egoísmo crecen directamente de la comida y la energía. Una criatura tiene dos formas de tratar a un vecino:",
+  w_you="tú", w_other="vecino", w_units="energía",
+  give_t="compartir", give_net="el mundo ganó <b>+4</b> de energía — como de la nada",
+  take_t="quitar", take_net="el mundo perdió <b>-4</b> de energía — algo desapareció",
+  coop_after="Nadie obliga a compartir — la generosidad la fija la selección o no. Dar es bueno para todos juntos (quien recibe gana más de lo que pierde quien da), y quitar es destructivo. De esta tensión debería crecer una “moral” — o no crecer.",
+  coop_theory=f'<b>Lo que predecía la teoría.</b> Un trabajo conocido (<a href="{REQUEJO}" target="_blank" rel="noopener">Requejo y Camacho</a>): cuando la comida es <b>escasa</b>, deberían ganar quienes comparten sin condiciones — incluso en criaturas muy simples, sin memoria ni reconocimiento. Cuando la comida es <b>abundante</b>, todos se vuelven egoístas. Si se cumple, se puede confiar en el motor; si no, sabemos que “miente” <i>antes</i> de construir conclusiones sobre él.',
+  coop_result="<b>Qué ocurrió.</b> No vimos un giro limpio de “egoísta en la abundancia” a “altruista en la escasez”: la proporción de cooperación saltaba sin orden y era baja en cualquier nivel de comida. Las criaturas casi siempre preferían quitar.",
+  coop_warn="<b>Y aquí lo interesante: descubrimos por qué falló la prueba.</b> Mira de nuevo “compartir”: cada acto de generosidad añade <b>+4 de energía de la nada</b>. Así, la cooperación actuaba como una <b>bomba de energía</b>: cuanto más compartía un grupo, más rápido se multiplicaba — y crecía hasta el tope de población, tras lo cual esa ejecución había que descartarla como inválida. Así “mucha cooperación” y “ejecución excluida” quedaron ligadas <b>por construcción</b>, y no se podía ver la imagen honesta.",
+  coop_trap="<b>Otra trampa de medición.</b> Antes notábamos un vínculo bonito: “los hambrientos son más amables”. Resultó ser sobre todo una ilusión. Porque “quitar” <b>sube por sí mismo</b> tu energía, y entre los “saciados” hay, por construcción, muchos que acaban de quitar. Cuando medimos cada criatura <b>contra sí misma a lo largo del tiempo</b>, el vínculo casi desapareció.",
+  coop_next="<b>Qué sigue.</b> Arreglamos la “energética”: dar costará exactamente lo que el otro recibe — nada de energía de la nada. Entonces la cooperación será una <b>elección real</b>, no un truco de energía gratis, y la predicción de escasez frente a abundancia podrá probarse con honestidad.",
+  find_h2="qué hemos aprendido", find_h3="Con honestidad — también lo que no se sostuvo",
+  find_p="Aquí un resultado negativo vale tanto como uno positivo: dice qué le falta a la receta y evita que nos engañemos.",
+  tag_part="parcial", tag_no="no confirmado", tag_now="en estudio",
+  find1="<span class='h'>Etapa 1 — conocerse.</span> Las criaturas que “ven” su hambre sí se comportan distinto que con una señal ajena — de forma estable. Pero el efecto resultó <b>más débil que las oscilaciones aleatorias</b> del mundo entre ejecuciones, así que por nuestro umbral estricto no lo contamos como probado.",
+  find2="<span class='h'>Etapa 2 — cuidar de otros.</span> No vimos con claridad “cooperación en la escasez” — y <b>hallamos por qué</b>: compartir era injustamente rentable (“creaba” energía). Y el famoso vínculo “los hambrientos son más amables” era sobre todo un artefacto de medición.",
+  find3="<span class='h'>Etapa 3 — el signo.</span> Las criaturas apenas usan marcas, y la selección incluso <b>apaga</b> la capacidad de seguir aprendiendo durante la vida. No hubo conversión de un signo “para otros” en un signo “para uno mismo” — la autodirección era innata, no aprendida.",
+  find_now="Arreglamos la “energética” de la cooperación para volver a probar la etapa 2 con honestidad, y pensamos cómo dar a las marcas un uso real — si no, la etapa 3 no se puede probar.",
+  find_sum="La conclusión honesta: ninguna de las tres etapas ha “despegado” del todo aún — pero en cada caso entendemos <b>qué es exactamente lo que la bloquea</b>, y eso ya es un resultado. Estas conclusiones se actualizan con nuevos experimentos.",
+  foot=f'Investigación abierta. Informe completo con cifras, todo el código y los datos brutos — <a href="{GH}" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="{SIM}" target="_blank" rel="noopener">simulación en vivo</a>',
+)
+
+LANGS = {"en": EN, "ru": RU, "de": DE, "zh": ZH, "es": ES}
+LABELS = {"en": "EN", "ru": "RU", "de": "DE", "zh": "中文", "es": "ES"}
 
 blocks = ""
 for code, d in LANGS.items():

@@ -143,7 +143,7 @@ TEMPLATE = r"""<title>мини-мир — проигрыватель прого�
       <div class="eyebrow" id="t_eye"></div>
       <div class="toprow-r">
         <div class="langbar" role="group" aria-label="language">
-          <button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="zh">中文</button>
+          <button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="es">ES</button><button data-set="zh">中文</button>
         </div>
         <a class="about-btn" id="t_about" href="https://claude.ai/code/artifact/7876772a-43f0-4fb5-b761-db802aa896a9" target="_blank" rel="noopener"></a>
       </div>
@@ -229,6 +229,17 @@ const I18N = {
     leg_mark:"格子里的记号（符号）",leg_res:"食物（资源）；暗色＝肥沃土壤",
     play:"▶ 播放",pause:"❚❚ 暂停",tick_l:"刻",frame_l:"帧",
     foot:'每一帧都是真实的模拟状态（seed 1），并非“摆拍”动画。记号<span class="flag">几乎不被使用</span>，场也从不饱和——这是被测量到的阶段 3 结果，而非可视化的假象。代码、数据、报告：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>。'},
+  es:{eyebrow:"vida artificial", about:"acerca ↗",
+    brand:'mini<span class="dot">·</span>mundo',
+    thesis:'<b>Un diminuto mundo digital donde viven criaturas simples: buscan comida, gastan energía, se reproducen y mueren para siempre.</b> Nadie las puntúa — quien reúne suficiente comida deja descendencia, el resto desaparece. No es un juego, sino la reproducción fiel de una de esas simulaciones: el color de la criatura muestra cuánta energía tiene, el verde es comida, <span class="flag">el amarillo</span> son marcas que las criaturas dejan en el mundo.',
+    cond:"en esta ejecución está todo activado a la vez: buscar comida, interacción entre criaturas y marcas en el mundo",
+    hud_pop:"pobl.",hud_e:"energía",hud_social:"capa social abierta",hud_warm:"calentamiento",
+    g_pop_l:"población",g_pop_u:"criaturas",g_e_l:"energía media",g_e_u:"de 100",
+    g_mi_l:"I(energía;acción)",g_mi_u:"bits/ventana",g_coop_l:"actos cooperativos",g_coop_u:"acumulado",
+    leg_title:"cómo leer la pantalla",leg_hunger:"hambre",leg_full:"saciado",
+    leg_mark:"marca en una celda (signo)",leg_res:"comida; tenue = suelo fértil",
+    play:"▶ reproducir",pause:"❚❚ pausa",tick_l:"tic",frame_l:"cuadro",
+    foot:'Cada cuadro es un estado real de la simulación (seed 1), no una animación «de adorno». Las marcas <span class="flag">apenas se usan</span> y el campo nunca se satura — un resultado medido de la etapa 3, no un artefacto visual. Código, datos, informe: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
 };
 const LKEY='minimir_lang', LDEF='en';
 let LANG=(()=>{try{return localStorage.getItem(LKEY)||LDEF}catch(e){return LDEF}})();
