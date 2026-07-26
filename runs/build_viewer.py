@@ -93,6 +93,13 @@ TEMPLATE = r"""<title>мини-мир — проигрыватель прого�
     border-radius:20px;padding:6px 16px;font-size:12px;letter-spacing:.6px;
     text-transform:uppercase;font-weight:600}
   .about-btn:hover{background:var(--cyan);color:var(--ground);border-color:var(--cyan)}
+  .toprow-r{display:flex;align-items:center;gap:8px}
+  .langbar{display:flex;gap:3px;background:#0c1216cc;border:1px solid var(--hair);
+    border-radius:16px;padding:3px}
+  .langbar button{font-family:var(--mono);font-size:11px;color:var(--dim);
+    background:none;border:0;border-radius:12px;padding:4px 9px;cursor:pointer;letter-spacing:.4px}
+  .langbar button.on{background:var(--cyan);color:var(--ground);font-weight:600}
+  .langbar button:hover:not(.on){color:var(--ink)}
 
   /* попап «о проекте» */
   .overlay{position:fixed;inset:0;background:#04070ccc;backdrop-filter:blur(3px);
@@ -133,18 +140,16 @@ TEMPLATE = r"""<title>мини-мир — проигрыватель прого�
 <div class="wrap">
   <header>
     <div class="toprow">
-      <div class="eyebrow">искусственная жизнь</div>
-      <a class="about-btn" href="https://claude.ai/code/artifact/7876772a-43f0-4fb5-b761-db802aa896a9" target="_blank" rel="noopener">о проекте ↗</a>
+      <div class="eyebrow" id="t_eye"></div>
+      <div class="toprow-r">
+        <div class="langbar" role="group" aria-label="language">
+          <button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="zh">中文</button>
+        </div>
+        <a class="about-btn" id="t_about" href="https://claude.ai/code/artifact/7876772a-43f0-4fb5-b761-db802aa896a9" target="_blank" rel="noopener"></a>
+      </div>
     </div>
-    <h1>мини<span class="dot">·</span>мир</h1>
-    <div class="thesis"><b>Это крошечный цифровой мир, где живут простые
-      существа: они ищут еду, тратят силы, размножаются и умирают насовсем.</b>
-      Никто не ставит им оценок — кто нашёл достаточно еды, оставляет потомство,
-      остальные исчезают. Мы смотрим, появится ли у них само собой поведение,
-      похожее на «хочу есть», — без того, чтобы мы это заранее заложили.
-      Ниже — не игра, а точное воспроизведение одной такой симуляции: цвет
-      существа показывает, сколько у него сил (энергии), зелёное — еда,
-      <span class="flag">жёлтое</span> — метки, которые существа оставляют в мире.</div>
+    <h1 id="t_brand"></h1>
+    <div class="thesis" id="t_thesis"></div>
     <div class="cond" id="cond"></div>
   </header>
 
@@ -156,7 +161,7 @@ TEMPLATE = r"""<title>мини-мир — проигрыватель прого�
         <div class="hud" id="hud"></div>
       </div>
       <div class="transport">
-        <button id="play">▶ старт</button>
+        <button id="play"></button>
         <input type="range" id="scrub" min="0" value="0" step="1">
         <div class="speed" id="speed">
           <button data-s="0.5">0.5×</button>
@@ -164,24 +169,71 @@ TEMPLATE = r"""<title>мини-мир — проигрыватель прого�
           <button data-s="2">2×</button>
           <button data-s="4">4×</button>
         </div>
-        <div class="tick">тик <b id="tick">0</b> · кадр <b id="frame">0</b>/<span id="nframes">0</span></div>
+        <div class="tick"><span id="t_tick"></span> <b id="tick">0</b> · <span id="t_frame"></span> <b id="frame">0</b>/<span id="nframes">0</span></div>
       </div>
     </div>
 
     <div class="rail" id="rail"></div>
   </div>
 
-  <footer>
-    Каждый кадр — реальное состояние симуляции (seed 1), а не анимация «для вида».
-    Метки <span class="flag">почти не используются</span> и поле не насыщается — это
-    измеренный результат этапа 3, а не артефакт визуализации.
-    Код, данные и отчёт: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.
-  </footer>
+  <footer id="t_foot"></footer>
 </div>
 
 
 <script>
 const DATA = __DATA__;
+
+// ---- переводы интерфейса (EN по умолчанию; выбор общий со страницей «о проекте») ----
+const I18N = {
+  en:{eyebrow:"artificial life", about:"about ↗",
+    brand:'mini<span class="dot">·</span>world',
+    thesis:'<b>A tiny digital world where simple creatures live: they look for food, spend energy, reproduce, and die for good.</b> No one scores them — those who gather enough food leave offspring, the rest vanish. This is not a game but a faithful replay of one such simulation: a creature’s colour shows how much energy it has, green is food, <span class="flag">yellow</span> are marks creatures leave in the world.',
+    cond:"this run has everything on at once: foraging, creatures interacting, and marks in the world",
+    hud_pop:"pop.",hud_e:"energy",hud_social:"social layer open",hud_warm:"warm-up",
+    g_pop_l:"population",g_pop_u:"creatures",g_e_l:"mean energy",g_e_u:"of 100",
+    g_mi_l:"I(energy;action)",g_mi_u:"bits/window",g_coop_l:"cooperative acts",g_coop_u:"cumulative",
+    leg_title:"reading the screen",leg_hunger:"hungry",leg_full:"full",
+    leg_mark:"mark in a cell (sign)",leg_res:"food; dim = fertile soil",
+    play:"▶ play",pause:"❚❚ pause",tick_l:"tick",frame_l:"frame",
+    foot:'Every frame is a real simulation state (seed 1), not a for-show animation. Marks <span class="flag">are barely used</span> and the field never saturates — a measured stage-3 result, not a visualization artefact. Code, data, report: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
+  ru:{eyebrow:"искусственная жизнь", about:"о проекте ↗",
+    brand:'мини<span class="dot">·</span>мир',
+    thesis:'<b>Это крошечный цифровой мир, где живут простые существа: они ищут еду, тратят силы, размножаются и умирают насовсем.</b> Никто не ставит им оценок — кто нашёл достаточно еды, оставляет потомство, остальные исчезают. Ниже — не игра, а точное воспроизведение одной такой симуляции: цвет существа показывает, сколько у него сил (энергии), зелёное — еда, <span class="flag">жёлтое</span> — метки, которые существа оставляют в мире.',
+    cond:"в этом прогоне включено всё сразу: поиск еды, общение между существами и метки в мире",
+    hud_pop:"поп.",hud_e:"энергия",hud_social:"соц.слой открыт",hud_warm:"прогрев",
+    g_pop_l:"популяция",g_pop_u:"агентов",g_e_l:"средняя энергия",g_e_u:"из 100",
+    g_mi_l:"I(энергия;действие)",g_mi_u:"бит/окно",g_coop_l:"кооперативных актов",g_coop_u:"нарастающе",
+    leg_title:"чтение экрана",leg_hunger:"голод",leg_full:"сытость",
+    leg_mark:"метка в клетке (знак)",leg_res:"ресурс (еда), тускло = плодородная почва",
+    play:"▶ старт",pause:"❚❚ пауза",tick_l:"тик",frame_l:"кадр",
+    foot:'Каждый кадр — реальное состояние симуляции (seed 1), а не анимация «для вида». Метки <span class="flag">почти не используются</span> и поле не насыщается — это измеренный результат этапа 3, а не артефакт визуализации. Код, данные, отчёт: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
+  de:{eyebrow:"künstliches Leben", about:"über ↗",
+    brand:'mini<span class="dot">·</span>welt',
+    thesis:'<b>Eine winzige digitale Welt, in der einfache Wesen leben: Sie suchen Futter, verbrauchen Kraft, pflanzen sich fort und sterben endgültig.</b> Niemand bewertet sie — wer genug Futter sammelt, hinterlässt Nachkommen, der Rest verschwindet. Kein Spiel, sondern die getreue Wiedergabe einer solchen Simulation: die Farbe eines Wesens zeigt seine Kraft (Energie), Grün ist Futter, <span class="flag">Gelb</span> sind Markierungen, die Wesen in der Welt hinterlassen.',
+    cond:"in diesem Lauf ist alles zugleich an: Futtersuche, Interaktion der Wesen und Markierungen in der Welt",
+    hud_pop:"Pop.",hud_e:"Energie",hud_social:"soziale Schicht offen",hud_warm:"Aufwärmen",
+    g_pop_l:"Population",g_pop_u:"Wesen",g_e_l:"mittlere Energie",g_e_u:"von 100",
+    g_mi_l:"I(Energie;Handlung)",g_mi_u:"Bit/Fenster",g_coop_l:"kooperative Akte",g_coop_u:"kumulativ",
+    leg_title:"was man sieht",leg_hunger:"Hunger",leg_full:"satt",
+    leg_mark:"Markierung in einer Zelle (Zeichen)",leg_res:"Futter; blass = fruchtbarer Boden",
+    play:"▶ Start",pause:"❚❚ Pause",tick_l:"Tick",frame_l:"Bild",
+    foot:'Jedes Bild ist ein echter Simulationszustand (Seed 1), keine Show-Animation. Markierungen <span class="flag">werden kaum genutzt</span> und das Feld sättigt sich nie — ein gemessenes Stufe-3-Ergebnis, kein Visualisierungsartefakt. Code, Daten, Bericht: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
+  zh:{eyebrow:"人工生命", about:"关于 ↗",
+    brand:'微<span class="dot">·</span>世界',
+    thesis:'<b>一个微小的数字世界，里面住着简单的生物：它们寻找食物、消耗体力、繁殖，并且会彻底死亡。</b>没有谁给它们打分——找到足够食物的留下后代，其余的消失。这不是游戏，而是对一次这样的模拟的忠实重放：生物的颜色表示它的体力（能量），绿色是食物，<span class="flag">黄色</span>是生物留在世界里的记号。',
+    cond:"这一运行同时开启了一切：觅食、生物间互动，以及世界里的记号",
+    hud_pop:"种群",hud_e:"能量",hud_social:"社会层已开启",hud_warm:"预热",
+    g_pop_l:"种群",g_pop_u:"个体",g_e_l:"平均能量",g_e_u:"满分100",
+    g_mi_l:"I(能量;行为)",g_mi_u:"比特/窗口",g_coop_l:"合作行为",g_coop_u:"累计",
+    leg_title:"如何看画面",leg_hunger:"饥饿",leg_full:"饱足",
+    leg_mark:"格子里的记号（符号）",leg_res:"食物（资源）；暗色＝肥沃土壤",
+    play:"▶ 播放",pause:"❚❚ 暂停",tick_l:"刻",frame_l:"帧",
+    foot:'每一帧都是真实的模拟状态（seed 1），并非“摆拍”动画。记号<span class="flag">几乎不被使用</span>，场也从不饱和——这是被测量到的阶段 3 结果，而非可视化的假象。代码、数据、报告：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>。'},
+};
+const LKEY='minimir_lang', LDEF='en';
+let LANG=(()=>{try{return localStorage.getItem(LKEY)||LDEF}catch(e){return LDEF}})();
+if(!I18N[LANG])LANG=LDEF;
+function t(k){return (I18N[LANG]||I18N.en)[k];}
 
 // ---- декодирование base64 -> Uint8Array ----
 function b64(s){const bin=atob(s);const a=new Uint8Array(bin.length);
@@ -255,34 +307,36 @@ function drawFrame(f){
 
   // HUD
   const social = f>=M.socialFrom;
-  hud.innerHTML=`поп. <b>${DATA.pop[f]}</b> · энергия <b>${DATA.meanE[f]}</b>`+
-    (social?` · <span style="color:var(--coop)">соц.слой открыт</span>`:` · прогрев`);
+  hud.innerHTML=`${t('hud_pop')} <b>${DATA.pop[f]}</b> · ${t('hud_e')} <b>${DATA.meanE[f]}</b>`+
+    (social?` · <span style="color:var(--coop)">${t('hud_social')}</span>`:` · ${t('hud_warm')}`);
 }
 
 // ---- sparkline-приборы ----
 const rail=document.getElementById('rail');
 const GAUGES=[
-  {key:'pop', lbl:'популяция', unit:'агентов', color:'#8fd6dd', fmt:v=>v},
-  {key:'meanE', lbl:'средняя энергия', unit:'из 100', color:'#e8b06a', fmt:v=>v.toFixed(0)},
-  {key:'mi', lbl:'I(энергия;действие)', unit:'бит/окно', color:'#46c6d0', fmt:v=>v.toFixed(3)},
-  {key:'coop', lbl:'кооперативных актов', unit:'нарастающе', color:'#4fd08a', fmt:v=>v},
+  {key:'pop', lk:'g_pop_l', uk:'g_pop_u', color:'#8fd6dd', fmt:v=>v},
+  {key:'meanE', lk:'g_e_l', uk:'g_e_u', color:'#e8b06a', fmt:v=>v.toFixed(0)},
+  {key:'mi', lk:'g_mi_l', uk:'g_mi_u', color:'#46c6d0', fmt:v=>v.toFixed(3)},
+  {key:'coop', lk:'g_coop_l', uk:'g_coop_u', color:'#4fd08a', fmt:v=>v},
 ];
-const gEls=[];
-for(const g of GAUGES){
-  const el=document.createElement('div'); el.className='gauge';
-  el.innerHTML=`<div class="lbl"><span>${g.lbl}</span></div>
-    <div class="val"><span data-v>—</span> <span class="unit">${g.unit}</span></div>
-    <canvas width="272" height="46"></canvas>`;
-  rail.appendChild(el);
-  gEls.push({g, val:el.querySelector('[data-v]'), c:el.querySelector('canvas').getContext('2d')});
+let gEls=[];
+function buildRail(){
+  rail.innerHTML=''; gEls=[];
+  for(const g of GAUGES){
+    const el=document.createElement('div'); el.className='gauge';
+    el.innerHTML=`<div class="lbl"><span>${t(g.lk)}</span></div>
+      <div class="val"><span data-v>—</span> <span class="unit">${t(g.uk)}</span></div>
+      <canvas width="272" height="46"></canvas>`;
+    rail.appendChild(el);
+    gEls.push({g, val:el.querySelector('[data-v]'), c:el.querySelector('canvas').getContext('2d')});
+  }
+  const leg=document.createElement('div'); leg.className='legend';
+  leg.innerHTML=`<div style="letter-spacing:1.5px;text-transform:uppercase;font-size:10px;color:var(--faint);margin-bottom:8px">${t('leg_title')}</div>
+    <div class="row"><span>${t('leg_hunger')}</span><span class="bar"></span><span>${t('leg_full')}</span></div>
+    <div class="row"><span class="sw" style="background:#e6c14a"></span> ${t('leg_mark')}</div>
+    <div class="row"><span class="sw" style="background:#3fae6e"></span> ${t('leg_res')}</div>`;
+  rail.appendChild(leg);
 }
-// легенда
-const leg=document.createElement('div'); leg.className='legend';
-leg.innerHTML=`<div style="letter-spacing:1.5px;text-transform:uppercase;font-size:10px;color:var(--faint);margin-bottom:8px">чтение экрана</div>
-  <div class="row"><span>голод</span><span class="bar"></span><span>сытость</span></div>
-  <div class="row"><span class="sw" style="background:#e6c14a"></span> метка в клетке (знак)</div>
-  <div class="row"><span class="sw" style="background:#3fae6e"></span> ресурс (еда), тускло = плодородная почва</div>`;
-rail.appendChild(leg);
 
 function sparkline(gc, arr, f, color){
   const w=272,h=46; gc.clearRect(0,0,w,h);
@@ -316,8 +370,6 @@ function updateGauges(f){
 let cur=0, playing=false, speed=1, acc=0, last=0;
 const scrub=document.getElementById('scrub'); scrub.max=N-1;
 document.getElementById('nframes').textContent=N;
-document.getElementById('cond').textContent=
-  'в этом прогоне включено всё сразу: поиск еды, общение между существами и метки в мире';
 const playBtn=document.getElementById('play');
 const hud=document.getElementById('hud');
 
@@ -341,8 +393,8 @@ function loop(ts){
   }
   requestAnimationFrame(loop);
 }
-function play(){playing=true;last=0;playBtn.textContent='❚❚ пауза';requestAnimationFrame(loop);}
-function pause(){playing=false;playBtn.textContent='▶ старт';}
+function play(){playing=true;last=0;playBtn.textContent=t('pause');requestAnimationFrame(loop);}
+function pause(){playing=false;playBtn.textContent=t('play');}
 playBtn.onclick=()=>playing?pause():play();
 scrub.oninput=e=>{pause();render(+e.target.value);};
 document.getElementById('speed').addEventListener('click',e=>{
@@ -351,7 +403,29 @@ document.getElementById('speed').addEventListener('click',e=>{
   document.querySelectorAll('#speed button').forEach(x=>x.classList.toggle('on',x===b));
 });
 
-render(0);
+// ---- язык ----
+function applyLang(l){
+  if(!I18N[l])l=LDEF; LANG=l;
+  try{localStorage.setItem(LKEY,l)}catch(e){}
+  document.documentElement.lang=l;
+  document.getElementById('t_eye').textContent=t('eyebrow');
+  document.getElementById('t_about').textContent=t('about');
+  document.getElementById('t_brand').innerHTML=t('brand');
+  document.getElementById('t_thesis').innerHTML=t('thesis');
+  document.getElementById('cond').textContent=t('cond');
+  document.getElementById('t_tick').textContent=t('tick_l');
+  document.getElementById('t_frame').textContent=t('frame_l');
+  document.getElementById('t_foot').innerHTML=t('foot');
+  playBtn.textContent=playing?t('pause'):t('play');
+  document.querySelectorAll('.langbar button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+  buildRail();
+  render(cur);
+}
+document.querySelector('.langbar').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-set]'); if(b)applyLang(b.dataset.set);
+});
+
+applyLang(LANG);
 // автостарт, если пользователь не против движения
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches) play();
 </script>
