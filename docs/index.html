@@ -130,6 +130,7 @@
         </div>
         <a class="navlink" id="t_about" href="about.html"></a>
         <a class="navlink" id="t_rec" href="sim.html"></a>
+        <a class="navlink" id="t_journal" href="journal.html"></a>
       </div>
     </div>
     <h1 id="t_brand"></h1><span class="live-badge" id="t_live">live</span>
@@ -193,7 +194,7 @@
 <script src="engine.js"></script>
 <script>
 const I18N={
- en:{eye:"artificial life · live experiment",about:"about ↗",rec:"exact recording ↗",live:"live",
+ en:{eye:"artificial life · live experiment",about:"about ↗",rec:"exact recording ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>world',
   lede:"A controlled experiment running in your browser right now. Two worlds live in parallel from the same founder and seed: in one (treatment) a creature senses its own energy; in the other (control) that signal is shuffled among creatures — same numbers, no self-knowledge. If knowing yourself matters, the treatment should score higher. The verdict accumulates as worlds live and die.",
   self:"treatment · self",ctrl:"control · shuffled",speed:"speed",newpair:"↻ new pair",seeding:"seeding a viable world…",
@@ -215,7 +216,7 @@ const I18N={
   a_blocks:"blocks",a_self:"mean self",a_shuf:"mean shuffled",a_diff:"mean Δ",
   c_t:"trial",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"clear saved data",
   foot:'A live in-browser replication — a companion to, not the source of, the research. Exact recorded run and full report: <a href="sim.html">recording</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- ru:{eye:"искусственная жизнь · живой эксперимент",about:"о проекте ↗",rec:"точная запись ↗",live:"live",
+ ru:{eye:"искусственная жизнь · живой эксперимент",about:"о проекте ↗",rec:"точная запись ↗",journal:"журнал ↗",live:"live",
   brand:'мини<span class="dot">·</span>мир',
   lede:"Контролируемый эксперимент, идущий прямо сейчас в твоём браузере. Два мира живут параллельно от одного предка и семени: в одном (лечение) существо чувствует свою энергию; в другом (контроль) тот же сигнал перемешан между особями — те же числа, ноль знания о себе. Если знать себя важно, у лечения показатель должен быть выше. Вердикт копится, пока миры живут и вымирают.",
   self:"лечение · self",ctrl:"контроль · shuffled",speed:"скорость",newpair:"↻ новая пара",seeding:"засеваю жизнеспособный мир…",
@@ -237,7 +238,7 @@ const I18N={
   a_blocks:"блоков",a_self:"среднее self",a_shuf:"среднее shuffled",a_diff:"среднее Δ",
   c_t:"пара",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"очистить сохранённое",
   foot:'Живая браузерная репликация — спутник исследования, а не его источник. Точная запись и полный отчёт: <a href="sim.html">запись</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- de:{eye:"künstliches leben · live-experiment",about:"über ↗",rec:"exakte aufnahme ↗",live:"live",
+ de:{eye:"künstliches leben · live-experiment",about:"über ↗",rec:"exakte aufnahme ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>welt',
   lede:"Ein kontrolliertes Experiment, das gerade in deinem Browser läuft. Zwei Welten leben parallel aus demselben Ahnen und Samen: in einer (Behandlung) spürt ein Wesen seine eigene Energie; in der anderen (Kontrolle) ist dieses Signal unter den Wesen gemischt — gleiche Zahlen, kein Selbstwissen. Wenn Selbsterkenntnis zählt, sollte die Behandlung höher liegen. Das Urteil wächst, während Welten leben und sterben.",
   self:"Behandlung · self",ctrl:"Kontrolle · shuffled",speed:"Tempo",newpair:"↻ neues Paar",seeding:"säe eine lebensfähige Welt…",
@@ -259,7 +260,7 @@ const I18N={
   a_blocks:"Blöcke",a_self:"Mittel self",a_shuf:"Mittel shuffled",a_diff:"Mittel Δ",
   c_t:"Paar",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"gespeicherte Daten löschen",
   foot:'Eine live im Browser laufende Replikation — Begleiter, nicht Quelle der Forschung. Aufnahme und Bericht: <a href="sim.html">Aufnahme</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- es:{eye:"vida artificial · experimento en vivo",about:"acerca ↗",rec:"grabación exacta ↗",live:"en vivo",
+ es:{eye:"vida artificial · experimento en vivo",about:"acerca ↗",rec:"grabación exacta ↗",journal:"diario ↗",live:"en vivo",
   brand:'mini<span class="dot">·</span>mundo',
   lede:"Un experimento controlado ejecutándose ahora mismo en tu navegador. Dos mundos viven en paralelo desde el mismo fundador y semilla: en uno (tratamiento) una criatura percibe su propia energía; en el otro (control) esa señal se baraja entre las criaturas — mismos números, cero autoconocimiento. Si conocerse importa, el tratamiento debería puntuar más. El veredicto se acumula mientras los mundos viven y mueren.",
   self:"tratamiento · self",ctrl:"control · shuffled",speed:"velocidad",newpair:"↻ nuevo par",seeding:"sembrando un mundo viable…",
@@ -281,7 +282,7 @@ const I18N={
   a_blocks:"bloques",a_self:"media self",a_shuf:"media shuffled",a_diff:"media Δ",
   c_t:"par",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"borrar datos guardados",
   foot:'Una réplica en vivo en el navegador — compañera, no fuente, de la investigación. Grabación e informe: <a href="sim.html">grabación</a> · <a href="about.html">acerca</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- zh:{eye:"人工生命 · 实时实验",about:"关于 ↗",rec:"精确录制 ↗",live:"实时",
+ zh:{eye:"人工生命 · 实时实验",about:"关于 ↗",rec:"精确录制 ↗",journal:"观测日志 ↗",live:"实时",
   brand:'微<span class="dot">·</span>世界',
   lede:"一个此刻正在你浏览器里运行的对照实验。两个世界从同一祖先与同一种子并行生活：其一（处理组）生物能感知自己的能量；另一（对照组）该信号在生物间被打乱——数字相同，却毫无自我信息。若“认识自己”重要，处理组的分数应更高。随着世界不断生死，结论会不断累积。",
   self:"处理组 · self",ctrl:"对照组 · shuffled",speed:"速度",newpair:"↻ 新的一对",seeding:"正在播种一个可存活的世界…",
@@ -428,7 +429,7 @@ function loop(){
 function applyLang(l){
   if(!I18N[l])l=LDEF;LANG=l;try{localStorage.setItem(LKEY,l)}catch(e){}
   document.documentElement.lang=l;const S=id=>document.getElementById(id);
-  S('t_eye').textContent=t('eye');S('t_about').textContent=t('about');S('t_rec').textContent=t('rec');
+  S('t_eye').textContent=t('eye');S('t_about').textContent=t('about');S('t_rec').textContent=t('rec');S('t_journal').textContent=t('journal');
   S('t_brand').innerHTML=t('brand');S('t_live').textContent=t('live');S('t_lede').textContent=t('lede');
   S('t_self').textContent=t('self');S('t_ctrl').textContent=t('ctrl');
   S('t_speed').textContent=t('speed');S('newbtn').textContent=t('newpair');

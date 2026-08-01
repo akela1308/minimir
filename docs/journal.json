@@ -1,0 +1,229 @@
+{
+ "metric": "within_mi",
+ "n_seeds": 12,
+ "conditions": {
+  "self": {
+   "n_total": 12,
+   "n_valid": 12,
+   "mean": 0.03819958634939352,
+   "sd": 0.025008010488761077,
+   "median": 0.04131389921818866,
+   "extinct": 0,
+   "ceiling": 0
+  },
+  "shuffled": {
+   "n_total": 12,
+   "n_valid": 12,
+   "mean": 0.014884159286280235,
+   "sd": 0.012724092990728682,
+   "median": 0.019035907935444976,
+   "extinct": 0,
+   "ceiling": 0
+  },
+  "neighbour": {
+   "n_total": 12,
+   "n_valid": 12,
+   "mean": 0.02083649916410364,
+   "sd": 0.02026042096903569,
+   "median": 0.015955637541156864,
+   "extinct": 0,
+   "ceiling": 0
+  },
+  "off": {
+   "n_total": 12,
+   "n_valid": 11,
+   "mean": 0.025855612343385584,
+   "sd": 0.018893491546453076,
+   "median": 0.0277717271768605,
+   "extinct": 1,
+   "ceiling": 0
+  }
+ },
+ "two_sigma": 0.050016020977522155,
+ "comparisons": {
+  "self": {
+   "n": 12,
+   "p": 0.00048828125,
+   "mean_diff": 0.023315427063113285,
+   "cliffs": 0.6388888888888888,
+   "exceeds_2sigma": false,
+   "confirmed": false
+  },
+  "neighbour": {
+   "n": 12,
+   "p": 0.30126953125,
+   "mean_diff": 0.0059523398778234034,
+   "cliffs": 0.1111111111111111,
+   "exceeds_2sigma": false,
+   "confirmed": false
+  },
+  "off": {
+   "n": 11,
+   "p": 0.0029296875,
+   "mean_diff": 0.012501014264169455,
+   "cliffs": 0.4049586776859504,
+   "exceeds_2sigma": false,
+   "confirmed": false
+  }
+ },
+ "verdict": "signal_within_noise",
+ "target": 40,
+ "checkpoints": [
+  20,
+  40
+ ],
+ "built_at": "2026-08-01T15:47:29Z",
+ "commit": "2e742e3",
+ "population_metric": {
+  "metric": "mi",
+  "n_seeds": 12,
+  "conditions": {
+   "self": {
+    "n_total": 12,
+    "n_valid": 12,
+    "mean": 0.013715526004725845,
+    "sd": 0.011464913040852414,
+    "median": 0.010691740062833474,
+    "extinct": 0,
+    "ceiling": 0
+   },
+   "shuffled": {
+    "n_total": 12,
+    "n_valid": 12,
+    "mean": 0.0013403705389713394,
+    "sd": 0.0010768726605680037,
+    "median": 0.0012218254173518095,
+    "extinct": 0,
+    "ceiling": 0
+   },
+   "neighbour": {
+    "n_total": 12,
+    "n_valid": 12,
+    "mean": 0.0014228018052285536,
+    "sd": 0.0013053937579248051,
+    "median": 0.0008016157429319686,
+    "extinct": 0,
+    "ceiling": 0
+   },
+   "off": {
+    "n_total": 12,
+    "n_valid": 11,
+    "mean": 0.0016052811120365362,
+    "sd": 0.0011786125414438874,
+    "median": 0.0013238492073062629,
+    "extinct": 1,
+    "ceiling": 0
+   }
+  },
+  "two_sigma": 0.022929826081704827,
+  "comparisons": {
+   "self": {
+    "n": 12,
+    "p": 0.00048828125,
+    "mean_diff": 0.012375155465754507,
+    "cliffs": 0.8472222222222222,
+    "exceeds_2sigma": false,
+    "confirmed": false
+   },
+   "neighbour": {
+    "n": 12,
+    "p": 0.9697265625,
+    "mean_diff": 8.243126625721419e-05,
+    "cliffs": 0.027777777777777776,
+    "exceeds_2sigma": false,
+    "confirmed": false
+   },
+   "off": {
+    "n": 11,
+    "p": 0.1474609375,
+    "mean_diff": 0.0003306400281400748,
+    "cliffs": 0.17355371900826447,
+    "exceeds_2sigma": false,
+    "confirmed": false
+   }
+  }
+ },
+ "curve": [
+  {
+   "n_seeds": 5,
+   "mean_diff": 0.02294032882332813,
+   "p": 0.0625,
+   "two_sigma": 0.03553490404790927,
+   "confirmed": false
+  },
+  {
+   "n_seeds": 6,
+   "mean_diff": 0.02303596370807142,
+   "p": 0.03125,
+   "two_sigma": 0.03319326270072898,
+   "confirmed": false
+  },
+  {
+   "n_seeds": 7,
+   "mean_diff": 0.021226227892413276,
+   "p": 0.015625,
+   "two_sigma": 0.031166069777247785,
+   "confirmed": false
+  },
+  {
+   "n_seeds": 8,
+   "mean_diff": 0.021959815744599508,
+   "p": 0.0078125,
+   "two_sigma": 0.030213259576546518,
+   "confirmed": false
+  },
+  {
+   "n_seeds": 9,
+   "mean_diff": 0.01999897662510739,
+   "p": 0.00390625,
+   "two_sigma": 0.035493864464838605,
+   "confirmed": false
+  },
+  {
+   "n_seeds": 10,
+   "mean_diff": 0.020100401288578436,
+   "p": 0.001953125,
+   "two_sigma": 0.03391698803187868,
+   "confirmed": false
+  },
+  {
+   "n_seeds": 11,
+   "mean_diff": 0.019098408592205456,
+   "p": 0.0009765625,
+   "two_sigma": 0.03220055934236902,
+   "confirmed": false
+  },
+  {
+   "n_seeds": 12,
+   "mean_diff": 0.023315427063113285,
+   "p": 0.00048828125,
+   "two_sigma": 0.050016020977522155,
+   "confirmed": false
+  }
+ ],
+ "entries": [
+  {
+   "date": "2026-07-26",
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "source": "ночная сессия (REPORT.md, блок A.5)",
+   "n_seeds": 12,
+   "mean_diff": 0.023315427063113285,
+   "p": 0.00048828125,
+   "two_sigma": 0.050016020977522155,
+   "verdict": "signal_within_noise"
+  }
+ ]
+}
