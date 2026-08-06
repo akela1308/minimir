@@ -1,16 +1,16 @@
 {
- "date": "2026-08-05T05:25:50Z",
- "commit": "0c1b676",
+ "date": "2026-08-06T05:28:07Z",
+ "commit": "e40a024",
  "protocol": "A5-120k-blockavg-v1",
  "ticks": 120000,
  "added": [
-  25,
-  26,
-  27,
-  28
+  29,
+  30,
+  31,
+  32
  ],
- "total": 28,
+ "total": 32,
  "target": 40,
- "elapsed_s": 865.1,
+ "elapsed_s": 1086.2,
  "errors": 0
 }

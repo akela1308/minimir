@@ -69,8 +69,8 @@ footer{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
 а здесь — то, что остаётся.</p>
 
 <div class="card">
-  <p class="big">28 из 40 seed'ов</p>
-  <div class="bar"><i style="width:70%"></i></div>
+  <p class="big">32 из 40 seed'ов</p>
+  <div class="bar"><i style="width:80%"></i></div>
   <p class="muted">Главная метрика — внутриагентная взаимная информация между
   энергией и действием. Условия: <b>self</b> (агент видит свои энергию и
   возраст), <b>shuffled</b> (те же входы, подменённые от чужого агента),
@@ -81,21 +81,21 @@ footer{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
 <div class="card">
   <p class="big">не подтверждено — сигнал внутри шума</p>
   <p>Внутри каждого seed'а self стабильно выше контроля (парный тест значим), но разрыв меньше 2σ разброса между seed'ами. По объявленному двойному критерию это не заявка.</p>
-  <p class="muted">Δ(self − shuffled) = <b>0.0214</b> бит,
+  <p class="muted">Δ(self − shuffled) = <b>0.0199</b> бит,
   p = <b>&lt;0.0001</b>, 2σ межсидового шума =
-  <b>0.0440</b>, пар: 27.
-  По исследовательской популяционной метрике: Δ = 0.0113,
+  <b>0.0465</b>, пар: 31.
+  По исследовательской популяционной метрике: Δ = 0.0108,
   p = &lt;0.0001.</p>
 </div>
 <p class="note"><b>Это промежуточное чтение, а не результат.</b> Заранее объявлено, что подтверждающих чтения два — на 20 и на 40 seed’ах. Пересчёт после каждой добавленной порции показан ради прозрачности: если остановиться в момент, когда цифра случайно понравилась, доля ложных срабатываний вырастет. Поэтому промежуточные значения ничего не заявляют.</p>
 
 <h2>Как менялся разрыв по мере накопления</h2>
 <svg viewBox="0 0 720 260" class="chart" role="img">
-  <polygon points="56.0,66.5 74.5,70.2 93.0,73.3 111.5,74.8 130.1,66.6 148.6,69.0 167.1,71.7 185.6,43.9 204.1,43.0 222.6,38.8 241.1,41.5 259.7,44.0 278.2,46.5 296.7,48.7 315.2,49.5 333.7,51.1 352.2,52.7 370.7,52.9 389.3,52.9 407.8,54.4 426.3,55.9 444.8,57.3 463.3,55.3 481.8,53.3 481.8,190.7 463.3,188.7 444.8,186.7 426.3,188.1 407.8,189.6 389.3,191.1 370.7,191.1 352.2,191.3 333.7,192.9 315.2,194.5 296.7,195.3 278.2,197.5 259.7,200.0 241.1,202.5 222.6,205.2 204.1,201.0 185.6,200.1 167.1,172.3 148.6,175.0 130.1,177.4 111.5,169.2 93.0,170.7 74.5,173.8 56.0,177.5" fill="#46c6d022" stroke="none"/>
+  <polygon points="56.0,66.5 74.5,70.2 93.0,73.3 111.5,74.8 130.1,66.6 148.6,69.0 167.1,71.7 185.6,43.9 204.1,43.0 222.6,38.8 241.1,41.5 259.7,44.0 278.2,46.5 296.7,48.7 315.2,49.5 333.7,51.1 352.2,52.7 370.7,52.9 389.3,52.9 407.8,54.4 426.3,55.9 444.8,57.3 463.3,55.3 481.8,53.3 500.3,52.2 518.9,49.9 537.4,48.3 555.9,49.4 555.9,194.6 537.4,195.7 518.9,194.1 500.3,191.8 481.8,190.7 463.3,188.7 444.8,186.7 426.3,188.1 407.8,189.6 389.3,191.1 370.7,191.1 352.2,191.3 333.7,192.9 315.2,194.5 296.7,195.3 278.2,197.5 259.7,200.0 241.1,202.5 222.6,205.2 204.1,201.0 185.6,200.1 167.1,172.3 148.6,175.0 130.1,177.4 111.5,169.2 93.0,170.7 74.5,173.8 56.0,177.5" fill="#46c6d022" stroke="none"/>
   <line x1="56" y1="122.0" x2="704" y2="122.0" class="zero"/>
   <line x1="333.7" y1="18" x2="333.7" y2="226" class="cp"/><text x="333.7" y="28" class="ax cpl" text-anchor="middle">чтение N=20</text><line x1="704.0" y1="18" x2="704.0" y2="226" class="cp"/><text x="700.0" y="28" class="ax cpl" text-anchor="end">чтение N=40</text>
-  <polyline points="56.0,86.2 74.5,86.0 93.0,88.9 111.5,87.7 130.1,90.8 148.6,90.6 167.1,92.2 185.6,85.6 204.1,88.8 222.6,87.1 241.1,86.2 259.7,84.1 278.2,84.2 296.7,86.8 315.2,85.4 333.7,85.5 352.2,84.8 370.7,87.8 389.3,87.8 407.8,86.9 426.3,85.5 444.8,85.4 463.3,87.5 481.8,88.6" fill="none" stroke="#46c6d0" stroke-width="1.6"/>
-  <circle cx="56.0" cy="86.2" r="3.2" fill="#46c6d0"/><circle cx="74.5" cy="86.0" r="3.2" fill="#46c6d0"/><circle cx="93.0" cy="88.9" r="3.2" fill="#46c6d0"/><circle cx="111.5" cy="87.7" r="3.2" fill="#46c6d0"/><circle cx="130.1" cy="90.8" r="3.2" fill="#46c6d0"/><circle cx="148.6" cy="90.6" r="3.2" fill="#46c6d0"/><circle cx="167.1" cy="92.2" r="3.2" fill="#46c6d0"/><circle cx="185.6" cy="85.6" r="3.2" fill="#46c6d0"/><circle cx="204.1" cy="88.8" r="3.2" fill="#46c6d0"/><circle cx="222.6" cy="87.1" r="3.2" fill="#46c6d0"/><circle cx="241.1" cy="86.2" r="3.2" fill="#46c6d0"/><circle cx="259.7" cy="84.1" r="3.2" fill="#46c6d0"/><circle cx="278.2" cy="84.2" r="3.2" fill="#46c6d0"/><circle cx="296.7" cy="86.8" r="3.2" fill="#46c6d0"/><circle cx="315.2" cy="85.4" r="3.2" fill="#46c6d0"/><circle cx="333.7" cy="85.5" r="3.2" fill="#46c6d0"/><circle cx="352.2" cy="84.8" r="3.2" fill="#46c6d0"/><circle cx="370.7" cy="87.8" r="3.2" fill="#46c6d0"/><circle cx="389.3" cy="87.8" r="3.2" fill="#46c6d0"/><circle cx="407.8" cy="86.9" r="3.2" fill="#46c6d0"/><circle cx="426.3" cy="85.5" r="3.2" fill="#46c6d0"/><circle cx="444.8" cy="85.4" r="3.2" fill="#46c6d0"/><circle cx="463.3" cy="87.5" r="3.2" fill="#46c6d0"/><circle cx="481.8" cy="88.6" r="3.2" fill="#46c6d0"/>
+  <polyline points="56.0,86.2 74.5,86.0 93.0,88.9 111.5,87.7 130.1,90.8 148.6,90.6 167.1,92.2 185.6,85.6 204.1,88.8 222.6,87.1 241.1,86.2 259.7,84.1 278.2,84.2 296.7,86.8 315.2,85.4 333.7,85.5 352.2,84.8 370.7,87.8 389.3,87.8 407.8,86.9 426.3,85.5 444.8,85.4 463.3,87.5 481.8,88.6 500.3,88.4 518.9,89.7 537.4,90.8 555.9,91.0" fill="none" stroke="#46c6d0" stroke-width="1.6"/>
+  <circle cx="56.0" cy="86.2" r="3.2" fill="#46c6d0"/><circle cx="74.5" cy="86.0" r="3.2" fill="#46c6d0"/><circle cx="93.0" cy="88.9" r="3.2" fill="#46c6d0"/><circle cx="111.5" cy="87.7" r="3.2" fill="#46c6d0"/><circle cx="130.1" cy="90.8" r="3.2" fill="#46c6d0"/><circle cx="148.6" cy="90.6" r="3.2" fill="#46c6d0"/><circle cx="167.1" cy="92.2" r="3.2" fill="#46c6d0"/><circle cx="185.6" cy="85.6" r="3.2" fill="#46c6d0"/><circle cx="204.1" cy="88.8" r="3.2" fill="#46c6d0"/><circle cx="222.6" cy="87.1" r="3.2" fill="#46c6d0"/><circle cx="241.1" cy="86.2" r="3.2" fill="#46c6d0"/><circle cx="259.7" cy="84.1" r="3.2" fill="#46c6d0"/><circle cx="278.2" cy="84.2" r="3.2" fill="#46c6d0"/><circle cx="296.7" cy="86.8" r="3.2" fill="#46c6d0"/><circle cx="315.2" cy="85.4" r="3.2" fill="#46c6d0"/><circle cx="333.7" cy="85.5" r="3.2" fill="#46c6d0"/><circle cx="352.2" cy="84.8" r="3.2" fill="#46c6d0"/><circle cx="370.7" cy="87.8" r="3.2" fill="#46c6d0"/><circle cx="389.3" cy="87.8" r="3.2" fill="#46c6d0"/><circle cx="407.8" cy="86.9" r="3.2" fill="#46c6d0"/><circle cx="426.3" cy="85.5" r="3.2" fill="#46c6d0"/><circle cx="444.8" cy="85.4" r="3.2" fill="#46c6d0"/><circle cx="463.3" cy="87.5" r="3.2" fill="#46c6d0"/><circle cx="481.8" cy="88.6" r="3.2" fill="#46c6d0"/><circle cx="500.3" cy="88.4" r="3.2" fill="#46c6d0"/><circle cx="518.9" cy="89.7" r="3.2" fill="#46c6d0"/><circle cx="537.4" cy="90.8" r="3.2" fill="#46c6d0"/><circle cx="555.9" cy="91.0" r="3.2" fill="#46c6d0"/>
   <text x="6" y="26" class="ax">+0.067</text>
   <text x="6" y="126.0" class="ax">0</text>
   <text x="6" y="226.0" class="ax">-0.067</text>
@@ -109,7 +109,7 @@ footer{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
 <h2>Условия сейчас</h2>
 <table>
 <tr><th>условие</th><th>среднее</th><th>sd</th><th>медиана</th><th>годных</th></tr>
-<tr><td class="mono">self</td><td>0.0368</td><td>0.0220</td><td>0.0408</td><td>27/28</td></tr><tr><td class="mono">shuffled</td><td>0.0156</td><td>0.0144</td><td>0.0178</td><td>28/28</td></tr><tr><td class="mono">neighbour</td><td>0.0180</td><td>0.0202</td><td>0.0146</td><td>28/28</td></tr><tr><td class="mono">off</td><td>0.0231</td><td>0.0173</td><td>0.0242</td><td>26/28</td></tr>
+<tr><td class="mono">self</td><td>0.0356</td><td>0.0232</td><td>0.0408</td><td>31/32</td></tr><tr><td class="mono">shuffled</td><td>0.0158</td><td>0.0148</td><td>0.0178</td><td>32/32</td></tr><tr><td class="mono">neighbour</td><td>0.0186</td><td>0.0197</td><td>0.0153</td><td>32/32</td></tr><tr><td class="mono">off</td><td>0.0268</td><td>0.0300</td><td>0.0242</td><td>30/32</td></tr>
 </table>
 <p class="muted">Прогон считается негодным, если популяция вымерла, упёрлась в
 потолок численности или заняла меньше четырёх энергетических децилей —
@@ -119,14 +119,14 @@ footer{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
 <table>
 <tr><th>сравнение</th><th>Δ средних</th><th>p</th><th>Клифф</th><th>против 2σ</th>
 <th>подтв.</th><th>пар</th></tr>
-<tr><td class="mono">self vs shuffled</td><td>0.0214</td><td>&lt;0.0001</td><td>0.619</td><td>&lt;2σ</td><td class="no">нет</td><td>27</td></tr><tr><td class="mono">neighbour vs shuffled</td><td>0.0024</td><td>0.3386</td><td>0.038</td><td>&lt;2σ</td><td class="no">нет</td><td>28</td></tr><tr><td class="mono">off vs shuffled</td><td>0.0083</td><td>0.0056</td><td>0.325</td><td>&lt;2σ</td><td class="no">нет</td><td>26</td></tr>
+<tr><td class="mono">self vs shuffled</td><td>0.0199</td><td>&lt;0.0001</td><td>0.557</td><td>&lt;2σ</td><td class="no">нет</td><td>31</td></tr><tr><td class="mono">neighbour vs shuffled</td><td>0.0027</td><td>0.2032</td><td>0.072</td><td>&lt;2σ</td><td class="no">нет</td><td>32</td></tr><tr><td class="mono">off vs shuffled</td><td>0.0116</td><td>0.0024</td><td>0.280</td><td>&lt;2σ</td><td class="no">нет</td><td>30</td></tr>
 </table>
 
 <h2>Журнал прогонов</h2>
 <table>
 <tr><th>дата</th><th>seed'ы</th><th>всего</th><th>Δ</th><th>p</th><th>2σ</th>
 <th>чтение</th></tr>
-<tr><td class="mono">2026-08-05</td><td>25–28</td><td>28</td><td>0.0214</td><td>&lt;0.0001</td><td>0.0440</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-04</td><td>21–24</td><td>24</td><td>0.0225</td><td>&lt;0.0001</td><td>0.0433</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-03</td><td>17–20</td><td>20</td><td>0.0234</td><td>&lt;0.0001</td><td>0.0454</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-02</td><td>13–16</td><td>16</td><td>0.0243</td><td>&lt;0.0001</td><td>0.0499</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-07-26</td><td>1–12</td><td>12</td><td>0.0233</td><td>0.0005</td><td>0.0500</td><td>не подтверждено — сигнал внутри шума</td></tr>
+<tr><td class="mono">2026-08-06</td><td>29–32</td><td>32</td><td>0.0199</td><td>&lt;0.0001</td><td>0.0465</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-05</td><td>25–28</td><td>28</td><td>0.0214</td><td>&lt;0.0001</td><td>0.0440</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-04</td><td>21–24</td><td>24</td><td>0.0225</td><td>&lt;0.0001</td><td>0.0433</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-03</td><td>17–20</td><td>20</td><td>0.0234</td><td>&lt;0.0001</td><td>0.0454</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-02</td><td>13–16</td><td>16</td><td>0.0243</td><td>&lt;0.0001</td><td>0.0499</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-07-26</td><td>1–12</td><td>12</td><td>0.0233</td><td>0.0005</td><td>0.0500</td><td>не подтверждено — сигнал внутри шума</td></tr>
 </table>
 <p class="muted">Сырые числа по каждому прогону лежат в репозитории:
 <a href="https://github.com/akela1308/minimir/blob/main/runs/daily/compare_ext.jsonl">runs/daily/compare_ext.jsonl</a>
@@ -136,7 +136,7 @@ footer{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
 коммита и seed — любой прогон воспроизводится этими тремя числами.</p>
 
 <footer>
-Собрано 2026-08-05T05:40:16Z · код 0c1b676 ·
+Собрано 2026-08-06T05:46:14Z · код e40a024 ·
 протокол A5-120k-blockavg-v1 · метод и критерии —
 <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION.md">предрегистрация</a>,
 <a href="https://github.com/akela1308/minimir/blob/main/REPORT.md">отчёт ночной сессии</a>
