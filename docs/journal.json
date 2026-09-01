@@ -72,8 +72,8 @@
   20,
   40
  ],
- "built_at": "2026-08-31T08:41:10Z",
- "commit": "cbb94b5",
+ "built_at": "2026-09-01T07:50:51Z",
+ "commit": "d8a438c",
  "population_metric": {
   "metric": "mi",
   "n_seeds": 40,
