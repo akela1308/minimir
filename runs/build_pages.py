@@ -11,7 +11,7 @@ og.png. engine.js и ancestors.json уже лежат в docs/ и не трог�
 import re
 from pathlib import Path
 
-BASE = "https://akela1308.github.io/minimir"
+BASE = "https://minimir.ilinmaks.com"
 GH = "https://github.com/akela1308/minimir"
 ART_VIEWER = "https://claude.ai/code/artifact/e9a5c20f-0137-466d-8f7b-769b5a24db34"
 ART_ABOUT = "https://claude.ai/code/artifact/7876772a-43f0-4fb5-b761-db802aa896a9"

@@ -6,32 +6,31 @@
 <title>mini·world — live artificial-life experiment</title>
 <meta name="description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
 <meta name="keywords" content="artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
-<meta name="author" content="akela1308">
+<meta name="author" content="Maksim Ilin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-<link rel="canonical" href="https://akela1308.github.io/minimir/">
+<link rel="canonical" href="https://minimir.ilinmaks.com/">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mini-world">
 <meta property="og:title" content="mini·world — live artificial-life experiment">
 <meta property="og:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
-<meta property="og:url" content="https://akela1308.github.io/minimir/">
-<meta property="og:image" content="https://akela1308.github.io/minimir/og.png">
+<meta property="og:url" content="https://minimir.ilinmaks.com/">
+<meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="mini·world — live artificial-life experiment">
 <meta name="twitter:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
-<meta name="twitter:image" content="https://akela1308.github.io/minimir/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://akela1308.github.io/minimir/#website","name":"mini-world","alternateName":"мини-мир","url":"https://akela1308.github.io/minimir/","description":"A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://akela1308.github.io/minimir/"}]}</script>
+<meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://minimir.ilinmaks.com/"}]}</script>
 </head>
 <body>
+<link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
 <style>
-  :root{--ground:#0a0e11;--panel:#10161a;--panel2:#0d1317;--hair:#1c262c;
-    --ink:#e9f1f2;--dim:#93a6ae;--faint:#5b6f77;--cyan:#46c6d0;--amber:#e8734a;
-    --mark:#e6c14a;--coop:#4fd08a;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
   *{box-sizing:border-box}
   body{margin:0;background:radial-gradient(1200px 700px at 70% -10%,#101a1f 0%,var(--ground) 55%);
-    color:var(--ink);font-family:var(--mono);-webkit-font-smoothing:antialiased;line-height:1.5}
+    color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
   .wrap{max-width:1120px;margin:0 auto;padding:24px 20px 60px}
   header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;
     border-bottom:1px solid var(--hair);padding-bottom:14px}
@@ -118,6 +117,31 @@
   .clearbtn{font-size:11px;color:var(--faint);background:none;border:0;cursor:pointer;text-decoration:underline;margin-top:8px}
   footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--hair);color:var(--faint);font-size:12px;line-height:1.7}
   footer a{color:var(--cyan);text-decoration:none}
+
+  /* --- согласование с общей системой стилей --- */
+  body{font-family:var(--sans);letter-spacing:.005em}
+  .eyebrow{font-family:var(--mono);border:0;padding:0;margin:0;max-width:none}
+  .langbar{position:static;display:flex;gap:2px;background:none;border:0;border-radius:0;
+    padding:0;margin:0;backdrop-filter:none;justify-content:flex-start;border-bottom:0}
+  .langbar button{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);background:none;border:0;border-radius:0;padding:4px 8px 3px;
+    box-shadow:inset 0 -1px 0 transparent}
+  .langbar button.on{background:none;color:var(--ink);font-weight:400;box-shadow:inset 0 -1px 0 var(--cyan)}
+  .langbar button:hover:not(.on){color:var(--body)}
+  .navlink,nav a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    border:0;border-radius:0;padding:4px 0;margin-right:18px;color:var(--cyan);
+    box-shadow:inset 0 -1px 0 var(--hair)}
+  .navlink:hover,nav a:hover{background:none;color:var(--ink);box-shadow:inset 0 -1px 0 var(--cyan)}
+  h1{letter-spacing:-.02em}
+  h2{font-family:var(--sans);letter-spacing:-.01em}
+  h2::before{content:none}
+  /* данные снова моноширинные: показания приборов, таблицы, счётчики */
+  .hud,.gauge .val,.gauge .lbl,.gauge .unit,.aggcard .v,.aggcard .k,.verdict .big,.verdict .sub,
+  .wlabel,.tlabel,.speed button,.ctrlbtn,.clearbtn,.live-badge,.stage,.big,.mono,
+  table,th,td,.cp,.cpl,.ax,.bar,.box b,.fc .ln,.fc .ft{font-family:var(--mono)}
+  .verdict,.aggcard,.gauge,.box,.card,.tblwrap,.screen,.chart{border-radius:2px}
+  .speed button,.ctrlbtn,.clearbtn,.navlink{border-radius:0}
+  .num,td,th,.mono,.big,.val,.hud,.gauge .val,.aggcard .v,.verdict .big{font-variant-numeric:tabular-nums}
 </style>
 
 <div class="wrap">
@@ -131,6 +155,7 @@
         <a class="navlink" id="t_about" href="about.html"></a>
         <a class="navlink" id="t_rec" href="sim.html"></a>
         <a class="navlink" id="t_journal" href="journal.html"></a>
+        <a class="navlink" id="t_agi" href="agi.html"></a>
       </div>
     </div>
     <h1 id="t_brand"></h1><span class="live-badge" id="t_live">live</span>
@@ -194,7 +219,7 @@
 <script src="engine.js"></script>
 <script>
 const I18N={
- en:{eye:"artificial life · live experiment",about:"about ↗",rec:"exact recording ↗",journal:"journal ↗",live:"live",
+ en:{eye:"artificial life · live experiment",agi:"AGI ↗",about:"about ↗",rec:"exact recording ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>world',
   lede:"A controlled experiment running in your browser right now. Two worlds live in parallel from the same founder and seed: in one (treatment) a creature senses its own energy; in the other (control) that signal is shuffled among creatures — same numbers, no self-knowledge. If knowing yourself matters, the treatment should score higher. The verdict accumulates as worlds live and die.",
   self:"treatment · self",ctrl:"control · shuffled",speed:"speed",newpair:"↻ new pair",seeding:"seeding a viable world…",
@@ -215,8 +240,8 @@ const I18N={
   log_h:"measurement blocks (saved in your browser)",
   a_blocks:"blocks",a_self:"mean self",a_shuf:"mean shuffled",a_diff:"mean Δ",
   c_t:"trial",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"clear saved data",
-  foot:'A live in-browser replication — a companion to, not the source of, the research. Exact recorded run and full report: <a href="sim.html">recording</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- ru:{eye:"искусственная жизнь · живой эксперимент",about:"о проекте ↗",rec:"точная запись ↗",journal:"журнал ↗",live:"live",
+  foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser replication — a companion to, not the source of, the research. Exact recorded run and full report: <a href="sim.html">recording</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+ ru:{eye:"искусственная жизнь · живой эксперимент",agi:"AGI ↗",about:"о проекте ↗",rec:"точная запись ↗",journal:"журнал ↗",live:"live",
   brand:'мини<span class="dot">·</span>мир',
   lede:"Контролируемый эксперимент, идущий прямо сейчас в твоём браузере. Два мира живут параллельно от одного предка и семени: в одном (лечение) существо чувствует свою энергию; в другом (контроль) тот же сигнал перемешан между особями — те же числа, ноль знания о себе. Если знать себя важно, у лечения показатель должен быть выше. Вердикт копится, пока миры живут и вымирают.",
   self:"лечение · self",ctrl:"контроль · shuffled",speed:"скорость",newpair:"↻ новая пара",seeding:"засеваю жизнеспособный мир…",
@@ -237,8 +262,8 @@ const I18N={
   log_h:"измерительные блоки (сохранены в твоём браузере)",
   a_blocks:"блоков",a_self:"среднее self",a_shuf:"среднее shuffled",a_diff:"среднее Δ",
   c_t:"пара",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"очистить сохранённое",
-  foot:'Живая браузерная репликация — спутник исследования, а не его источник. Точная запись и полный отчёт: <a href="sim.html">запись</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- de:{eye:"künstliches leben · live-experiment",about:"über ↗",rec:"exakte aufnahme ↗",journal:"journal ↗",live:"live",
+  foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная репликация — спутник исследования, а не его источник. Точная запись и полный отчёт: <a href="sim.html">запись</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+ de:{eye:"künstliches leben · live-experiment",agi:"AGI ↗",about:"über ↗",rec:"exakte aufnahme ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>welt',
   lede:"Ein kontrolliertes Experiment, das gerade in deinem Browser läuft. Zwei Welten leben parallel aus demselben Ahnen und Samen: in einer (Behandlung) spürt ein Wesen seine eigene Energie; in der anderen (Kontrolle) ist dieses Signal unter den Wesen gemischt — gleiche Zahlen, kein Selbstwissen. Wenn Selbsterkenntnis zählt, sollte die Behandlung höher liegen. Das Urteil wächst, während Welten leben und sterben.",
   self:"Behandlung · self",ctrl:"Kontrolle · shuffled",speed:"Tempo",newpair:"↻ neues Paar",seeding:"säe eine lebensfähige Welt…",
@@ -259,8 +284,8 @@ const I18N={
   log_h:"Messblöcke (in deinem Browser gespeichert)",
   a_blocks:"Blöcke",a_self:"Mittel self",a_shuf:"Mittel shuffled",a_diff:"Mittel Δ",
   c_t:"Paar",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"gespeicherte Daten löschen",
-  foot:'Eine live im Browser laufende Replikation — Begleiter, nicht Quelle der Forschung. Aufnahme und Bericht: <a href="sim.html">Aufnahme</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- es:{eye:"vida artificial · experimento en vivo",about:"acerca ↗",rec:"grabación exacta ↗",journal:"diario ↗",live:"en vivo",
+  foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Eine live im Browser laufende Replikation — Begleiter, nicht Quelle der Forschung. Aufnahme und Bericht: <a href="sim.html">Aufnahme</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+ es:{eye:"vida artificial · experimento en vivo",agi:"AGI ↗",about:"acerca ↗",rec:"grabación exacta ↗",journal:"diario ↗",live:"en vivo",
   brand:'mini<span class="dot">·</span>mundo',
   lede:"Un experimento controlado ejecutándose ahora mismo en tu navegador. Dos mundos viven en paralelo desde el mismo fundador y semilla: en uno (tratamiento) una criatura percibe su propia energía; en el otro (control) esa señal se baraja entre las criaturas — mismos números, cero autoconocimiento. Si conocerse importa, el tratamiento debería puntuar más. El veredicto se acumula mientras los mundos viven y mueren.",
   self:"tratamiento · self",ctrl:"control · shuffled",speed:"velocidad",newpair:"↻ nuevo par",seeding:"sembrando un mundo viable…",
@@ -281,8 +306,8 @@ const I18N={
   log_h:"bloques de medición (guardados en tu navegador)",
   a_blocks:"bloques",a_self:"media self",a_shuf:"media shuffled",a_diff:"media Δ",
   c_t:"par",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"borrar datos guardados",
-  foot:'Una réplica en vivo en el navegador — compañera, no fuente, de la investigación. Grabación e informe: <a href="sim.html">grabación</a> · <a href="about.html">acerca</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- zh:{eye:"人工生命 · 实时实验",about:"关于 ↗",rec:"精确录制 ↗",journal:"观测日志 ↗",live:"实时",
+  foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Una réplica en vivo en el navegador — compañera, no fuente, de la investigación. Grabación e informe: <a href="sim.html">grabación</a> · <a href="about.html">acerca</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+ zh:{eye:"人工生命 · 实时实验",agi:"AGI ↗",about:"关于 ↗",rec:"精确录制 ↗",journal:"观测日志 ↗",live:"实时",
   brand:'微<span class="dot">·</span>世界',
   lede:"一个此刻正在你浏览器里运行的对照实验。两个世界从同一祖先与同一种子并行生活：其一（处理组）生物能感知自己的能量；另一（对照组）该信号在生物间被打乱——数字相同，却毫无自我信息。若“认识自己”重要，处理组的分数应更高。随着世界不断生死，结论会不断累积。",
   self:"处理组 · self",ctrl:"对照组 · shuffled",speed:"速度",newpair:"↻ 新的一对",seeding:"正在播种一个可存活的世界…",
@@ -303,7 +328,7 @@ const I18N={
   log_h:"测量区块（保存在你的浏览器）",
   a_blocks:"区块",a_self:"self 均值",a_shuf:"shuffled 均值",a_diff:"Δ 均值",
   c_t:"对",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"清除已保存数据",
-  foot:'一个在浏览器中实时运行的复现——它是研究的伴随物，而非来源。精确录制与完整报告：<a href="sim.html">录制</a> · <a href="about.html">关于</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>。'},
+  foot:'项目与文章：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · 一个在浏览器中实时运行的复现——它是研究的伴随物，而非来源。精确录制与完整报告：<a href="sim.html">录制</a> · <a href="about.html">关于</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>。'},
 };
 const LKEY='minimir_lang',LDEF='en';
 let LANG=(()=>{try{return localStorage.getItem(LKEY)||LDEF}catch(e){return LDEF}})();
@@ -429,7 +454,7 @@ function loop(){
 function applyLang(l){
   if(!I18N[l])l=LDEF;LANG=l;try{localStorage.setItem(LKEY,l)}catch(e){}
   document.documentElement.lang=l;const S=id=>document.getElementById(id);
-  S('t_eye').textContent=t('eye');S('t_about').textContent=t('about');S('t_rec').textContent=t('rec');S('t_journal').textContent=t('journal');
+  S('t_eye').textContent=t('eye');S('t_about').textContent=t('about');S('t_rec').textContent=t('rec');S('t_journal').textContent=t('journal');if(S('t_agi'))S('t_agi').textContent=t('agi')||'AGI ↗';
   S('t_brand').innerHTML=t('brand');S('t_live').textContent=t('live');S('t_lede').textContent=t('lede');
   S('t_self').textContent=t('self');S('t_ctrl').textContent=t('ctrl');
   S('t_speed').textContent=t('speed');S('newbtn').textContent=t('newpair');

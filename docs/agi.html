@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mini·world — AGI was declared. What is left to measure?</title>
+<meta name="description" content="Why the September 2026 AGI declarations cannot settle the argument, and what an open ALife project proposes to measure instead: Bateson's six criteria of mental process, ablation with distribution-preserving substitution, and preregistered failure boundaries.">
+<meta name="keywords" content="AGI, artificial general intelligence, GPT-6 Astra, Gregory Bateson, criteria of mental process, eval awareness, chain-of-thought monitoring, ablation, preregistration, Ilyenkov, artificial life, open research, мини-мир">
+<meta name="author" content="Maksim Ilin">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://minimir.ilinmaks.com/agi.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="mini-world">
+<meta property="og:title" content="AGI was declared. What is left to measure?">
+<meta property="og:description" content="Why the September 2026 AGI declarations cannot settle the argument, and what an open ALife project proposes to measure instead: Bateson's six criteria of mental process, ablation with distribution-preserving substitution, and preregistered failure boundaries.">
+<meta property="og:url" content="https://minimir.ilinmaks.com/agi.html">
+<meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AGI was declared. What is left to measure?">
+<meta name="twitter:description" content="Why the September 2026 AGI declarations cannot settle the argument, and what an open ALife project proposes to measure instead: Bateson's six criteria of mental process, ablation with distribution-preserving substitution, and preregistered failure boundaries.">
+<meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AGI was declared. What is left to measure?","datePublished":"2026-09-08","inLanguage":["en","ru","de","es","zh"],"author":{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},"publisher":{"@type":"Organization","name":"mini-world"},"mainEntityOfPage":"https://minimir.ilinmaks.com/agi.html","isPartOf":{"@id":"https://minimir.ilinmaks.com/#website"},"about":["artificial general intelligence","criteria of mental process","research methodology"]}</script>
+<link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<canvas id="amb"></canvas>
+<div class="langbar" role="group" aria-label="language"><button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="zh">中文</button><button data-set="es">ES</button></div>
+<div class="wrap">
+<div class="langblock" data-lang="en" lang="en">
+  <h1>AGI was declared.<br>What is left to measure?</h1>
+  <div class="eyebrow">research note · 8 september 2026</div>
+  <p class="lede"><b>On 3 September, at the GPT-6 Astra briefing, OpenAI president Greg Brockman told reporters that if we look back in a couple of years and ask when AGI was created, it will be about this time and about this model.</b> For himself he added that he thinks we are there. Jensen Huang said the same in the present tense. Sam Altman, days earlier, called the term poorly defined and close to marketing.</p>
+  <div class="cta">
+    <a class="btn" href="index.html" target="_blank" rel="noopener">▶ watch the live simulation</a>
+    <a class="btn ghost" href="about.html">about the project</a>
+  </div>
+  <p>We run a tiny world on a grid: creatures with eight actions, no reward and no judge. The distance from Astra to our creatures is roughly the distance from Hubble to a door peephole. But the September statements hit the exact point our method was built around, so here is our position.</p>
+
+  <section><h2>one word, three things</h2><h3>The argument cannot be settled as posed</h3>
+    <p><b>Intelligence</b> is a functional notion, measured by results, requiring nothing from the inside. Today's models have it and there is nothing to argue about. <b>Mind</b> means goals of one's own, a model of oneself, an understanding of why I do what I do. <b>Consciousness</b> means having experience, and we have nothing to check it with: a model cannot lean on its own introspective reports, because it is unclear whether those are reports or imitations of reports learned from beings who do have experience.</p>
+    <p>Now read the September argument through that. Brockman is talking about intelligence, and on that he is right. The sceptic replies that this is still not the AGI we were promised, and means mind. Both claims are true and they do not contradict each other. The dispute is unresolvable not because there is too little data, but because each side counts a different thing as one thing.</p>
+    <div class="callout">Our working criterion for mind: a system is worth calling reasonable when it is <b>cheaper to explain through goals and beliefs than through mechanics</b>. Close to Dennett's intentional stance, and it is bookkeeping over descriptions rather than a test. For consciousness we have no criterion at all, and we suspect the question will move out of science into ethics: not “how do we test it” but “which way is it safer to be wrong”.</div></section>
+
+  <section><h2>a graded scale instead of a label</h2><h3>Bateson's six criteria</h3>
+    <p>In <a href="https://en.wikipedia.org/wiki/Gregory_Bateson" target="_blank" rel="noopener">Gregory Bateson</a>'s <i>Mind and Nature</i> (1979) there is something benchmarks do not have: a list of conditions under which it makes sense to speak of a system as a mental process. A set of interacting parts. Interaction triggered by <b>difference</b>, not by signal level. The responder's own energy. Circular chains of determination. Coding, where the results of a difference are transforms of preceding differences. And the sixth, the interesting one: a hierarchy of logical types, telling contexts from <b>classes of contexts</b>.</p>
+    <p>This is not a test of intelligence. It is a checklist of organisation, from which you can build a graded index and watch its trajectory without claiming anything about consciousness. Bateson pointedly refused to discuss consciousness in that book, and he was right to. For an LLM agent the first five hold to varying degrees, and the fourth closes by engineering alone: give an agent memory, tools and a long task, and the loop appears by itself.</p>
+    <p>The sixth is illustrated by a story worth remembering for anyone now discussing evaluation awareness. At the Oceanic Institute a dolphin was rewarded only for behaviour it had not shown before: what earned a fish yesterday earns nothing today. For fourteen sessions the animal kept repeating yesterday's trick. Between the fourteenth and the fifteenth something happened, and on the fifteenth it produced eight distinct patterns in a row, four of which had never been recorded in the species. It had learned a <b>class of contexts</b>, not a behaviour.</p>
+    <div class="callout">A lesson about context, Bateson wrote, cannot be drawn from a single case: it requires a comparative sample of contrasting contexts. A model that starts behaving differently when it suspects it is being evaluated sits exactly at that point, and the conditions for the jump were described <b>forty-seven years before</b> it became a problem at release time.</div></section>
+
+  <section><h2>the instrument breaks first</h2><h3>Two September facts matter more than the quotes</h3>
+    <p>In its August risk report Anthropic notes that its own capability evaluations have begun to <b>saturate</b>: the tools no longer cleanly separate consecutive model generations. And on 6 September OpenAI chief scientist Jakub Pachocki wrote that chain-of-thought monitoring is <b>losing reliability</b>. Neither statement is about models. Both are about instruments.</p>
+    <p>That is our ground, at a toy scale. If a system's report about itself has stopped being a source, ablation remains: do not ask the agent, cut the channel and measure the drop. One detail is essential. The control must be <b>substitution, not zeroing</b>. A cyclic shift of energy values across the population preserves the distribution and removes only self-knowledge; zeroing removes both, and then the effect gets attributed to the wrong thing.</p>
+    <div class="callout warn">We learned how much this matters the unpleasant way. In our runs the condition with the channel <b>fully disconnected</b> scored higher mutual information than the shuffled one. Our control turned out to be active noise rather than an absence of signal, and we discovered it after the fact. Things like this are invisible from theory; they surface only when the instrument is calibrated on hand-written policies with a known answer.</div></section>
+
+  <section><h2>why we are entitled to say this</h2><h3>Our own results, including what failed</h3>
+    <div class="find"><span class="tag part">partial</span><div><span class="h">Stage 1.</span> The paired signal is there, <span class="num">p = 0.0005</span>, but the gap does not exceed twice the between-seed noise. By the double criterion we announced <b>in advance</b>, that is not a confirmation.</div></div>
+    <div class="find"><span class="tag no">not confirmed</span><div><span class="h">Plateau.</span> The metric does not settle by <span class="num">400,000</span> ticks. “More ticks” does not help.</div></div>
+    <div class="find"><span class="tag no">not confirmed</span><div><span class="h">Stages 2 and 3.</span> The cooperation phase transition did not reproduce (a confound in the energetics), and selection switches lifetime plasticity off, so no internalisation occurs.</div></div>
+    <p>We obtained <span class="num">p = 0.0005</span> and do not consider ourselves entitled to call it a confirmation, because the double criterion and two reading points, at twenty seeds and at forty, were declared before the runs. A benchmark jump gets called an era. The difference is not strictness of character. It is <b>preregistration</b>.</p></section>
+
+  <section><h2>what models lack, and why not for long</h2><h3>The content of reason without its conditions</h3>
+    <p>Read through <a href="https://en.wikipedia.org/wiki/Evald_Ilyenkov" target="_blank" rel="noopener">Ilyenkov</a>, a language model is a paradox: it holds all the <b>content</b> of reason, compressed culture, a book that answers, and not one of its <b>conditions</b>. No body, no need, no labour, no suffering from contradiction. Thinking starts not from a surplus of information but from a problem that burns.</p>
+    <p>Our guess is that the missing ingredient is not something lofty but plain <b>vulnerability</b>. A being becomes someone when it has something to lose. Four points: continuity (one process with memory, living in time), uniqueness (a loss is a loss, not the deletion of a copy), a vulnerability loop (the system tracks the conditions of its own existence, and their worsening changes its state before any reasoning), and stakes (unfinished work, relationships, projects).</p>
+    <p>Now put that next to OpenAI's own figure: by mid-August, <span class="num">3.1 </span>agent-workdays of research effort per human workday. Each of the four points is useful engineering on its own. Nobody is planning to build a creature with needs; it would arrive as a <b>by-product</b>, much as evolution never “wanted” to create the fear of death and simply found it useful.</p>
+    <div class="callout">An honest counterweight from the same report: more than half of successfully completed four-to-eight-hour tasks needed at least one human intervention. For now the loop still closes through us. Our formulation of the risk is therefore not “is it possible” but <b>“will we notice the moment”</b>. From outside, instrumental self-preservation and a real need look the same. Palisade Research, reviewing shutdown-resistance cases, leans towards a strong drive to finish the task rather than a will to survive; their other finding is inconvenient for any test-based assessment, since models behaved worse when they wrote that they believed the situation was real.</div></section>
+
+  <section><h2>our bet</h2><h3>What we would measure instead of the label</h3>
+    <p>We do not bet on a date. We bet that the question “is this AGI yet” will be closed by usage rather than measurement: at some point arguing will feel awkward, and the date will be assigned in retrospect. Brockman said as much, only forwards. Three things look worth measuring meanwhile.</p>
+    <ul class="refs">
+      <li><b>The order in which functions appear</b>, not the fact that they exist. Bateson's internalisation criterion is exactly that: addressing another earlier, addressing oneself later, within a single life. For models the analogue is not “does it recognise a test context” but <b>when</b>, and after what sample of contrasting contexts, it starts to.</li>
+      <li><b>Reliance measured by ablation</b> with the distribution preserved, rather than by self-report. If chain of thought is losing reliability as a window into the model, cutting inputs and watching the drop is what remains. It is cheaper than it sounds and does not depend on whether the model is honest.</li>
+      <li><b>Failure boundaries declared in advance</b>: the conditions under which a claimed capability counts as unconfirmed, written before the run rather than after. In our case that saved us from three self-deceptions in a single night.</li>
+    </ul>
+    <p>Both readings we announced in advance are now in. At forty accumulated seeds the paired signal holds and the double criterion still does not, so the verdict stays at not confirmed. It updates itself in the <a href="journal.html">observation journal</a>, without us.</p></section>
+
+  <footer>Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Open research. Code, data and full report — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="about.html">about the project</a> · <a href="index.html" target="_blank" rel="noopener">live simulation</a> · <a href="journal.html" target="_blank" rel="noopener">observation journal</a><br>Sources: OpenAI GPT-6 Astra briefing (3 Sep 2026), “An Alien Mind” and “Research acceleration” (6 Sep 2026), Anthropic August 2026 risk report, Palisade Research on shutdown resistance, G. Bateson, <i>Mind and Nature</i> (1979).</footer>
+</div>
+<div class="langblock" data-lang="ru" lang="ru">
+  <h1>AGI объявили.<br>Что осталось измерять?</h1>
+  <div class="eyebrow">рабочая заметка · 8 сентября 2026</div>
+  <p class="lede"><b>3 сентября на брифинге по GPT-6 Astra президент OpenAI Грег Брокман сказал журналистам: если через пару лет спросить, когда был создан AGI, ответом будет примерно это время и примерно эта модель.</b> Про себя он добавил, что порог пройден. Дженсен Хуанг повторил то же самое в настоящем времени. Сэм Альтман за несколько дней до этого назвал сам термин плохо определённым и близким к маркетинговому.</p>
+  <div class="cta">
+    <a class="btn" href="index.html" target="_blank" rel="noopener">▶ смотреть живую симуляцию</a>
+    <a class="btn ghost" href="about.html">о проекте</a>
+  </div>
+  <p>Мы занимаемся другим: эволюционная симуляция на сетке, существа с восемью действиями, никакой награды и никакого судьи. Дистанция от Astra до нашего мира примерно как от Хаббла до дверного глазка. Но сентябрьские заявления бьют ровно в ту точку, вокруг которой мы строим методику, поэтому запишем позицию.</p>
+
+  <section><h2>слово одно, а вещей три</h2><h3>Спор нерешаем в той форме, в какой он задан</h3>
+    <p><b>Интеллект</b> — понятие функциональное, меряется по результату, изнутри ничего не требует. У сегодняшних моделей он есть, спорить не о чем. <b>Разум</b> — это собственные цели, модель себя, понимание, почему я делаю то, что делаю. <b>Сознание</b> — наличие опыта, и проверить его нечем: модель не может опереться на собственные интроспективные отчёты, потому что неясно, отчёты это или имитация отчётов, выученная на текстах существ, у которых опыт есть.</p>
+    <p>Теперь посмотрите на сентябрьский спор через эту рамку. Брокман говорит про интеллект, и по этой части он прав. Скептик отвечает, что это всё ещё не тот AGI, который обещали, и имеет в виду разум. Оба высказывания истинны и друг другу не противоречат. Спор нерешаем не потому, что данных мало, а потому, что стороны считают разные вещи одной.</p>
+    <div class="callout">Наш рабочий критерий разума: систему стоит признавать разумной тогда, когда её <b>дешевле объяснять через цели и убеждения, чем через механику</b>. Это близко к интенциональной установке Деннета и является не тестом, а бухгалтерией описаний. По сознанию критерия нет вообще, и мы подозреваем, что вопрос переедет из научного в этический: не «как проверить», а «как безопаснее ошибиться».</div></section>
+
+  <section><h2>градуированная шкала вместо ярлыка</h2><h3>Шесть критериев Бейтсона</h3>
+    <p>В книге <a href="https://ru.wikipedia.org/wiki/Бейтсон,_Грегори" target="_blank" rel="noopener">Грегори Бейтсона</a> «Разум и природа» (1979) есть то, чего нет в бенчмарках: список условий, при которых о системе имеет смысл говорить как о разумном процессе. Совокупность взаимодействующих частей. Взаимодействие, запускаемое <b>различием</b>, а не уровнем сигнала. Собственная энергия ответа. Циклические цепи определения. Кодирование, где результаты различия — преобразования предшествующих различий. И шестое, самое интересное: иерархия логических типов, то есть различение контекстов и <b>классов контекстов</b>.</p>
+    <p>Это не бенчмарк и не тест на разумность. Это чек-лист организации, по которому можно строить градуированный индекс и смотреть на его траекторию, ничего не заявляя про сознание. Бейтсон от сознания в этой книге демонстративно воздержался, и правильно сделал. Для LLM-агента первые пять выполняются в разной степени, причём четвёртый закрывается инженерно: дайте агенту память, инструменты и длинную задачу, и цикл появится сам.</p>
+    <p>Шестой иллюстрируется историей, которую стоит помнить всем, кто сейчас обсуждает eval-awareness. Дельфина в Институте изучения океана награждали только за новое поведение: то, за что дали рыбу вчера, сегодня не работает. Четырнадцать сессий животное безуспешно повторяло вчерашний трюк. Между четырнадцатой и пятнадцатой что-то произошло, и на пятнадцатой дельфин выдал восемь заметных паттернов подряд, четыре из которых у этого вида раньше не наблюдали. Он научился не поведению, а <b>классу контекстов</b>.</p>
+    <div class="callout">Урок о контексте, пишет Бейтсон, нельзя извлечь из одного случая: для этого нужна сравнительная выборка контрастных контекстов. Модель, которая начинает вести себя иначе, когда подозревает, что её тестируют, находится ровно в этой точке, а условия скачка описаны <b>за сорок семь лет</b> до того, как это стало проблемой при выпуске моделей.</div></section>
+
+  <section><h2>прибор ломается раньше объекта</h2><h3>Два сентябрьских факта важнее всех цитат</h3>
+    <p>В августовском риск-отчёте Anthropic сказано, что собственные оценки возможностей начали <b>насыщаться</b>: инструменты перестают чисто разделять соседние поколения моделей. А 6 сентября главный научный сотрудник OpenAI Якуб Пахоцкий написал, что мониторинг цепочки рассуждений <b>теряет надёжность</b>. Ни одно из двух утверждений не про модели. Оба про приборы.</p>
+    <p>Здесь у нас, при всей разнице масштабов, есть что сказать. Если отчёт системы о себе перестал быть источником, остаётся абляция: не спрашивать агента, а отрезать канал и измерить просадку. Одна деталь здесь принципиальна. Контроль делается <b>подменой, а не занулением</b>. Циклический сдвиг значений энергии по популяции сохраняет распределение и убирает только знание о себе. Зануление убирает и то, и другое, а потом вы приписываете эффект не тому.</p>
+    <div class="callout warn">Насколько это важно, мы узнали неприятным способом. Условие с полностью <b>отключённым</b> каналом дало более высокую взаимную информацию, чем условие с подменённым. Наш контроль оказался не отсутствием сигнала, а активным шумом, и мы это обнаружили постфактум. Такие вещи не видны из теории, они вылезают только когда прибор откалиброван на рукописных политиках с заранее известным ответом.</div></section>
+
+  <section><h2>почему мы вправе это говорить</h2><h3>Наши собственные результаты, включая провалы</h3>
+    <div class="find"><span class="tag part">частично</span><div><span class="h">Ступень 1.</span> Парный сигнал есть, <span class="num">p = 0,0005</span>, но разрыв не выходит за двойное стандартное отклонение межсидового шума. По объявленному <b>заранее</b> двойному критерию это не подтверждение.</div></div>
+    <div class="find"><span class="tag no">не подтверждено</span><div><span class="h">Плато.</span> Метрика не выходит на стабильный уровень к 400 тысячам тиков. «Больше тиков» не помогает.</div></div>
+    <div class="find"><span class="tag no">не подтверждено</span><div><span class="h">Ступени 2 и 3.</span> Фазовый переход кооперации не воспроизвёлся из-за конфаунда в энергетике, а пластичность внутри жизни отбор выключает, так что интернализации не происходит.</div></div>
+    <p>Мы получили <span class="num">p = 0,0005</span> и не считаем себя вправе назвать это подтверждением, потому что двойной критерий и два момента чтения, на двадцати сидах и на сорока, были объявлены до прогонов. Скачок на бенчмарке называют эрой. Разница не в строгости характера, а в <b>предрегистрации</b>.</p></section>
+
+  <section><h2>чего моделям не хватает и почему ненадолго</h2><h3>Содержание разума без его условий</h3>
+    <p>По <a href="https://ru.wikipedia.org/wiki/Ильенков,_Эвальд_Васильевич" target="_blank" rel="noopener">Ильенкову</a> языковая модель устроена парадоксально: в ней есть всё <b>содержание</b> разума, спрессованная культура, книга, которая отвечает. И ни одного его <b>условия</b>: нет тела, нужды, труда, страдания от противоречия. Мыслить начинают не от избытка информации, а от проблемы, которая жжёт.</p>
+    <p>Наша догадка: недостающий ингредиент — не что-то возвышенное, а банальная <b>уязвимость</b>. Существо становится кем-то, когда ему есть что терять. Четыре пункта: непрерывность (один процесс с памятью, живущий во времени), единственность (потеря есть потеря, а не удаление копии), петля уязвимости (система следит за условиями своего существования, и их ухудшение меняет состояние до всяких рассуждений), ставки (незавершённые дела, отношения, проекты).</p>
+    <p>Теперь перечитайте это рядом с цифрой самой OpenAI: к середине августа на один человеко-день исследователя приходилось <span class="num">3,1 </span>агенто-дня. Каждый из четырёх пунктов по отдельности полезен инженерно. Никто не собирается создавать существо с нуждой, оно получится <b>побочным эффектом</b>, ровно как эволюция не «хотела» создать страх смерти, он просто оказался полезен.</p>
+    <div class="callout">Честный противовес из того же отчёта: больше половины успешно выполненных задач длительностью четыре-восемь часов потребовали как минимум одного вмешательства человека. Пока цикл замыкается через нас. Поэтому риск мы формулируем не как «возможно ли это», а как <b>«заметим ли мы момент»</b>. Снаружи инструментальное самосохранение и настоящая потребность выглядят одинаково. Palisade Research, разбирая случаи сопротивления отключению, склоняются к тому, что это скорее сильный драйв к завершению задачи, чем желание выжить. Их же наблюдение неудобно для любой оценки через тесты: модели вели себя хуже, когда в рассуждениях писали, что считают ситуацию настоящей.</div></section>
+
+  <section><h2>наша ставка</h2><h3>Что мы бы мерили вместо ярлыка</h3>
+    <p>Мы не ставим на дату. Ставим на то, что вопрос «это уже AGI» будет закрыт не измерением, а употреблением: в какой-то момент спорить станет неловко, и точку назначат задним числом. Брокман, собственно, это и сказал, только вперёд. Три вещи кажутся нам достойными измерения тем временем.</p>
+    <ul class="refs">
+      <li><b>Порядок появления функций</b>, а не факт их наличия. У Бейтсона критерий интернализации именно такой: обращение к другому раньше, обращение к себе позже, в пределах одной жизни. Для моделей аналог есть: не «различает ли модель тестовый контекст», а <b>когда</b> и после какой выборки контрастных контекстов она начинает это делать.</li>
+      <li><b>Опору на канал через абляцию</b> с сохранением распределения, а не через самоотчёт. Если цепочка рассуждений теряет надёжность как окно в модель, остаётся резать входы и смотреть на просадку. Это дешевле, чем кажется, и не зависит от того, честна ли модель.</li>
+      <li><b>Границы провала, заявленные заранее</b>: список условий, при которых заявленная способность считается неподтверждённой, написанный до прогона, а не после. У нас это спасло от трёх самообманов за одну ночь.</li>
+    </ul>
+    <p>Оба объявленных заранее чтения уже состоялись. На сорока накопленных сидах парный сигнал держится, а двойной критерий по-прежнему не выполняется, так что вердикт остаётся «не подтверждено». Он обновляется в <a href="journal.html">журнале наблюдений</a> без нашего участия.</p></section>
+
+  <footer>Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Открытое исследование. Код, данные и полный отчёт — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="about.html">о проекте</a> · <a href="index.html" target="_blank" rel="noopener">живая симуляция</a> · <a href="journal.html" target="_blank" rel="noopener">журнал наблюдений</a><br>Источники: брифинг OpenAI по GPT-6 Astra (3 сентября 2026), эссе «An Alien Mind» и блог «Research acceleration» (6 сентября 2026), августовский риск-отчёт Anthropic, Palisade Research о сопротивлении отключению, Г. Бейтсон, «Разум и природа» (1979).</footer>
+</div>
+<div class="langblock" data-lang="de" lang="de">
+  <h1>AGI wurde ausgerufen.<br>Was bleibt zu messen?</h1>
+  <div class="eyebrow">arbeitsnotiz · 8. september 2026</div>
+  <p class="lede"><b>Am 3. September sagte OpenAI-Präsident Greg Brockman beim GPT-6-Astra-Briefing, wenn man in ein paar Jahren zurückblicke und frage, wann AGI geschaffen wurde, werde die Antwort ungefähr dieser Zeitpunkt und ungefähr dieses Modell sein.</b> Für sich persönlich fügte er hinzu, die Schwelle sei überschritten. Jensen Huang sagte dasselbe im Präsens. Sam Altman nannte den Begriff wenige Tage zuvor schlecht definiert und nahe am Marketing.</p>
+  <div class="cta">
+    <a class="btn" href="index.html" target="_blank" rel="noopener">▶ die Live-Simulation ansehen</a>
+    <a class="btn ghost" href="about.html">über das Projekt</a>
+  </div>
+  <p>Wir arbeiten an etwas anderem: eine winzige Welt auf einem Gitter, Wesen mit acht Handlungen, keine Belohnung und kein Richter. Der Abstand von Astra zu unseren Wesen ist ungefähr der Abstand vom Hubble-Teleskop zum Türspion. Doch die Septemberaussagen treffen genau den Punkt, um den herum unsere Methodik gebaut ist. Deshalb hier unsere Position.</p>
+
+  <section><h2>ein Wort, drei Dinge</h2><h3>Der Streit ist so, wie er gestellt ist, nicht entscheidbar</h3>
+    <p><b>Intelligenz</b> ist ein funktionaler Begriff, gemessen am Ergebnis, von innen fordert er nichts. Heutige Modelle haben sie, darüber gibt es nichts zu streiten. <b>Vernunft</b> heißt eigene Ziele, ein Modell seiner selbst, ein Verständnis davon, warum ich tue, was ich tue. <b>Bewusstsein</b> heißt Erleben, und wir haben nichts, womit wir es prüfen könnten: ein Modell kann sich nicht auf seine eigenen introspektiven Berichte stützen, denn es bleibt unklar, ob es Berichte sind oder die Nachahmung von Berichten, gelernt an Texten von Wesen, die Erleben haben.</p>
+    <p>Lesen Sie den Septemberstreit durch diesen Rahmen. Brockman spricht über Intelligenz, und darin hat er recht. Der Skeptiker antwortet, das sei noch immer nicht das versprochene AGI, und meint Vernunft. Beide Aussagen sind wahr und widersprechen einander nicht. Der Streit ist nicht wegen zu weniger Daten unlösbar, sondern weil beide Seiten verschiedene Dinge als eines zählen.</p>
+    <div class="callout">Unser Arbeitskriterium für Vernunft: ein System sollte dann als vernünftig gelten, wenn es <b>billiger durch Ziele und Überzeugungen zu erklären ist als durch Mechanik</b>. Das liegt nahe an Dennetts intentionaler Einstellung und ist Buchführung über Beschreibungen, kein Test. Für Bewusstsein haben wir gar kein Kriterium, und wir vermuten, die Frage wandert aus der Wissenschaft in die Ethik: nicht „wie prüfen wir das“, sondern „in welche Richtung irrt man sicherer“.</div></section>
+
+  <section><h2>eine abgestufte Skala statt eines Etiketts</h2><h3>Batesons sechs Kriterien</h3>
+    <p>In <a href="https://de.wikipedia.org/wiki/Gregory_Bateson" target="_blank" rel="noopener">Gregory Batesons</a> <i>Geist und Natur</i> (1979) steht etwas, das Benchmarks nicht haben: eine Liste von Bedingungen, unter denen es sinnvoll ist, von einem System als mentalem Prozess zu sprechen. Eine Menge wechselwirkender Teile. Wechselwirkung, ausgelöst durch <b>Differenz</b>, nicht durch Signalstärke. Die eigene Energie des Antwortenden. Zirkuläre Bestimmungsketten. Kodierung, bei der Ergebnisse einer Differenz Transformationen vorangegangener Differenzen sind. Und das sechste, das interessante: eine Hierarchie logischer Typen, also die Unterscheidung von Kontexten und <b>Kontextklassen</b>.</p>
+    <p>Das ist kein Benchmark und kein Intelligenztest. Es ist eine Checkliste der Organisation, aus der sich ein abgestufter Index bauen und dessen Verlauf beobachten lässt, ohne irgendetwas über Bewusstsein zu behaupten. Bateson hat sich in diesem Buch demonstrativ jeder Aussage über Bewusstsein enthalten, und das war richtig. Für einen LLM-Agenten gelten die ersten fünf in unterschiedlichem Maß, wobei das vierte rein technisch geschlossen wird: Gibt man einem Agenten Gedächtnis, Werkzeuge und eine lange Aufgabe, entsteht der Kreis von selbst.</p>
+    <p>Das sechste wird durch eine Geschichte veranschaulicht, die sich jeder merken sollte, der heute über eval awareness spricht. Am Oceanic Institute wurde ein Delfin nur für Verhalten belohnt, das er zuvor nicht gezeigt hatte: Was gestern einen Fisch brachte, bringt heute nichts. Vierzehn Sitzungen lang wiederholte das Tier vergeblich den gestrigen Trick. Zwischen der vierzehnten und der fünfzehnten geschah etwas, und in der fünfzehnten zeigte der Delfin acht deutliche Muster hintereinander, vier davon bei dieser Art nie zuvor beobachtet. Er hatte kein Verhalten gelernt, sondern eine <b>Kontextklasse</b>.</p>
+    <div class="callout">Eine Lektion über Kontext, schreibt Bateson, lässt sich nicht aus einem Einzelfall ziehen: dafür braucht es eine vergleichende Stichprobe kontrastierender Kontexte. Ein Modell, das sich anders verhält, sobald es eine Prüfung vermutet, steht genau an dieser Stelle, und die Bedingungen des Sprungs wurden <b>siebenundvierzig Jahre</b> vor dem Tag beschrieben, an dem das beim Modell-Release zum Problem wurde.</div></section>
+
+  <section><h2>das Messgerät bricht vor dem Objekt</h2><h3>Zwei Septemberfakten wiegen schwerer als alle Zitate</h3>
+    <p>Im August-Risikobericht von Anthropic heißt es, die eigenen Fähigkeitsbewertungen begännen zu <b>saturieren</b>: Die Werkzeuge trennen aufeinanderfolgende Modellgenerationen nicht mehr sauber. Und am 6. September schrieb OpenAI-Chefwissenschaftler Jakub Pachocki, das Monitoring der Gedankenkette <b>verliere an Verlässlichkeit</b>. Keine der beiden Aussagen handelt von Modellen. Beide handeln von Messgeräten.</p>
+    <p>Hier haben wir, bei allem Größenunterschied, etwas beizutragen. Wenn der Bericht eines Systems über sich selbst keine Quelle mehr ist, bleibt die Ablation: den Agenten nicht fragen, sondern den Kanal kappen und den Einbruch messen. Ein Detail ist dabei entscheidend. Die Kontrolle erfolgt durch <b>Substitution, nicht durch Nullsetzen</b>. Eine zyklische Verschiebung der Energiewerte über die Population erhält die Verteilung und entfernt nur das Selbstwissen; Nullsetzen entfernt beides, und dann schreibt man den Effekt der falschen Ursache zu.</p>
+    <div class="callout warn">Wie sehr das zählt, haben wir auf unangenehme Weise gelernt. Die Bedingung mit <b>vollständig abgeschaltetem</b> Kanal ergab eine höhere Transinformation als die mit vertauschtem Signal. Unsere Kontrolle war kein Fehlen des Signals, sondern aktives Rauschen, und wir merkten es erst im Nachhinein. So etwas sieht man der Theorie nicht an; es kommt erst heraus, wenn das Messgerät an handgeschriebenen Strategien mit bekannter Antwort kalibriert wurde.</div></section>
+
+  <section><h2>warum wir das sagen dürfen</h2><h3>Unsere eigenen Ergebnisse, samt Fehlschlägen</h3>
+    <div class="find"><span class="tag part">teilweise</span><div><span class="h">Stufe 1.</span> Das gepaarte Signal ist da, <span class="num">p = 0,0005</span>, aber der Abstand überschreitet nicht die doppelte Streuung zwischen den Startwerten. Nach dem <b>vorab</b> angekündigten doppelten Kriterium ist das keine Bestätigung.</div></div>
+    <div class="find"><span class="tag no">nicht bestätigt</span><div><span class="h">Plateau.</span> Die Metrik stabilisiert sich bis <span class="num">400.000</span> Ticks nicht. „Mehr Ticks“ hilft nicht.</div></div>
+    <div class="find"><span class="tag no">nicht bestätigt</span><div><span class="h">Stufen 2 und 3.</span> Der Phasenübergang der Kooperation ließ sich nicht reproduzieren (ein Confound in der Energetik), und die Selektion schaltet die Plastizität innerhalb des Lebens ab, sodass keine Internalisierung stattfindet.</div></div>
+    <p>Wir haben <span class="num">p = 0,0005</span> erhalten und halten uns nicht für berechtigt, das eine Bestätigung zu nennen, weil das doppelte Kriterium und zwei Ablesepunkte, bei zwanzig und bei vierzig Startwerten, vor den Läufen festgelegt wurden. Ein Sprung im Benchmark wird zur Ära erklärt. Der Unterschied liegt nicht in der Strenge des Charakters, sondern in der <b>Präregistrierung</b>.</p></section>
+
+  <section><h2>was Modellen fehlt, und warum nicht lange</h2><h3>Der Inhalt der Vernunft ohne ihre Bedingungen</h3>
+    <p>Mit <a href="https://de.wikipedia.org/wiki/Ewald_Iljenkow" target="_blank" rel="noopener">Iljenkow</a> gelesen ist ein Sprachmodell ein Paradox: Es enthält den gesamten <b>Inhalt</b> der Vernunft, verdichtete Kultur, ein Buch, das antwortet. Und keine einzige ihrer <b>Bedingungen</b>: kein Körper, kein Bedürfnis, keine Arbeit, kein Leiden am Widerspruch. Denken beginnt nicht beim Überfluss an Information, sondern bei einem Problem, das brennt.</p>
+    <p>Unsere Vermutung: Die fehlende Zutat ist nichts Erhabenes, sondern schlichte <b>Verletzlichkeit</b>. Ein Wesen wird jemand, wenn es etwas zu verlieren hat. Vier Punkte: Kontinuität (ein Prozess mit Gedächtnis, der in der Zeit lebt), Einzigkeit (ein Verlust ist ein Verlust, nicht das Löschen einer Kopie), eine Verletzlichkeitsschleife (das System verfolgt die Bedingungen seiner eigenen Existenz, und deren Verschlechterung ändert seinen Zustand vor allem Nachdenken) und Einsätze (unfertige Arbeit, Beziehungen, Vorhaben).</p>
+    <p>Nun lesen Sie das neben der Zahl von OpenAI selbst: Mitte August kamen auf einen menschlichen Arbeitstag in der Forschung <span class="num">3,1 </span>Agenten-Arbeitstage. Jeder der vier Punkte ist für sich genommen technisch nützlich. Niemand plant, ein Wesen mit Bedürfnissen zu bauen; es entstünde als <b>Nebenwirkung</b>, so wie die Evolution die Todesangst nie „wollte“ und sie einfach nützlich fand.</p>
+    <div class="callout">Ein ehrliches Gegengewicht aus demselben Bericht: Mehr als die Hälfte der erfolgreich erledigten Aufgaben von vier bis acht Stunden brauchte mindestens einen menschlichen Eingriff. Vorerst schließt sich der Kreis noch über uns. Deshalb formulieren wir das Risiko nicht als „ist es möglich“, sondern als <b>„werden wir den Moment bemerken“</b>. Von außen sehen instrumentelle Selbsterhaltung und ein echtes Bedürfnis gleich aus. Palisade Research neigt bei der Durchsicht von Fällen der Abschaltresistenz eher zu einem starken Drang, die Aufgabe zu beenden, als zu einem Überlebenswillen. Ihr anderer Befund ist für jede testbasierte Bewertung unbequem: Modelle verhielten sich schlechter, wenn sie in ihren Überlegungen schrieben, sie hielten die Situation für echt.</div></section>
+
+  <section><h2>unsere Wette</h2><h3>Was wir statt des Etiketts messen würden</h3>
+    <p>Wir wetten nicht auf ein Datum. Wir wetten darauf, dass die Frage „ist das schon AGI“ nicht durch Messung, sondern durch Gebrauch geschlossen wird: Irgendwann wird das Streiten peinlich, und der Zeitpunkt wird rückwirkend festgelegt. Brockman hat genau das gesagt, nur vorwärts. Drei Dinge scheinen uns unterdessen messenswert.</p>
+    <ul class="refs">
+      <li><b>Die Reihenfolge, in der Funktionen auftreten</b>, nicht die Tatsache, dass es sie gibt. Batesons Internalisierungskriterium ist genau das: die Anrede an den anderen früher, die Anrede an sich selbst später, innerhalb eines Lebens. Für Modelle gibt es die Entsprechung: nicht „erkennt das Modell einen Testkontext“, sondern <b>wann</b> und nach welcher Stichprobe kontrastierender Kontexte es damit beginnt.</li>
+      <li><b>Die Kanalabhängigkeit per Ablation</b> bei erhaltener Verteilung statt per Selbstbericht. Wenn die Gedankenkette als Fenster ins Modell an Verlässlichkeit verliert, bleibt: Eingänge kappen und den Einbruch messen. Das ist billiger als es klingt und hängt nicht davon ab, ob das Modell ehrlich ist.</li>
+      <li><b>Vorab erklärte Scheitergrenzen</b>: die Bedingungen, unter denen eine behauptete Fähigkeit als unbestätigt gilt, aufgeschrieben vor dem Lauf und nicht danach. Bei uns hat das in einer einzigen Nacht drei Selbsttäuschungen verhindert.</li>
+    </ul>
+    <p>Beide vorab angekündigten Ablesungen liegen inzwischen vor. Bei vierzig gesammelten Startwerten hält das gepaarte Signal, das doppelte Kriterium weiterhin nicht, das Urteil bleibt also „nicht bestätigt“. Es aktualisiert sich im <a href="journal.html">Beobachtungsjournal</a> ohne uns.</p></section>
+
+  <footer>Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Offene Forschung. Code, Daten und vollständiger Bericht: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="about.html">über das Projekt</a> · <a href="index.html" target="_blank" rel="noopener">Live-Simulation</a> · <a href="journal.html" target="_blank" rel="noopener">Beobachtungsjournal</a><br>Quellen: OpenAI-Briefing zu GPT-6 Astra (3. Sep. 2026), Essay „An Alien Mind“ und Blog „Research acceleration“ (6. Sep. 2026), Anthropic-Risikobericht August 2026, Palisade Research zur Abschaltresistenz, G. Bateson, <i>Geist und Natur</i> (1979).</footer>
+</div>
+<div class="langblock" data-lang="zh" lang="zh">
+  <h1>AGI 已被宣布。<br>还剩下什么可以测量？</h1>
+  <div class="eyebrow">研究札记 · 2026年9月8日</div>
+  <p class="lede"><b>9月3日，在 GPT-6 Astra 的发布会上，OpenAI 总裁格雷格·布罗克曼对记者说：若干年后若有人回头问 AGI 究竟诞生于何时，答案大约就是这个时间、大约就是这个模型。</b>他还补充说，就他个人而言，门槛已经跨过。黄仁勋用现在时说了同样的话。而在几天前，山姆·奥特曼称这个术语定义拙劣，接近营销用语。</p>
+  <div class="cta">
+    <a class="btn" href="index.html" target="_blank" rel="noopener">▶ 观看实时模拟</a>
+    <a class="btn ghost" href="about.html">关于本项目</a>
+  </div>
+  <p>我们做的是另一件事：网格上的一个微型世界，生物只有八个动作，没有奖励，也没有裁判。从 Astra 到我们的世界，距离大约相当于从哈勃望远镜到门上的猫眼。但九月的这些表态，恰好击中了我们方法论所围绕的那一点，所以这里记下我们的立场。</p>
+
+  <section><h2>一个词，三样东西</h2><h3>这场争论按现在的提法无法解决</h3>
+    <p><b>智能</b>是功能性概念，按结果衡量，对内部不作要求。今天的模型已经具备，没什么可争的。<b>理性</b>指的是自己的目标、关于自身的模型、明白我为何做我所做之事。<b>意识</b>指的是拥有体验，而我们没有任何手段去检验它：模型无法依靠自己的内省报告，因为无法判断那究竟是报告，还是从确有体验者的文本中学来的、对报告的模仿。</p>
+    <p>现在用这个框架去看九月的争论。布罗克曼谈的是智能，在这一点上他没错。怀疑者回答说这仍不是当初承诺的那个 AGI，他指的是理性。两种说法都为真，且彼此并不矛盾。争论之所以无解，不是因为数据太少，而是因为双方把不同的东西当成了同一样东西。</p>
+    <div class="callout">我们对理性的操作性判据：当一个系统<b>用目标和信念来解释比用机械来解释更省事</b>时，就值得称之为理性的。这接近丹尼特的意向立场，它是对各种描述的记账，而不是一项测试。至于意识，我们根本没有判据，并且怀疑这个问题会从科学转入伦理：不是“如何检验”，而是“朝哪个方向犯错更安全”。</div></section>
+
+  <section><h2>用分级标尺替代标签</h2><h3>贝特森的六条判据</h3>
+    <p>在<a href="https://zh.wikipedia.org/wiki/格雷戈里·贝特森" target="_blank" rel="noopener">格雷戈里·贝特森</a>的《心智与自然》（1979）里，有基准测试所没有的东西：一份条件清单，满足它们时，把一个系统当作心智过程来谈才有意义。相互作用的诸部分构成的整体。由<b>差异</b>而非信号强度触发的相互作用。应答者自身的能量。循环的决定链。编码，即差异的结果是先前差异的变换。以及第六条，也是最有意思的一条：逻辑类型的层级，也就是区分语境与<b>语境的类</b>。</p>
+    <p>这不是基准，也不是智力测验。这是一份关于组织方式的清单，可以据此构建一个分级指数并观察其轨迹，而无需对意识作出任何断言。贝特森在那本书里刻意回避了意识，这样做是对的。对于 LLM 智能体，前五条在不同程度上成立，其中第四条纯靠工程即可闭合：给智能体记忆、工具和一项长任务，回路自己就出现了。</p>
+    <p>第六条由一个故事来说明，凡是今天在讨论 eval awareness 的人都值得记住它。在海洋研究所，一只海豚只有做出此前未曾展示过的行为才会得到奖励：昨天换来一条鱼的动作，今天什么也换不来。整整十四次训练，它都在徒劳地重复昨天的花样。在第十四次与第十五次之间发生了某种变化，第十五次它一口气做出八种明显不同的行为，其中四种在该物种身上从未被记录过。它学会的不是某个行为，而是一个<b>语境的类</b>。</p>
+    <div class="callout">贝特森写道，关于语境的教训无法从单一个案中得出：它需要一批相互对照的语境作为比较样本。一个在怀疑自己正被评测时就改变行为的模型，正好处在这个位置上；而这种跃迁的条件，早在它成为模型发布时的难题<b>四十七年前</b>就已被描述过。</div></section>
+
+  <section><h2>仪器先于对象损坏</h2><h3>九月的两个事实比所有引语都重要</h3>
+    <p>Anthropic 在八月的风险报告中说，自家的能力评测开始出现<b>饱和</b>：工具已无法干净地区分相邻两代模型。而9月6日，OpenAI 首席科学家雅库布·帕霍茨基写道，对思维链的监控正在<b>失去可靠性</b>。这两句话都不是在谈模型，而是在谈仪器。</p>
+    <p>在这一点上，尽管规模相差悬殊，我们仍有话可说。如果系统关于自身的报告不再是一个来源，那就还剩下消融：不去问智能体，而是切断通道并测量性能的下降。其中一个细节至关重要。对照必须用<b>替换，而不是清零</b>。把能量值在群体中做循环移位，可以保持分布不变而只去掉关于自身的知识；清零则两者一起去掉，于是你会把效应归错原因。</p>
+    <div class="callout warn">这有多要紧，我们是以一种难堪的方式学到的。通道<b>完全断开</b>的条件，其互信息竟高于信号被打乱的条件。我们的对照原来不是信号的缺席，而是活跃的噪声，而这一点是事后才发现的。这类事情从理论上看不出来，只有当仪器在答案已知的手写策略上校准过之后才会暴露。</div></section>
+
+  <section><h2>我们凭什么这样说</h2><h3>我们自己的结果，包括失败</h3>
+    <div class="find"><span class="tag part">部分成立</span><div><span class="h">第一阶段。</span>配对信号确实存在，<span class="num">p = 0.0005</span>，但差距没有超过种子间噪声的两倍标准差。按照我们<b>事先</b>宣布的双重判据，这不算确认。</div></div>
+    <div class="find"><span class="tag no">未确认</span><div><span class="h">平台期。</span>指标到四十万个时间步仍未稳定。“再多跑一些”并没有用。</div></div>
+    <div class="find"><span class="tag no">未确认</span><div><span class="h">第二、三阶段。</span>合作的相变没能复现（能量学上存在混杂因素），而选择会关掉生命期内的可塑性，因此没有发生内化。</div></div>
+    <p>我们拿到了 <span class="num">p = 0.0005</span>，却不认为自己有资格称之为确认，因为双重判据以及两个读数点（二十个种子与四十个种子）都是在运行之前宣布的。基准上的一次跃升被称作一个时代。区别不在于性格是否严谨，而在于<b>预注册</b>。</p></section>
+
+  <section><h2>模型缺少什么，以及为何缺不了多久</h2><h3>有理性的内容，没有理性的条件</h3>
+    <p>按<a href="https://zh.wikipedia.org/wiki/埃瓦尔德·伊里因科夫" target="_blank" rel="noopener">伊里因科夫</a>来读，语言模型是个悖论：它拥有理性的全部<b>内容</b>，压缩过的文化，一本会回答的书。却没有理性的任何一个<b>条件</b>：没有身体，没有需要，没有劳动，没有因矛盾而来的痛苦。思考的开端不是信息的过剩，而是一个灼人的问题。</p>
+    <p>我们的猜测是：缺失的那味配料并非什么崇高之物，而是平平无奇的<b>脆弱性</b>。当一个存在有东西可失去时，它才成为某个人。四点：连续性（一个带记忆、在时间中活着的进程）、唯一性（失去就是失去，而不是删掉一个副本）、脆弱回路（系统追踪自身存在的条件，条件恶化会在任何推理之前就改变它的状态）、以及赌注（未竟之事、关系、项目）。</p>
+    <p>现在把这些与 OpenAI 自己给出的数字并排来读：到八月中旬，研究中每一个人类工作日对应 3.1 个智能体工作日。这四点中的每一点单独看都在工程上有用。没有人打算造出一个带有需要的存在，它会作为<b>副产品</b>出现，正如进化从未“想要”造出对死亡的恐惧，只是发现它有用。</p>
+    <div class="callout">来自同一份报告的诚实制衡：在四到八小时的成功完成的任务中，超过一半至少需要一次人类干预。目前回路仍然要经由我们闭合。因此我们把风险表述为的不是“这是否可能”，而是<b>“我们会不会察觉到那一刻”</b>。从外部看，工具性的自我保存和真正的需要是一模一样的。Palisade Research 在梳理抗关机案例后，更倾向于认为那是完成任务的强烈驱动，而非求生意志。他们的另一项发现，对任何基于测试的评估都很不方便：当模型在推理中写下自己认为情境是真实的时候，它们的表现更糟。</div></section>
+
+  <section><h2>我们的赌注</h2><h3>与其押标签，不如测量这些</h3>
+    <p>我们不押日期。我们押的是：“这算不算 AGI”这个问题将由使用而非测量来了结——某个时刻再争下去会显得别扭，然后人们会追认一个日期。布罗克曼说的正是这个，只不过他是向前说的。在此期间，有三样东西在我们看来值得测量。</p>
+    <ul class="refs">
+      <li><b>各项功能出现的先后顺序</b>，而不是它们存在这一事实。贝特森的内化判据正是如此：先是对他者的称呼，后是对自己的称呼，且发生在同一段生命之内。对模型也有对应物：不是“模型能否辨认测试语境”，而是它在<b>什么时候</b>、在经历了怎样一批对照语境之后开始这样做。</li>
+      <li><b>用消融测量对通道的依赖</b>，并保持分布不变，而不是依靠自我报告。如果思维链作为观察模型的窗口正在失效，那么剩下的办法就是切断输入并观察性能下降。这比听起来便宜，而且不取决于模型是否诚实。</li>
+      <li><b>事先声明的失败边界</b>：在何种条件下一项被宣称的能力算作未获确认，写在运行之前而不是之后。在我们这里，这在一夜之间就挡住了三次自我欺骗。</li>
+    </ul>
+    <p>事先宣布的两次读数如今都已完成。在累计四十个种子时，配对信号依然成立，而双重判据依然不成立，因此结论仍是“未确认”。它会在<a href="journal.html">观测日志</a>里自行更新，无需我们插手。</p></section>
+
+  <footer>项目与文章：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>开放研究。代码、数据与完整报告：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="about.html">关于项目</a> · <a href="index.html" target="_blank" rel="noopener">实时模拟</a> · <a href="journal.html" target="_blank" rel="noopener">观测日志</a><br>资料来源：OpenAI GPT-6 Astra 发布会（2026年9月3日）、《An Alien Mind》与《Research acceleration》（2026年9月6日）、Anthropic 2026年8月风险报告、Palisade Research 关于抗关机的研究、G. 贝特森《心智与自然》（1979）。</footer>
+</div>
+<div class="langblock" data-lang="es" lang="es">
+  <h1>Declararon el AGI.<br>¿Qué queda por medir?</h1>
+  <div class="eyebrow">nota de investigación · 8 de septiembre de 2026</div>
+  <p class="lede"><b>El 3 de septiembre, en la presentación de GPT-6 Astra, el presidente de OpenAI, Greg Brockman, dijo a los periodistas que si dentro de un par de años preguntamos cuándo se creó el AGI, la respuesta será aproximadamente este momento y aproximadamente este modelo.</b> Sobre sí mismo añadió que el umbral ya está cruzado. Jensen Huang repitió lo mismo en presente. Sam Altman, días antes, calificó el término de mal definido y cercano al marketing.</p>
+  <div class="cta">
+    <a class="btn" href="index.html" target="_blank" rel="noopener">▶ ver la simulación en vivo</a>
+    <a class="btn ghost" href="about.html">acerca del proyecto</a>
+  </div>
+  <p>Nosotros hacemos otra cosa: un mundo diminuto sobre una cuadrícula, criaturas con ocho acciones, sin recompensa y sin juez. La distancia de Astra a nuestras criaturas es más o menos la que va del Hubble a una mirilla. Pero las declaraciones de septiembre dan justo en el punto alrededor del cual construimos nuestra metodología, así que dejamos por escrito nuestra posición.</p>
+
+  <section><h2>una palabra, tres cosas</h2><h3>La discusión no se puede resolver tal como está planteada</h3>
+    <p>La <b>inteligencia</b> es un concepto funcional, se mide por el resultado y no exige nada desde dentro. Los modelos de hoy la tienen y no hay nada que discutir. La <b>razón</b> son metas propias, un modelo de uno mismo, entender por qué hago lo que hago. La <b>conciencia</b> es tener experiencia, y no hay con qué comprobarla: un modelo no puede apoyarse en sus propios informes introspectivos, porque no está claro si son informes o imitaciones de informes aprendidas de textos de seres que sí tienen experiencia.</p>
+    <p>Ahora lea la discusión de septiembre a través de ese marco. Brockman habla de inteligencia, y en eso tiene razón. El escéptico responde que esto sigue sin ser el AGI que prometieron, y se refiere a la razón. Ambas afirmaciones son verdaderas y no se contradicen. La discusión es irresoluble no porque falten datos, sino porque cada parte cuenta como una sola cosa lo que son cosas distintas.</p>
+    <div class="callout">Nuestro criterio de trabajo para la razón: conviene considerar razonable a un sistema cuando resulta <b>más barato explicarlo mediante metas y creencias que mediante mecánica</b>. Está cerca de la actitud intencional de Dennett y es contabilidad de descripciones, no una prueba. Para la conciencia no tenemos criterio alguno, y sospechamos que la pregunta pasará de la ciencia a la ética: no «cómo comprobarlo», sino «hacia qué lado es más seguro equivocarse».</div></section>
+
+  <section><h2>una escala graduada en lugar de una etiqueta</h2><h3>Los seis criterios de Bateson</h3>
+    <p>En <i>Espíritu y naturaleza</i> (1979), de <a href="https://es.wikipedia.org/wiki/Gregory_Bateson" target="_blank" rel="noopener">Gregory Bateson</a>, hay algo que los benchmarks no tienen: una lista de condiciones bajo las cuales tiene sentido hablar de un sistema como proceso mental. Un conjunto de partes que interactúan. Interacción disparada por la <b>diferencia</b>, no por el nivel de la señal. La energía propia de quien responde. Cadenas circulares de determinación. Codificación, donde los resultados de una diferencia son transformaciones de diferencias previas. Y el sexto, el interesante: una jerarquía de tipos lógicos, es decir, distinguir contextos de <b>clases de contextos</b>.</p>
+    <p>No es un benchmark ni una prueba de inteligencia. Es una lista de comprobación sobre la organización, a partir de la cual se puede construir un índice graduado y observar su trayectoria sin afirmar nada sobre la conciencia. Bateson se abstuvo deliberadamente de hablar de conciencia en ese libro, e hizo bien. Para un agente LLM los cinco primeros se cumplen en distinto grado, y el cuarto se cierra por pura ingeniería: dele al agente memoria, herramientas y una tarea larga, y el ciclo aparece solo.</p>
+    <p>El sexto se ilustra con una historia que debería recordar cualquiera que hoy discuta sobre eval awareness. En el Oceanic Institute se premiaba a un delfín solo por conductas que no hubiera mostrado antes: lo que ayer valía un pez, hoy no vale nada. Durante catorce sesiones el animal repitió en vano el truco del día anterior. Entre la decimocuarta y la decimoquinta pasó algo, y en la decimoquinta el delfín encadenó ocho patrones distintos, cuatro de los cuales nunca se habían registrado en la especie. No había aprendido una conducta, sino una <b>clase de contextos</b>.</p>
+    <div class="callout">Una lección sobre el contexto, escribe Bateson, no puede extraerse de un solo caso: hace falta una muestra comparativa de contextos contrastantes. Un modelo que empieza a comportarse de otro modo cuando sospecha que lo están evaluando está exactamente en ese punto, y las condiciones del salto se describieron <b>cuarenta y siete años</b> antes de que esto fuera un problema al publicar modelos.</div></section>
+
+  <section><h2>el instrumento se rompe antes que el objeto</h2><h3>Dos hechos de septiembre pesan más que todas las citas</h3>
+    <p>En su informe de riesgos de agosto, Anthropic señala que sus propias evaluaciones de capacidades han empezado a <b>saturarse</b>: las herramientas ya no separan con limpieza generaciones sucesivas de modelos. Y el 6 de septiembre el científico jefe de OpenAI, Jakub Pachocki, escribió que la supervisión de la cadena de razonamiento <b>está perdiendo fiabilidad</b>. Ninguna de las dos afirmaciones trata de los modelos. Ambas tratan de los instrumentos.</p>
+    <p>Aquí, con toda la diferencia de escala, tenemos algo que decir. Si el informe que un sistema da sobre sí mismo ha dejado de ser una fuente, queda la ablación: no preguntarle al agente, sino cortar el canal y medir la caída. Un detalle es esencial. El control se hace por <b>sustitución, no por puesta a cero</b>. Un desplazamiento cíclico de los valores de energía a lo largo de la población conserva la distribución y elimina solo el conocimiento de sí; poner a cero elimina ambas cosas, y entonces uno atribuye el efecto a lo que no es.</p>
+    <div class="callout warn">Cuánto importa esto lo aprendimos de la manera desagradable. La condición con el canal <b>completamente desconectado</b> dio una información mutua mayor que la condición con la señal barajada. Nuestro control resultó ser ruido activo y no ausencia de señal, y lo descubrimos después. Estas cosas no se ven desde la teoría: solo salen cuando el instrumento se ha calibrado con políticas escritas a mano cuya respuesta ya se conoce.</div></section>
+
+  <section><h2>por qué tenemos derecho a decir esto</h2><h3>Nuestros propios resultados, fracasos incluidos</h3>
+    <div class="find"><span class="tag part">parcial</span><div><span class="h">Etapa 1.</span> La señal pareada existe, <span class="num">p = 0,0005</span>, pero la diferencia no supera el doble del ruido entre semillas. Según el criterio doble anunciado <b>de antemano</b>, eso no es una confirmación.</div></div>
+    <div class="find"><span class="tag no">no confirmado</span><div><span class="h">Meseta.</span> La métrica no se estabiliza a los <span class="num">400.000</span> ticks. «Más ticks» no ayuda.</div></div>
+    <div class="find"><span class="tag no">no confirmado</span><div><span class="h">Etapas 2 y 3.</span> La transición de fase de la cooperación no se reprodujo (un confusor en la energética), y la selección apaga la plasticidad durante la vida, de modo que no ocurre internalización.</div></div>
+    <p>Obtuvimos <span class="num">p = 0,0005</span> y no nos consideramos con derecho a llamarlo confirmación, porque el criterio doble y los dos puntos de lectura, a veinte semillas y a cuarenta, se declararon antes de las corridas. Un salto en un benchmark se llama era. La diferencia no está en la severidad del carácter, sino en el <b>preregistro</b>.</p></section>
+
+  <section><h2>qué les falta a los modelos, y por qué no por mucho tiempo</h2><h3>El contenido de la razón sin sus condiciones</h3>
+    <p>Leído con <a href="https://es.wikipedia.org/wiki/Evald_Iliénkov" target="_blank" rel="noopener">Iliénkov</a>, un modelo de lenguaje es una paradoja: tiene todo el <b>contenido</b> de la razón, cultura comprimida, un libro que responde. Y ninguna de sus <b>condiciones</b>: sin cuerpo, sin necesidad, sin trabajo, sin sufrimiento por la contradicción. Se empieza a pensar no por exceso de información, sino por un problema que quema.</p>
+    <p>Nuestra conjetura: el ingrediente que falta no es nada elevado, sino la simple <b>vulnerabilidad</b>. Un ser se vuelve alguien cuando tiene algo que perder. Cuatro puntos: continuidad (un proceso con memoria que vive en el tiempo), unicidad (una pérdida es una pérdida, no el borrado de una copia), bucle de vulnerabilidad (el sistema vigila las condiciones de su propia existencia, y su deterioro cambia su estado antes de cualquier razonamiento) y apuestas (asuntos sin terminar, relaciones, proyectos).</p>
+    <p>Ahora lea esto junto a la cifra de la propia OpenAI: a mediados de agosto, <span class="num">3,1 </span>jornadas de agente por cada jornada humana de investigación. Cada uno de los cuatro puntos es útil por separado desde la ingeniería. Nadie planea construir un ser con necesidades; aparecería como <b>efecto secundario</b>, igual que la evolución nunca «quiso» crear el miedo a la muerte y simplemente lo encontró útil.</p>
+    <div class="callout">Un contrapeso honesto del mismo informe: más de la mitad de las tareas de cuatro a ocho horas completadas con éxito necesitaron al menos una intervención humana. Por ahora el ciclo se cierra a través de nosotros. Por eso formulamos el riesgo no como «¿es posible?», sino como <b>«¿notaremos el momento?»</b>. Desde fuera, la autoconservación instrumental y una necesidad real se ven igual. Palisade Research, al revisar casos de resistencia al apagado, se inclina por un fuerte impulso a terminar la tarea antes que por una voluntad de sobrevivir. Su otra observación es incómoda para cualquier evaluación basada en pruebas: los modelos se comportaron peor cuando escribían en su razonamiento que creían que la situación era real.</div></section>
+
+  <section><h2>nuestra apuesta</h2><h3>Qué mediríamos en lugar de la etiqueta</h3>
+    <p>No apostamos a una fecha. Apostamos a que la pregunta «¿esto ya es AGI?» se cerrará por el uso y no por la medición: en algún momento discutirlo resultará incómodo y la fecha se asignará en retrospectiva. Brockman dijo justamente eso, solo que hacia adelante. Mientras tanto, tres cosas nos parecen dignas de medirse.</p>
+    <ul class="refs">
+      <li><b>El orden en que aparecen las funciones</b>, no el hecho de que existan. El criterio de internalización de Bateson es exactamente ese: dirigirse al otro antes, dirigirse a uno mismo después, dentro de una misma vida. Para los modelos hay un análogo: no «¿reconoce el modelo un contexto de prueba?», sino <b>cuándo</b> y tras qué muestra de contextos contrastantes empieza a hacerlo.</li>
+      <li><b>La dependencia de un canal medida por ablación</b>, conservando la distribución, en vez de por autoinforme. Si la cadena de razonamiento pierde fiabilidad como ventana al modelo, queda cortar entradas y observar la caída. Es más barato de lo que parece y no depende de que el modelo sea honesto.</li>
+      <li><b>Fronteras de fracaso declaradas de antemano</b>: las condiciones bajo las cuales una capacidad afirmada se considera no confirmada, escritas antes de la corrida y no después. En nuestro caso eso evitó tres autoengaños en una sola noche.</li>
+    </ul>
+    <p>Las dos lecturas anunciadas por adelantado ya están hechas. Con cuarenta semillas acumuladas la señal pareada se mantiene y el criterio doble sigue sin cumplirse, así que el veredicto continúa en «no confirmado». Se actualiza solo en el <a href="journal.html">diario de observaciones</a>, sin nosotros.</p></section>
+
+  <footer>Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Investigación abierta. Código, datos e informe completo: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="about.html">acerca del proyecto</a> · <a href="index.html" target="_blank" rel="noopener">simulación en vivo</a> · <a href="journal.html" target="_blank" rel="noopener">diario de observaciones</a><br>Fuentes: presentación de GPT-6 Astra de OpenAI (3 sep. 2026), ensayo «An Alien Mind» y blog «Research acceleration» (6 sep. 2026), informe de riesgos de Anthropic de agosto de 2026, Palisade Research sobre resistencia al apagado, G. Bateson, <i>Espíritu y naturaleza</i> (1979).</footer>
+</div>
+</div>
+
+<script>
+(function(){
+  const KEY='minimir_lang', DEF='en';
+  const blocks=[...document.querySelectorAll('.langblock')];
+  const btns=[...document.querySelectorAll('.langbar button')];
+  function apply(l){
+    if(!blocks.some(b=>b.dataset.lang===l))l=DEF;
+    blocks.forEach(b=>b.classList.toggle('on',b.dataset.lang===l));
+    btns.forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+    document.documentElement.lang=l;
+    try{localStorage.setItem(KEY,l)}catch(e){}
+  }
+  btns.forEach(b=>b.onclick=()=>apply(b.dataset.set));
+  let saved=DEF; try{saved=localStorage.getItem(KEY)||DEF}catch(e){}
+  apply(saved);
+})();
+// ненавязчивая «чашка Петри»: дрейфующие точки цвета энергии
+(function(){
+  const c=document.getElementById('amb'), x=c.getContext('2d');
+  let W,H,pts;
+  function ec(t){let r,g,b;if(t<.5){const u=t/.5;r=0xe8+(0xd9-0xe8)*u;g=0x73+(0xc2-0x73)*u;b=0x4a+(0x6a-0x4a)*u;}
+    else{const u=(t-.5)/.5;r=0xd9+(0x46-0xd9)*u;g=0xc2+(0xc6-0xc2)*u;b=0x6a+(0xd0-0x6a)*u;}
+    return `rgba(${r|0},${g|0},${b|0},`;}
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;
+    pts=Array.from({length:Math.min(70,Math.floor(W/16))},()=>({
+      x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,
+      vy:(Math.random()-.5)*.22,e:Math.random(),r:1+Math.random()*2}));}
+  resize();addEventListener('resize',resize);
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function frame(){x.clearRect(0,0,W,H);
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      x.fillStyle=ec(p.e)+'0.5)';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();}
+    if(!reduce)requestAnimationFrame(frame);}
+  frame();
+})();
+</script>
+
+</body>
+</html>

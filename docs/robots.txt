@@ -49,4 +49,4 @@ Allow: /
 User-agent: Diffbot
 Allow: /
 
-Sitemap: https://akela1308.github.io/minimir/sitemap.xml
+Sitemap: https://minimir.ilinmaks.com/sitemap.xml

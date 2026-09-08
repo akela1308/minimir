@@ -6,119 +6,33 @@
 <title>mini·world — about the project</title>
 <meta name="description" content="A tiny world of evolving creatures with no reward and no judge. We measure whether behaviour that looks like a need can emerge from selection alone — interoception, cooperation, and Vygotsky's sign. Open research: code, data, report.">
 <meta name="keywords" content="artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
-<meta name="author" content="akela1308">
+<meta name="author" content="Maksim Ilin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-<link rel="canonical" href="https://akela1308.github.io/minimir/about.html">
+<link rel="canonical" href="https://minimir.ilinmaks.com/about.html">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mini-world">
 <meta property="og:title" content="mini·world — about the project">
 <meta property="og:description" content="A tiny world of evolving creatures with no reward and no judge. We measure whether behaviour that looks like a need can emerge from selection alone — interoception, cooperation, and Vygotsky's sign. Open research: code, data, report.">
-<meta property="og:url" content="https://akela1308.github.io/minimir/about.html">
-<meta property="og:image" content="https://akela1308.github.io/minimir/og.png">
+<meta property="og:url" content="https://minimir.ilinmaks.com/about.html">
+<meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="mini·world — about the project">
 <meta name="twitter:description" content="A tiny world of evolving creatures with no reward and no judge. We measure whether behaviour that looks like a need can emerge from selection alone — interoception, cooperation, and Vygotsky's sign. Open research: code, data, report.">
-<meta name="twitter:image" content="https://akela1308.github.io/minimir/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://akela1308.github.io/minimir/#website","name":"mini-world","alternateName":"мини-мир","url":"https://akela1308.github.io/minimir/","description":"A tiny world of evolving creatures with no reward and no judge. We measure whether behaviour that looks like a need can emerge from selection alone — interoception, cooperation, and Vygotsky's sign. Open research: code, data, report.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://akela1308.github.io/minimir/"}]}</script>
+<meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"A tiny world of evolving creatures with no reward and no judge. We measure whether behaviour that looks like a need can emerge from selection alone — interoception, cooperation, and Vygotsky's sign. Open research: code, data, report.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://minimir.ilinmaks.com/"}]}</script>
+<link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
-<style>
-  :root{
-    --ground:#0a0e11; --panel:#10161a; --panel2:#0d1317; --hair:#1c262c;
-    --ink:#e9f1f2; --dim:#93a6ae; --faint:#5b6f77;
-    --cyan:#46c6d0; --amber:#e8734a; --mark:#e6c14a; --coop:#4fd08a;
-    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--mono);
-    -webkit-font-smoothing:antialiased;line-height:1.68;font-size:15px}
-  #amb{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.4;pointer-events:none}
-  a{color:var(--cyan);text-decoration:none;border-bottom:1px solid #29464b}
-  a:hover{border-bottom-color:var(--cyan)}
-  .wrap{max-width:720px;margin:0 auto;padding:64px 22px 80px;position:relative;z-index:1}
-
-  .langbar{position:fixed;top:14px;right:16px;z-index:10;display:flex;gap:4px;
-    background:#0c1216cc;border:1px solid var(--hair);border-radius:20px;padding:4px;
-    backdrop-filter:blur(6px)}
-  .langbar button{font-family:var(--mono);font-size:12px;color:var(--dim);
-    background:none;border:0;border-radius:14px;padding:5px 11px;cursor:pointer;
-    letter-spacing:.5px}
-  .langbar button.on{background:var(--cyan);color:var(--ground);font-weight:600}
-  .langbar button:hover:not(.on){color:var(--ink)}
-
-  .langblock{display:none} .langblock.on{display:block}
-
-  .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--faint)}
-  h1{font-size:38px;font-weight:600;letter-spacing:1px;margin:12px 0 0;text-wrap:balance}
-  h1 .dot{color:var(--cyan)}
-  .lede{color:var(--dim);font-size:16px;line-height:1.6;margin:16px 0 0}
-  .lede b{color:var(--ink);font-weight:600}
-  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-  .btn{display:inline-block;background:var(--cyan);color:var(--ground);
-    border:0;border-radius:5px;padding:11px 20px;font-family:var(--mono);
-    font-size:13px;font-weight:600;letter-spacing:.5px;cursor:pointer}
-  .btn:hover{filter:brightness(1.12);border-bottom:0}
-  .btn.ghost{background:#14202699;color:var(--ink);border:1px solid var(--hair)}
-
-  section{padding-top:38px}
-  h2{font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cyan);
-    margin:0 0 4px;display:flex;align-items:center;gap:10px}
-  h2::before{content:"";width:22px;height:1px;background:var(--cyan);opacity:.6}
-  h3{font-size:19px;font-weight:600;margin:2px 0 10px;letter-spacing:.3px;text-wrap:balance}
-  p{color:var(--dim);margin:10px 0}
-  p b, li b{color:var(--ink);font-weight:600}
-
-  .stages{display:grid;gap:12px;margin-top:14px}
-  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));
-    border:1px solid var(--hair);border-radius:8px;padding:16px 18px;
-    border-left:2px solid var(--seg,#2a3a41)}
-  .card .n{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint)}
-  .card h4{margin:4px 0 6px;font-size:15px;font-weight:600;color:var(--ink)}
-  .card p{margin:0;font-size:13.5px}
-  .card.s1{--seg:var(--cyan)} .card.s2{--seg:var(--coop)} .card.s3{--seg:var(--mark)}
-
-  ul.refs{list-style:none;padding:0;margin:12px 0}
-  ul.refs li{position:relative;padding-left:16px;margin:11px 0;color:var(--dim);
-    font-size:13.5px;line-height:1.55}
-  ul.refs li::before{content:"·";position:absolute;left:2px;color:var(--cyan);font-weight:700}
-
-  .find{display:flex;gap:12px;align-items:flex-start;margin:14px 0;
-    background:var(--panel2);border:1px solid var(--hair);border-radius:8px;padding:14px 16px}
-  .tag{flex:none;font-size:10px;letter-spacing:.8px;text-transform:uppercase;
-    padding:3px 9px;border-radius:11px;font-weight:600;margin-top:1px;white-space:nowrap}
-  .tag.no{background:#e8734a22;color:#f0956e;border:1px solid #6b3a2a}
-  .tag.part{background:#e6c14a22;color:#e6c14a;border:1px solid #6b5b2a}
-  .tag.now{background:#46c6d022;color:var(--cyan);border:1px solid #2a4a4f}
-  .find div{font-size:13.5px;color:var(--dim);line-height:1.55}
-  .find .h{color:var(--ink);font-weight:600}
-
-  .callout{margin-top:20px;background:#0e1a1c;border:1px solid #234;border-radius:8px;
-    padding:16px 18px;color:var(--dim);font-size:13.5px}
-  .callout.warn{background:#1a130e;border-color:#4a3323}
-
-  .flow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 6px}
-  @media(max-width:520px){.flow{grid-template-columns:1fr}}
-  .fcard{background:var(--panel2);border:1px solid var(--hair);border-radius:8px;padding:14px 16px}
-  .fcard .ft{font-size:14px;font-weight:600;margin-bottom:8px;letter-spacing:.3px}
-  .fcard.give .ft{color:var(--coop)} .fcard.take .ft{color:var(--amber)}
-  .fcard .line{font-size:13px;color:var(--dim);margin:5px 0;font-variant-numeric:tabular-nums}
-  .fcard .you{color:var(--ink)} .pos{color:var(--coop)} .neg{color:var(--amber)}
-  .fcard .net{margin-top:9px;padding-top:9px;border-top:1px dashed #2a3a41;
-    font-size:12px;color:var(--faint)}
-  .fcard .net b{color:var(--mark)}
-
-  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);
-    color:var(--faint);font-size:12.5px;line-height:1.7}
-</style>
 <canvas id="amb"></canvas>
 <div class="langbar" role="group" aria-label="language"><button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="zh">中文</button><button data-set="es">ES</button></div>
 <div class="wrap">
 <div class="langblock" data-lang="en" lang="en">
-  <div class="eyebrow">artificial life · open research</div>
   <h1>mini<span class="dot">·</span>world</h1>
+  <div class="eyebrow">artificial life · open research</div>
   <p class="lede"><b>A tiny digital world where simple creatures live: they look for food, spend energy, reproduce, and die for good.</b> We watch whether behaviour that looks like <i>wanting</i> appears on its own — without us building the wanting in beforehand.</p>
   <div class="cta">
     <a class="btn" href="index.html" target="_blank" rel="noopener">▶ watch the live simulation</a>
@@ -163,11 +77,11 @@
     <div class="find"><span class="tag now">studying now</span><div>We’re fixing the “energetics” of cooperation to re-test stage 2 honestly, and thinking about how to give marks a real use — otherwise stage 3 can’t be tested at all.</div></div>
     <div class="callout">The honest bottom line: none of the three stages has “fired” at full strength yet — but in each case we understand <b>exactly what is blocking it</b>, and that is already a result. These findings update as new experiments come in.</div></section>
 
-  <footer>Open research. Full report with numbers, all code and raw data — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">live simulation</a> · <a href="journal.html" target="_blank" rel="noopener">observation journal</a></footer>
+  <footer>Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Open research. Full report with numbers, all code and raw data — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">live simulation</a> · <a href="journal.html" target="_blank" rel="noopener">observation journal</a> · <a href="agi.html">note: AGI</a></footer>
 </div>
 <div class="langblock" data-lang="ru" lang="ru">
-  <div class="eyebrow">искусственная жизнь · открытое исследование</div>
   <h1>мини<span class="dot">·</span>мир</h1>
+  <div class="eyebrow">искусственная жизнь · открытое исследование</div>
   <p class="lede"><b>Крошечный цифровой мир, где живут простые существа: они ищут еду, тратят силы, размножаются и умирают насовсем.</b> Мы смотрим, появится ли у них само собой поведение, похожее на <i>желание</i>, — без того, чтобы мы это желание заранее в них заложили.</p>
   <div class="cta">
     <a class="btn" href="index.html" target="_blank" rel="noopener">▶ смотреть живую симуляцию</a>
@@ -212,11 +126,11 @@
     <div class="find"><span class="tag now">изучаем сейчас</span><div>Чиним «энергетику» кооперации, чтобы честно перепроверить ступень 2, и думаем, как дать меткам реальную пользу, — иначе ступень 3 непроверяема.</div></div>
     <div class="callout">Итог по-честному: пока ни одна из трёх ступеней не «выстрелила» в полную силу — но в каждом случае мы понимаем, <b>что именно мешает</b>, и это уже результат. Выводы обновляются по мере новых экспериментов.</div></section>
 
-  <footer>Открытое исследование. Полный отчёт с числами, весь код и сырые данные — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">живая симуляция</a> · <a href="journal.html" target="_blank" rel="noopener">журнал наблюдений</a></footer>
+  <footer>Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Открытое исследование. Полный отчёт с числами, весь код и сырые данные — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">живая симуляция</a> · <a href="journal.html" target="_blank" rel="noopener">журнал наблюдений</a> · <a href="agi.html">заметка: AGI</a></footer>
 </div>
 <div class="langblock" data-lang="de" lang="de">
-  <div class="eyebrow">künstliches leben · offene forschung</div>
   <h1>mini<span class="dot">·</span>welt</h1>
+  <div class="eyebrow">künstliches leben · offene forschung</div>
   <p class="lede"><b>Eine winzige digitale Welt, in der einfache Wesen leben: Sie suchen Futter, verbrauchen Kraft, pflanzen sich fort und sterben endgültig.</b> Wir beobachten, ob von selbst ein Verhalten entsteht, das wie ein <i>Wollen</i> aussieht — ohne dass wir dieses Wollen vorher einbauen.</p>
   <div class="cta">
     <a class="btn" href="index.html" target="_blank" rel="noopener">▶ live-simulation ansehen</a>
@@ -261,11 +175,11 @@
     <div class="find"><span class="tag now">wird untersucht</span><div>Wir reparieren die „Energetik“ der Kooperation, um Stufe 2 ehrlich erneut zu prüfen, und überlegen, wie man Markierungen einen echten Nutzen gibt — sonst ist Stufe 3 gar nicht prüfbar.</div></div>
     <div class="callout">Das ehrliche Fazit: keine der drei Stufen hat bisher voll „gezündet“ — aber in jedem Fall verstehen wir <b>genau, was sie blockiert</b>, und das ist bereits ein Ergebnis. Diese Befunde aktualisieren sich mit neuen Experimenten.</div></section>
 
-  <footer>Offene Forschung. Vollständiger Bericht mit Zahlen, gesamter Code und Rohdaten — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">live-simulation</a> · <a href="journal.html" target="_blank" rel="noopener">beobachtungsjournal</a></footer>
+  <footer>Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Offene Forschung. Vollständiger Bericht mit Zahlen, gesamter Code und Rohdaten — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">live-simulation</a> · <a href="journal.html" target="_blank" rel="noopener">beobachtungsjournal</a> · <a href="agi.html">Notiz: AGI</a></footer>
 </div>
 <div class="langblock" data-lang="zh" lang="zh">
-  <div class="eyebrow">人工生命 · 开放研究</div>
   <h1>微<span class="dot">·</span>世界</h1>
+  <div class="eyebrow">人工生命 · 开放研究</div>
   <p class="lede"><b>一个微小的数字世界，里面住着简单的生物：它们寻找食物、消耗体力、繁殖，并且会彻底死亡。</b>我们观察，它们是否会自行出现一种看起来像<i>“想要”</i>的行为——而不需要我们事先把“想要”写进去。</p>
   <div class="cta">
     <a class="btn" href="index.html" target="_blank" rel="noopener">▶ 观看实时模拟</a>
@@ -310,11 +224,11 @@
     <div class="find"><span class="tag now">正在研究</span><div>我们在修合作的“能量学”，以便诚实地重测阶段 2；并思考如何给记号以真正的用处——否则阶段 3 根本无法检验。</div></div>
     <div class="callout">诚实的结论：三个阶段迄今都还没有全力“点火”——但在每一种情形下，我们都明白<b>究竟是什么在阻碍它</b>，这本身就是结果。随着新实验到来，这些结论会不断更新。</div></section>
 
-  <footer>开放研究。含数据的完整报告、全部代码与原始数据——<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">实时模拟</a> · <a href="journal.html" target="_blank" rel="noopener">观测日志</a></footer>
+  <footer>项目与文章：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>开放研究。含数据的完整报告、全部代码与原始数据——<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">实时模拟</a> · <a href="journal.html" target="_blank" rel="noopener">观测日志</a> · <a href="agi.html">札记：AGI</a></footer>
 </div>
 <div class="langblock" data-lang="es" lang="es">
-  <div class="eyebrow">vida artificial · investigación abierta</div>
   <h1>mini<span class="dot">·</span>mundo</h1>
+  <div class="eyebrow">vida artificial · investigación abierta</div>
   <p class="lede"><b>Un diminuto mundo digital donde viven criaturas simples: buscan comida, gastan energía, se reproducen y mueren para siempre.</b> Observamos si por sí solo surge un comportamiento que parece un <i>deseo</i> — sin que nosotros metamos ese deseo de antemano.</p>
   <div class="cta">
     <a class="btn" href="index.html" target="_blank" rel="noopener">▶ ver la simulación en vivo</a>
@@ -359,7 +273,7 @@
     <div class="find"><span class="tag now">en estudio</span><div>Arreglamos la “energética” de la cooperación para volver a probar la etapa 2 con honestidad, y pensamos cómo dar a las marcas un uso real — si no, la etapa 3 no se puede probar.</div></div>
     <div class="callout">La conclusión honesta: ninguna de las tres etapas ha “despegado” del todo aún — pero en cada caso entendemos <b>qué es exactamente lo que la bloquea</b>, y eso ya es un resultado. Estas conclusiones se actualizan con nuevos experimentos.</div></section>
 
-  <footer>Investigación abierta. Informe completo con cifras, todo el código y los datos brutos — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">simulación en vivo</a> · <a href="journal.html" target="_blank" rel="noopener">diario de observaciones</a></footer>
+  <footer>Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Investigación abierta. Informe completo con cifras, todo el código y los datos brutos — <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="index.html" target="_blank" rel="noopener">simulación en vivo</a> · <a href="journal.html" target="_blank" rel="noopener">diario de observaciones</a> · <a href="agi.html">nota: AGI</a></footer>
 </div>
 </div>
 

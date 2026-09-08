@@ -397,6 +397,8 @@ def render(st):
 суточные прогоны, статистика по мере накопления seed'ов, объявленные заранее
 контрольные чтения.">
 <link rel="icon" href="favicon.svg">
+<link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
 <style>
 :root{{--ground:#0a0e11;--panel:#10161a;--hair:#1c262c;--ink:#e9f1f2;
   --dim:#93a6ae;--faint:#5b6f77;--cyan:#46c6d0;--amber:#e8734a;--coop:#4fd08a;
@@ -436,6 +438,17 @@ th:first-child,td:first-child{{text-align:left}}
 .cpl{{fill:#e8734a99}}
 footer{{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
   font-size:11.5px;color:var(--faint)}}
+
+/* --- согласование с общей системой стилей --- */
+body{{font-family:var(--sans);letter-spacing:.005em}}
+.eyebrow{{font-family:var(--mono);border:0;padding:0;margin:0;max-width:none}}
+nav a{{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  border:0;border-radius:0;padding:4px 0;margin-right:18px;box-shadow:inset 0 -1px 0 var(--hair)}}
+nav a:hover{{color:var(--ink);box-shadow:inset 0 -1px 0 var(--cyan)}}
+h2{{font-family:var(--sans);letter-spacing:-.01em}}
+h2::before{{content:none}}
+table,th,td,.mono,.big,.cp,.cpl,.ax{{font-family:var(--mono)}}
+.card,.chart{{border-radius:2px}}
 </style>
 </head>
 <body><div class="wrap">
@@ -445,6 +458,7 @@ footer{{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
   <nav style="margin-top:10px">
     <a href="index.html">живой эксперимент</a>
     <a href="sim.html">записанный прогон</a>
+    <a href="agi.html">AGI</a>
     <a href="about.html">о проекте</a>
     <a href="https://github.com/akela1308/minimir">исходники</a>
   </nav>
@@ -515,6 +529,7 @@ footer{{margin-top:40px;border-top:1px solid var(--hair);padding-top:14px;
 коммита и seed — любой прогон воспроизводится этими тремя числами.</p>
 
 <footer>
+Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> ·
 Собрано {st['built_at']} · код {st.get('commit') or '—'} ·
 протокол A5-120k-blockavg-v1 · метод и критерии —
 <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION.md">предрегистрация</a>,
