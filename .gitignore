@@ -9,3 +9,4 @@ runs/*.log
 runs/*.npz
 runs/*_DONE
 runs/CHAIN_DONE
+_backup_*/
