@@ -453,6 +453,7 @@ table,th,td,.mono,.big,.cp,.cpl,.ax{{font-family:var(--mono)}}
 </head>
 <body><div class="wrap">
 <header>
+  <a class="brand" href="index.html">mini<span class="dot">·</span>world</a>
   <div class="eyebrow">искусственная жизнь · журнал наблюдений</div>
   <h1>mini·world — что накопилось</h1>
   <nav style="margin-top:10px">

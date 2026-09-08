@@ -55,8 +55,9 @@ a:hover{border-bottom-color:var(--cyan)}
 .wrap{max-width:1000px;margin:0 auto;padding:0 24px 96px;position:relative;z-index:1}
 
 /* ---- панель языков: полоса в потоке, а не плашка поверх текста ---- */
-.langbar{position:sticky;top:0;z-index:20;display:flex;gap:2px;justify-content:flex-end;
-  margin:0 0 40px;padding:9px max(24px,calc((100vw - 1000px)/2 + 24px)) 8px 24px;
+.langbar{position:sticky;top:0;z-index:20;display:flex;gap:2px;
+  justify-content:space-between;align-items:center;
+  margin:0 0 40px;padding:9px max(24px,calc((100vw - 1000px)/2 + 24px)) 8px;
   background:color-mix(in srgb,var(--ground) 96%,transparent);
   border-bottom:1px solid var(--hair);backdrop-filter:blur(4px)}
 .langbar button{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;
@@ -64,6 +65,12 @@ a:hover{border-bottom-color:var(--cyan)}
   padding:4px 10px 3px;cursor:pointer;box-shadow:inset 0 -1px 0 transparent}
 .langbar button:hover:not(.on){color:var(--body)}
 .langbar button.on{color:var(--ink);box-shadow:inset 0 -1px 0 var(--cyan)}
+
+.brand{font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:-.01em;
+  color:var(--ink);border:0;white-space:nowrap;padding:2px 0;margin-right:auto}
+.brand:hover{color:var(--cyan);border:0}
+.brand .dot{color:var(--cyan)}
+.langs{display:flex;gap:2px;flex:none}
 
 .langblock{display:none} .langblock.on{display:block}
 
