@@ -1,0 +1,113 @@
+{
+ "protocol": "B1-100k-v1",
+ "n_seeds": 0,
+ "conditions": {
+  "never": {
+   "n_total": 0,
+   "n_alive": 0,
+   "extinct": 0,
+   "lr_median": null,
+   "lr_q25": null,
+   "lr_q75": null,
+   "log_sd": null,
+   "accuracy": null,
+   "min_pop_after_switch": null,
+   "lr_init": null
+  },
+  "slow": {
+   "n_total": 0,
+   "n_alive": 0,
+   "extinct": 0,
+   "lr_median": null,
+   "lr_q25": null,
+   "lr_q75": null,
+   "log_sd": null,
+   "accuracy": null,
+   "min_pop_after_switch": null,
+   "lr_init": null
+  },
+  "life": {
+   "n_total": 0,
+   "n_alive": 0,
+   "extinct": 0,
+   "lr_median": null,
+   "lr_q25": null,
+   "lr_q75": null,
+   "log_sd": null,
+   "accuracy": null,
+   "min_pop_after_switch": null,
+   "lr_init": null
+  },
+  "fast": {
+   "n_total": 0,
+   "n_alive": 0,
+   "extinct": 0,
+   "lr_median": null,
+   "lr_q25": null,
+   "lr_q75": null,
+   "log_sd": null,
+   "accuracy": null,
+   "min_pop_after_switch": null,
+   "lr_init": null
+  },
+  "life_frozen": {
+   "n_total": 0,
+   "n_alive": 0,
+   "extinct": 0,
+   "lr_median": null,
+   "lr_q25": null,
+   "lr_q75": null,
+   "log_sd": null,
+   "accuracy": null,
+   "min_pop_after_switch": null,
+   "lr_init": null
+  },
+  "never_frozen": {
+   "n_total": 0,
+   "n_alive": 0,
+   "extinct": 0,
+   "lr_median": null,
+   "lr_q25": null,
+   "lr_q75": null,
+   "log_sd": null,
+   "accuracy": null,
+   "min_pop_after_switch": null,
+   "lr_init": null
+  }
+ },
+ "two_sigma_log": null,
+ "comparisons": {
+  "life_vs_never": {
+   "n": 0
+  },
+  "slow_vs_never": {
+   "n": 0
+  },
+  "never_vs_never_frozen": {
+   "n": 0
+  }
+ },
+ "extinction": {
+  "life": null,
+  "life_frozen": null,
+  "fast": null,
+  "never": null
+ },
+ "verdict": "nodata",
+ "target": 40,
+ "checkpoints": [
+  10,
+  20,
+  40
+ ],
+ "curve": [],
+ "trajectories": {
+  "never": [],
+  "slow": [],
+  "life": [],
+  "fast": [],
+  "life_frozen": [],
+  "never_frozen": []
+ },
+ "entries": []
+}

@@ -58,6 +58,9 @@ def measure(job):
     поле "error", чтобы pool не падал и серия продолжалась.
     """
     try:
+        if job.get("protocol") == "B":
+            from sim.protocol_b import measure_b
+            return measure_b(job)
         return _measure_inner(job)
     except Exception as e:                                    # noqa: BLE001
         return dict(key=job.get("key"), label=job.get("label"),

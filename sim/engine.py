@@ -5,7 +5,17 @@
 """
 import numpy as np
 from .config import (N_IN, N_ACTIONS, N_MEM, N_SIGN, A_FORWARD, A_LEFT, A_RIGHT,
-                     A_EAT, A_REST, A_GIVE, A_TAKE, A_MARK)
+                     A_EAT, A_REST, A_GIVE, A_TAKE, A_MARK,
+                     I_COLOR_HERE, I_COLOR_AHEAD)
+
+# этап B: кривая восстановления после смены правила. Точность еды копится
+# по корзинам «тиков с момента смены», отдельно для агентов, родившихся ДО
+# смены (им надо переучиться) и ПОСЛЕ (они учатся с нуля). Первое и есть
+# прижизненное обучение; второе от него отличить нельзя, поэтому и разводим.
+SINCE_BIN = 100
+SINCE_BINS = 20                      # 0..2000 тиков после смены
+# точность еды по возрасту агента: кривая развития (учится ли особь за жизнь)
+AGE_EDGES = np.array([0, 50, 100, 200, 400, 800, 1600, 10 ** 9])
 from .world import World
 from .population import Population
 from . import policies
@@ -62,6 +72,14 @@ class Engine:
         self.other_mark_reads = 0
         self.action_counts = np.zeros(N_ACTIONS, dtype=np.int64)
         self.extinct_at = None
+        # этап B: точность еды (укусы питательного / всех укусов)
+        self.eat_good = 0
+        self.eat_bad = 0
+        # (когорта: 0 = родился до смены, 1 = после; корзина тиков после смены)
+        self.since_good = np.zeros((2, SINCE_BINS), dtype=np.int64)
+        self.since_bad = np.zeros((2, SINCE_BINS), dtype=np.int64)
+        self.age_good = np.zeros(len(AGE_EDGES) - 1, dtype=np.int64)
+        self.age_bad = np.zeros(len(AGE_EDGES) - 1, dtype=np.int64)
 
     @property
     def social_active(self) -> bool:
@@ -79,6 +97,11 @@ class Engine:
         self.own_mark_age_count = 0
         self.own_mark_reads = 0
         self.other_mark_reads = 0
+        self.eat_good = self.eat_bad = 0
+        self.since_good[:] = 0
+        self.since_bad[:] = 0
+        self.age_good[:] = 0
+        self.age_bad[:] = 0
 
     def reset_individual(self):
         """Обнулить индивидуальные накопители на старте измерительного окна.
@@ -292,6 +315,14 @@ class Engine:
             X[sub, 12] = 1.0 / (1.0 + partner_d[sub])
         if cfg.signs:
             self._sense_signs(ids, X)
+        if cfg.food_types == 2:
+            # цвет еды под собой и впереди. Цвет ничего не говорит о том,
+            # съедобна ли она сейчас: это агент должен выучить или угадать.
+            w = self.world
+            X[:, I_COLOR_HERE] = w.color(pop.y[ids], pop.x[ids])
+            h = pop.heading[ids]
+            X[:, I_COLOR_AHEAD] = w.color((pop.y[ids] + OFF_Y[h]) % w.H,
+                                          (pop.x[ids] + OFF_X[h]) % w.W)
         X[:, 13] = 1.0                                       # bias
         X[:, 14:16] = pop.mem[ids]
         rec, last = self._recognition(ids, partner)
@@ -304,6 +335,11 @@ class Engine:
         if self.policy_fn is not None:
             return self.policy_fn(self, ids, X)
         logits = out[:, :N_ACTIONS].copy()
+        if self.cfg.taste and X is not None:
+            # вкус: прибавка к «есть» знаком цвета, только если под ногами еда
+            self._taste_pre = X[:, I_COLOR_HERE] * (X[:, 18] > 0.05)
+            logits[:, A_EAT] += self.pop.taste[ids] * self._taste_pre
+            self._taste_post = np.tanh(logits[:, A_EAT])
         if not self.cfg.signs:
             logits[:, A_MARK] = -np.inf
         if not self.social_active:
@@ -358,7 +394,25 @@ class Engine:
             # несколько агентов в одной клетке: списываем через add.at, честно
             np.add.at(w.resource, (cell_y, cell_x), -take)
             np.clip(w.resource, 0.0, 1.0, out=w.resource)
-            pop.E[sub] += take * cfg.energy_per_resource
+            if cfg.food_types == 2:
+                factor = w.energy_factor(cell_y, cell_x)
+                pop.E[sub] += take * cfg.energy_per_resource * factor
+                bite = take > 0.01                       # пустую клетку не считаем
+                good = bite & (factor > 0)
+                bad = bite & (factor <= 0)
+                self.eat_good += int(good.sum())
+                self.eat_bad += int(bad.sum())
+                ab = np.searchsorted(AGE_EDGES, pop.age[sub], side="right") - 1
+                np.add.at(self.age_good, ab[good], 1)
+                np.add.at(self.age_bad, ab[bad], 1)
+                since = w.ticks_since_switch
+                if w.switches and since < SINCE_BIN * SINCE_BINS and bite.any():
+                    b = since // SINCE_BIN
+                    cohort = (pop.age[sub] <= since).astype(np.int64)  # 1 = родился после
+                    np.add.at(self.since_good, (cohort[good], b), 1)
+                    np.add.at(self.since_bad, (cohort[bad], b), 1)
+            else:
+                pop.E[sub] += take * cfg.energy_per_resource
             cost[m] += cfg.eat_cost
 
         # оставить метку: запись во внешнюю форму, переживающую момент
@@ -478,10 +532,22 @@ class Engine:
 
         e_before = pop.E[ids].copy()
         self._apply(ids, act, partner_adj, crowd)
+        if self.cfg.taste and self.cfg.taste_learning:
+            # трёхфакторное правило на одном синапсе: до * после * модулятор,
+            # модулятор = изменение энергии за тик (яд или еда), с мёртвой зоной
+            dE = pop.E[ids] - e_before
+            dE = np.where(np.abs(dE) < self.cfg.taste_deadzone, 0.0, dE)
+            mod = np.clip(dE / 2.0, -1.0, 1.0).astype(np.float32)
+            upd = pop.taste_lr[ids] * mod * self._taste_pre * self._taste_post
+            pop.taste[ids] = np.clip(pop.taste[ids] + upd,
+                                     -self.cfg.taste_clip, self.cfg.taste_clip)
         if self.cfg.hebbian and self.tick % self.cfg.hebb_every == 0:
             mod = np.ones(ids.size, dtype=np.float32)
             if self.cfg.hebb_modulated:
-                mod = np.clip((pop.E[ids] - e_before) / 2.0, -1.0, 1.0).astype(np.float32)
+                dE = pop.E[ids] - e_before
+                if self.cfg.hebb_deadzone > 0:
+                    dE = np.where(np.abs(dE) < self.cfg.hebb_deadzone, 0.0, dE)
+                mod = np.clip(dE / 2.0, -1.0, 1.0).astype(np.float32)
             pop.brains.hebbian_update(ids, mod)
         pop.cull()
         pop.reproduce(self.tick)
@@ -514,4 +580,36 @@ class Engine:
             lineages=int(np.unique(self.pop.lineage[ids]).size) if n else 0,
             forage_accuracy=(self.forage_hits / self.forage_moves) if self.forage_moves else 0.0,
             coop_rate=(self.coop_events / coop_total) if coop_total else None,
+            eat_accuracy=(self.eat_good / (self.eat_good + self.eat_bad))
+            if (self.eat_good + self.eat_bad) else None,
+            **self.pop.brains.rate_summary(ids),
+            learned_drift=self.pop.brains.learned_drift(ids) if n else None,
+            taste_mean=float(self.pop.taste[ids].mean()) if (n and self.cfg.taste) else None,
+            taste_g_mean=float(self.pop.taste_g[ids].mean()) if (n and self.cfg.taste) else None,
+            taste_lr_mean=float(self.pop.taste_lr[ids].mean()) if (n and self.cfg.taste) else None,
+            taste_lr_median=float(np.median(self.pop.taste_lr[ids])) if (n and self.cfg.taste) else None,
+            switches=len(self.world.switches),
         )
+
+    def recovery_curve(self):
+        """Точность еды по корзинам тиков после смены правила, по когортам.
+
+        Возвращает списки длины SINCE_BINS (None там, где укусов < 50).
+        """
+        out = {}
+        for c, name in ((0, "born_before"), (1, "born_after")):
+            g, b = self.since_good[c], self.since_bad[c]
+            tot = g + b
+            out[name] = [float(g[i] / tot[i]) if tot[i] >= 50 else None
+                         for i in range(SINCE_BINS)]
+            out[name + "_n"] = tot.tolist()
+        out["bin_ticks"] = SINCE_BIN
+        return out
+
+    def age_curve(self):
+        """Точность еды по возрастным корзинам (None, где укусов < 50)."""
+        tot = self.age_good + self.age_bad
+        return dict(edges=AGE_EDGES[:-1].tolist(),
+                    accuracy=[float(self.age_good[i] / tot[i]) if tot[i] >= 50 else None
+                              for i in range(len(tot))],
+                    n=tot.tolist())

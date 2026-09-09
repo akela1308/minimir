@@ -10,3 +10,6 @@ runs/*.npz
 runs/*_DONE
 runs/CHAIN_DONE
 _backup_*/
+
+# служебные скриншоты проверки
+_shots/

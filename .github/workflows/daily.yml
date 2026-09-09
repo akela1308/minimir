@@ -1,9 +1,12 @@
 name: суточный прогон
 
-# Автономный накопительный эксперимент: раз в сутки движок мира считает
-# новые независимые seed'ы главного сравнения (self / shuffled / neighbour /
-# off), результаты дописываются в репозиторий, журнал наблюдений на сайте
-# пересобирается. Ничей ноутбук при этом включён быть не должен.
+# Автономный накопительный эксперимент. Два протокола в одном расписании:
+#   * B «Когда выгодно учиться» (runs/daily_b.py): каждый день, 2 новых seed'а;
+#   * A «интероцепция» (runs/daily.py): раз в неделю, по воскресеньям, 4 seed'а.
+#     Оба объявленных чтения A (20 и 40) уже прошли; накопление продолжается
+#     ради уточнения оценки.
+# Результаты дописываются в репозиторий, журнал на сайте пересобирается.
+# Ничей ноутбук при этом включён быть не должен.
 
 on:
   schedule:
@@ -12,14 +15,18 @@ on:
     - cron: "20 2 * * *"
   workflow_dispatch:
     inputs:
-      seeds:
-        description: "сколько новых seed'ов посчитать"
+      seeds_b:
+        description: "протокол B: сколько новых seed'ов посчитать"
         required: false
-        default: "4"
-      ticks:
-        description: "длина прогона в тиках (менять только осознанно)"
+        default: "2"
+      ticks_b:
+        description: "протокол B: длина прогона в тиках (менять только осознанно)"
         required: false
-        default: "120000"
+        default: "100000"
+      run_a:
+        description: "запустить и протокол A (обычно только по воскресеньям)"
+        required: false
+        default: "no"
 
 permissions:
   contents: write
@@ -48,12 +55,20 @@ jobs:
       - name: тесты движка (прогон не должен идти по сломанному коду)
         run: python -m pytest tests -q
 
-      - name: суточный прогон
+      - name: протокол B, каждый день
         run: |
-          python runs/daily.py \
-            --seeds "${{ github.event.inputs.seeds || '4' }}" \
-            --ticks "${{ github.event.inputs.ticks || '120000' }}" \
-            --workers 3
+          python runs/daily_b.py \
+            --seeds "${{ github.event.inputs.seeds_b || '2' }}" \
+            --ticks "${{ github.event.inputs.ticks_b || '100000' }}" \
+            --workers 2
+
+      - name: протокол A, по воскресеньям
+        run: |
+          if [ "$(date -u +%u)" = "7" ] || [ "${{ github.event.inputs.run_a }}" = "yes" ]; then
+            python runs/daily.py --seeds 4 --ticks 120000 --workers 2 --target 100
+          else
+            echo "не воскресенье: протокол A пропущен"
+          fi
 
       - name: пересборка журнала
         run: python runs/journal.py
@@ -62,13 +77,14 @@ jobs:
         run: |
           git config user.name  "minimir daily"
           git config user.email "actions@users.noreply.github.com"
-          git add runs/daily docs/journal.html docs/journal.json
+          git add runs/daily docs/journal.html docs/journal.json docs/journal_b.json
           if git diff --cached --quiet; then
             echo "нечего коммитить"
             exit 0
           fi
-          N=$(python -c "import json;print(json.load(open('docs/journal.json'))['n_seeds'])")
-          git commit -m "Daily run: accumulate seeds, ${N} total"
+          NB=$(python -c "import json;print(json.load(open('docs/journal_b.json'))['n_seeds'])")
+          NA=$(python -c "import json;print(json.load(open('docs/journal.json'))['n_seeds'])")
+          git commit -m "Daily run: B ${NB} seeds, A ${NA} seeds"
           git pull --rebase --autostash origin main
           git push origin HEAD:main
 
@@ -78,16 +94,18 @@ jobs:
           echo "### Суточный прогон" >> $GITHUB_STEP_SUMMARY
           python - <<'PY' >> $GITHUB_STEP_SUMMARY
           import json, pathlib
+          pb = pathlib.Path("docs/journal_b.json")
+          if pb.exists():
+              s = json.load(open(pb))
+              c = s["comparisons"].get("life_vs_never", {})
+              print(f"**Протокол B**: seed'ов **{s['n_seeds']}** из {s['target']}, вердикт **{s['verdict']}**, "
+                    f"life/never = ×{c.get('ratio')}, p = {c.get('p')}")
           p = pathlib.Path("docs/journal.json")
           if p.exists():
               s = json.load(open(p))
               c = s["comparisons"].get("self", {})
-              print(f"- seed'ов: **{s['n_seeds']}** из {s['target']}")
-              print(f"- вердикт: **{s['verdict']}**")
-              print(f"- Δ(self−shuffled) = {c.get('mean_diff')}, p = {c.get('p')}")
-              print(f"- 2σ = {s.get('two_sigma')}")
-          else:
-              print("журнал не собран")
+              print(f"\n**Протокол A**: seed'ов **{s['n_seeds']}**, вердикт **{s['verdict']}**, "
+                    f"Δ = {c.get('mean_diff')}, p = {c.get('p')}")
           PY
 
   # Коммит, сделанный шагом выше, сам по себе workflow «публикация сайта»

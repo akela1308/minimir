@@ -25,19 +25,70 @@ class World:
         self.sign_author_id = np.full((self.H, self.W), -1, dtype=np.int64)
         self.sign_author_age = np.zeros((self.H, self.W), dtype=np.float32)
 
-    def _make_capacity(self):
-        """Пятна через низкочастотную фильтрацию белого шума в спектре (без зависимостей)."""
+        # --- этап B: два типа еды и смена правил ---
+        # Тип клетки фиксирован на всю жизнь мира (это география), а вот
+        # какой тип питателен, меняется. Моменты смены берутся из ОТДЕЛЬНОГО
+        # генератора, засеянного только seed'ом: у всех условий с одним T
+        # расписание смен одно и то же, и сравнение между условиями парное.
+        self.food_type = np.zeros((self.H, self.W), dtype=np.int8)
+        self.good_type = 1               # при старте питателен цвет +1 (см. предфильтр предка)
+        self.switches = []               # тики, на которых менялось правило
+        self.last_switch = 0
+        self.next_switch = None
+        if cfg.food_types == 2:
+            self.food_type = self._make_types()
+            self._switch_rng = np.random.default_rng(cfg.seed * 7919 + 13)
+            if cfg.switch_mean > 0:
+                self.next_switch = cfg.switch_from_tick + self._draw_interval()
+
+    def _smooth_field(self, freq):
+        """Низкочастотный шум в спектре (без зависимостей): основа для пятен."""
         noise = self.rng.standard_normal((self.H, self.W))
         fy = np.fft.fftfreq(self.H)[:, None]
         fx = np.fft.fftfreq(self.W)[None, :]
         radius = np.sqrt(fy ** 2 + fx ** 2)
-        kernel = np.exp(-0.5 * (radius / self.cfg.patch_freq) ** 2)
+        kernel = np.exp(-0.5 * (radius / freq) ** 2)
         smooth = np.real(np.fft.ifft2(np.fft.fft2(noise) * kernel))
-        smooth = (smooth - smooth.mean()) / (smooth.std() + 1e-9)
+        return (smooth - smooth.mean()) / (smooth.std() + 1e-9)
+
+    def _make_capacity(self):
+        """Пятна через низкочастотную фильтрацию белого шума в спектре (без зависимостей)."""
+        smooth = self._smooth_field(self.cfg.patch_freq)
         cap = np.clip(smooth - self.cfg.patch_threshold, 0.0, None)
         if cap.max() > 0:
             cap /= cap.max()
         return cap.astype(np.float32)
+
+    def _make_types(self):
+        """Цвет клетки: знак второго, более мелкозернистого поля. Половина на половину."""
+        field = self._smooth_field(self.cfg.type_patch_freq)
+        return (field > np.median(field)).astype(np.int8)
+
+    def _draw_interval(self):
+        T, j = self.cfg.switch_mean, self.cfg.switch_jitter
+        lo, hi = max(1, int(T * (1 - j))), max(2, int(T * (1 + j)))
+        return self.t + int(self._switch_rng.integers(lo, hi + 1))
+
+    def switch_rule(self):
+        """Сменить правило: питательный тип становится ядовитым и наоборот."""
+        self.good_type = 1 - self.good_type
+        self.switches.append(self.t)
+        self.last_switch = self.t
+
+    def energy_factor(self, y, x):
+        """Множитель энергии за съеденное в клетках (y, x): 1 или toxic_factor."""
+        if self.cfg.food_types != 2:
+            return 1.0
+        good = self.food_type[y, x] == self.good_type
+        return np.where(good, 1.0, self.cfg.toxic_factor).astype(np.float32)
+
+    def color(self, y, x):
+        """Цвет клетки как сенсорный сигнал: -1 / +1. Не говорит, какой съедобен."""
+        return (self.food_type[y, x].astype(np.float32) * 2.0 - 1.0)
+
+    @property
+    def ticks_since_switch(self):
+        return self.t - self.last_switch
 
     def season(self) -> float:
         if self.cfg.season_period <= 0:
@@ -53,6 +104,9 @@ class World:
             self.signs *= self.cfg.sign_decay
             self.sign_age += 1.0
         self.t += 1
+        if self.next_switch is not None and self.t >= self.next_switch:
+            self.switch_rule()
+            self.next_switch = self._draw_interval()
 
     @property
     def fertile_fraction(self) -> float:
@@ -72,6 +126,9 @@ class World:
         cfg = self.cfg
         k_total = float(self.capacity.sum())
         inflow = cfg.regrowth * k_total * cfg.energy_per_resource
+        if cfg.food_types == 2:
+            # питательна в каждый момент только половина ёмкости
+            inflow *= float((self.food_type == self.good_type).mean())
         per_agent = cfg.basal_cost + 0.6 * cfg.move_cost
         return dict(cells_fertile=self.fertile_fraction,
                     capacity_total=k_total,

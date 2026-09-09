@@ -15,7 +15,7 @@ BASE = "https://minimir.ilinmaks.com"
 GH = "https://github.com/akela1308/minimir"
 ART_VIEWER = "https://claude.ai/code/artifact/e9a5c20f-0137-466d-8f7b-769b5a24db34"
 ART_ABOUT = "https://claude.ai/code/artifact/7876772a-43f0-4fb5-b761-db802aa896a9"
-LASTMOD = "2026-07-27"
+LASTMOD = "2026-09-09"
 
 docs = Path("docs"); docs.mkdir(exist_ok=True)
 
@@ -87,17 +87,10 @@ SIM_DESC = ("The exact recorded run behind the research (Python engine): creatur
             "by energy, food, marks, and charts of population, energy, mutual information "
             "and cooperation.")
 
-(docs / "index.html").write_text(
-    wrap("live.html", "mini·world — live artificial-life experiment", LIVE_DESC, BASE + "/"),
-    encoding="utf-8")
-(docs / "about.html").write_text(
-    wrap("about.html", "mini·world — about the project", ABOUT_DESC, BASE + "/about.html",
-         replaces=[(ART_VIEWER, "index.html")]),
-    encoding="utf-8")
-(docs / "sim.html").write_text(
-    wrap("minimir_viewer.html", "mini·world — exact recorded run", SIM_DESC, BASE + "/sim.html",
-         replaces=[(ART_ABOUT, "about.html")]),
-    encoding="utf-8")
+# Страницы (index.html, interoception.html, about.html, sim.html, agi.html)
+# собираются и правятся руками: генератор их больше не перезаписывает, иначе
+# ручные правки (переезд на два эксперимента, пять языков) молча теряются.
+# Здесь остаётся только служебное: favicon, robots.txt, sitemap.xml, og.png.
 
 (docs / "favicon.svg").write_text(
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
@@ -114,7 +107,9 @@ robots += f"Sitemap: {BASE}/sitemap.xml\n"
 (docs / "robots.txt").write_text(robots, encoding="utf-8")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for loc, pr in ((BASE + "/", "1.0"), (BASE + "/about.html", "0.8"), (BASE + "/sim.html", "0.6")):
+for loc, pr in ((BASE + "/", "1.0"), (BASE + "/interoception.html", "0.9"),
+                (BASE + "/journal.html", "0.9"), (BASE + "/agi.html", "0.8"),
+                (BASE + "/about.html", "0.8"), (BASE + "/sim.html", "0.6")):
     sm += (f"  <url><loc>{loc}</loc><lastmod>{LASTMOD}</lastmod>"
            f"<changefreq>weekly</changefreq><priority>{pr}</priority></url>\n")
 sm += "</urlset>\n"
@@ -149,6 +144,7 @@ try:
 except Exception as e:
     print("og.png skipped:", e)
 
-for f in ("index.html", "about.html", "sim.html"):
-    print(f"docs/{f}: {(docs/f).stat().st_size/1024:.0f} KB")
+for f in ("index.html", "interoception.html", "about.html", "sim.html", "agi.html"):
+    if (docs / f).exists():
+        print(f"docs/{f}: {(docs/f).stat().st_size/1024:.0f} KB")
 print("robots.txt, sitemap.xml, favicon.svg ok")

@@ -47,7 +47,30 @@
       signsEnabled: true, signDecay: 0.985, markCost: 0.3,
       // пластичность
       hebbRateInit: 0.002, hebbRateSigma: 0.0005, hebbEvery: 5, hebbEnabled: true,
-      weightClip: 3.0
+      weightClip: 3.0,
+      // наследование прижизненных изменений весов. true = как было (ламарк,
+      // мир A), false = барьер Вейсмана: ребёнок получает геном родителя
+      lamarck: true,
+      // --- мир B: «когда выгодно учиться» (протокол B, PREREGISTRATION_B.md) ---
+      // Два цвета еды; в каждый момент один питателен, другой ядовит, и роли
+      // меняются в непредсказуемые моменты. Всё, что ниже, при foodTypes=1
+      // не расходует ни одного числа из генератора: мир A остаётся прежним.
+      foodTypes: 1,          // 1 = старый мир, 2 = два цвета еды
+      typePatchFreq: 19,     // пятна цвета мельче пятен еды (~2.4× по частоте)
+      switchMean: 0,         // T: средний интервал между сменами, 0 = никогда
+      switchJitter: 0.5,     // интервал равномерен на [T(1-j), T(1+j)]
+      switchFromTick: 5000,  // прогрев: правило меняется на выжившей популяции
+      toxicFactor: -0.5,     // энергия ядовитого укуса относительно питательного
+      // «вкус»: одна пластичная связь цвет -> «есть» (единственное, что
+      // учится при жизни в протоколе B)
+      taste: false,
+      tasteInit: 3.0,        // предок ест цвет +1, избегает -1
+      tasteClip: 6.0,
+      tasteLrInit: 0.1,      // стартовая скорость обучения вкуса
+      tasteLrSigma: 0.3,     // мутация скорости: множитель exp(N(0, sigma))
+      tasteLrMax: 4.0,
+      tasteDeadzone: 0.5,    // изменения энергии меньше порога правило не видит
+      tasteLearning: true    // false = ген скорости дрейфует, но не применяется
     };
   }
 
@@ -57,6 +80,8 @@
     this.ancestor = ancestor || null;   // {W1,b1,W2,b2} — жизнеспособный предок
     this.rng = mulberry32(seed);
     var c = this.cfg, n = c.maxPop, H = c.H, W = c.W;
+    // входы 23-24 в мире с двумя цветами заняты цветом, знаковый слой выключен
+    if (c.foodTypes === 2) c.signsEnabled = false;
     this.tick = 0; this.extinctAt = null;
     // мир
     this.capacity = this._makeCapacity();
@@ -65,6 +90,19 @@
     this.signs = new Float32Array(H * W * 2);
     this.signAuthor = new Float32Array(H * W * 3);
     this.signAge = new Float32Array(H * W);
+    // --- мир B: цвет клетки (фиксирован навсегда) и расписание смен правила ---
+    this.foodType = null;      // 0/1 по клеткам; цвет = foodType*2-1
+    this.goodType = 1;         // при старте питателен цвет +1 (см. предка мира B)
+    this.switches = [];        // тики, на которых менялось правило
+    this.lastSwitch = 0; this.nextSwitch = null;
+    this.eatGood = 0; this.eatBad = 0;
+    if (c.foodTypes === 2) {
+      this.foodType = this._makeTypes();
+      // моменты смен — из ОТДЕЛЬНОГО генератора, засеянного только seed'ом:
+      // расписание не зависит от того, что происходило в мире
+      this._switchRng = mulberry32((seed * 7919 + 13) >>> 0);
+      if (c.switchMean > 0) this.nextSwitch = c.switchFromTick + this._drawInterval();
+    }
     // агенты (struct-of-arrays)
     this.alive = new Uint8Array(n);
     this.x = new Int16Array(n); this.y = new Int16Array(n);
@@ -84,6 +122,13 @@
     this.W2 = new Float32Array(n * N_HID * N_OUT);
     this.b2 = new Float32Array(n * N_OUT);
     this.lr = new Float32Array(n);
+    // барьер Вейсмана: геномная копия выходного слоя (наследуется она, а не
+    // выученные веса). Заводим только когда барьер включён
+    this.W2g = c.lamarck ? null : new Float32Array(n * N_HID * N_OUT);
+    // вкус: фенотип (учится), геном (наследуется), скорость обучения (ген)
+    this.taste = new Float32Array(n);
+    this.tasteG = new Float32Array(n);
+    this.tasteLr = new Float32Array(n);
     this._free = [];
     for (var s = n - 1; s >= 0; s--) this._free.push(s);
     // метрики
@@ -103,20 +148,31 @@
     this._seedInitial();
   }
 
-  Engine.prototype._makeCapacity = function () {
-    // пятнистая ёмкость через билинейно интерполированный низкочастотный шум
-    var c = this.cfg, H = c.H, W = c.W, f = c.patchFreq;
+  // низкочастотное поле: билинейно интерполированный шум на сетке f×f.
+  // Общая основа и для пятен еды, и (в мире B) для пятен цвета
+  // Границы последнего поля (до округления во float32): _makeCapacity считает
+  // их ровно так же, как считал до вынесения генератора в отдельный метод
+  Engine.prototype._lowFreqField = function (f) {
+    var c = this.cfg, H = c.H, W = c.W;
     var cw = f + 1, ch = f + 1, coarse = new Float32Array(cw * ch);
     for (var i = 0; i < cw * ch; i++) coarse[i] = this.rng();
-    var cap = new Float32Array(H * W), mn = 1e9, mx = -1e9;
+    var out = new Float32Array(H * W), mn = 1e9, mx = -1e9;
     for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
       var gx = x / W * f, gy = y / H * f;
       var x0 = Math.floor(gx), y0 = Math.floor(gy), tx = gx - x0, ty = gy - y0;
       var a = coarse[y0 * cw + x0], b = coarse[y0 * cw + x0 + 1];
       var cc = coarse[(y0 + 1) * cw + x0], d = coarse[(y0 + 1) * cw + x0 + 1];
       var v = a * (1 - tx) * (1 - ty) + b * tx * (1 - ty) + cc * (1 - tx) * ty + d * tx * ty;
-      cap[y * W + x] = v; if (v < mn) mn = v; if (v > mx) mx = v;
+      out[y * W + x] = v; if (v < mn) mn = v; if (v > mx) mx = v;
     }
+    this._fieldMin = mn; this._fieldMax = mx;
+    return out;
+  };
+
+  Engine.prototype._makeCapacity = function () {
+    // пятнистая ёмкость через билинейно интерполированный низкочастотный шум
+    var c = this.cfg, H = c.H, W = c.W;
+    var cap = this._lowFreqField(c.patchFreq), mn = this._fieldMin, mx = this._fieldMax;
     var mxc = 0;
     for (var k = 0; k < H * W; k++) {
       var vv = (cap[k] - mn) / (mx - mn + 1e-9) - c.patchThreshold;
@@ -125,6 +181,34 @@
     if (mxc > 0) for (var m = 0; m < H * W; m++) cap[m] /= mxc;
     return cap;
   };
+
+  // --- мир B: цвет клетки, смена правила ---
+  Engine.prototype._makeTypes = function () {
+    // цвет клетки — знак второго, более мелкозернистого поля, половина на
+    // половину (медиана). Оба цвета обычно есть в окрестности агента
+    var c = this.cfg, HW = c.H * c.W;
+    var field = this._lowFreqField(c.typePatchFreq);
+    var srt = Array.prototype.slice.call(field).sort(function (a, b) { return a - b; });
+    var med = srt[HW >> 1];
+    var t = new Uint8Array(HW);
+    for (var i = 0; i < HW; i++) t[i] = field[i] > med ? 1 : 0;
+    return t;
+  };
+  Engine.prototype._drawInterval = function () {
+    // интервал равномерен на [T(1-j), T(1+j)], целые тики
+    var c = this.cfg, T = c.switchMean, j = c.switchJitter;
+    var lo = Math.max(1, (T * (1 - j)) | 0), hi = Math.max(2, (T * (1 + j)) | 0);
+    return this.tick + (lo + ((this._switchRng() * (hi - lo + 1)) | 0));
+  };
+  Engine.prototype.switchRule = function () {
+    // питательный цвет становится ядовитым и наоборот
+    this.goodType = 1 - this.goodType;
+    this.switches.push(this.tick); this.lastSwitch = this.tick;
+  };
+  Engine.prototype.colorAt = function (cell) {
+    return this.foodType[cell] * 2 - 1;      // -1 / +1; съедобность не сообщает
+  };
+  Engine.prototype.ticksSinceSwitch = function () { return this.tick - this.lastSwitch; };
 
   Engine.prototype.normal = function () {
     // Бокс–Мюллер
@@ -154,7 +238,13 @@
     for (var j = 0; j < N_HID; j++) this.b1[s * N_HID + j] = ab1[j] + this.normal() * fs;
     for (var p = 0; p < N_HID * N_OUT; p++) this.W2[s * N_HID * N_OUT + p] = aW2[p] + this.normal() * fs;
     for (var r = 0; r < N_OUT; r++) this.b2[s * N_OUT + r] = ab2[r] + this.normal() * fs;
+    if (this.W2g) this.W2g.set(this.W2.subarray(s * N_HID * N_OUT, (s + 1) * N_HID * N_OUT),
+                               s * N_HID * N_OUT);
     this.lr[s] = c.hebbRateInit;
+    if (c.taste) {       // предок мира B: врождённый вкус к цвету +1
+      this.tasteG[s] = c.tasteInit; this.taste[s] = c.tasteInit;
+      this.tasteLr[s] = c.tasteLrInit;
+    }
     this.alive[s] = 1; this.pop++;
     this.x[s] = (this.rng() * c.W) | 0; this.y[s] = (this.rng() * c.H) | 0;
     this.heading[s] = (this.rng() * 8) | 0;
@@ -240,16 +330,24 @@
         if (bj >= 0 && best < c.faceTol) { X[16] = 1; X[17] = this.memOut[id * c.memorySlots + bj]; }
       }
       X[18] = this.resource[yy * W + xx];
-      // знаки под собой и впереди
-      X[19] = this.signs[(yy * W + xx) * 2]; X[20] = this.signs[(yy * W + xx) * 2 + 1];
-      var ay = ((yy + OFF_Y[hd]) % H + H) % H, ax = ((xx + OFF_X[hd]) % W + W) % W;
-      X[21] = this.signs[(ay * W + ax) * 2]; X[22] = this.signs[(ay * W + ax) * 2 + 1];
-      var present = Math.abs(X[19]) + Math.abs(X[20]) > 1e-3;
-      if (present) {
-        var mine = Math.abs(this.signAuthor[(yy * W + xx) * 3] - this.face[id * 3])
-          + Math.abs(this.signAuthor[(yy * W + xx) * 3 + 1] - this.face[id * 3 + 1])
-          + Math.abs(this.signAuthor[(yy * W + xx) * 3 + 2] - this.face[id * 3 + 2]) < c.faceTol;
-        X[23] = mine ? 1 : 0;
+      if (c.foodTypes === 2) {
+        // мир B: слоты 23-24 несут цвет еды под собой и впереди. Цвет ничего
+        // не говорит о съедобности: это надо угадать или выучить
+        var by = ((yy + OFF_Y[hd]) % H + H) % H, bx = ((xx + OFF_X[hd]) % W + W) % W;
+        X[23] = this.colorAt(yy * W + xx);
+        X[24] = this.colorAt(by * W + bx);
+      } else {
+        // знаки под собой и впереди
+        X[19] = this.signs[(yy * W + xx) * 2]; X[20] = this.signs[(yy * W + xx) * 2 + 1];
+        var ay = ((yy + OFF_Y[hd]) % H + H) % H, ax = ((xx + OFF_X[hd]) % W + W) % W;
+        X[21] = this.signs[(ay * W + ax) * 2]; X[22] = this.signs[(ay * W + ax) * 2 + 1];
+        var present = Math.abs(X[19]) + Math.abs(X[20]) > 1e-3;
+        if (present) {
+          var mine = Math.abs(this.signAuthor[(yy * W + xx) * 3] - this.face[id * 3])
+            + Math.abs(this.signAuthor[(yy * W + xx) * 3 + 1] - this.face[id * 3 + 1])
+            + Math.abs(this.signAuthor[(yy * W + xx) * 3 + 2] - this.face[id * 3 + 2]) < c.faceTol;
+          X[23] = mine ? 1 : 0;
+        }
       }
 
       // ---- forward pass ----
@@ -270,12 +368,20 @@
       this.mem[id * N_MEM] = Math.tanh(out[N_ACT]); this.mem[id * N_MEM + 1] = Math.tanh(out[N_ACT + 1]);
       var sc0 = Math.tanh(out[N_ACT + N_MEM]), sc1 = Math.tanh(out[N_ACT + N_MEM + 1]);
 
+      // вкус: прибавка к логиту «есть» знаком цвета, только если под ногами еда
+      var tPre = 0, tAdd = 0, tPost = 0;
+      if (c.taste) {
+        tPre = X[23] * (X[18] > 0.05 ? 1 : 0);
+        tAdd = this.taste[id] * tPre;
+        tPost = Math.tanh(out[A_EAT] + tAdd);
+      }
       // выбор действия (argmax по логитам с масками)
       var act = 0, bestv = -Infinity;
       for (var la = 0; la < N_ACT; la++) {
         if (la === A_MARK && !c.signsEnabled) continue;
         if ((la === A_GIVE || la === A_TAKE) && !social) continue;
-        if (out[la] > bestv) { bestv = out[la]; act = la; }
+        var lv = (c.taste && la === A_EAT) ? out[la] + tAdd : out[la];
+        if (lv > bestv) { bestv = lv; act = la; }
       }
       if (c.actionNoise > 0 && this.rng() < c.actionNoise) {
         var kk = social ? N_ACT : N_ACT - 3;
@@ -308,7 +414,15 @@
       } else if (act === A_EAT) {
         var cell = yy * W + xx, take = Math.min(this.resource[cell], c.bite);
         this.resource[cell] -= take; if (this.resource[cell] < 0) this.resource[cell] = 0;
-        this.E[id] += take * c.energyPerRes; cost += c.eatCost;
+        if (c.foodTypes === 2) {
+          // питателен только цвет goodType, второй ядовит (toxicFactor < 0)
+          var good = this.foodType[cell] === this.goodType;
+          this.E[id] += take * c.energyPerRes * (good ? 1 : c.toxicFactor);
+          if (take > 0.01) { if (good) this.eatGood++; else this.eatBad++; }
+        } else {
+          this.E[id] += take * c.energyPerRes;
+        }
+        cost += c.eatCost;
       } else if (act === A_MARK) {
         var cm = yy * W + xx;
         this.signs[cm * 2] = sc0; this.signs[cm * 2 + 1] = sc1;
@@ -332,6 +446,17 @@
       if (this.E[id] > c.eMax) this.E[id] = c.eMax; if (this.E[id] < -1) this.E[id] = -1;
       this.Elag[id] += 0.1 * (this.E[id] - this.Elag[id]);
       this.age[id]++;
+
+      // вкус: трёхфакторное правило на одном синапсе (до × после × модулятор).
+      // Модулятор — изменение энергии за тик (еда или яд), с мёртвой зоной:
+      // обычный обмен веществ, шаг и поворот правило не видит
+      if (c.taste && c.tasteLearning) {
+        var dE = this.E[id] - eBefore;
+        if (Math.abs(dE) < c.tasteDeadzone) dE = 0;
+        var tmod = Math.max(-1, Math.min(1, dE / 2));
+        var tv = this.taste[id] + this.tasteLr[id] * tmod * tPre * tPost;
+        this.taste[id] = tv > c.tasteClip ? c.tasteClip : (tv < -c.tasteClip ? -c.tasteClip : tv);
+      }
 
       // пластичность (модулируется изменением энергии)
       if (c.hebbEnabled && this.tick % c.hebbEvery === 0) {
@@ -359,6 +484,10 @@
       for (var sa = 0; sa < HW; sa++) this.signAge[sa] += 1;
     }
     this.tick++;
+    // смена правила: моменты непредсказуемы, записать их в геном нельзя
+    if (this.nextSwitch !== null && this.tick >= this.nextSwitch) {
+      this.switchRule(); this.nextSwitch = this._drawInterval();
+    }
     return true;
   };
 
@@ -409,8 +538,38 @@
     this.lr[s] = Math.abs(this.lr[par] + this.normal() * c.hebbRateSigma);
     this._mutArr(this.W1, par * N_IN * N_HID, s * N_IN * N_HID, N_IN * N_HID);
     this._mutArr(this.b1, par * N_HID, s * N_HID, N_HID);
-    this._mutArr(this.W2, par * N_HID * N_OUT, s * N_HID * N_OUT, N_HID * N_OUT);
+    if (this.W2g) {
+      // барьер Вейсмана: наследуется геном родителя, а не выученные им веса
+      this._mutArr2(this.W2g, this.W2g, this.W2,
+                    par * N_HID * N_OUT, s * N_HID * N_OUT, N_HID * N_OUT);
+    } else {
+      this._mutArr(this.W2, par * N_HID * N_OUT, s * N_HID * N_OUT, N_HID * N_OUT);
+    }
     this._mutArr(this.b2, par * N_OUT, s * N_OUT, N_OUT);
+    if (c.taste) {
+      // вкус наследуется как обычный вес; фенотип при рождении равен геному
+      var tg = this.tasteG[par];
+      if (this.rng() < c.mutationRate) tg += this.normal() * c.mutationSigma;
+      tg = tg > c.tasteClip ? c.tasteClip : (tg < -c.tasteClip ? -c.tasteClip : tg);
+      this.tasteG[s] = tg; this.taste[s] = tg;
+      // скорость обучения — тоже ген: множительная мутация, чтобы отбор мог
+      // поднять её на порядки за десятки поколений
+      if (c.tasteLrSigma > 0) {
+        var v = this.tasteLr[par] * Math.exp(this.normal() * c.tasteLrSigma);
+        this.tasteLr[s] = v > c.tasteLrMax ? c.tasteLrMax : (v < 0 ? 0 : v);
+      } else {
+        this.tasteLr[s] = this.tasteLr[par];
+      }
+    }
+  };
+  // мутация из генома родителя сразу в геном и в рабочие веса ребёнка
+  Engine.prototype._mutArr2 = function (src, dstG, dstW, from, to, len) {
+    var c = this.cfg;
+    for (var i = 0; i < len; i++) {
+      var v = src[from + i];
+      if (this.rng() < c.mutationRate) v += this.normal() * c.mutationSigma;
+      dstG[to + i] = v; dstW[to + i] = v;
+    }
   };
   Engine.prototype._mutArr = function (arr, from, to, len) {
     var c = this.cfg;
@@ -459,6 +618,36 @@
     for (var a = 0; a < this.cfg.maxPop; a++) if (this.alive[a]) { s += this.E[a]; n++; }
     return n ? s / n : 0;
   };
+  // --- приборы мира B ---
+  Engine.prototype._aliveVals = function (arr) {
+    var a = [];
+    for (var i = 0; i < this.cfg.maxPop; i++) if (this.alive[i]) a.push(arr[i]);
+    return a;
+  };
+  Engine.prototype.tasteLrMedian = function () {           // главный показатель
+    var a = this._aliveVals(this.tasteLr);
+    if (!a.length) return null;
+    a.sort(function (x, y) { return x - y; });
+    return a[a.length >> 1];
+  };
+  Engine.prototype.tasteGMean = function () {              // врождённый вкус
+    var a = this._aliveVals(this.tasteG);
+    if (!a.length) return null;
+    var s = 0; for (var i = 0; i < a.length; i++) s += a[i];
+    return s / a.length;
+  };
+  Engine.prototype.tasteMean = function () {
+    var a = this._aliveVals(this.taste);
+    if (!a.length) return null;
+    var s = 0; for (var i = 0; i < a.length; i++) s += a[i];
+    return s / a.length;
+  };
+  Engine.prototype.eatAccuracy = function () {             // доля укусов съедобного
+    var t = this.eatGood + this.eatBad;
+    return t ? this.eatGood / t : null;
+  };
+  Engine.prototype.resetEat = function () { this.eatGood = this.eatBad = 0; };
+
   Engine.prototype.medianLife = function () {
     if (!this.lifespans.length) return 0;
     var a = this.lifespans.slice().sort(function (x, y) { return x - y; });
@@ -522,8 +711,45 @@
     return null;
   }
 
+  // --- предок мира B ---
+  // Случайный геном, который И различает цвет, И умеет кормиться, за разумное
+  // число попыток не находится (проверено в Python: 0 из 600). Поэтому предок
+  // мира B строится как рукописный @ancestor в Avida: тот же случайный
+  // кормящийся геном, что в мире A, ослеплённый к цвету, плюс врождённый вкус.
+  function blindToColour(g) {
+    var W1 = new Float32Array(g.W1);
+    for (var j = 0; j < N_HID; j++) { W1[23 * N_HID + j] = 0; W1[24 * N_HID + j] = 0; }
+    return { W1: W1, b1: new Float32Array(g.b1),
+             W2: new Float32Array(g.W2), b2: new Float32Array(g.b2) };
+  }
+  function findViableAncestorB(seed, cfg, opts) {
+    opts = opts || {};
+    var maxTries = opts.maxTries || 8000, synthCap = opts.synthCap || 200;
+    // тот же поток случайных геномов и тот же предфильтр, что в мире A
+    var rng = mulberry32((seed * 1000003 + 7) >>> 0);
+    var mini = Object.assign(defaults(), cfg || {}, {
+      H: 48, W: 48, initPop: 24, maxPop: 400, crowdCost: 0, seasonPeriod: 0,
+      socialFromTick: 1e9, signsEnabled: false, hebbEnabled: false, actionNoise: 0,
+      foundingSigma: 0.05,
+      foodTypes: 2, taste: true, switchMean: 0    // предок отбирается при стабильном правиле
+    });
+    var synth = 0;
+    for (var attempt = 1; attempt <= maxTries; attempt++) {
+      var g = randomGenome(rng, mini);
+      if (!passesSynthetic(g)) continue;
+      synth++;
+      var gb = blindToColour(g);
+      var eng = new Engine(seed, mini, gb);
+      for (var t = 0; t < 3000; t++) if (!eng.step()) break;
+      if (eng.extinctAt === null && eng.pop >= 36) return { genome: gb, tries: attempt };
+      if (synth > synthCap) break;
+    }
+    return null;
+  }
+
   var API = { Engine: Engine, miFromHist: miFromHist,
     findViableAncestor: findViableAncestor, randomGenome: randomGenome,
+    findViableAncestorB: findViableAncestorB, blindToColour: blindToColour,
     passesSynthetic: passesSynthetic, defaults: defaults,
     A: { FWD: A_FWD, LEFT: A_LEFT, RIGHT: A_RIGHT, EAT: A_EAT, REST: A_REST, GIVE: A_GIVE, TAKE: A_TAKE, MARK: A_MARK } };
   if (typeof module !== "undefined" && module.exports) module.exports = API;

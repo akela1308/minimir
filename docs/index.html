@@ -3,26 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mini·world — live artificial-life experiment</title>
-<meta name="description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
-<meta name="keywords" content="artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
+<title>mini·world: when learning pays, live experiment</title>
+<meta name="description" content="A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?">
+<meta name="keywords" content="artificial life, ALife, evolutionary simulation, evolution of learning, Baldwin effect, lifetime plasticity, changing environment, Kozielska Weissing, agent-based model, preregistration, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
 <meta name="author" content="Maksim Ilin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://minimir.ilinmaks.com/">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mini-world">
-<meta property="og:title" content="mini·world — live artificial-life experiment">
-<meta property="og:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
+<meta property="og:title" content="mini·world: when learning pays, live experiment">
+<meta property="og:description" content="A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?">
 <meta property="og:url" content="https://minimir.ilinmaks.com/">
 <meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="mini·world — live artificial-life experiment">
-<meta name="twitter:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
+<meta name="twitter:title" content="mini·world: when learning pays, live experiment">
+<meta name="twitter:description" content="A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?">
 <meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://minimir.ilinmaks.com/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, evolution of learning, Baldwin effect, lifetime plasticity, changing environment, Kozielska Weissing, agent-based model, preregistration, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing when selection favours lifetime learning.","url":"https://minimir.ilinmaks.com/"}]}</script>
 </head>
 <body>
 <link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -143,6 +143,23 @@
   .speed button,.ctrlbtn,.clearbtn,.navlink{border-radius:0}
   .num,td,th,.mono,.big,.val,.hud,.gauge .val,.aggcard .v,.verdict .big{font-variant-numeric:tabular-nums}
 </style>
+<style>
+  /* --- добавления для эксперимента 2 --- */
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11px;color:var(--faint);
+    font-family:var(--mono);letter-spacing:.04em}
+  .legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:-1px}
+  .screen.pulse{box-shadow:inset 0 0 60px #04070980,0 0 0 2px var(--mark)}
+  .flash{position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:11px;
+    color:var(--ground);background:var(--mark);padding:3px 8px;opacity:0;
+    transition:opacity .3s;letter-spacing:.06em;font-weight:600}
+  .flash.on{opacity:1}
+  .spark{display:block;width:100%;height:34px;margin-top:5px}
+  .wlabel{gap:14px}
+  .wlabel span:last-child{text-align:right;white-space:nowrap}
+  .links{color:var(--dim);font-size:13px;line-height:1.9;margin-top:14px}
+  .links a{color:var(--cyan);text-decoration:none}
+  .links a:hover{text-decoration:underline}
+</style>
 
 <div class="wrap">
   <header>
@@ -152,10 +169,10 @@
         <div class="langbar" role="group" aria-label="language">
           <button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="es">ES</button><button data-set="zh">中文</button>
         </div>
-        <a class="navlink" id="t_about" href="about.html"></a>
-        <a class="navlink" id="t_rec" href="sim.html"></a>
+        <a class="navlink" id="t_exp1" href="interoception.html"></a>
         <a class="navlink" id="t_journal" href="journal.html"></a>
         <a class="navlink" id="t_agi" href="agi.html"></a>
+        <a class="navlink" id="t_about" href="about.html"></a>
       </div>
     </div>
     <h1 id="t_brand"></h1><span class="live-badge" id="t_live">live</span>
@@ -165,17 +182,19 @@
   <div class="stage">
     <div>
       <div class="worldwrap">
-        <div class="wlabel"><span id="t_self"></span><span id="hudS"></span></div>
-        <div class="screen">
+        <div class="wlabel"><span id="t_wswitch"></span><span id="hudS"></span></div>
+        <div class="screen" id="screenS">
           <canvas id="wS" width="512" height="512"></canvas>
+          <div class="flash" id="flash"></div>
           <div class="splash" id="splash"></div>
         </div>
+        <div class="legend" id="legend"></div>
       </div>
       <div class="transport">
         <button class="ctrlbtn" id="newbtn"></button>
         <span class="tlabel" id="t_speed"></span>
         <div class="speed" id="speed">
-          <button data-s="1" class="on">1×</button><button data-s="4">4×</button>
+          <button data-s="1">1×</button><button data-s="4" class="on">4×</button>
           <button data-s="16">16×</button><button data-s="64">64×</button>
         </div>
       </div>
@@ -189,7 +208,7 @@
         <div class="say wait" id="v_say"></div>
       </div>
       <div>
-        <div class="wlabel"><span id="t_ctrl"></span><span id="hudC"></span></div>
+        <div class="wlabel"><span id="t_wstat"></span><span id="hudC"></span></div>
         <div class="ctrlworld"><canvas id="wC" width="256" height="256"></canvas></div>
       </div>
       <div id="gauges"></div>
@@ -199,11 +218,7 @@
   <section>
     <h2 id="t_how_h"></h2>
     <div class="box" id="howbox"></div>
-  </section>
-
-  <section>
-    <h2 id="t_coop_h"></h2>
-    <div class="box" id="coopbox"></div>
+    <div class="links" id="linksbox"></div>
   </section>
 
   <section>
@@ -219,233 +234,333 @@
 <script src="engine.js"></script>
 <script>
 const I18N={
- en:{eye:"artificial life · live experiment",agi:"AGI ↗",about:"about ↗",rec:"exact recording ↗",journal:"journal ↗",live:"live",
-  brand:'mini<span class="dot">·</span>world',
-  lede:"A controlled experiment running in your browser right now. Two worlds live in parallel from the same founder and seed: in one (treatment) a creature senses its own energy; in the other (control) that signal is shuffled among creatures — same numbers, no self-knowledge. If knowing yourself matters, the treatment should score higher. The verdict accumulates as worlds live and die.",
-  self:"treatment · self",ctrl:"control · shuffled",speed:"speed",newpair:"↻ new pair",seeding:"seeding a viable world…",
-  hud_pop:"pop",hud_warm:"warm-up",hud_social:"social",
-  verdict_h:"live verdict on H1",v_delta:"self − shuffled",v_ci:"95% interval",v_noise:"world noise 2σ",v_blocks:"blocks",v_bits:"bits",
-  v_wait:"collecting data — need more measurement blocks…",
-  v_eff:"effect: seeing yourself beats the control beyond the world’s own noise.",
-  v_weak:"self beats the control, but the gap is within the world’s noise — not confirmed (this matches the recorded study).",
-  v_none:"not distinguishable from the control’s noise.",
-  g_pop:"population",g_pop_u:"creatures",g_smi:"self I(E;action)",g_cmi:"shuffled I(E;action)",g_mi_u:"bits/block",g_coop:"cooperation",g_coop_u:"give share",
-  how_h:"how this is an experiment, not a demo",
-  how:"Watching one world’s numbers proves nothing — a high score could come from indirect correlation, not from a creature using its self-signal. Science needs a <b>control</b>. So we run the same world twice: <b>treatment</b> (the creature sees its real energy) and <b>control</b> (the same signal shuffled among creatures — identical statistics, zero self-information). We measure <b>I(energy;action)</b> in blocks as both worlds live, and accumulate the difference. The criteria are fixed in code in advance — we do <b>not</b> tune anything to make an effect appear. This is a live, independent replication; the exact numbers differ from the recorded Python study (a reimplementation), but the logic of the test is the same.",
-  coop_h:"what is “cooperation” here",
-  coop:'Creatures aren’t told to cooperate — it survives selection or not. Two ways to treat a neighbour, straight from energy:',
-  give_t:"share",give_l1:'<span class="you">you</span>: <span class="neg">−8</span>',give_l2:'neighbour: <span class="pos">+8</span>',give_net:"a real cost to you, a real gain to the other — no free energy",
-  take_t:"take",take_l1:'<span class="you">you</span>: <span class="pos">+6</span>',take_l2:'neighbour: <span class="neg">−10</span>',take_net:"good for you, worse for the other — destructive overall",
-  coop_after:'The <b>cooperation</b> gauge shows the share of “share” among social acts. Here the energetics are <b>fair</b> (giving costs exactly what the other gains).',
-  log_h:"measurement blocks (saved in your browser)",
-  a_blocks:"blocks",a_self:"mean self",a_shuf:"mean shuffled",a_diff:"mean Δ",
-  c_t:"trial",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"clear saved data",
-  foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser replication — a companion to, not the source of, the research. Exact recorded run and full report: <a href="sim.html">recording</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- ru:{eye:"искусственная жизнь · живой эксперимент",agi:"AGI ↗",about:"о проекте ↗",rec:"точная запись ↗",journal:"журнал ↗",live:"live",
-  brand:'мини<span class="dot">·</span>мир',
-  lede:"Контролируемый эксперимент, идущий прямо сейчас в твоём браузере. Два мира живут параллельно от одного предка и семени: в одном (лечение) существо чувствует свою энергию; в другом (контроль) тот же сигнал перемешан между особями — те же числа, ноль знания о себе. Если знать себя важно, у лечения показатель должен быть выше. Вердикт копится, пока миры живут и вымирают.",
-  self:"лечение · self",ctrl:"контроль · shuffled",speed:"скорость",newpair:"↻ новая пара",seeding:"засеваю жизнеспособный мир…",
-  hud_pop:"поп",hud_warm:"прогрев",hud_social:"социум",
-  verdict_h:"живой вердикт по H1",v_delta:"self − shuffled",v_ci:"95% интервал",v_noise:"шум мира 2σ",v_blocks:"блоков",v_bits:"бит",
-  v_wait:"копим данные — нужно больше измерительных блоков…",
-  v_eff:"эффект: знание о себе обгоняет контроль сильнее собственного шума мира.",
-  v_weak:"self обгоняет контроль, но разрыв в пределах шума мира — не подтверждено (совпадает с записанным исследованием).",
-  v_none:"неотличимо от шума контроля.",
-  g_pop:"популяция",g_pop_u:"существ",g_smi:"self I(E;действие)",g_cmi:"shuffled I(E;действие)",g_mi_u:"бит/блок",g_coop:"кооперация",g_coop_u:"доля give",
-  how_h:"почему это эксперимент, а не демо",
-  how:"Смотреть на числа одного мира ничего не доказывает — высокий показатель может идти от косвенной корреляции, а не от того, что существо использует сигнал о себе. Науке нужен <b>контроль</b>. Поэтому мы гоняем один и тот же мир дважды: <b>лечение</b> (существо видит свою настоящую энергию) и <b>контроль</b> (тот же сигнал, переставленный между особями — та же статистика, ноль информации о себе). Меряем <b>I(энергия;действие)</b> блоками, пока оба мира живут, и копим разницу. Критерии зашиты в код заранее — мы <b>ничего</b> не крутим, чтобы эффект появился. Это живая независимая репликация; точные числа отличаются от записанного Python-исследования (движок переписан), но логика теста та же.",
-  coop_h:"что такое «кооперация» здесь",
-  coop:'Существ никто не заставляет сотрудничать — это либо закрепляется отбором, либо нет. Два способа обойтись с соседом, прямо из энергии:',
-  give_t:"поделиться",give_l1:'<span class="you">ты</span>: <span class="neg">−8</span>',give_l2:'сосед: <span class="pos">+8</span>',give_net:"реальная цена тебе, реальная польза другому — без бесплатной энергии",
-  take_t:"отнять",take_l1:'<span class="you">ты</span>: <span class="pos">+6</span>',take_l2:'сосед: <span class="neg">−10</span>',take_net:"тебе хорошо, другому хуже — в сумме разрушительно",
-  coop_after:'Прибор <b>кооперация</b> — доля «поделиться» среди социальных актов. Здесь энергетика <b>честная</b> (отдать стоит ровно столько, сколько получает другой).',
-  log_h:"измерительные блоки (сохранены в твоём браузере)",
-  a_blocks:"блоков",a_self:"среднее self",a_shuf:"среднее shuffled",a_diff:"среднее Δ",
-  c_t:"пара",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"очистить сохранённое",
-  foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная репликация — спутник исследования, а не его источник. Точная запись и полный отчёт: <a href="sim.html">запись</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- de:{eye:"künstliches leben · live-experiment",agi:"AGI ↗",about:"über ↗",rec:"exakte aufnahme ↗",journal:"journal ↗",live:"live",
-  brand:'mini<span class="dot">·</span>welt',
-  lede:"Ein kontrolliertes Experiment, das gerade in deinem Browser läuft. Zwei Welten leben parallel aus demselben Ahnen und Samen: in einer (Behandlung) spürt ein Wesen seine eigene Energie; in der anderen (Kontrolle) ist dieses Signal unter den Wesen gemischt — gleiche Zahlen, kein Selbstwissen. Wenn Selbsterkenntnis zählt, sollte die Behandlung höher liegen. Das Urteil wächst, während Welten leben und sterben.",
-  self:"Behandlung · self",ctrl:"Kontrolle · shuffled",speed:"Tempo",newpair:"↻ neues Paar",seeding:"säe eine lebensfähige Welt…",
-  hud_pop:"Pop",hud_warm:"Aufwärmen",hud_social:"sozial",
-  verdict_h:"Live-Urteil zu H1",v_delta:"self − shuffled",v_ci:"95%-Intervall",v_noise:"Weltrauschen 2σ",v_blocks:"Blöcke",v_bits:"Bit",
-  v_wait:"sammle Daten — mehr Messblöcke nötig…",
-  v_eff:"Effekt: Selbstwahrnehmung schlägt die Kontrolle über das Eigenrauschen der Welt hinaus.",
-  v_weak:"self schlägt die Kontrolle, aber der Abstand liegt im Weltrauschen — nicht bestätigt (deckt sich mit der aufgezeichneten Studie).",
-  v_none:"nicht vom Rauschen der Kontrolle unterscheidbar.",
-  g_pop:"Population",g_pop_u:"Wesen",g_smi:"self I(E;Handlung)",g_cmi:"shuffled I(E;Handlung)",g_mi_u:"Bit/Block",g_coop:"Kooperation",g_coop_u:"Geben-Anteil",
-  how_h:"warum das ein Experiment ist, keine Demo",
-  how:"Die Zahlen einer Welt zu betrachten beweist nichts — ein hoher Wert könnte aus indirekter Korrelation stammen, nicht daraus, dass ein Wesen sein Selbstsignal nutzt. Wissenschaft braucht eine <b>Kontrolle</b>. Also führen wir dieselbe Welt zweimal: <b>Behandlung</b> (das Wesen sieht seine echte Energie) und <b>Kontrolle</b> (dasselbe Signal unter den Wesen gemischt — gleiche Statistik, null Selbstinformation). Wir messen <b>I(Energie;Handlung)</b> in Blöcken, während beide Welten leben, und sammeln die Differenz. Die Kriterien stehen vorab im Code — wir <b>optimieren nichts</b>, damit ein Effekt erscheint. Eine lebende, unabhängige Replikation; die genauen Zahlen weichen von der aufgezeichneten Python-Studie ab (Reimplementierung), doch die Logik des Tests ist dieselbe.",
-  coop_h:"was „Kooperation“ hier bedeutet",
-  coop:'Den Wesen wird nicht befohlen zu kooperieren — es setzt sich durch Selektion durch oder nicht. Zwei Weisen, mit einem Nachbarn umzugehen, direkt aus der Energie:',
-  give_t:"teilen",give_l1:'<span class="you">du</span>: <span class="neg">−8</span>',give_l2:'Nachbar: <span class="pos">+8</span>',give_net:"echte Kosten für dich, echter Gewinn für den anderen — keine Gratis-Energie",
-  take_t:"nehmen",take_l1:'<span class="you">du</span>: <span class="pos">+6</span>',take_l2:'Nachbar: <span class="neg">−10</span>',take_net:"gut für dich, schlechter für den anderen — insgesamt zerstörerisch",
-  coop_after:'Die Anzeige <b>Kooperation</b> zeigt den Anteil des „Teilens“. Hier ist die Energetik <b>fair</b> (Geben kostet genau das, was der andere gewinnt).',
-  log_h:"Messblöcke (in deinem Browser gespeichert)",
-  a_blocks:"Blöcke",a_self:"Mittel self",a_shuf:"Mittel shuffled",a_diff:"Mittel Δ",
-  c_t:"Paar",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"gespeicherte Daten löschen",
-  foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Eine live im Browser laufende Replikation — Begleiter, nicht Quelle der Forschung. Aufnahme und Bericht: <a href="sim.html">Aufnahme</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- es:{eye:"vida artificial · experimento en vivo",agi:"AGI ↗",about:"acerca ↗",rec:"grabación exacta ↗",journal:"diario ↗",live:"en vivo",
-  brand:'mini<span class="dot">·</span>mundo',
-  lede:"Un experimento controlado ejecutándose ahora mismo en tu navegador. Dos mundos viven en paralelo desde el mismo fundador y semilla: en uno (tratamiento) una criatura percibe su propia energía; en el otro (control) esa señal se baraja entre las criaturas — mismos números, cero autoconocimiento. Si conocerse importa, el tratamiento debería puntuar más. El veredicto se acumula mientras los mundos viven y mueren.",
-  self:"tratamiento · self",ctrl:"control · shuffled",speed:"velocidad",newpair:"↻ nuevo par",seeding:"sembrando un mundo viable…",
-  hud_pop:"pobl",hud_warm:"calentamiento",hud_social:"social",
-  verdict_h:"veredicto en vivo sobre H1",v_delta:"self − shuffled",v_ci:"intervalo 95%",v_noise:"ruido del mundo 2σ",v_blocks:"bloques",v_bits:"bits",
-  v_wait:"recogiendo datos — faltan más bloques de medición…",
-  v_eff:"efecto: percibirse a sí misma supera al control más allá del propio ruido del mundo.",
-  v_weak:"self supera al control, pero la diferencia está dentro del ruido del mundo — no confirmado (coincide con el estudio grabado).",
-  v_none:"indistinguible del ruido del control.",
-  g_pop:"población",g_pop_u:"criaturas",g_smi:"self I(E;acción)",g_cmi:"shuffled I(E;acción)",g_mi_u:"bits/bloque",g_coop:"cooperación",g_coop_u:"proporción dar",
-  how_h:"por qué esto es un experimento, no una demo",
-  how:"Mirar los números de un mundo no prueba nada — una puntuación alta podría venir de correlación indirecta, no de que la criatura use su señal propia. La ciencia necesita un <b>control</b>. Así que ejecutamos el mismo mundo dos veces: <b>tratamiento</b> (la criatura ve su energía real) y <b>control</b> (la misma señal barajada entre las criaturas — estadística idéntica, cero información propia). Medimos <b>I(energía;acción)</b> por bloques mientras ambos mundos viven, y acumulamos la diferencia. Los criterios están fijados en el código de antemano — <b>no</b> ajustamos nada para que aparezca un efecto. Es una réplica viva e independiente; los números exactos difieren del estudio grabado en Python (una reimplementación), pero la lógica de la prueba es la misma.",
-  coop_h:"qué es la “cooperación” aquí",
-  coop:'A las criaturas no se les ordena cooperar — o lo fija la selección o no. Dos formas de tratar a un vecino, directas de la energía:',
-  give_t:"compartir",give_l1:'<span class="you">tú</span>: <span class="neg">−8</span>',give_l2:'vecino: <span class="pos">+8</span>',give_net:"un coste real para ti, una ganancia real para el otro — sin energía gratis",
-  take_t:"quitar",take_l1:'<span class="you">tú</span>: <span class="pos">+6</span>',take_l2:'vecino: <span class="neg">−10</span>',take_net:"bueno para ti, peor para el otro — destructivo en conjunto",
-  coop_after:'El indicador <b>cooperación</b> muestra la proporción de “compartir”. Aquí la energética es <b>justa</b> (dar cuesta exactamente lo que el otro recibe).',
-  log_h:"bloques de medición (guardados en tu navegador)",
-  a_blocks:"bloques",a_self:"media self",a_shuf:"media shuffled",a_diff:"media Δ",
-  c_t:"par",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"borrar datos guardados",
-  foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Una réplica en vivo en el navegador — compañera, no fuente, de la investigación. Grabación e informe: <a href="sim.html">grabación</a> · <a href="about.html">acerca</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- zh:{eye:"人工生命 · 实时实验",agi:"AGI ↗",about:"关于 ↗",rec:"精确录制 ↗",journal:"观测日志 ↗",live:"实时",
-  brand:'微<span class="dot">·</span>世界',
-  lede:"一个此刻正在你浏览器里运行的对照实验。两个世界从同一祖先与同一种子并行生活：其一（处理组）生物能感知自己的能量；另一（对照组）该信号在生物间被打乱——数字相同，却毫无自我信息。若“认识自己”重要，处理组的分数应更高。随着世界不断生死，结论会不断累积。",
-  self:"处理组 · self",ctrl:"对照组 · shuffled",speed:"速度",newpair:"↻ 新的一对",seeding:"正在播种一个可存活的世界…",
-  hud_pop:"种群",hud_warm:"预热",hud_social:"社会",
-  verdict_h:"关于 H1 的实时结论",v_delta:"self − shuffled",v_ci:"95% 区间",v_noise:"世界噪声 2σ",v_blocks:"区块",v_bits:"比特",
-  v_wait:"正在收集数据——需要更多测量区块…",
-  v_eff:"有效应：认识自己超过对照组，且超出世界自身的噪声。",
-  v_weak:"self 胜过对照组，但差距仍在世界噪声之内——未确认（与录制的研究一致）。",
-  v_none:"与对照组的噪声无法区分。",
-  g_pop:"种群",g_pop_u:"个体",g_smi:"self I(能量;行为)",g_cmi:"shuffled I(能量;行为)",g_mi_u:"比特/区块",g_coop:"合作",g_coop_u:"给予占比",
-  how_h:"为什么这是实验，而非演示",
-  how:"只看一个世界的数字什么也证明不了——高分可能来自间接相关，而非生物真的在使用自身信号。科学需要<b>对照</b>。于是我们把同一个世界跑两遍：<b>处理组</b>（生物看到自己真实的能量）与<b>对照组</b>（同样的信号在生物间被打乱——统计相同，自我信息为零）。当两个世界都活着时，我们按区块测量 <b>I(能量;行为)</b>，并累积其差值。判据事先写死在代码里——我们<b>不</b>为了制造效应而调参。这是一次实时的独立复现；确切数字与录制的 Python 研究不同（这是重实现），但检验的逻辑相同。",
-  coop_h:"这里的“合作”是什么",
-  coop:'没有谁命令生物合作——它要么被选择固定，要么不会。对待邻居有两种方式，直接源自能量：',
-  give_t:"分享",give_l1:'<span class="you">你</span>：<span class="neg">−8</span>',give_l2:'邻居：<span class="pos">+8</span>',give_net:"对你是真实代价，对对方是真实收益——没有免费能量",
-  take_t:"夺取",take_l1:'<span class="you">你</span>：<span class="pos">+6</span>',take_l2:'邻居：<span class="neg">−10</span>',take_net:"对你有利，对对方更糟——总体具破坏性",
-  coop_after:'<b>合作</b>指标显示“分享”的占比。这里的能量学是<b>公平的</b>（给予的代价恰好等于对方所得）。',
-  log_h:"测量区块（保存在你的浏览器）",
-  a_blocks:"区块",a_self:"self 均值",a_shuf:"shuffled 均值",a_diff:"Δ 均值",
-  c_t:"对",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"清除已保存数据",
-  foot:'项目与文章：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · 一个在浏览器中实时运行的复现——它是研究的伴随物，而非来源。精确录制与完整报告：<a href="sim.html">录制</a> · <a href="about.html">关于</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>。'},
+ en:{eye:"artificial life · experiment 2 · live",exp1:"experiment 1 ↗",journal:"journal ↗",agi:"AGI ↗",about:"about ↗",live:"live",
+  brand:'when learning <span class="dot">pays</span>',
+  lede:"Two worlds from one seed. In one the rule never changes: colour +1 is food, colour -1 is poison. In the other the rule flips at unpredictable moments, on average once per lifetime. The only thing the creatures can learn within a life is taste: which colour to eat. The speed of that learning is written in the genome. We watch whether selection switches it on where the world keeps changing the rules, and off where it does not.",
+  wswitch:"the rule changes, on average once per 600 ticks",wstat:"the rule never changes",
+  lg_edible:"edible now",lg_toxic:"poisonous now",lg_creature:"creature (brightness = energy)",
+  hud_tick:"tick",hud_pop:"pop",hud_since:"since last switch",hud_good:"edible now: colour",
+  switched:"the rule has flipped",
+  speed:"speed",newworld:"↻ new world",seeding:"seeding a viable world…",
+  verdict_h:"learning-rate gene",
+  v_switch:"changing",v_stat:"stationary",
+  v_warm:"warm-up: the rule has not changed yet.",
+  v_on:"selection switched learning on: in the changing world the speed gene grew {n}-fold.",
+  v_grow:"growing, but not yet tenfold.",
+  v_same:"no difference so far.",
+  v_dead_s:"the world did not survive the switch: the population died out, restarting in 5 seconds.",
+  v_dead_c:"the stationary world died out, restarting in 5 seconds.",
+  g_lr:"learning-rate gene",g_lr_u:"median, log scale",
+  g_taste:"innate taste",g_taste_u:"genome mean",
+  g_acc:"eating accuracy",g_acc_u:"share of edible bites",
+  g_sw:"rule switches",g_sw_u:"in this world",
+  how_h:"what is going on here",
+  p1:"The world is the one from the first experiment: a grid, food, creatures with a tiny neural net, no reward and no judge. Whoever eats enough energy reproduces. One thing is added: food comes in two colours, and at any moment one colour is nourishing while the other is poisonous (a bite takes away half of what the nourishing one would give).",
+  p2:"In the large world the rule flips at random moments, on average once per 600 ticks, roughly one lifetime. Writing that into a genome is impossible: the moments are unpredictable. Learning it within a life is possible: every creature has a taste, a single connection from colour to eat, and it changes by a three-factor rule: what you ate, what you got (food or poison), and how fast you learn. The learning speed is a gene: inherited, mutated, and selection can raise it or lower it. The small world is the same, except the rule never changes.",
+  p3:"What was predicted in advance. By the model of Kozielska and Weissing (2024), learning evolves only where the environment changes often, strongly and unpredictably, while in a stationary environment the innate wins and learning is selected away. Our July pilot showed the second half: in an unchanging world the learning speed halved. Here both halves are tested at once: in the changing world the speed gene should grow by an order of magnitude, in the stationary one it should not.",
+  p4:"An honest caveat. The first switch is a bottleneck: most creatures with an innate taste will be poisoned or starve, and the survivors are those who managed to relearn. Sometimes nobody survives, and the world restarts. That is not a bug but a failure boundary declared in advance (preregistration B, §7.3), and in the journal such runs are counted separately.",
+  p5:"What here is real and what is not. The world in your tab is computed for real, but it is a showcase of the method: one seed, one pair of worlds, all of it gone with the tab. The numbers we rely on accumulate elsewhere: every day GitHub servers compute six conditions on fresh seeds, and the observation journal recalculates the statistics over everything accumulated. Declared readings: 10, 20 and 40 seeds. In your tab four things differ from the daily run: the innate taste is weaker, the learning speed starts higher, the social layer is off and the warm-up is shorter. Otherwise almost every world dies at the very first switch, because relearning would cost more energy than a creature has. The comparison between the two worlds is unaffected: both start from the same value.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Preregistration B: hypotheses, criteria, failure boundaries</a> · <a href="journal.html">Observation journal</a> · <a href="interoception.html">Experiment 1: interoception (continues weekly)</a>',
+  log_h:"episodes accumulated in this browser",
+  a_eps:"episodes",a_ratio:"median ratio",a_dead:"changing worlds died",
+  c_n:"№",c_seed:"seed",c_ticks:"ticks",c_lrs:"speed gene, changing",c_lrn:"speed gene, stationary",c_ratio:"ratio",c_out:"outcome",
+  out_alive:"alive",out_dead:"died out",clear:"clear saved data",
+  foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser showcase, a companion to the research rather than its source. Accumulated numbers: <a href="journal.html">journal</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+
+ ru:{eye:"искусственная жизнь · эксперимент 2 · живой",exp1:"эксперимент 1 ↗",journal:"журнал ↗",agi:"AGI ↗",about:"о проекте ↗",live:"live",
+  brand:'когда выгодно <span class="dot">учиться</span>',
+  lede:"Два мира из одного семени. В одном правило не меняется: цвет +1 съедобен, цвет -1 ядовит. В другом правило переворачивается в непредсказуемые моменты, в среднем раз в жизнь. Единственное, что существа могут выучить при жизни, это вкус: какой цвет есть. Скорость этого обучения записана в геноме. Мы смотрим, включит ли её отбор там, где мир меняет правила, и выключит ли там, где не меняет.",
+  wswitch:"правило меняется, в среднем раз в 600 тиков",wstat:"правило не меняется",
+  lg_edible:"съедобно сейчас",lg_toxic:"ядовито сейчас",lg_creature:"существо (яркость = энергия)",
+  hud_tick:"тик",hud_pop:"особей",hud_since:"с последней смены",hud_good:"съедобен сейчас: цвет",
+  switched:"правило сменилось",
+  speed:"скорость",newworld:"↻ новый мир",seeding:"засеваю жизнеспособный мир…",
+  verdict_h:"ген скорости обучения",
+  v_switch:"меняющийся",v_stat:"стационарный",
+  v_warm:"прогрев: правило ещё не менялось.",
+  v_on:"отбор включил обучение: в меняющемся мире ген скорости вырос в {n} раз.",
+  v_grow:"растёт, но пока меньше десятикратного.",
+  v_same:"пока не отличается.",
+  v_dead_s:"мир не выдержал смены правила: популяция вымерла, перезапуск через 5 секунд.",
+  v_dead_c:"стационарный мир вымер, перезапуск через 5 секунд.",
+  g_lr:"ген скорости обучения",g_lr_u:"медиана, лог. шкала",
+  g_taste:"врождённый вкус",g_taste_u:"среднее по геномам",
+  g_acc:"точность еды",g_acc_u:"доля укусов съедобного",
+  g_sw:"смен правила",g_sw_u:"в этом мире",
+  how_h:"что здесь происходит",
+  p1:"Мир тот же, что в первом эксперименте: сетка, еда, существа с крошечной нейросетью, никакой награды и никакого судьи. Размножается тот, кто наел энергию. Добавлено одно: еда бывает двух цветов, и в каждый момент один цвет питателен, а другой ядовит (укус отнимает половину того, что дал бы питательный).",
+  p2:"В большом мире правило переворачивается в случайные моменты, в среднем раз в 600 тиков, примерно одна жизнь. Записать такое в геном нельзя: моменты непредсказуемы. Выучить при жизни можно: у каждого существа есть вкус, одна связь «цвет → есть», и она меняется по трёхфакторному правилу: что ел, что получил (еду или яд), с какой скоростью учишься. Скорость обучения это ген: наследуется, мутирует, и отбор может её поднять или опустить. В малом мире всё то же, только правило не меняется никогда.",
+  p3:"Что предсказано заранее. По модели Kozielska и Weissing (2024) обучение эволюционирует только там, где среда меняется часто, сильно и непредсказуемо, а в стационарной среде выигрывает врождённое, и обучение отбирается прочь. Наш июльский пилот показал второе: в неизменном мире скорость обучения упала вдвое. Здесь проверяются оба плеча сразу: в меняющемся мире ген скорости должен вырасти на порядок, в стационарном не должен.",
+  p4:"Честная оговорка. Первая смена правила это узкое горлышко: большинство существ с врождённым вкусом отравится или оголодает, выживут те, кто успел переучиться. Иногда не выживает никто, и мир перезапускается. Это не сбой, а граница провала, объявленная заранее (предрегистрация B, §7.3), и в журнале такие прогоны считаются отдельно.",
+  p5:"Что здесь настоящее, а что нет. Мир в вашей вкладке считается по-настоящему, но это витрина метода: одно семя, одна пара миров, всё исчезает вместе с вкладкой. Числа, на которые мы опираемся, копятся отдельно: каждый день на серверах GitHub считаются шесть условий на новых семенах, и журнал наблюдений пересчитывает статистику по всему накопленному. Объявленные чтения: 10, 20 и 40 семян. В вашей вкладке от суточного прогона отличаются четыре вещи: врождённый вкус слабее, стартовая скорость обучения выше, социальный слой выключен, прогрев короче. Иначе почти каждый мир гибнет на первой же смене, потому что переучивание стоит больше энергии, чем у существа есть. Сравнение двух миров от этого не страдает: у обоих старт одинаковый.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Предрегистрация B: гипотезы, критерии, границы провала</a> · <a href="journal.html">Журнал наблюдений</a> · <a href="interoception.html">Эксперимент 1: интероцепция (продолжается раз в неделю)</a>',
+  log_h:"накопленные эпизоды в этом браузере",
+  a_eps:"эпизодов",a_ratio:"медиана отношения",a_dead:"вымерло меняющихся",
+  c_n:"№",c_seed:"семя",c_ticks:"тиков",c_lrs:"ген скорости, меняющийся",c_lrn:"ген скорости, стационарный",c_ratio:"отношение",c_out:"исход",
+  out_alive:"жив",out_dead:"вымер",clear:"очистить",
+  foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная витрина метода, спутник исследования, а не его источник. Накопленные числа: <a href="journal.html">журнал</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+
+ de:{eye:"künstliches leben · experiment 2 · live",exp1:"Experiment 1 ↗",journal:"Journal ↗",agi:"AGI ↗",about:"über ↗",live:"live",
+  brand:'wann lernen sich <span class="dot">lohnt</span>',
+  lede:"Zwei Welten aus einem Samen. In der einen ändert sich die Regel nie: Farbe +1 ist Nahrung, Farbe -1 ist Gift. In der anderen kippt die Regel zu unvorhersehbaren Zeitpunkten, im Schnitt einmal pro Leben. Das Einzige, was die Wesen zu Lebzeiten lernen können, ist der Geschmack: welche Farbe man isst. Die Geschwindigkeit dieses Lernens steht im Genom. Wir schauen, ob die Selektion sie dort einschaltet, wo die Welt die Regeln ändert, und dort abschaltet, wo sie es nicht tut.",
+  wswitch:"die Regel ändert sich, im Schnitt alle 600 Ticks",wstat:"die Regel ändert sich nie",
+  lg_edible:"jetzt essbar",lg_toxic:"jetzt giftig",lg_creature:"Wesen (Helligkeit = Energie)",
+  hud_tick:"Tick",hud_pop:"Wesen",hud_since:"seit dem letzten Wechsel",hud_good:"jetzt essbar: Farbe",
+  switched:"die Regel ist gekippt",
+  speed:"Tempo",newworld:"↻ neue Welt",seeding:"säe eine lebensfähige Welt…",
+  verdict_h:"Gen der Lerngeschwindigkeit",
+  v_switch:"wechselnd",v_stat:"stationär",
+  v_warm:"Aufwärmen: die Regel hat sich noch nicht geändert.",
+  v_on:"Selektion hat das Lernen eingeschaltet: in der wechselnden Welt wuchs das Geschwindigkeitsgen um das {n}-fache.",
+  v_grow:"wächst, aber noch nicht zehnfach.",
+  v_same:"bisher kein Unterschied.",
+  v_dead_s:"die Welt hat den Regelwechsel nicht überstanden: die Population starb aus, Neustart in 5 Sekunden.",
+  v_dead_c:"die stationäre Welt ist ausgestorben, Neustart in 5 Sekunden.",
+  g_lr:"Gen der Lerngeschwindigkeit",g_lr_u:"Median, log. Skala",
+  g_taste:"angeborener Geschmack",g_taste_u:"Mittel der Genome",
+  g_acc:"Essgenauigkeit",g_acc_u:"Anteil essbarer Bisse",
+  g_sw:"Regelwechsel",g_sw_u:"in dieser Welt",
+  how_h:"was hier geschieht",
+  p1:"Die Welt ist dieselbe wie im ersten Experiment: ein Gitter, Nahrung, Wesen mit einem winzigen neuronalen Netz, keine Belohnung und kein Richter. Wer genug Energie frisst, pflanzt sich fort. Eines kommt hinzu: Nahrung gibt es in zwei Farben, und zu jedem Zeitpunkt ist eine Farbe nahrhaft und die andere giftig (ein Biss nimmt die Hälfte dessen, was die nahrhafte gäbe).",
+  p2:"In der großen Welt kippt die Regel zu zufälligen Zeitpunkten, im Schnitt alle 600 Ticks, also etwa ein Leben. Ins Genom schreiben lässt sich das nicht: die Zeitpunkte sind unvorhersehbar. Zu Lebzeiten lernen lässt es sich schon: jedes Wesen hat einen Geschmack, eine einzige Verbindung von Farbe zu essen, und sie ändert sich nach einer Drei-Faktoren-Regel: was du gegessen hast, was du bekommen hast (Nahrung oder Gift), und wie schnell du lernst. Die Lerngeschwindigkeit ist ein Gen: vererbt, mutierend, und die Selektion kann sie heben oder senken. Die kleine Welt ist dieselbe, nur ändert sich die Regel nie.",
+  p3:"Was vorab vorhergesagt wurde. Nach dem Modell von Kozielska und Weissing (2024) entwickelt sich Lernen nur dort, wo die Umwelt sich oft, stark und unvorhersehbar ändert, während in einer stationären Umwelt das Angeborene gewinnt und Lernen wegselektiert wird. Unser Pilot im Juli zeigte die zweite Hälfte: in einer unveränderlichen Welt halbierte sich die Lerngeschwindigkeit. Hier werden beide Hälften zugleich geprüft: in der wechselnden Welt soll das Geschwindigkeitsgen um eine Größenordnung wachsen, in der stationären nicht.",
+  p4:"Eine ehrliche Einschränkung. Der erste Wechsel ist ein Nadelöhr: die meisten Wesen mit angeborenem Geschmack werden vergiftet oder verhungern, und es überleben die, die rechtzeitig umgelernt haben. Manchmal überlebt niemand, und die Welt startet neu. Das ist kein Fehler, sondern eine vorab erklärte Fehlergrenze (Präregistrierung B, §7.3), und im Journal werden solche Läufe getrennt gezählt.",
+  p5:"Was hier echt ist und was nicht. Die Welt in deinem Tab wird wirklich gerechnet, aber sie ist ein Schaufenster der Methode: ein Samen, ein Paar Welten, alles verschwindet mit dem Tab. Die Zahlen, auf die wir uns stützen, sammeln sich anderswo: täglich rechnen GitHub-Server sechs Bedingungen auf frischen Samen, und das Beobachtungsjournal rechnet die Statistik über alles Gesammelte neu. Erklärte Ablesungen: 10, 20 und 40 Samen. In deinem Tab unterscheiden sich vier Dinge vom täglichen Lauf: der angeborene Geschmack ist schwächer, die Lerngeschwindigkeit startet höher, die soziale Schicht ist aus und das Aufwärmen ist kürzer. Sonst stirbt fast jede Welt schon beim ersten Wechsel, weil das Umlernen mehr Energie kostet, als ein Wesen besitzt. Der Vergleich der beiden Welten leidet nicht darunter: beide starten vom selben Wert.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Präregistrierung B: Hypothesen, Kriterien, Fehlergrenzen</a> · <a href="journal.html">Beobachtungsjournal</a> · <a href="interoception.html">Experiment 1: Interozeption (läuft wöchentlich weiter)</a>',
+  log_h:"in diesem Browser gesammelte Episoden",
+  a_eps:"Episoden",a_ratio:"Median des Verhältnisses",a_dead:"wechselnde Welten gestorben",
+  c_n:"Nr.",c_seed:"Samen",c_ticks:"Ticks",c_lrs:"Geschwindigkeitsgen, wechselnd",c_lrn:"Geschwindigkeitsgen, stationär",c_ratio:"Verhältnis",c_out:"Ausgang",
+  out_alive:"lebt",out_dead:"ausgestorben",clear:"gespeicherte Daten löschen",
+  foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI-Ingenieur und AI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Ein lebendes Schaufenster im Browser, Begleiter der Forschung, nicht ihre Quelle. Gesammelte Zahlen: <a href="journal.html">Journal</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+
+ es:{eye:"vida artificial · experimento 2 · en vivo",exp1:"experimento 1 ↗",journal:"diario ↗",agi:"AGI ↗",about:"sobre ↗",live:"live",
+  brand:'cuándo conviene <span class="dot">aprender</span>',
+  lede:"Dos mundos desde una misma semilla. En uno la regla no cambia nunca: el color +1 es comida, el color -1 es veneno. En el otro la regla se invierte en momentos impredecibles, en promedio una vez por vida. Lo único que las criaturas pueden aprender durante su vida es el gusto: qué color comer. La velocidad de ese aprendizaje está escrita en el genoma. Miramos si la selección la enciende donde el mundo cambia las reglas, y la apaga donde no lo hace.",
+  wswitch:"la regla cambia, en promedio cada 600 ticks",wstat:"la regla no cambia nunca",
+  lg_edible:"comestible ahora",lg_toxic:"venenoso ahora",lg_creature:"criatura (brillo = energía)",
+  hud_tick:"tick",hud_pop:"criaturas",hud_since:"desde el último cambio",hud_good:"comestible ahora: color",
+  switched:"la regla se ha invertido",
+  speed:"velocidad",newworld:"↻ mundo nuevo",seeding:"sembrando un mundo viable…",
+  verdict_h:"gen de velocidad de aprendizaje",
+  v_switch:"cambiante",v_stat:"estacionario",
+  v_warm:"calentamiento: la regla aún no ha cambiado.",
+  v_on:"la selección encendió el aprendizaje: en el mundo cambiante el gen de velocidad creció {n} veces.",
+  v_grow:"crece, pero todavía menos de diez veces.",
+  v_same:"por ahora no hay diferencia.",
+  v_dead_s:"el mundo no resistió el cambio de regla: la población se extinguió, reinicio en 5 segundos.",
+  v_dead_c:"el mundo estacionario se extinguió, reinicio en 5 segundos.",
+  g_lr:"gen de velocidad",g_lr_u:"mediana, escala log.",
+  g_taste:"gusto innato",g_taste_u:"media de genomas",
+  g_acc:"precisión al comer",g_acc_u:"proporción de bocados comestibles",
+  g_sw:"cambios de regla",g_sw_u:"en este mundo",
+  how_h:"qué ocurre aquí",
+  p1:"El mundo es el del primer experimento: una cuadrícula, comida, criaturas con una red neuronal diminuta, sin recompensa y sin juez. Se reproduce quien acumula energía comiendo. Se añade una cosa: la comida viene en dos colores, y en cada momento un color es nutritivo y el otro venenoso (un bocado quita la mitad de lo que daría el nutritivo).",
+  p2:"En el mundo grande la regla se invierte en momentos aleatorios, en promedio cada 600 ticks, aproximadamente una vida. Escribir eso en el genoma es imposible: los momentos son impredecibles. Aprenderlo durante la vida sí se puede: cada criatura tiene un gusto, una sola conexión de color a comer, y cambia según una regla de tres factores: qué comiste, qué recibiste (comida o veneno), y a qué velocidad aprendes. La velocidad de aprendizaje es un gen: se hereda, muta, y la selección puede subirla o bajarla. El mundo pequeño es igual, salvo que la regla no cambia nunca.",
+  p3:"Lo predicho de antemano. Según el modelo de Kozielska y Weissing (2024), el aprendizaje evoluciona solo donde el entorno cambia con frecuencia, con fuerza y de forma impredecible, mientras que en un entorno estacionario gana lo innato y el aprendizaje es eliminado por la selección. Nuestro piloto de julio mostró la segunda mitad: en un mundo inmutable la velocidad de aprendizaje cayó a la mitad. Aquí se comprueban ambas mitades a la vez: en el mundo cambiante el gen de velocidad debería crecer un orden de magnitud, en el estacionario no.",
+  p4:"Una advertencia honesta. El primer cambio es un cuello de botella: la mayoría de las criaturas con gusto innato se envenenarán o pasarán hambre, y sobreviven las que alcanzaron a reaprender. A veces no sobrevive nadie, y el mundo se reinicia. No es un fallo, sino un límite de fracaso declarado de antemano (preregistro B, §7.3), y en el diario esas corridas se cuentan aparte.",
+  p5:"Qué es real aquí y qué no. El mundo de tu pestaña se calcula de verdad, pero es un escaparate del método: una semilla, un par de mundos, todo desaparece con la pestaña. Los números en los que nos apoyamos se acumulan en otro lugar: cada día los servidores de GitHub calculan seis condiciones con semillas nuevas, y el diario de observaciones recalcula la estadística sobre todo lo acumulado. Lecturas declaradas: 10, 20 y 40 semillas. En tu pestaña cuatro cosas difieren de la corrida diaria: el gusto innato es más débil, la velocidad de aprendizaje empieza más alta, la capa social está apagada y el calentamiento es más corto. De lo contrario casi todos los mundos mueren en el primer cambio, porque reaprender costaría más energía de la que una criatura tiene. La comparación entre los dos mundos no se ve afectada: ambos parten del mismo valor.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Preregistro B: hipótesis, criterios, límites de fracaso</a> · <a href="journal.html">Diario de observaciones</a> · <a href="interoception.html">Experimento 1: interocepción (continúa cada semana)</a>',
+  log_h:"episodios acumulados en este navegador",
+  a_eps:"episodios",a_ratio:"mediana de la razón",a_dead:"mundos cambiantes extinguidos",
+  c_n:"№",c_seed:"semilla",c_ticks:"ticks",c_lrs:"gen de velocidad, cambiante",c_lrn:"gen de velocidad, estacionario",c_ratio:"razón",c_out:"desenlace",
+  out_alive:"vivo",out_dead:"extinguido",clear:"borrar lo guardado",
+  foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Un escaparate vivo en el navegador, compañero de la investigación y no su fuente. Números acumulados: <a href="journal.html">diario</a> · <a href="about.html">sobre</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+
+ zh:{eye:"人工生命 · 实验二 · 实时",exp1:"实验一 ↗",journal:"观察日志 ↗",agi:"AGI ↗",about:"关于 ↗",live:"live",
+  brand:'何时<span class="dot">值得学习</span>',
+  lede:"同一颗种子，两个世界。一个世界的规则永不改变：颜色 +1 可吃，颜色 -1 有毒。另一个世界的规则会在不可预测的时刻翻转，平均每一生翻转一次。生物在一生之中唯一能学会的，就是口味：该吃哪种颜色。学习的速度写在基因组里。我们要看的是：在规则不断变化的世界里，选择会不会把它打开；在规则不变的世界里，会不会把它关掉。",
+  wswitch:"规则会变，平均每 600 步一次",wstat:"规则永不改变",
+  lg_edible:"当前可吃",lg_toxic:"当前有毒",lg_creature:"生物（亮度即能量）",
+  hud_tick:"步",hud_pop:"个体",hud_since:"距上次翻转",hud_good:"当前可吃：颜色",
+  switched:"规则翻转了",
+  speed:"速度",newworld:"↻ 新世界",seeding:"正在播种一个可存活的世界…",
+  verdict_h:"学习速度基因",
+  v_switch:"变化世界",v_stat:"稳定世界",
+  v_warm:"预热中：规则尚未改变。",
+  v_on:"选择打开了学习：在变化的世界里，速度基因增长了 {n} 倍。",
+  v_grow:"在增长，但还不到十倍。",
+  v_same:"目前没有差别。",
+  v_dead_s:"这个世界没能挺过规则翻转：种群灭绝，5 秒后重启。",
+  v_dead_c:"稳定世界灭绝了，5 秒后重启。",
+  g_lr:"学习速度基因",g_lr_u:"中位数，对数刻度",
+  g_taste:"先天口味",g_taste_u:"基因组均值",
+  g_acc:"进食准确率",g_acc_u:"可吃食物占比",
+  g_sw:"规则翻转次数",g_sw_u:"在此世界",
+  how_h:"这里发生了什么",
+  p1:"世界和第一个实验一样：一张网格、食物、带有微型神经网络的生物，没有奖励，也没有裁判。吃够能量的才会繁殖。只加了一件事：食物有两种颜色，而在任一时刻，一种颜色有营养，另一种有毒（咬一口会失去有营养的那种本可提供的一半）。",
+  p2:"在大世界里，规则会在随机时刻翻转，平均每 600 步一次，大约就是一生。这写不进基因组：时刻是不可预测的。但一生之内可以学会：每个生物都有一个口味，即从颜色到进食的一条连接，它按三因素规则改变：吃了什么、得到了什么（食物还是毒），以及学习速度有多快。学习速度是一个基因：可遗传、会突变，选择可以把它调高或调低。小世界完全相同，只是规则永不改变。",
+  p3:"事先做出的预测。按照 Kozielska 与 Weissing（2024）的模型，只有在环境频繁、剧烈且不可预测地变化的地方，学习才会演化出来；而在稳定环境中先天的一方胜出，学习会被选择淘汰。我们七月的试点显示了后半句：在不变的世界里，学习速度下降了一半。这里同时检验前后两半：在变化的世界里，速度基因应当增长一个数量级；在稳定的世界里，则不应当。",
+  p4:"一点诚实的说明。第一次翻转是一个瓶颈：多数带着先天口味的生物会中毒或饿死，活下来的是那些及时重新学会的。有时无人幸存，世界便重启。这不是故障，而是事先声明的失败边界（预注册 B，§7.3），在日志中这类运行会单独计数。",
+  p5:"这里哪些是真的，哪些不是。你标签页里的世界是真的在计算，但它是方法的橱窗：一颗种子、一对世界，一切都随标签页消失。我们真正依据的数字在别处积累：每天 GitHub 的服务器会在新的种子上计算六种条件，观察日志则对全部已积累的数据重新统计。已声明的读数节点：10、20 和 40 颗种子。 在你的标签页里，有四点与每日运行不同：先天口味更弱、学习速度的初始值更高、社交层被关闭、预热更短。否则几乎每个世界都会在第一次翻转时死去，因为重新学习所需的能量超过了生物所拥有的。这不影响两个世界之间的比较：两者的起点相同。",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">预注册 B：假设、判据、失败边界</a> · <a href="journal.html">观察日志</a> · <a href="interoception.html">实验一：内感受（每周继续）</a>',
+  log_h:"本浏览器中累积的回合",
+  a_eps:"回合数",a_ratio:"比值中位数",a_dead:"变化世界灭绝比例",
+  c_n:"№",c_seed:"种子",c_ticks:"步数",c_lrs:"速度基因，变化世界",c_lrn:"速度基因，稳定世界",c_ratio:"比值",c_out:"结局",
+  out_alive:"存活",out_dead:"灭绝",clear:"清除已保存数据",
+  foot:'项目与文字：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · 浏览器中的实时橱窗，是研究的伴侣而非来源。累积数字：<a href="journal.html">日志</a> · <a href="about.html">关于</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>。'}
 };
+
 const LKEY='minimir_lang',LDEF='en';
 let LANG=(()=>{try{return localStorage.getItem(LKEY)||LDEF}catch(e){return LDEF}})();
 if(!I18N[LANG])LANG=LDEF;
 function t(k){return (I18N[LANG]||I18N.en)[k];}
 
-// ---------- парный эксперимент ----------
-const BLOCK=8000;                 // измерительный блок (тиков); 1-й блок — прогрев
-let POOL=null,LIVECFG=null,engS=null,engC=null,trial=0,blockIdx=0,SPEED=1,peakS=0;
+// ---------- параметры живой пары миров ----------
+// Мир B: два цвета еды. Меняющийся и стационарный запускаются от ОДНОГО семени
+// и ОДНОГО предка: различие ровно одно, меняется ли правило.
+const EPISODE=40000;              // длина эпизода в тиках
+const SW_MEAN=600;                // средний интервал смены правила
+const SPARK_EVERY=250;            // шаг выборки для спарклайна
+const DEAD_PAUSE=5000;            // пауза перед перезапуском после вымирания, мс
+let POOL=null,LIVECFG=null,engS=null,engC=null,epNo=0,SPEED=4;
+let sparkS=[],sparkC=[],deadAt=null,deadWho=null,lastSw=0;
 const cvS=document.getElementById('wS'),ctxS=cvS.getContext('2d');
 const cvC=document.getElementById('wC'),ctxC=cvC.getContext('2d');
 const off=document.createElement('canvas'),octx=off.getContext('2d');
 let H,W,SCS,SCC,img;
-const splash=document.getElementById('splash');
+const splash=document.getElementById('splash'),flash=document.getElementById('flash');
 
 function unpackGenome(b64){const bin=atob(b64),by=new Uint8Array(bin.length);
   for(let i=0;i<bin.length;i++)by[i]=bin.charCodeAt(i);const f=new Float32Array(by.buffer);
   return{W1:f.slice(0,300),b1:f.slice(300,312),W2:f.slice(312,456),b2:f.slice(456,468)};}
 function rndSeed(){return (Math.floor(Math.random()*4294967295))>>>0;}
-function newTrial(){
+
+function newEpisode(){
   const seed=rndSeed(),anc=POOL[(Math.random()*POOL.length)|0];
-  engS=new MiniWorld.Engine(seed,Object.assign({},LIVECFG,{interoMode:'self'}),anc);
-  engC=new MiniWorld.Engine(seed,Object.assign({},LIVECFG,{interoMode:'shuffled'}),anc);
-  trial++;blockIdx=0;peakS=0;
+  engS=new MiniWorld.Engine(seed,Object.assign({},LIVECFG,{switchMean:SW_MEAN}),anc);
+  engC=new MiniWorld.Engine(seed,Object.assign({},LIVECFG,{switchMean:0}),anc);
+  engS._seed=seed;epNo++;sparkS=[];sparkC=[];deadAt=null;deadWho=null;lastSw=0;
   H=engS.cfg.H;W=engS.cfg.W;off.width=W;off.height=H;img=octx.createImageData(W,H);
-  SCS=cvS.width/W;SCC=cvC.width/W;splash.style.display='none';
+  SCS=cvS.width/W;SCC=cvC.width/W;splash.style.display='none';flash.classList.remove('on');
 }
+
+// ---------- отрисовка ----------
+// Цвет клетки это её постоянная география (+1 голубой, -1 янтарный). Тускнеет тот
+// цвет, который сейчас ядовит: в момент смены правила экран заметно меняется.
+const HUE=[[0xe0,0xa0,0x4a],[0x2e,0xb6,0xd0]];   // индексы: foodType 0 и 1
 function energyColor(e){var t=e/255,r,g,b;
   if(t<.5){var u=t/.5;r=0xe8+(0xd9-0xe8)*u;g=0x73+(0xc2-0x73)*u;b=0x4a+(0x6a-0x4a)*u;}
   else{var u2=(t-.5)/.5;r=0xd9+(0x46-0xd9)*u2;g=0xc2+(0xc6-0xc2)*u2;b=0x6a+(0xd0-0x6a)*u2;}
   return `rgb(${r|0},${g|0},${b|0})`;}
 function drawWorld(eng,ctx,cvw,SC){
-  const d=img.data,cap=eng.capacity,res=eng.resource;
-  for(let i=0;i<W*H;i++){const c=cap[i],r=res[i];
-    d[i*4]=10+20*r;d[i*4+1]=26*c+(18*c+150*r)*0.9;d[i*4+2]=20*c+40*r;d[i*4+3]=255;}
+  const d=img.data,res=eng.resource,ft=eng.foodType,gt=eng.goodType;
+  for(let i=0;i<W*H;i++){
+    const h=HUE[ft[i]],k=(ft[i]===gt?1:0.16)*Math.min(1,res[i]*1.6);
+    d[i*4]=8+h[0]*k;d[i*4+1]=11+h[1]*k;d[i*4+2]=13+h[2]*k;d[i*4+3]=255;}
   octx.putImageData(img,0,0);ctx.imageSmoothingEnabled=false;
   ctx.clearRect(0,0,cvw.width,cvw.height);ctx.drawImage(off,0,0,cvw.width,cvw.height);
-  ctx.fillStyle='rgba(230,193,74,0.8)';
-  for(let i=0;i<W*H;i++)if(Math.abs(eng.signs[i*2])+Math.abs(eng.signs[i*2+1])>0.02)
-    ctx.fillRect((i%W)*SC,((i/W)|0)*SC,SC,SC);
   for(let a=0;a<eng.cfg.maxPop;a++)if(eng.alive[a]){
     ctx.fillStyle=energyColor(Math.max(0,Math.min(255,eng.E[a]/eng.cfg.eMax*255)));
     ctx.fillRect(eng.x[a]*SC-0.5,eng.y[a]*SC-0.5,SC+1,SC+1);}
 }
 
-// ---------- накопление и вердикт ----------
-const SKEY='minimir_blocks';
-function loadBlocks(){try{return JSON.parse(localStorage.getItem(SKEY))||[]}catch(e){return[]}}
-function recordBlock(rec){let a=loadBlocks();a.push(rec);if(a.length>500)a=a.slice(-500);
-  try{localStorage.setItem(SKEY,JSON.stringify(a))}catch(e){}
-  if(window.MINIMIR_ENDPOINT){try{fetch(window.MINIMIR_ENDPOINT,{method:'POST',mode:'no-cors',
-    headers:{'Content-Type':'application/json'},body:JSON.stringify(rec)});}catch(e){}}
-  renderVerdict();renderLog();}
-function mean(a){return a.reduce((x,y)=>x+y,0)/a.length;}
-function sd(a){if(a.length<2)return 0;const m=mean(a);return Math.sqrt(a.reduce((s,v)=>s+(v-m)*(v-m),0)/(a.length-1));}
-function renderVerdict(){
-  const b=loadBlocks(),n=b.length;
-  const S=document.getElementById('v_big'),sub=document.getElementById('v_sub'),say=document.getElementById('v_say');
-  if(n<8){S.textContent='—';sub.textContent=`${n} / 8 ${t('v_blocks')}`;
-    say.className='say wait';say.textContent=t('v_wait');return;}
-  const dif=b.map(x=>x.diff),self=b.map(x=>x.self);
-  const md=mean(dif),se=sd(dif)/Math.sqrt(n),ci=2*se,noise=2*sd(self);
-  S.textContent=(md>=0?'+':'')+md.toFixed(4)+' '+t('v_bits');
-  sub.innerHTML=`${t('v_delta')} · ${t('v_ci')} ±${ci.toFixed(4)} · ${t('v_noise')} ${noise.toFixed(4)} · ${n} ${t('v_blocks')}`;
-  const ciLow=md-ci;
-  if(ciLow>0&&md>noise){say.className='say eff';say.textContent=t('v_eff');}
-  else if(ciLow>0){say.className='say weak';say.textContent=t('v_weak');}
-  else{say.className='say none';say.textContent=t('v_none');}
+// ---------- накопление эпизодов ----------
+const SKEY='minimir_b_episodes';
+function loadEps(){try{return JSON.parse(localStorage.getItem(SKEY))||[]}catch(e){return[]}}
+function recordEp(rec){let a=loadEps();a.push(rec);if(a.length>300)a=a.slice(-300);
+  try{localStorage.setItem(SKEY,JSON.stringify(a))}catch(e){}renderLog();}
+function median(a){if(!a.length)return null;const b=a.slice().sort((x,y)=>x-y);
+  return b.length%2?b[(b.length-1)/2]:(b[b.length/2-1]+b[b.length/2])/2;}
+function ratioOf(eng1,eng2){const a=eng1.tasteLrMedian(),b=eng2.tasteLrMedian();
+  return (a==null||b==null)?null:a/Math.max(b,1e-4);}
+function endEpisode(extinct){
+  const lrS=engS.tasteLrMedian(),lrC=engC.tasteLrMedian();
+  recordEp({n:epNo,seed:engS._seed,ticks:engS.tick,
+    lrS:lrS==null?null:+lrS.toFixed(4),lrC:lrC==null?null:+lrC.toFixed(4),
+    ratio:(lrS!=null&&lrC!=null)?+(lrS/Math.max(lrC,1e-4)).toFixed(2):null,
+    extinct:extinct,ts:Date.now()});
 }
 function renderLog(){
-  const b=loadBlocks();
-  const self=b.map(x=>x.self),shuf=b.map(x=>x.shuf),dif=b.map(x=>x.diff);
+  const b=loadEps(),rs=b.filter(e=>e.ratio!=null&&!e.extinct).map(e=>e.ratio);
+  const dead=b.filter(e=>e.extinct).length;
   document.getElementById('agg').innerHTML=[
-    [t('a_blocks'),b.length],
-    [t('a_self'),b.length?mean(self).toFixed(4):'—'],
-    [t('a_shuf'),b.length?mean(shuf).toFixed(4):'—'],
-    [t('a_diff'),b.length?((mean(dif)>=0?'+':'')+mean(dif).toFixed(4)):'—'],
+    [t('a_eps'),b.length],
+    [t('a_ratio'),rs.length?'×'+median(rs).toFixed(1):'—'],
+    [t('a_dead'),b.length?dead+'/'+b.length:'—'],
   ].map(([k,v])=>`<div class="aggcard"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
-  document.getElementById('thead').innerHTML='<tr>'+['c_t','c_self','c_shuf','c_diff'].map(k=>`<th>${t(k)}</th>`).join('')+'</tr>';
+  document.getElementById('thead').innerHTML='<tr>'+['c_n','c_seed','c_ticks','c_lrs','c_lrn','c_ratio','c_out']
+    .map(k=>`<th>${t(k)}</th>`).join('')+'</tr>';
   document.getElementById('tbody').innerHTML=b.slice().reverse().slice(0,50).map(e=>
-    `<tr><td>${e.trial}</td><td>${e.self.toFixed(4)}</td><td>${e.shuf.toFixed(4)}</td>`+
-    `<td style="color:${e.diff>=0?'var(--coop)':'var(--amber)'}">${(e.diff>=0?'+':'')+e.diff.toFixed(4)}</td></tr>`).join('');
+    `<tr><td>${e.n}</td><td>${e.seed}</td><td>${e.ticks}</td>`+
+    `<td>${e.lrS==null?'—':e.lrS.toFixed(3)}</td><td>${e.lrC==null?'—':e.lrC.toFixed(3)}</td>`+
+    `<td style="color:${(e.ratio||0)>=2?'var(--coop)':'var(--dim)'}">${e.ratio==null?'—':'×'+e.ratio.toFixed(1)}</td>`+
+    `<td style="color:${e.extinct?'var(--amber)':'var(--dim)'}">${e.extinct?t('out_dead'):t('out_alive')}</td></tr>`).join('');
+}
+
+// ---------- вердикт ----------
+function renderVerdict(){
+  const big=document.getElementById('v_big'),sub=document.getElementById('v_sub'),
+        say=document.getElementById('v_say');
+  if(!engS||!engC){big.textContent='—';return;}
+  const lrS=engS.tasteLrMedian(),lrC=engC.tasteLrMedian(),r=ratioOf(engS,engC);
+  big.textContent=r==null?'—':'×'+r.toFixed(1);
+  sub.innerHTML=`${t('v_switch')} ${lrS==null?'—':lrS.toFixed(3)} · `+
+                `${t('v_stat')} ${lrC==null?'—':lrC.toFixed(3)}`;
+  if(deadWho==='S'){say.className='say none';say.textContent=t('v_dead_s');return;}
+  if(deadWho==='C'){say.className='say none';say.textContent=t('v_dead_c');return;}
+  if(!engS.switches.length){say.className='say wait';say.textContent=t('v_warm');return;}
+  if(r!=null&&r>=10){say.className='say eff';say.textContent=t('v_on').replace('{n}',r.toFixed(0));}
+  else if(r!=null&&r>=2){say.className='say weak';say.textContent=t('v_grow');}
+  else{say.className='say none';say.textContent=t('v_same');}
 }
 
 // ---------- приборы ----------
-const GA=[{k:'g_pop',u:'g_pop_u',c:'#8fd6dd',get:()=>engS.pop,fmt:v=>v},
-  {k:'g_smi',u:'g_mi_u',c:'#46c6d0',get:()=>engS.miWindow(),fmt:v=>v==null?'—':v.toFixed(3)},
-  {k:'g_cmi',u:'g_mi_u',c:'#e8734a',get:()=>engC.miWindow(),fmt:v=>v==null?'—':v.toFixed(3)},
-  {k:'g_coop',u:'g_coop_u',c:'#4fd08a',get:()=>engS.coopRate(),fmt:v=>v==null?'—':v.toFixed(2)}];
-let gEls=[];
-function buildGauges(){const r=document.getElementById('gauges');r.innerHTML='';gEls=[];
+const GA=[{k:'g_lr',u:'g_lr_u',spark:true,get:()=>engS.tasteLrMedian(),fmt:v=>v==null?'—':v.toFixed(3)},
+  {k:'g_taste',u:'g_taste_u',get:()=>engS.tasteGMean(),fmt:v=>v==null?'—':v.toFixed(2)},
+  {k:'g_acc',u:'g_acc_u',get:()=>engS.eatAccuracy(),fmt:v=>v==null?'—':v.toFixed(2)},
+  {k:'g_sw',u:'g_sw_u',get:()=>engS.switches.length,fmt:v=>v}];
+let gEls=[],sparkCv=null;
+function buildGauges(){const r=document.getElementById('gauges');r.innerHTML='';gEls=[];sparkCv=null;
   for(const g of GA){const el=document.createElement('div');el.className='gauge';
-    el.innerHTML=`<div class="lbl">${t(g.k)}</div><div class="val"><span data-v>—</span> <span class="unit">${t(g.u)}</span></div>`;
-    r.appendChild(el);gEls.push({g,val:el.querySelector('[data-v]')});}}
-function updateGauges(){for(const {g,val} of gEls){const v=g.get();val.textContent=v==null?'—':g.fmt(v);}}
+    el.innerHTML=`<div class="lbl">${t(g.k)}</div><div class="val"><span data-v>—</span> <span class="unit">${t(g.u)}</span></div>`+
+      (g.spark?'<canvas class="spark" width="300" height="34"></canvas>':'');
+    r.appendChild(el);gEls.push({g,val:el.querySelector('[data-v]')});
+    if(g.spark)sparkCv=el.querySelector('canvas');}}
+function drawSpark(){
+  if(!sparkCv||sparkS.length<2)return;
+  const c=sparkCv.getContext('2d'),w=sparkCv.width,h=sparkCv.height;
+  c.clearRect(0,0,w,h);
+  const all=sparkS.concat(sparkC).filter(v=>v>0);
+  if(!all.length)return;
+  let lo=Math.log10(Math.min.apply(null,all)),hi=Math.log10(Math.max.apply(null,all));
+  if(hi-lo<0.5){lo-=0.25;hi+=0.25;}
+  const Y=v=>h-2-(Math.log10(Math.max(v,1e-4))-lo)/(hi-lo)*(h-4);
+  [[sparkC,'#5b6f77'],[sparkS,'#46c6d0']].forEach(([arr,col])=>{
+    if(arr.length<2)return;c.strokeStyle=col;c.lineWidth=1.3;c.beginPath();
+    arr.forEach((v,i)=>{const x=i/(arr.length-1)*(w-2)+1;i?c.lineTo(x,Y(v)):c.moveTo(x,Y(v));});
+    c.stroke();});
+}
+function updateGauges(){for(const {g,val} of gEls){const v=g.get();val.textContent=v==null?'—':g.fmt(v);}
+  drawSpark();}
 
 // ---------- цикл ----------
 function loop(){
   if(engS&&engC){
-    for(let i=0;i<SPEED;i++){
-      const aS=engS.step(),aC=engC.step();
-      if(!aS||!aC){newTrial();break;}            // любой вымер -> новая пара
-      if(engS.pop>peakS)peakS=engS.pop;
-      if(engS.tick%BLOCK===0){
-        if(blockIdx>=1){                          // 1-й блок (0) — прогрев
-          const mS=engS.miWindow(),mC=engC.miWindow();
-          if(mS!=null&&mC!=null&&engS.occupiedDeciles()>=4&&engC.occupiedDeciles()>=4)
-            recordBlock({trial:trial,self:mS,shuf:mC,diff:mS-mC,ts:Date.now()});
-        }
-        blockIdx++;engS.resetWindow();engC.resetWindow();
+    if(deadAt!==null){
+      if(Date.now()-deadAt>DEAD_PAUSE)newEpisode();
+    }else{
+      for(let i=0;i<SPEED;i++){
+        const aS=engS.step(),aC=engC.step();
+        if(!aS||!aC){deadWho=aS?'C':'S';deadAt=Date.now();endEpisode(true);break;}
+        if(engS.switches.length>lastSw){lastSw=engS.switches.length;
+          flash.textContent=t('switched');flash.classList.add('on');
+          document.getElementById('screenS').classList.add('pulse');
+          setTimeout(()=>{flash.classList.remove('on');
+            document.getElementById('screenS').classList.remove('pulse');},900);}
+        if(engS.tick%SPARK_EVERY===0){
+          sparkS.push(engS.tasteLrMedian()||0);sparkC.push(engC.tasteLrMedian()||0);
+          if(sparkS.length>300){sparkS.shift();sparkC.shift();}}
+        if(engS.tick%2000===0){engS.resetEat();engC.resetEat();}
+        if(engS.tick>=EPISODE){endEpisode(false);newEpisode();break;}
       }
     }
     drawWorld(engS,ctxS,cvS,SCS);drawWorld(engC,ctxC,cvC,SCC);
-    const socS=engS.tick>=engS.cfg.socialFromTick;
-    document.getElementById('hudS').innerHTML=`${t('hud_pop')} ${engS.pop} · ${socS?t('hud_social'):t('hud_warm')}`;
+    const gcol=engS.goodType===1?'+1':'-1';
+    document.getElementById('hudS').innerHTML=
+      `${t('hud_tick')} ${engS.tick} · ${engS.pop} · ${t('hud_since')} `+
+      `${engS.ticksSinceSwitch()} · ${t('hud_good')} ${gcol}`;
     document.getElementById('hudC').innerHTML=`${t('hud_pop')} ${engC.pop}`;
-    updateGauges();
+    updateGauges();renderVerdict();
   }
   requestAnimationFrame(loop);
 }
@@ -454,35 +569,48 @@ function loop(){
 function applyLang(l){
   if(!I18N[l])l=LDEF;LANG=l;try{localStorage.setItem(LKEY,l)}catch(e){}
   document.documentElement.lang=l;const S=id=>document.getElementById(id);
-  S('t_eye').textContent=t('eye');S('t_about').textContent=t('about');S('t_rec').textContent=t('rec');S('t_journal').textContent=t('journal');if(S('t_agi'))S('t_agi').textContent=t('agi')||'AGI ↗';
+  S('t_eye').textContent=t('eye');S('t_exp1').textContent=t('exp1');
+  S('t_journal').textContent=t('journal');S('t_agi').textContent=t('agi');
+  S('t_about').textContent=t('about');
   S('t_brand').innerHTML=t('brand');S('t_live').textContent=t('live');S('t_lede').textContent=t('lede');
-  S('t_self').textContent=t('self');S('t_ctrl').textContent=t('ctrl');
-  S('t_speed').textContent=t('speed');S('newbtn').textContent=t('newpair');
+  S('t_wswitch').textContent=t('wswitch');S('t_wstat').textContent=t('wstat');
+  S('t_speed').textContent=t('speed');S('newbtn').textContent=t('newworld');
   S('t_verdict_h').textContent=t('verdict_h');S('t_how_h').textContent=t('how_h');
-  S('t_coop_h').textContent=t('coop_h');S('t_log_h').textContent=t('log_h');
-  S('clearbtn').textContent=t('clear');S('t_foot').innerHTML=t('foot');
-  S('howbox').innerHTML=t('how');S('splash').textContent=t('seeding');
-  S('coopbox').innerHTML=`${t('coop')}
-    <div class="flow"><div class="fc g"><div class="ft">${t('give_t')}</div><div class="ln">${t('give_l1')}</div><div class="ln">${t('give_l2')}</div><div class="net">${t('give_net')}</div></div>
-    <div class="fc t"><div class="ft">${t('take_t')}</div><div class="ln">${t('take_l1')}</div><div class="ln">${t('take_l2')}</div><div class="net" style="color:var(--amber);border-color:#4a3323">${t('take_net')}</div></div></div>
-    <p style="margin:10px 0 0">${t('coop_after')}</p>`;
+  S('t_log_h').textContent=t('log_h');S('clearbtn').textContent=t('clear');
+  S('t_foot').innerHTML=t('foot');S('splash').textContent=t('seeding');
+  S('linksbox').innerHTML=t('links');
+  S('howbox').innerHTML=['p1','p2','p3','p4','p5']
+    .map((k,i)=>`<p style="margin:${i?'12px':'0'} 0 0">${t(k)}</p>`).join('');
+  S('legend').innerHTML=
+    `<span><i style="background:#2eb6d0"></i>${t('lg_edible')} (+1)</span>`+
+    `<span><i style="background:#3a2f1c"></i>${t('lg_toxic')} (-1)</span>`+
+    `<span><i style="background:#d9c26a"></i>${t('lg_creature')}</span>`;
   document.querySelectorAll('.langbar button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
-  buildGauges();renderVerdict();renderLog();
+  buildGauges();renderLog();renderVerdict();
 }
 document.querySelector('.langbar').addEventListener('click',e=>{const b=e.target.closest('button[data-set]');if(b)applyLang(b.dataset.set);});
 document.getElementById('speed').addEventListener('click',e=>{const b=e.target.closest('button[data-s]');if(!b)return;
   SPEED=+b.dataset.s;document.querySelectorAll('#speed button').forEach(x=>x.classList.toggle('on',x===b));});
-document.getElementById('newbtn').onclick=()=>{if(POOL)newTrial();};
-document.getElementById('clearbtn').onclick=()=>{try{localStorage.removeItem(SKEY)}catch(e){}renderVerdict();renderLog();};
+document.getElementById('newbtn').onclick=()=>{if(POOL)newEpisode();};
+document.getElementById('clearbtn').onclick=()=>{try{localStorage.removeItem(SKEY)}catch(e){}renderLog();};
 
 applyLang(LANG);
 splash.style.display='flex';splash.textContent=t('seeding');
-// параметры мира: maxPop заведомо большой (НЕ связывает — плотность регулирует
-// физика/еда, а не потолок), плодородность умеренная (популяция ~400-600 для
-// плавности двух миров). Берём из json только предков, не мировые параметры.
-fetch('ancestors.json').then(r=>r.json()).then(d=>{
-  LIVECFG={maxPop:2000,crowdCost:0.06,regrowth:0.004,patchThreshold:0.62};
-  POOL=d.ancestors.map(unpackGenome);newTrial();loop();})
+fetch('ancestors_b.json').then(r=>r.json()).then(d=>{
+  // Отличия витрины от суточного прогона, все четыре вынужденные и заявлены
+  // в тексте страницы:
+  //   вкус 1.5 вместо 3.0 и стартовая скорость обучения 0.5 вместо 0.1 —
+  //     иначе переучивание стоит больше энергии, чем у существа есть (тридцать
+  //     отравлений по пять единиц при запасе в сто), и первую же смену
+  //     правила не переживает никто;
+  //   социальный слой выключен — предки мира B отбирались без него;
+  //   прогрев 3000 тиков вместо 5000 — чтобы витрину не ждали минуту.
+  // Сравнение двух миров от этого не страдает: у обоих старт одинаковый.
+  // Потолок численности заведомо большой: плотность регулируется едой
+  // и теснотой, а не константой.
+  LIVECFG=Object.assign({},d.cfg,{maxPop:2500,tasteInit:1.5,tasteLrInit:0.5,
+    switchFromTick:3000,socialFromTick:1e9,actionNoise:0});
+  POOL=d.ancestors.map(unpackGenome);newEpisode();loop();})
   .catch(err=>{splash.textContent='error: '+err;});
 </script>
 

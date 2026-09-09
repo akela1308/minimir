@@ -15,7 +15,8 @@ from pathlib import Path
 
 import numpy as np
 
-from .config import N_IN, N_OUT, N_ACTIONS, A_FORWARD, A_EAT, A_GIVE, A_TAKE
+from .config import (N_IN, N_OUT, N_ACTIONS, A_FORWARD, A_EAT, A_GIVE, A_TAKE,
+                     I_COLOR_HERE, I_COLOR_AHEAD)
 
 # Форма генома задаётся тройкой (N_IN, n_hidden, N_OUT). Имя кэша обязано
 # содержать все три: раньше в нём был только N_IN, и при изменении числа
@@ -35,7 +36,7 @@ def _random_genome(rng, cfg):
     return W1, b1, W2, b2
 
 
-def _passes_synthetic(g):
+def _passes_synthetic(g, cfg=None):
     """Дешёвый предфильтр: отсекает заведомо безнадёжное до симуляции."""
     W1, b1, W2, b2 = g
     X = np.zeros((2, N_IN), dtype=np.float32)
@@ -56,14 +57,40 @@ def _passes_simulation(cfg, g, ticks=3000):
         cfg, grid_h=48, grid_w=48, init_pop=24, max_pop=400,
         crowd_cost=0.0, season_period=0, social=False, signs=False, hebbian=False,
         intero_mode="self", interoception=True, policy="evolved",
+        switch_mean=0,                       # предок отбирается при стабильном правиле
         founding_sigma=0.05, log_every=10 ** 9)
     eng = Engine(scr, ancestor=g)
     eng.run(ticks)
     return eng.extinct_at is None and eng.pop.count >= 36   # выросла в 1.5 раза
 
 
+# --- этап B: предок мира с двумя типами еды ---
+# Случайный геном, различающий цвет И умеющий кормиться, в мире с двумя
+# типами еды не находится за разумное число попыток (проверено: 0 из 600).
+# Поэтому предок мира B строится как рукописный @ancestor в Avida: случайный
+# кормящийся геном (тот же поиск, что в мире A), слепой к цвету (веса от
+# входов цвета обнулены), плюс врождённый «вкус» taste_init: ест цвет +1,
+# избегает -1 (см. Config.taste). Вкус наследуется, мутирует и учится.
+def blind_to_colour(g):
+    W1, b1, W2, b2 = [np.array(x, dtype=np.float32, copy=True) for x in g]
+    W1[I_COLOR_HERE] = 0.0
+    W1[I_COLOR_AHEAD] = 0.0
+    return W1, b1, W2, b2
+
+
+def _cache_path(cfg, cache_dir):
+    # мир с двумя типами еды — другой мир, и предок у него свой
+    suffix = "" if cfg.food_types == 1 else f"_food{cfg.food_types}"
+    return Path(cache_dir) / f"seed{cfg.seed}_h{cfg.n_hidden}_in{N_IN}_out{N_OUT}{suffix}.npz"
+
+
+def _save(cache, g, attempt):
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(cache, W1=g[0], b1=g[1], W2=g[2], b2=g[3], tries=attempt)
+
+
 def find_viable_ancestor(cfg, cache_dir="runs/ancestors", verbose=False):
-    cache = Path(cache_dir) / f"seed{cfg.seed}_h{cfg.n_hidden}_in{N_IN}_out{N_OUT}.npz"
+    cache = _cache_path(cfg, cache_dir)
     if cache.exists():
         d = np.load(cache)
         g = (d["W1"], d["b1"], d["W2"], d["b2"])
@@ -72,16 +99,19 @@ def find_viable_ancestor(cfg, cache_dir="runs/ancestors", verbose=False):
             return g, int(d["tries"])
 
     rng = np.random.default_rng(cfg.seed * 1000003 + 7)
+    # тот же поток случайных геномов, что и в мире A (тот же seed); в мире B
+    # кандидат ослепляется к цвету и проходит отбор уже в мире B, со вкусом
+    base_cfg = dataclasses.replace(cfg, food_types=1, switch_mean=0) if cfg.food_types == 2 else cfg
     synth = 0
     for attempt in range(1, cfg.ancestor_tries + 1):
-        g = _random_genome(rng, cfg)
-        if not _passes_synthetic(g):
+        g = _random_genome(rng, base_cfg)
+        if not _passes_synthetic(g, base_cfg):
             continue
+        if cfg.food_types == 2:
+            g = blind_to_colour(g)
         synth += 1
         if _passes_simulation(cfg, g):
-            cache.parent.mkdir(parents=True, exist_ok=True)
-            np.savez_compressed(cache, W1=g[0], b1=g[1], W2=g[2], b2=g[3],
-                                tries=attempt)
+            _save(cache, g, attempt)
             if verbose:
                 print(f"  seed {cfg.seed}: предок с {attempt}-й попытки "
                       f"({synth} прошли предфильтр)")

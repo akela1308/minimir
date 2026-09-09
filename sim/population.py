@@ -30,6 +30,11 @@ class Population:
         self.mem_out = np.zeros((n, cfg.memory_slots), dtype=np.float32)
         self.mem_ptr = np.zeros(n, dtype=np.int64)
 
+        # этап B: вкус (геном + фенотип) и его скорость обучения
+        self.taste_g = np.zeros(n, dtype=np.float32)     # наследуется
+        self.taste = np.zeros(n, dtype=np.float32)       # рабочее значение, учится
+        self.taste_lr = np.zeros(n, dtype=np.float32)
+
         self.brains = Brains(cfg, rng)
         self._free = list(range(n - 1, -1, -1))
         self._next_lineage = 0
@@ -64,6 +69,10 @@ class Population:
         self.lineage[slots] = np.arange(len(slots))
         self._next_lineage = len(slots)
         self.brains.randomize(slots, self.ancestor)
+        if self.cfg.taste:
+            self.taste_g[slots] = self.cfg.taste_init
+            self.taste[slots] = self.cfg.taste_init
+            self.taste_lr[slots] = self.cfg.taste_lr_init
 
     def _place_random(self, slots):
         self.y[slots] = self.rng.integers(0, self.world.H, len(slots))
@@ -101,6 +110,22 @@ class Population:
         drift = self.rng.normal(0, 0.02, (children.size, 3)).astype(np.float32)
         self.face[children] = np.clip(self.face[parents] + drift, 0.0, 1.0)
         self.brains.inherit(parents, children)
+        if self.cfg.taste:
+            c = self.cfg
+            # вкус наследуется как обычный вес (та же доля и сила мутаций),
+            # скорость обучения — на логарифмической шкале
+            mut = self.rng.random(children.size) < c.mutation_rate
+            noise = self.rng.normal(0, c.mutation_sigma, children.size).astype(np.float32)
+            self.taste_g[children] = np.clip(self.taste_g[parents] + mut * noise,
+                                             -c.taste_clip, c.taste_clip)
+            self.taste[children] = self.taste_g[children]      # барьер Вейсмана
+            if c.taste_lr_sigma > 0:
+                self.taste_lr[children] = np.clip(
+                    self.taste_lr[parents]
+                    * np.exp(self.rng.normal(0, c.taste_lr_sigma, children.size)),
+                    0.0, c.taste_lr_max).astype(np.float32)
+            else:
+                self.taste_lr[children] = self.taste_lr[parents]
         self.births += children.size
         return children.size
 

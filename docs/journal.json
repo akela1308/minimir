@@ -67,13 +67,13 @@
   }
  },
  "verdict": "signal_within_noise",
- "target": 40,
+ "target": 100,
  "checkpoints": [
   20,
   40
  ],
- "built_at": "2026-09-09T07:24:31Z",
- "commit": "47265ff",
+ "built_at": "2026-09-09T21:35:18Z",
+ "commit": "40787ca",
  "population_metric": {
   "metric": "mi",
   "n_seeds": 40,

@@ -27,6 +27,9 @@ from pathlib import Path
 
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import journal_b                                   # noqa: E402  протокол B
+
 ROOT = Path(__file__).resolve().parent.parent
 FROZEN = ROOT / "runs" / "compare.jsonl"
 EXT = ROOT / "runs" / "daily" / "compare_ext.jsonl"
@@ -36,7 +39,7 @@ OUT_HTML = ROOT / "docs" / "journal.html"
 
 CONDS = ["self", "shuffled", "neighbour", "off"]
 CHECKPOINTS = [20, 40]
-TARGET = 40
+TARGET = 100                   # после 40 (оба чтения прошли) копится дальше раз в неделю
 FROZEN_DATE = "2026-07-26"     # ночная сессия, из которой взяты первые 12 seed'ов
 METRIC = "within_mi"           # главная метрика: внутриагентная
 
@@ -235,10 +238,12 @@ def build():
     with open(OUT_JSON, "w") as f:
         json.dump(state, f, ensure_ascii=False, indent=1)
 
-    html = render(state)
+    state_b = journal_b.build_state()
+    html = render(state, state_b)
     with open(OUT_HTML, "w") as f:
         f.write(html)
-    print(f"seed'ов: {state['n_seeds']}/{TARGET}, вердикт: {state['verdict']}")
+    print(f"A: seed'ов {state['n_seeds']}/{TARGET}, вердикт {state['verdict']}")
+    print(f"B: seed'ов {state_b['n_seeds']}/{state_b['target']}, вердикт {state_b['verdict']}")
     print(f"записано: {OUT_HTML}, {OUT_JSON}, {JOURNAL}")
     return state
 
@@ -343,12 +348,13 @@ VERDICTS = {
 }
 
 
-def render(st):
+def render(st, st_b):
     c = st["comparisons"].get("self", {})
     vlabel, vtext = VERDICTS[st["verdict"]]
     n = st["n_seeds"]
     pct = min(100, round(100 * n / st["target"]))
     interim = n not in CHECKPOINTS and n < st["target"]
+    section_b = journal_b.render_section(st_b)
 
     rows_cond = ""
     for cond in CONDS:
@@ -449,15 +455,25 @@ h2{{font-family:var(--sans);letter-spacing:-.01em}}
 h2::before{{content:none}}
 table,th,td,.mono,.big,.cp,.cpl,.ax{{font-family:var(--mono)}}
 .card,.chart{{border-radius:2px}}
+.exp{{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair)}}
+/* в общей системе стилей h2 уходит в левое поле по сетке секции; здесь
+   заголовков в одной секции много, и сетку надо отключить, иначе они
+   складываются друг на друга */
+section.exp{{display:block;padding-top:0}}
+section.exp>h2,section.exp>:not(h2){{grid-column:auto}}
+.exp h2.title{{font-size:19px;color:var(--ink);margin:0 0 4px}}
+.exp .sub{{color:var(--faint);font-size:12px;margin:0 0 6px;font-family:var(--mono)}}
+.dimtd{{color:var(--dim);text-align:left!important;font-size:11.5px}}
 </style>
 </head>
 <body><div class="wrap">
 <header>
   <a class="brand" href="index.html">mini<span class="dot">·</span>world</a>
   <div class="eyebrow">искусственная жизнь · журнал наблюдений</div>
-  <h1>mini·world — что накопилось</h1>
+  <h1>mini·world: что накопилось</h1>
   <nav style="margin-top:10px">
-    <a href="index.html">живой эксперимент</a>
+    <a href="index.html">эксперимент 2: когда выгодно учиться</a>
+    <a href="interoception.html">эксперимент 1: интероцепция</a>
     <a href="sim.html">записанный прогон</a>
     <a href="agi.html">AGI</a>
     <a href="about.html">о проекте</a>
@@ -465,13 +481,25 @@ table,th,td,.mono,.big,.cp,.cpl,.ax{{font-family:var(--mono)}}
   </nav>
 </header>
 
-<p>Эта страница собирается машиной. Раз в сутки на серверах GitHub запускается
-движок мира, добавляет новые независимые прогоны к главному сравнению и
-пересчитывает статистику по всему накопленному. Никто при этом не должен
-сидеть с открытой вкладкой: <a href="index.html">живой эксперимент</a> на
-главной — это то, что считается у вас в браузере и исчезает вместе с ним,
-а здесь — то, что остаётся.</p>
+<p>Эта страница собирается машиной. На серверах GitHub запускается движок
+мира, добавляет новые независимые прогоны и пересчитывает статистику по
+всему накопленному. Никто при этом не должен сидеть с открытой вкладкой:
+живые эксперименты на <a href="index.html">главной</a> и на
+<a href="interoception.html">странице первого эксперимента</a> считаются у
+вас в браузере и исчезают вместе с ним, а здесь то, что остаётся. Сейчас
+два эксперимента идут параллельно: второй (главный) считается каждый день,
+первый, оба объявленных чтения которого уже прошли, продолжает копить
+seed'ы раз в неделю.</p>
 
+<section class="exp" id="b" style="border-top:0;margin-top:26px;padding-top:0">
+<h2 class="title">Эксперимент 2: когда выгодно учиться</h2>
+<p class="sub">протокол {journal_b.PROTOCOL} · каждый день · с 9 сентября 2026</p>
+{section_b}
+</section>
+
+<section class="exp" id="a">
+<h2 class="title">Эксперимент 1: интероцепция под одним отбором</h2>
+<p class="sub">протокол A5-120k-blockavg-v1 · раз в неделю · с 26 июля 2026</p>
 <div class="card">
   <p class="big">{n} из {st['target']} seed'ов</p>
   <div class="bar"><i style="width:{pct}%"></i></div>
@@ -491,7 +519,7 @@ table,th,td,.mono,.big,.cp,.cpl,.ax{{font-family:var(--mono)}}
   По исследовательской популяционной метрике: Δ = {fmt(pop.get('mean_diff'))},
   p = {fmt_p(pop.get('p'))}.</p>
 </div>
-{'<p class="note"><b>Это промежуточное чтение, а не результат.</b> Заранее объявлено, что подтверждающих чтения два — на 20 и на 40 seed’ах. Пересчёт после каждой добавленной порции показан ради прозрачности: если остановиться в момент, когда цифра случайно понравилась, доля ложных срабатываний вырастет. Поэтому промежуточные значения ничего не заявляют.</p>' if interim else ''}
+{'<p class="note"><b>Оба объявленных чтения (20 и 40 seed’ов) прошли, вердикт на них зафиксирован в журнале ниже.</b> Накопление продолжается раз в неделю ради уточнения оценки, новых заявок по этому эксперименту не будет.</p>' if n > 40 else ('<p class="note"><b>Это промежуточное чтение, а не результат.</b> Заранее объявлено, что подтверждающих чтения два — на 20 и на 40 seed’ах. Пересчёт после каждой добавленной порции показан ради прозрачности: если остановиться в момент, когда цифра случайно понравилась, доля ложных срабатываний вырастет. Поэтому промежуточные значения ничего не заявляют.</p>' if interim else '')}
 
 <h2>Как менялся разрыв по мере накопления</h2>
 {chart}
@@ -528,6 +556,8 @@ table,th,td,.mono,.big,.cp,.cpl,.ax{{font-family:var(--mono)}}
 <a href="https://github.com/akela1308/minimir/blob/main/runs/compare.jsonl">runs/compare.jsonl</a>
 (замороженные двенадцать из ночной сессии). Каждая строка несёт дату, хеш
 коммита и seed — любой прогон воспроизводится этими тремя числами.</p>
+
+</section>
 
 <footer>
 Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> ·
