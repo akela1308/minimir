@@ -8,10 +8,13 @@
 
 Главный результат: скорость обучения вкуса (ген, медиана по живым в конце
 прогона) в мире со сменой правила раз в жизнь (life) против стационарного
-мира (never), парно по seed'ам, на логарифмической шкале. Двойной критерий:
-парный Уилкоксон p<0.01 И разница медиан log10 больше 2σ разброса log10
-скорости в условии never_frozen (нейтральный дрейф гена, который ни на что
-не влияет). Объявленные чтения: 10, 20, 40 seed'ов.
+мира (never), парно по seed'ам, на логарифмической шкале. Тройной критерий
+(предрегистрация v1.1, §6.1): парный Уилкоксон p<0.01, И разница медиан log10
+больше 2σ разброса log10 скорости в условии never_frozen (нейтральный дрейф
+гена, который ни на что не влияет), И абляция показывает выигрыш в выживании
+(life против life_frozen, точный тест Макнемара, §6.5). Без третьего условия
+рост гена не отличим от попутчика отбора, и вердикт называется «рост без
+пользы». Объявленные чтения: 10, 20, 40 seed'ов.
 """
 import json
 import math
@@ -69,6 +72,41 @@ def wilcoxon_p(a, b):
         sd = math.sqrt(n * (n + 1) * (2 * n + 1) / 24)
         z = (w - mu) / sd if sd else 0.0
         return float(math.erfc(abs(z) / math.sqrt(2)))
+
+
+def mcnemar_exact(b, c):
+    """Двусторонний точный тест Макнемара: b успехов из b+c при p=0.5.
+
+    Считается по расходящимся парам: b это seed'ы, где life выжил, а
+    life_frozen вымер, c это обратные. Согласные пары информации об эффекте
+    не несут и в тест не входят (это и есть смысл парного теста).
+    """
+    n = b + c
+    if n == 0:
+        return None
+    from math import comb
+    k = min(b, c)
+    tail = sum(comb(n, i) for i in range(0, k + 1)) / (2.0 ** n)
+    return min(1.0, 2.0 * tail)
+
+
+def ablation_test(by):
+    """H-B4: помогает ли обучение выжить (life против life_frozen)."""
+    b = c = same = 0
+    for s in sorted(by["life"]):
+        if s not in by["life_frozen"]:
+            continue
+        a_ok, f_ok = alive(by["life"][s]), alive(by["life_frozen"][s])
+        if a_ok and not f_ok:
+            b += 1
+        elif f_ok and not a_ok:
+            c += 1
+        else:
+            same += 1
+    p = mcnemar_exact(b, c)
+    # порог объявлен заранее: p<0.05, b>c и не меньше пяти расходящихся пар
+    benefit = bool(p is not None and p < 0.05 and b > c and (b + c) >= 5)
+    return dict(b=b, c=c, concordant=same, n_discordant=b + c, p=p, benefit=benefit)
 
 
 def log_lr(r):
@@ -133,6 +171,8 @@ def analyse(rows, seed_limit=None):
         "never_vs_never_frozen": paired("never", "never_frozen"),
     }
 
+    ablation = ablation_test(by)
+
     def ext_rate(c):
         s = conds[c]
         return (s["extinct"] / s["n_total"]) if s["n_total"] else None
@@ -140,20 +180,23 @@ def analyse(rows, seed_limit=None):
     n_complete = len({s for s in by["life"]
                       if all(s in by[c] for c in CONDS)})
     return dict(protocol=PROTOCOL, n_seeds=n_complete, conditions=conds,
-                two_sigma_log=two_sigma, comparisons=comparisons,
+                two_sigma_log=two_sigma, comparisons=comparisons, ablation=ablation,
                 extinction=dict(life=ext_rate("life"), life_frozen=ext_rate("life_frozen"),
                                 fast=ext_rate("fast"), never=ext_rate("never")))
 
 
 def verdict_key(st):
+    """Вердикт по H-B1. Тройной критерий предрегистрации v1.1 §6.1."""
     c = st["comparisons"]["life_vs_never"]
     ext = st["extinction"].get("life")
     if not c.get("n"):
         return "nodata"
     if ext is not None and ext > 0.5:
         return "world_fails"
-    if c.get("confirmed"):
-        return "confirmed"
+    if c.get("confirmed"):                       # оба статистических критерия
+        # третий критерий: обучение обязано давать выигрыш в выживании,
+        # иначе рост гена неотличим от попутчика отбора (§7.4)
+        return "confirmed" if st["ablation"]["benefit"] else "growth_without_benefit"
     if c.get("p") is not None and c["p"] < 0.01 and c.get("median_log_diff", 0) > 0:
         return "signal_within_noise"
     return "not_distinguishable"
@@ -162,8 +205,16 @@ def verdict_key(st):
 VERDICTS = {
     "confirmed": ("подтверждено",
                   "Скорость обучения в мире со сменой правила раз в жизнь выше, чем "
-                  "в стационарном, по обоим критериям сразу: p&lt;0.01 по парному тесту "
-                  "И разница медиан больше 2σ нейтрального дрейфа гена."),
+                  "в стационарном, по всем трём объявленным критериям сразу: p&lt;0.01 "
+                  "по парному тесту, разница медиан больше 2σ нейтрального дрейфа гена, "
+                  "и абляция показывает выигрыш в выживании."),
+    "growth_without_benefit": ("не подтверждено: рост без пользы",
+                               "Ген скорости в меняющемся мире вырос по обоим "
+                               "статистическим критериям, но абляция не показала "
+                               "выигрыша в выживании: без обучения миры гибнут не "
+                               "чаще. Значит, рост гена может объясняться сцеплением, "
+                               "горлышком первой смены или дрейфом, а не пользой "
+                               "обучения (§7.4)."),
     "signal_within_noise": ("не подтверждено: сигнал внутри дрейфа",
                             "Парный тест значим, но разница медиан меньше 2σ разброса "
                             "гена скорости там, где он ни на что не влияет."),
@@ -353,6 +404,7 @@ def render_section(st):
                    f"<td>{fmt_p(e.get('p'))}</td><td>{vl}</td></tr>")
 
     ext = st["extinction"]
+    ab = st["ablation"]
     return f'''
 <div class="card">
   <p class="big">{n} из {st['target']} seed'ов</p>
@@ -371,6 +423,11 @@ def render_section(st):
   (в log10) = <b>{fmt(st.get('two_sigma_log'))}</b>, пар: {c.get('n', 0)}.
   Вымирания: life {fmt(ext.get('life'), 2)}, без обучения (life_frozen)
   {fmt(ext.get('life_frozen'), 2)}, слишком частая смена (fast) {fmt(ext.get('fast'), 2)}.</p>
+  <p class="muted">Абляция (H-B4, третий критерий H-B1): расходящихся пар
+  {ab['n_discordant']} (life выжил, а без обучения нет: <b>{ab['b']}</b>;
+  наоборот: <b>{ab['c']}</b>), точный тест Макнемара p = <b>{fmt_p(ab['p'])}</b>,
+  выигрыш обучения <b class="{'yes' if ab['benefit'] else 'no'}">
+  {'показан' if ab['benefit'] else 'не показан'}</b>.</p>
 </div>
 {'<p class="note"><b>Это промежуточное чтение, а не результат.</b> Заранее объявлено, что подтверждающих чтения три: на 10, 20 и 40 seed’ах. Промежуточные значения показаны ради прозрачности и ничего не заявляют.</p>' if interim else ''}
 

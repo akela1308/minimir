@@ -475,7 +475,7 @@ section.exp>h2,section.exp>:not(h2){{grid-column:auto}}
     <a href="index.html">эксперимент 2: когда выгодно учиться</a>
     <a href="interoception.html">эксперимент 1: интероцепция</a>
     <a href="sim.html">записанный прогон</a>
-    <a href="agi.html">AGI</a>
+    <a href="notes.html">заметки</a>
     <a href="about.html">о проекте</a>
     <a href="https://github.com/akela1308/minimir">исходники</a>
   </nav>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mini·world: research notes</title>
+<meta name="description" content="Research notes from the mini-world project: dated, signed pieces on the design of preregistered artificial-life experiments and on what current claims about AGI can and cannot be measured against.">
+<meta name="keywords" content="research notes, artificial life, ALife, preregistration, AGI, evolution of learning, рабочие заметки, искусственная жизнь, предрегистрация">
+<meta name="author" content="Maksim Ilin">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://minimir.ilinmaks.com/notes.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="mini-world">
+<meta property="og:title" content="mini·world: research notes">
+<meta property="og:description" content="Research notes from the mini-world project: dated, signed pieces on the design of preregistered artificial-life experiments and on what current claims about AGI can and cannot be measured against.">
+<meta property="og:url" content="https://minimir.ilinmaks.com/notes.html">
+<meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mini·world: research notes">
+<meta name="twitter:description" content="Research notes from the mini-world project: dated, signed pieces on the design of preregistered artificial-life experiments and on what current claims about AGI can and cannot be measured against.">
+<meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","headline":"mini-world research notes","inLanguage":["en","ru","de","es","zh"],"datePublished":"2026-09-10","url":"https://minimir.ilinmaks.com/notes.html","author":{"@id":"https://minimir.ilinmaks.com/#author"},"publisher":{"@id":"https://minimir.ilinmaks.com/#author"},"isPartOf":{"@id":"https://minimir.ilinmaks.com/#website"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","url":"https://minimir.ilinmaks.com/"}]}</script>
+<link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+<style>
+  .byline{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;
+    margin:6px 0 0}
+  .byline b{color:var(--ink);font-weight:500}
+  .notelist{list-style:none;padding:0;margin:26px 0 0}
+  .notelist li{border-top:1px solid var(--hair);padding:20px 0}
+  .notelist a.t{font-size:21px;font-weight:600;letter-spacing:-.015em;color:var(--ink);
+    text-decoration:none;line-height:1.25;display:inline-block}
+  .notelist a.t:hover{color:var(--cyan)}
+  .notelist .meta{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+  .notelist p{margin:8px 0 0;max-width:70ch}
+</style>
+</head>
+<body>
+<canvas id="amb"></canvas>
+<div class="langbar" role="group" aria-label="language"><a class="brand" href="index.html">mini<span class="dot">·</span>world</a><div class="langs"><button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="zh">中文</button><button data-set="es">ES</button></div></div>
+<div class="wrap">
+<div class="langblock" data-lang="en" lang="en">
+  <h1>Research notes</h1>
+  <div class="eyebrow">mini·world · notes</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · AI Consultant</div>
+  <p class="lede">Short pieces where we state a position or explain a design decision. They are not peer-reviewed papers and do not pretend to be: each one is dated, signed, and says plainly what it does not show.</p>
+  <ul class="notelist">
+    <li><div class="meta">10 september 2026 · research note</div><a class="t" href="learning.html">When learning pays. Why we set up a second experiment</a><p>The first experiment ended with a negative verdict we had declared in advance. This note works out what exactly failed, why an obstacle in the third stage turned out to be someone else's published prediction, and what the new experiment would have to show to count as a confirmation.</p></li>
+    <li><div class="meta">8 september 2026 · research note</div><a class="t" href="agi.html">AGI was declared. What is left to measure?</a><p>On the September statements about AGI, on why the dispute cannot be settled as posed, and on the fact that the instruments are breaking before the objects: capability evaluations are saturating and chain-of-thought monitoring is losing reliability. What we would measure instead of the label.</p></li>
+  </ul>
+  <footer>Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI Engineer and AI Consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Open research. Code, data and the frozen protocol: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">preregistration B</a> · <a href="journal.html">observation journal</a> · <a href="index.html">live experiment</a><br>Sources: M. Kozielska, F. J. Weissing, “A neural network model for the evolution of learning in changing environments”, PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton et al., “Loss of plasticity in deep continual learning”, Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+<div class="langblock" data-lang="ru" lang="ru">
+  <h1>Рабочие заметки</h1>
+  <div class="eyebrow">mini·world · заметки</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · Максим Ильин, AI-консультант</div>
+  <p class="lede">Короткие тексты, где мы формулируем позицию или объясняем проектное решение. Это не рецензируемые статьи и не претендуют ими быть: у каждой есть дата, подпись и прямо сказано, чего она не показывает.</p>
+  <ul class="notelist">
+    <li><div class="meta">10 сентября 2026 · рабочая заметка</div><a class="t" href="learning.html">Когда обучение окупается. Почему мы поставили второй эксперимент</a><p>Первый эксперимент закончился отрицательным вердиктом, объявленным заранее. В заметке разбирается, что именно не сработало, почему помеха третьего этапа оказалась чужим опубликованным предсказанием, и что новый эксперимент должен показать, чтобы это засчиталось за подтверждение.</p></li>
+    <li><div class="meta">8 сентября 2026 · рабочая заметка</div><a class="t" href="agi.html">AGI объявили. Что осталось измерять?</a><p>О сентябрьских заявлениях про AGI, о том, почему спор нерешаем в той форме, в какой он задан, и о том, что приборы ломаются раньше объектов: оценки способностей насыщаются, мониторинг цепочек рассуждений теряет надёжность. Что мы бы мерили вместо ярлыка.</p></li>
+  </ul>
+  <footer>Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Открытое исследование. Код, данные и замороженный протокол: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">предрегистрация B</a> · <a href="journal.html">журнал наблюдений</a> · <a href="index.html">живой эксперимент</a><br>Источники: M. Kozielska, F. J. Weissing, «A neural network model for the evolution of learning in changing environments», PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton и др., «Loss of plasticity in deep continual learning», Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+<div class="langblock" data-lang="de" lang="de">
+  <h1>Forschungsnotizen</h1>
+  <div class="eyebrow">mini·world · Notizen</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · KI-Berater</div>
+  <p class="lede">Kurze Texte, in denen wir eine Position formulieren oder eine Designentscheidung erklären. Es sind keine begutachteten Aufsätze und sie geben auch nicht vor, welche zu sein: jeder trägt Datum und Signatur und sagt klar, was er nicht zeigt.</p>
+  <ul class="notelist">
+    <li><div class="meta">10. September 2026 · Forschungsnotiz</div><a class="t" href="learning.html">Wann Lernen sich lohnt. Warum wir ein zweites Experiment aufgesetzt haben</a><p>Das erste Experiment endete mit einem vorab erklärten negativen Urteil. Die Notiz arbeitet heraus, was genau gescheitert ist, warum ein Hindernis der dritten Stufe sich als fremde veröffentlichte Vorhersage entpuppte, und was das neue Experiment zeigen müsste, um als Bestätigung zu gelten.</p></li>
+    <li><div class="meta">8. September 2026 · Forschungsnotiz</div><a class="t" href="agi.html">AGI wurde ausgerufen. Was bleibt zu messen?</a><p>Über die Septemberaussagen zu AGI, darüber, warum der Streit so, wie er gestellt ist, nicht entscheidbar ist, und darüber, dass die Messgeräte vor den Objekten brechen: Fähigkeitsbewertungen sättigen, die Überwachung der Gedankenketten verliert an Verlässlichkeit. Was wir statt des Etiketts messen würden.</p></li>
+  </ul>
+  <footer>Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Offene Forschung. Code, Daten und das eingefrorene Protokoll: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Präregistrierung B</a> · <a href="journal.html">Beobachtungsjournal</a> · <a href="index.html">Live-Experiment</a><br>Quellen: M. Kozielska, F. J. Weissing, „A neural network model for the evolution of learning in changing environments“, PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton u. a., „Loss of plasticity in deep continual learning“, Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+<div class="langblock" data-lang="zh" lang="zh">
+  <h1>研究札记</h1>
+  <div class="eyebrow">mini·world · 札记</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · 马克西姆·伊林，AI 顾问</div>
+  <p class="lede">一些短文，用来表明立场或解释某个设计决定。它们不是同行评议的论文，也不假装是：每一篇都有日期和署名，并且明确说出自己没有显示什么。</p>
+  <ul class="notelist">
+    <li><div class="meta">2026年9月10日 · 研究札记</div><a class="t" href="learning.html">学习何时才划算。我们为什么要做第二个实验</a><p>第一个实验以事先声明的否定结论收场。这篇札记梳理了究竟是什么失败了，为什么第三阶段的一个障碍原来是别人已发表的预言，以及新实验要显示什么才算得上确认。</p></li>
+    <li><div class="meta">2026年9月8日 · 研究札记</div><a class="t" href="agi.html">AGI 被宣告了。还剩下什么可测量？</a><p>关于九月里那些有关 AGI 的说法，关于这场争论为何按现有提法无法裁决，以及关于量具比对象先坏：能力评测正在饱和，思维链监控正在失去可靠性。我们会用什么来代替这个标签去测量。</p></li>
+  </ul>
+  <footer>项目与文字：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>开放研究。代码、数据与已冻结的协议：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">预注册 B</a> · <a href="journal.html">观察日志</a> · <a href="index.html">实时实验</a><br>资料来源：M. Kozielska, F. J. Weissing,《A neural network model for the evolution of learning in changing environments》, PLoS Computational Biology, 2024；S. Dohare, R. S. Sutton 等,《Loss of plasticity in deep continual learning》, Nature, 2024；L. Yaeger, Polyworld, 1994。</footer>
+</div>
+<div class="langblock" data-lang="es" lang="es">
+  <h1>Notas de investigación</h1>
+  <div class="eyebrow">mini·world · notas</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · Consultor de IA</div>
+  <p class="lede">Textos breves donde fijamos una posición o explicamos una decisión de diseño. No son artículos revisados por pares ni pretenden serlo: cada uno lleva fecha y firma, y dice con claridad qué es lo que no muestra.</p>
+  <ul class="notelist">
+    <li><div class="meta">10 de septiembre de 2026 · nota de investigación</div><a class="t" href="learning.html">Cuándo conviene aprender. Por qué montamos un segundo experimento</a><p>El primer experimento terminó con un veredicto negativo declarado de antemano. La nota examina qué falló exactamente, por qué un obstáculo de la tercera etapa resultó ser una predicción ajena ya publicada, y qué debería mostrar el nuevo experimento para contar como confirmación.</p></li>
+    <li><div class="meta">8 de septiembre de 2026 · nota de investigación</div><a class="t" href="agi.html">Declararon la AGI. ¿Qué queda por medir?</a><p>Sobre las declaraciones de septiembre acerca de la AGI, sobre por qué la disputa no puede resolverse tal como está planteada, y sobre el hecho de que los instrumentos se rompen antes que los objetos: las evaluaciones de capacidades se saturan y la vigilancia de las cadenas de razonamiento pierde fiabilidad. Qué mediríamos en lugar de la etiqueta.</p></li>
+  </ul>
+  <footer>Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Investigación abierta. Código, datos y el protocolo congelado: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">preregistro B</a> · <a href="journal.html">diario de observaciones</a> · <a href="index.html">experimento en vivo</a><br>Fuentes: M. Kozielska, F. J. Weissing, «A neural network model for the evolution of learning in changing environments», PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton y otros, «Loss of plasticity in deep continual learning», Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+</div>
+
+<script>
+(function(){
+  const KEY='minimir_lang', DEF='en';
+  const blocks=[...document.querySelectorAll('.langblock')];
+  const btns=[...document.querySelectorAll('.langbar button')];
+  function apply(l){
+    if(!blocks.some(b=>b.dataset.lang===l))l=DEF;
+    blocks.forEach(b=>b.classList.toggle('on',b.dataset.lang===l));
+    btns.forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+    document.documentElement.lang=l;
+    try{localStorage.setItem(KEY,l)}catch(e){}
+  }
+  btns.forEach(b=>b.onclick=()=>apply(b.dataset.set));
+  let saved=DEF; try{saved=localStorage.getItem(KEY)||DEF}catch(e){}
+  apply(saved);
+})();
+// ненавязчивая «чашка Петри»: дрейфующие точки цвета энергии
+(function(){
+  const c=document.getElementById('amb'), x=c.getContext('2d');
+  let W,H,pts;
+  function ec(t){let r,g,b;if(t<.5){const u=t/.5;r=0xe8+(0xd9-0xe8)*u;g=0x73+(0xc2-0x73)*u;b=0x4a+(0x6a-0x4a)*u;}
+    else{const u=(t-.5)/.5;r=0xd9+(0x46-0xd9)*u;g=0xc2+(0xc6-0xc2)*u;b=0x6a+(0xd0-0x6a)*u;}
+    return `rgba(${r|0},${g|0},${b|0},`;}
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;
+    pts=Array.from({length:Math.min(70,Math.floor(W/16))},()=>({
+      x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,
+      vy:(Math.random()-.5)*.22,e:Math.random(),r:1+Math.random()*2}));}
+  resize();addEventListener('resize',resize);
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function frame(){x.clearRect(0,0,W,H);
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      x.fillStyle=ec(p.e)+'0.5)';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();}
+    if(!reduce)requestAnimationFrame(frame);}
+  frame();
+})();
+</script>
+
+</body>
+</html>

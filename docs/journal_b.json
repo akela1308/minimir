@@ -87,6 +87,14 @@
    "n": 0
   }
  },
+ "ablation": {
+  "b": 0,
+  "c": 0,
+  "concordant": 0,
+  "n_discordant": 0,
+  "p": null,
+  "benefit": false
+ },
  "extinction": {
   "life": null,
   "life_frozen": null,

@@ -108,7 +108,8 @@ robots += f"Sitemap: {BASE}/sitemap.xml\n"
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 for loc, pr in ((BASE + "/", "1.0"), (BASE + "/interoception.html", "0.9"),
-                (BASE + "/journal.html", "0.9"), (BASE + "/agi.html", "0.8"),
+                (BASE + "/journal.html", "0.9"), (BASE + "/notes.html", "0.9"),
+                (BASE + "/learning.html", "0.8"), (BASE + "/agi.html", "0.8"),
                 (BASE + "/about.html", "0.8"), (BASE + "/sim.html", "0.6")):
     sm += (f"  <url><loc>{loc}</loc><lastmod>{LASTMOD}</lastmod>"
            f"<changefreq>weekly</changefreq><priority>{pr}</priority></url>\n")
@@ -144,7 +145,8 @@ try:
 except Exception as e:
     print("og.png skipped:", e)
 
-for f in ("index.html", "interoception.html", "about.html", "sim.html", "agi.html"):
+for f in ("index.html", "interoception.html", "notes.html", "learning.html",
+          "about.html", "sim.html", "agi.html"):
     if (docs / f).exists():
         print(f"docs/{f}: {(docs/f).stat().st_size/1024:.0f} KB")
 print("robots.txt, sitemap.xml, favicon.svg ok")
