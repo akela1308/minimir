@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mini·world — exact recorded run</title>
+<title>mini·world, exact recorded run</title>
 <meta name="description" content="The exact recorded run behind the research (Python engine): creatures coloured by energy, food, marks, and charts of population, energy, mutual information and cooperation.">
 <meta name="keywords" content="artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
 <meta name="author" content="Maksim Ilin">
@@ -12,14 +12,14 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mini-world">
-<meta property="og:title" content="mini·world — exact recorded run">
+<meta property="og:title" content="mini·world, exact recorded run">
 <meta property="og:description" content="The exact recorded run behind the research (Python engine): creatures coloured by energy, food, marks, and charts of population, energy, mutual information and cooperation.">
 <meta property="og:url" content="https://minimir.ilinmaks.com/sim.html">
 <meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="mini·world — exact recorded run">
+<meta name="twitter:title" content="mini·world, exact recorded run">
 <meta name="twitter:description" content="The exact recorded run behind the research (Python engine): creatures coloured by energy, food, marks, and charts of population, energy, mutual information and cooperation.">
 <meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"The exact recorded run behind the research (Python engine): creatures coloured by energy, food, marks, and charts of population, energy, mutual information and cooperation.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"]},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://minimir.ilinmaks.com/"}]}</script>
@@ -204,7 +204,7 @@ const DATA = {"meta":{"W":128,"H":128,"rW":64,"rH":64,"resDS":2,"stride":5,"nFra
 const I18N = {
   en:{eyebrow:"artificial life", about:"about ↗",
     brand:'mini<span class="dot">·</span>world',
-    thesis:'<b>A tiny digital world where simple creatures live: they look for food, spend energy, reproduce, and die for good.</b> No one scores them — those who gather enough food leave offspring, the rest vanish. This is not a game but a faithful replay of one such simulation: a creature’s colour shows how much energy it has, green is food, <span class="flag">yellow</span> are marks creatures leave in the world.',
+    thesis:'<b>A tiny digital world where simple creatures live: they look for food, spend energy, reproduce, and die for good.</b> No one scores them, those who gather enough food leave offspring, the rest vanish. This is not a game but a faithful replay of one such simulation: a creature’s colour shows how much energy it has, green is food, <span class="flag">yellow</span> are marks creatures leave in the world.',
     cond:"this run has everything on at once: foraging, creatures interacting, and marks in the world",
     hud_pop:"pop.",hud_e:"energy",hud_social:"social layer open",hud_warm:"warm-up",
     g_pop_l:"population",g_pop_u:"creatures",g_e_l:"mean energy",g_e_u:"of 100",
@@ -212,10 +212,10 @@ const I18N = {
     leg_title:"reading the screen",leg_hunger:"hungry",leg_full:"full",
     leg_mark:"mark in a cell (sign)",leg_res:"food; dim = fertile soil",
     play:"▶ play",pause:"❚❚ pause",tick_l:"tick",frame_l:"frame",
-    foot:'Every frame is a real simulation state (seed 1), not a for-show animation. Marks <span class="flag">are barely used</span> and the field never saturates — a measured stage-3 result, not a visualization artefact. Code, data, report: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
+    foot:'Every frame is a real simulation state (seed 1), not a for-show animation. Marks <span class="flag">are barely used</span> and the field never saturates, a measured stage-3 result, not a visualization artefact. Code, data, report: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
   ru:{eyebrow:"искусственная жизнь", about:"о проекте ↗",
     brand:'мини<span class="dot">·</span>мир',
-    thesis:'<b>Это крошечный цифровой мир, где живут простые существа: они ищут еду, тратят силы, размножаются и умирают насовсем.</b> Никто не ставит им оценок — кто нашёл достаточно еды, оставляет потомство, остальные исчезают. Ниже — не игра, а точное воспроизведение одной такой симуляции: цвет существа показывает, сколько у него сил (энергии), зелёное — еда, <span class="flag">жёлтое</span> — метки, которые существа оставляют в мире.',
+    thesis:'<b>Это крошечный цифровой мир, где живут простые существа: они ищут еду, тратят силы, размножаются и умирают насовсем.</b> Никто не ставит им оценок, кто нашёл достаточно еды, оставляет потомство, остальные исчезают. Ниже, не игра, а точное воспроизведение одной такой симуляции: цвет существа показывает, сколько у него сил (энергии), зелёное, еда, <span class="flag">жёлтое</span>, метки, которые существа оставляют в мире.',
     cond:"в этом прогоне включено всё сразу: поиск еды, общение между существами и метки в мире",
     hud_pop:"поп.",hud_e:"энергия",hud_social:"соц.слой открыт",hud_warm:"прогрев",
     g_pop_l:"популяция",g_pop_u:"агентов",g_e_l:"средняя энергия",g_e_u:"из 100",
@@ -223,10 +223,10 @@ const I18N = {
     leg_title:"чтение экрана",leg_hunger:"голод",leg_full:"сытость",
     leg_mark:"метка в клетке (знак)",leg_res:"ресурс (еда), тускло = плодородная почва",
     play:"▶ старт",pause:"❚❚ пауза",tick_l:"тик",frame_l:"кадр",
-    foot:'Каждый кадр — реальное состояние симуляции (seed 1), а не анимация «для вида». Метки <span class="flag">почти не используются</span> и поле не насыщается — это измеренный результат этапа 3, а не артефакт визуализации. Код, данные, отчёт: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
+    foot:'Каждый кадр, реальное состояние симуляции (seed 1), а не анимация «для вида». Метки <span class="flag">почти не используются</span> и поле не насыщается это измеренный результат этапа 3, а не артефакт визуализации. Код, данные, отчёт: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
   de:{eyebrow:"künstliches Leben", about:"über ↗",
     brand:'mini<span class="dot">·</span>welt',
-    thesis:'<b>Eine winzige digitale Welt, in der einfache Wesen leben: Sie suchen Futter, verbrauchen Kraft, pflanzen sich fort und sterben endgültig.</b> Niemand bewertet sie — wer genug Futter sammelt, hinterlässt Nachkommen, der Rest verschwindet. Kein Spiel, sondern die getreue Wiedergabe einer solchen Simulation: die Farbe eines Wesens zeigt seine Kraft (Energie), Grün ist Futter, <span class="flag">Gelb</span> sind Markierungen, die Wesen in der Welt hinterlassen.',
+    thesis:'<b>Eine winzige digitale Welt, in der einfache Wesen leben: Sie suchen Futter, verbrauchen Kraft, pflanzen sich fort und sterben endgültig.</b> Niemand bewertet sie, wer genug Futter sammelt, hinterlässt Nachkommen, der Rest verschwindet. Kein Spiel, sondern die getreue Wiedergabe einer solchen Simulation: die Farbe eines Wesens zeigt seine Kraft (Energie), Grün ist Futter, <span class="flag">Gelb</span> sind Markierungen, die Wesen in der Welt hinterlassen.',
     cond:"in diesem Lauf ist alles zugleich an: Futtersuche, Interaktion der Wesen und Markierungen in der Welt",
     hud_pop:"Pop.",hud_e:"Energie",hud_social:"soziale Schicht offen",hud_warm:"Aufwärmen",
     g_pop_l:"Population",g_pop_u:"Wesen",g_e_l:"mittlere Energie",g_e_u:"von 100",
@@ -234,7 +234,7 @@ const I18N = {
     leg_title:"was man sieht",leg_hunger:"Hunger",leg_full:"satt",
     leg_mark:"Markierung in einer Zelle (Zeichen)",leg_res:"Futter; blass = fruchtbarer Boden",
     play:"▶ Start",pause:"❚❚ Pause",tick_l:"Tick",frame_l:"Bild",
-    foot:'Jedes Bild ist ein echter Simulationszustand (Seed 1), keine Show-Animation. Markierungen <span class="flag">werden kaum genutzt</span> und das Feld sättigt sich nie — ein gemessenes Stufe-3-Ergebnis, kein Visualisierungsartefakt. Code, Daten, Bericht: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
+    foot:'Jedes Bild ist ein echter Simulationszustand (Seed 1), keine Show-Animation. Markierungen <span class="flag">werden kaum genutzt</span> und das Feld sättigt sich nie, ein gemessenes Stufe-3-Ergebnis, kein Visualisierungsartefakt. Code, Daten, Bericht: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
   zh:{eyebrow:"人工生命", about:"关于 ↗",
     brand:'微<span class="dot">·</span>世界',
     thesis:'<b>一个微小的数字世界，里面住着简单的生物：它们寻找食物、消耗体力、繁殖，并且会彻底死亡。</b>没有谁给它们打分——找到足够食物的留下后代，其余的消失。这不是游戏，而是对一次这样的模拟的忠实重放：生物的颜色表示它的体力（能量），绿色是食物，<span class="flag">黄色</span>是生物留在世界里的记号。',
@@ -248,7 +248,7 @@ const I18N = {
     foot:'每一帧都是真实的模拟状态（seed 1），并非“摆拍”动画。记号<span class="flag">几乎不被使用</span>，场也从不饱和——这是被测量到的阶段 3 结果，而非可视化的假象。代码、数据、报告：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>。'},
   es:{eyebrow:"vida artificial", about:"acerca ↗",
     brand:'mini<span class="dot">·</span>mundo',
-    thesis:'<b>Un diminuto mundo digital donde viven criaturas simples: buscan comida, gastan energía, se reproducen y mueren para siempre.</b> Nadie las puntúa — quien reúne suficiente comida deja descendencia, el resto desaparece. No es un juego, sino la reproducción fiel de una de esas simulaciones: el color de la criatura muestra cuánta energía tiene, el verde es comida, <span class="flag">el amarillo</span> son marcas que las criaturas dejan en el mundo.',
+    thesis:'<b>Un diminuto mundo digital donde viven criaturas simples: buscan comida, gastan energía, se reproducen y mueren para siempre.</b> Nadie las puntúa, quien reúne suficiente comida deja descendencia, el resto desaparece. No es un juego, sino la reproducción fiel de una de esas simulaciones: el color de la criatura muestra cuánta energía tiene, el verde es comida, <span class="flag">el amarillo</span> son marcas que las criaturas dejan en el mundo.',
     cond:"en esta ejecución está todo activado a la vez: buscar comida, interacción entre criaturas y marcas en el mundo",
     hud_pop:"pobl.",hud_e:"energía",hud_social:"capa social abierta",hud_warm:"calentamiento",
     g_pop_l:"población",g_pop_u:"criaturas",g_e_l:"energía media",g_e_u:"de 100",
@@ -256,7 +256,7 @@ const I18N = {
     leg_title:"cómo leer la pantalla",leg_hunger:"hambre",leg_full:"saciado",
     leg_mark:"marca en una celda (signo)",leg_res:"comida; tenue = suelo fértil",
     play:"▶ reproducir",pause:"❚❚ pausa",tick_l:"tic",frame_l:"cuadro",
-    foot:'Cada cuadro es un estado real de la simulación (seed 1), no una animación «de adorno». Las marcas <span class="flag">apenas se usan</span> y el campo nunca se satura — un resultado medido de la etapa 3, no un artefacto visual. Código, datos, informe: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
+    foot:'Cada cuadro es un estado real de la simulación (seed 1), no una animación «de adorno». Las marcas <span class="flag">apenas se usan</span> y el campo nunca se satura, un resultado medido de la etapa 3, no un artefacto visual. Código, datos, informe: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
 };
 const LKEY='minimir_lang', LDEF='en';
 let LANG=(()=>{try{return localStorage.getItem(LKEY)||LDEF}catch(e){return LDEF}})();

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>mini·world — журнал наблюдений</title>
+<title>mini·world, журнал наблюдений</title>
 <meta name="description" content="Автономный накопительный эксперимент mini·world:
 суточные прогоны, статистика по мере накопления seed'ов, объявленные заранее
 контрольные чтения.">
@@ -108,7 +108,7 @@ seed'ы раз в неделю.</p>
 <div class="card">
   <p class="big">40 из 100 seed'ов</p>
   <div class="bar"><i style="width:40%"></i></div>
-  <p class="muted">Главная метрика — внутриагентная взаимная информация между
+  <p class="muted">Главная метрика: внутриагентная взаимная информация между
   энергией и действием. Условия: <b>self</b> (агент видит свои энергию и
   возраст), <b>shuffled</b> (те же входы, подменённые от чужого агента),
   <b>neighbour</b> (входы соседа), <b>off</b> (входы занулены).</p>
@@ -116,7 +116,7 @@ seed'ы раз в неделю.</p>
 
 <h2>Текущее чтение</h2>
 <div class="card">
-  <p class="big">не подтверждено — сигнал внутри шума</p>
+  <p class="big">не подтверждено, сигнал внутри шума</p>
   <p>Внутри каждого seed'а self стабильно выше контроля (парный тест значим), но разрыв меньше 2σ разброса между seed'ами. По объявленному двойному критерию это не заявка.</p>
   <p class="muted">Δ(self − shuffled) = <b>0.0194</b> бит,
   p = <b>&lt;0.0001</b>, 2σ межсидового шума =
@@ -138,10 +138,10 @@ seed'ы раз в неделю.</p>
   <text x="6" y="226.0" class="ax">-0.068</text>
   <text x="56.0" y="248" class="ax" text-anchor="middle">5</text><text x="131.0" y="248" class="ax" text-anchor="middle">16</text><text x="206.1" y="248" class="ax" text-anchor="middle">27</text><text x="281.1" y="248" class="ax" text-anchor="middle">38</text><text x="356.1" y="248" class="ax" text-anchor="middle">49</text><text x="431.2" y="248" class="ax" text-anchor="middle">60</text><text x="506.2" y="248" class="ax" text-anchor="middle">71</text><text x="581.2" y="248" class="ax" text-anchor="middle">82</text><text x="656.3" y="248" class="ax" text-anchor="middle">93</text>
 </svg>
-<p class="muted">Линия — разница средних между self и контролем. Полоса —
+<p class="muted">Линия: разница средних между self и контролем. Полоса,
 коридор ±2σ разброса между seed'ами: пока линия внутри полосы, разрыв
 неотличим от того, насколько миры отличаются друг от друга просто по
-случайности старта. Пунктиром — объявленные контрольные чтения.</p>
+случайности старта. Пунктиром объявленные контрольные чтения.</p>
 
 <h2>Условия сейчас</h2>
 <table>
@@ -149,7 +149,7 @@ seed'ы раз в неделю.</p>
 <tr><td class="mono">self</td><td>0.0349</td><td>0.0265</td><td>0.0408</td><td>39/40</td></tr><tr><td class="mono">shuffled</td><td>0.0156</td><td>0.0151</td><td>0.0173</td><td>40/40</td></tr><tr><td class="mono">neighbour</td><td>0.0161</td><td>0.0192</td><td>0.0097</td><td>40/40</td></tr><tr><td class="mono">off</td><td>0.0242</td><td>0.0289</td><td>0.0231</td><td>38/40</td></tr>
 </table>
 <p class="muted">Прогон считается негодным, если популяция вымерла, упёрлась в
-потолок численности или заняла меньше четырёх энергетических децилей —
+потолок численности или заняла меньше четырёх энергетических децилей,
 критерии заданы до прогонов и применяются автоматически.</p>
 
 <h2>Парные сравнения с контролем</h2>
@@ -163,21 +163,21 @@ seed'ы раз в неделю.</p>
 <table>
 <tr><th>дата</th><th>seed'ы</th><th>всего</th><th>Δ</th><th>p</th><th>2σ</th>
 <th>чтение</th></tr>
-<tr><td class="mono">2026-08-08</td><td>37–40</td><td>40</td><td>0.0194</td><td>&lt;0.0001</td><td>0.0530</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-07</td><td>33–36</td><td>36</td><td>0.0208</td><td>&lt;0.0001</td><td>0.0537</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-06</td><td>29–32</td><td>32</td><td>0.0199</td><td>&lt;0.0001</td><td>0.0465</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-05</td><td>25–28</td><td>28</td><td>0.0214</td><td>&lt;0.0001</td><td>0.0440</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-04</td><td>21–24</td><td>24</td><td>0.0225</td><td>&lt;0.0001</td><td>0.0433</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-03</td><td>17–20</td><td>20</td><td>0.0234</td><td>&lt;0.0001</td><td>0.0454</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-08-02</td><td>13–16</td><td>16</td><td>0.0243</td><td>&lt;0.0001</td><td>0.0499</td><td>не подтверждено — сигнал внутри шума</td></tr><tr><td class="mono">2026-07-26</td><td>1–12</td><td>12</td><td>0.0233</td><td>0.0005</td><td>0.0500</td><td>не подтверждено — сигнал внутри шума</td></tr>
+<tr><td class="mono">2026-08-08</td><td>37–40</td><td>40</td><td>0.0194</td><td>&lt;0.0001</td><td>0.0530</td><td>не подтверждено, сигнал внутри шума</td></tr><tr><td class="mono">2026-08-07</td><td>33–36</td><td>36</td><td>0.0208</td><td>&lt;0.0001</td><td>0.0537</td><td>не подтверждено, сигнал внутри шума</td></tr><tr><td class="mono">2026-08-06</td><td>29–32</td><td>32</td><td>0.0199</td><td>&lt;0.0001</td><td>0.0465</td><td>не подтверждено, сигнал внутри шума</td></tr><tr><td class="mono">2026-08-05</td><td>25–28</td><td>28</td><td>0.0214</td><td>&lt;0.0001</td><td>0.0440</td><td>не подтверждено, сигнал внутри шума</td></tr><tr><td class="mono">2026-08-04</td><td>21–24</td><td>24</td><td>0.0225</td><td>&lt;0.0001</td><td>0.0433</td><td>не подтверждено, сигнал внутри шума</td></tr><tr><td class="mono">2026-08-03</td><td>17–20</td><td>20</td><td>0.0234</td><td>&lt;0.0001</td><td>0.0454</td><td>не подтверждено, сигнал внутри шума</td></tr><tr><td class="mono">2026-08-02</td><td>13–16</td><td>16</td><td>0.0243</td><td>&lt;0.0001</td><td>0.0499</td><td>не подтверждено, сигнал внутри шума</td></tr><tr><td class="mono">2026-07-26</td><td>1–12</td><td>12</td><td>0.0233</td><td>0.0005</td><td>0.0500</td><td>не подтверждено, сигнал внутри шума</td></tr>
 </table>
 <p class="muted">Сырые числа по каждому прогону лежат в репозитории:
 <a href="https://github.com/akela1308/minimir/blob/main/runs/daily/compare_ext.jsonl">runs/daily/compare_ext.jsonl</a>
 (новые seed'ы) и
 <a href="https://github.com/akela1308/minimir/blob/main/runs/compare.jsonl">runs/compare.jsonl</a>
 (замороженные двенадцать из ночной сессии). Каждая строка несёт дату, хеш
-коммита и seed — любой прогон воспроизводится этими тремя числами.</p>
+коммита и seed, любой прогон воспроизводится этими тремя числами.</p>
 
 </section>
 
 <footer>
 Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> ·
-Собрано 2026-09-09T21:36:02Z · код 7cf70b1 ·
-протокол A5-120k-blockavg-v1 · метод и критерии —
+Собрано 2026-09-09T21:43:56Z · код 1abc8ac ·
+протокол A5-120k-blockavg-v1 · метод и критерии,
 <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION.md">предрегистрация</a>,
 <a href="https://github.com/akela1308/minimir/blob/main/REPORT.md">отчёт ночной сессии</a>
 </footer>

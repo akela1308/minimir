@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mini·world — experiment 1: interoception (self vs shuffled)</title>
-<meta name="description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
+<title>mini·world, experiment 1: interoception (self vs shuffled)</title>
+<meta name="description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward, selection only.">
 <meta name="keywords" content="artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
 <meta name="author" content="Maksim Ilin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
@@ -12,17 +12,17 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mini-world">
-<meta property="og:title" content="mini·world — experiment 1: interoception (self vs shuffled)">
-<meta property="og:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
+<meta property="og:title" content="mini·world, experiment 1: interoception (self vs shuffled)">
+<meta property="og:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward, selection only.">
 <meta property="og:url" content="https://minimir.ilinmaks.com/interoception.html">
 <meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="mini·world — experiment 1: interoception (self vs shuffled)">
-<meta name="twitter:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.">
+<meta name="twitter:title" content="mini·world, experiment 1: interoception (self vs shuffled)">
+<meta name="twitter:description" content="A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward, selection only.">
 <meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward — selection only.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://minimir.ilinmaks.com/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"A controlled artificial-life experiment running live in your browser: two worlds (treatment vs shuffled control) evolve in parallel and a running verdict on whether self-knowledge changes behaviour accumulates as worlds live and die. No fitness function, no reward, selection only.","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, agent-based model, emergence of needs, interoception, cooperation, altruism, Vygotsky, Ilyenkov, internalization, sign, neural network agents, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing whether need-like behaviour emerges from selection alone, with no fitness function.","url":"https://minimir.ilinmaks.com/"}]}</script>
 </head>
 <body>
 <link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -222,92 +222,92 @@
 const I18N={
  en:{eye:"artificial life · experiment 1 · live",exp2:"experiment 2: when learning pays ↗",agi:"AGI ↗",about:"about ↗",rec:"exact recording ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>world',
-  lede:"A controlled experiment running in your browser right now. Two worlds live in parallel from the same founder and seed: in one (treatment) a creature senses its own energy; in the other (control) that signal is shuffled among creatures — same numbers, no self-knowledge. If knowing yourself matters, the treatment should score higher. The verdict accumulates as worlds live and die.",
+  lede:"A controlled experiment running in your browser right now. Two worlds live in parallel from the same founder and seed: in one (treatment) a creature senses its own energy; in the other (control) that signal is shuffled among creatures, same numbers, no self-knowledge. If knowing yourself matters, the treatment should score higher. The verdict accumulates as worlds live and die.",
   self:"treatment · self",ctrl:"control · shuffled",speed:"speed",newpair:"↻ new pair",seeding:"seeding a viable world…",
   hud_pop:"pop",hud_warm:"warm-up",hud_social:"social",
   verdict_h:"live verdict on H1",v_delta:"self − shuffled",v_ci:"95% interval",v_noise:"world noise 2σ",v_blocks:"blocks",v_bits:"bits",
-  v_wait:"collecting data — need more measurement blocks…",
+  v_wait:"collecting data: need more measurement blocks…",
   v_eff:"effect: seeing yourself beats the control beyond the world’s own noise.",
-  v_weak:"self beats the control, but the gap is within the world’s noise — not confirmed (this matches the recorded study).",
+  v_weak:"self beats the control, but the gap is within the world’s noise: not confirmed (this matches the recorded study).",
   v_none:"not distinguishable from the control’s noise.",
   g_pop:"population",g_pop_u:"creatures",g_smi:"self I(E;action)",g_cmi:"shuffled I(E;action)",g_mi_u:"bits/block",g_coop:"cooperation",g_coop_u:"give share",
   how_h:"how this is an experiment, not a demo",
-  how:"Watching one world’s numbers proves nothing — a high score could come from indirect correlation, not from a creature using its self-signal. Science needs a <b>control</b>. So we run the same world twice: <b>treatment</b> (the creature sees its real energy) and <b>control</b> (the same signal shuffled among creatures — identical statistics, zero self-information). We measure <b>I(energy;action)</b> in blocks as both worlds live, and accumulate the difference. The criteria are fixed in code in advance — we do <b>not</b> tune anything to make an effect appear. This is a live, independent replication; the exact numbers differ from the recorded Python study (a reimplementation), but the logic of the test is the same.",
+  how:"Watching one world’s numbers proves nothing, a high score could come from indirect correlation, not from a creature using its self-signal. Science needs a <b>control</b>. So we run the same world twice: <b>treatment</b> (the creature sees its real energy) and <b>control</b> (the same signal shuffled among creatures, identical statistics, zero self-information). We measure <b>I(energy;action)</b> in blocks as both worlds live, and accumulate the difference. The criteria are fixed in code in advance, we do <b>not</b> tune anything to make an effect appear. This is a live, independent replication; the exact numbers differ from the recorded Python study (a reimplementation), but the logic of the test is the same.",
   coop_h:"what is “cooperation” here",
-  coop:'Creatures aren’t told to cooperate — it survives selection or not. Two ways to treat a neighbour, straight from energy:',
-  give_t:"share",give_l1:'<span class="you">you</span>: <span class="neg">−8</span>',give_l2:'neighbour: <span class="pos">+8</span>',give_net:"a real cost to you, a real gain to the other — no free energy",
-  take_t:"take",take_l1:'<span class="you">you</span>: <span class="pos">+6</span>',take_l2:'neighbour: <span class="neg">−10</span>',take_net:"good for you, worse for the other — destructive overall",
+  coop:'Creatures aren’t told to cooperate, it survives selection or not. Two ways to treat a neighbour, straight from energy:',
+  give_t:"share",give_l1:'<span class="you">you</span>: <span class="neg">−8</span>',give_l2:'neighbour: <span class="pos">+8</span>',give_net:"a real cost to you, a real gain to the other, no free energy",
+  take_t:"take",take_l1:'<span class="you">you</span>: <span class="pos">+6</span>',take_l2:'neighbour: <span class="neg">−10</span>',take_net:"good for you, worse for the other, destructive overall",
   coop_after:'The <b>cooperation</b> gauge shows the share of “share” among social acts. Here the energetics are <b>fair</b> (giving costs exactly what the other gains).',
   log_h:"measurement blocks (saved in your browser)",
   a_blocks:"blocks",a_self:"mean self",a_shuf:"mean shuffled",a_diff:"mean Δ",
   c_t:"trial",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"clear saved data",
-  foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser replication — a companion to, not the source of, the research. Exact recorded run and full report: <a href="sim.html">recording</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser replication, a companion to, not the source of, the research. Exact recorded run and full report: <a href="sim.html">recording</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
  ru:{eye:"искусственная жизнь · эксперимент 1 · живой",exp2:"эксперимент 2: когда выгодно учиться ↗",agi:"AGI ↗",about:"о проекте ↗",rec:"точная запись ↗",journal:"журнал ↗",live:"live",
   brand:'мини<span class="dot">·</span>мир',
-  lede:"Контролируемый эксперимент, идущий прямо сейчас в твоём браузере. Два мира живут параллельно от одного предка и семени: в одном (лечение) существо чувствует свою энергию; в другом (контроль) тот же сигнал перемешан между особями — те же числа, ноль знания о себе. Если знать себя важно, у лечения показатель должен быть выше. Вердикт копится, пока миры живут и вымирают.",
+  lede:"Контролируемый эксперимент, идущий прямо сейчас в твоём браузере. Два мира живут параллельно от одного предка и семени: в одном (лечение) существо чувствует свою энергию; в другом (контроль) тот же сигнал перемешан между особями, те же числа, ноль знания о себе. Если знать себя важно, у лечения показатель должен быть выше. Вердикт копится, пока миры живут и вымирают.",
   self:"лечение · self",ctrl:"контроль · shuffled",speed:"скорость",newpair:"↻ новая пара",seeding:"засеваю жизнеспособный мир…",
   hud_pop:"поп",hud_warm:"прогрев",hud_social:"социум",
   verdict_h:"живой вердикт по H1",v_delta:"self − shuffled",v_ci:"95% интервал",v_noise:"шум мира 2σ",v_blocks:"блоков",v_bits:"бит",
-  v_wait:"копим данные — нужно больше измерительных блоков…",
+  v_wait:"копим данные: нужно больше измерительных блоков…",
   v_eff:"эффект: знание о себе обгоняет контроль сильнее собственного шума мира.",
-  v_weak:"self обгоняет контроль, но разрыв в пределах шума мира — не подтверждено (совпадает с записанным исследованием).",
+  v_weak:"self обгоняет контроль, но разрыв в пределах шума мира: не подтверждено (совпадает с записанным исследованием).",
   v_none:"неотличимо от шума контроля.",
   g_pop:"популяция",g_pop_u:"существ",g_smi:"self I(E;действие)",g_cmi:"shuffled I(E;действие)",g_mi_u:"бит/блок",g_coop:"кооперация",g_coop_u:"доля give",
   how_h:"почему это эксперимент, а не демо",
-  how:"Смотреть на числа одного мира ничего не доказывает — высокий показатель может идти от косвенной корреляции, а не от того, что существо использует сигнал о себе. Науке нужен <b>контроль</b>. Поэтому мы гоняем один и тот же мир дважды: <b>лечение</b> (существо видит свою настоящую энергию) и <b>контроль</b> (тот же сигнал, переставленный между особями — та же статистика, ноль информации о себе). Меряем <b>I(энергия;действие)</b> блоками, пока оба мира живут, и копим разницу. Критерии зашиты в код заранее — мы <b>ничего</b> не крутим, чтобы эффект появился. Это живая независимая репликация; точные числа отличаются от записанного Python-исследования (движок переписан), но логика теста та же.",
+  how:"Смотреть на числа одного мира ничего не доказывает, высокий показатель может идти от косвенной корреляции, а не от того, что существо использует сигнал о себе. Науке нужен <b>контроль</b>. Поэтому мы гоняем один и тот же мир дважды: <b>лечение</b> (существо видит свою настоящую энергию) и <b>контроль</b> (тот же сигнал, переставленный между особями, та же статистика, ноль информации о себе). Меряем <b>I(энергия;действие)</b> блоками, пока оба мира живут, и копим разницу. Критерии зашиты в код заранее, мы <b>ничего</b> не крутим, чтобы эффект появился. Это живая независимая репликация; точные числа отличаются от записанного Python-исследования (движок переписан), но логика теста та же.",
   coop_h:"что такое «кооперация» здесь",
-  coop:'Существ никто не заставляет сотрудничать — это либо закрепляется отбором, либо нет. Два способа обойтись с соседом, прямо из энергии:',
-  give_t:"поделиться",give_l1:'<span class="you">ты</span>: <span class="neg">−8</span>',give_l2:'сосед: <span class="pos">+8</span>',give_net:"реальная цена тебе, реальная польза другому — без бесплатной энергии",
-  take_t:"отнять",take_l1:'<span class="you">ты</span>: <span class="pos">+6</span>',take_l2:'сосед: <span class="neg">−10</span>',take_net:"тебе хорошо, другому хуже — в сумме разрушительно",
-  coop_after:'Прибор <b>кооперация</b> — доля «поделиться» среди социальных актов. Здесь энергетика <b>честная</b> (отдать стоит ровно столько, сколько получает другой).',
+  coop:'Существ никто не заставляет сотрудничать это либо закрепляется отбором, либо нет. Два способа обойтись с соседом, прямо из энергии:',
+  give_t:"поделиться",give_l1:'<span class="you">ты</span>: <span class="neg">−8</span>',give_l2:'сосед: <span class="pos">+8</span>',give_net:"реальная цена тебе, реальная польза другому, без бесплатной энергии",
+  take_t:"отнять",take_l1:'<span class="you">ты</span>: <span class="pos">+6</span>',take_l2:'сосед: <span class="neg">−10</span>',take_net:"тебе хорошо, другому хуже, в сумме разрушительно",
+  coop_after:'Прибор <b>кооперация</b>: доля «поделиться» среди социальных актов. Здесь энергетика <b>честная</b> (отдать стоит ровно столько, сколько получает другой).',
   log_h:"измерительные блоки (сохранены в твоём браузере)",
   a_blocks:"блоков",a_self:"среднее self",a_shuf:"среднее shuffled",a_diff:"среднее Δ",
   c_t:"пара",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"очистить сохранённое",
-  foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная репликация — спутник исследования, а не его источник. Точная запись и полный отчёт: <a href="sim.html">запись</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная репликация, спутник исследования, а не его источник. Точная запись и полный отчёт: <a href="sim.html">запись</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
  de:{eye:"künstliches leben · experiment 1 · live",exp2:"experiment 2: wann lernen sich lohnt ↗",agi:"AGI ↗",about:"über ↗",rec:"exakte aufnahme ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>welt',
-  lede:"Ein kontrolliertes Experiment, das gerade in deinem Browser läuft. Zwei Welten leben parallel aus demselben Ahnen und Samen: in einer (Behandlung) spürt ein Wesen seine eigene Energie; in der anderen (Kontrolle) ist dieses Signal unter den Wesen gemischt — gleiche Zahlen, kein Selbstwissen. Wenn Selbsterkenntnis zählt, sollte die Behandlung höher liegen. Das Urteil wächst, während Welten leben und sterben.",
+  lede:"Ein kontrolliertes Experiment, das gerade in deinem Browser läuft. Zwei Welten leben parallel aus demselben Ahnen und Samen: in einer (Behandlung) spürt ein Wesen seine eigene Energie; in der anderen (Kontrolle) ist dieses Signal unter den Wesen gemischt, gleiche Zahlen, kein Selbstwissen. Wenn Selbsterkenntnis zählt, sollte die Behandlung höher liegen. Das Urteil wächst, während Welten leben und sterben.",
   self:"Behandlung · self",ctrl:"Kontrolle · shuffled",speed:"Tempo",newpair:"↻ neues Paar",seeding:"säe eine lebensfähige Welt…",
   hud_pop:"Pop",hud_warm:"Aufwärmen",hud_social:"sozial",
   verdict_h:"Live-Urteil zu H1",v_delta:"self − shuffled",v_ci:"95%-Intervall",v_noise:"Weltrauschen 2σ",v_blocks:"Blöcke",v_bits:"Bit",
-  v_wait:"sammle Daten — mehr Messblöcke nötig…",
+  v_wait:"sammle Daten: mehr Messblöcke nötig…",
   v_eff:"Effekt: Selbstwahrnehmung schlägt die Kontrolle über das Eigenrauschen der Welt hinaus.",
-  v_weak:"self schlägt die Kontrolle, aber der Abstand liegt im Weltrauschen — nicht bestätigt (deckt sich mit der aufgezeichneten Studie).",
+  v_weak:"self schlägt die Kontrolle, aber der Abstand liegt im Weltrauschen: nicht bestätigt (deckt sich mit der aufgezeichneten Studie).",
   v_none:"nicht vom Rauschen der Kontrolle unterscheidbar.",
   g_pop:"Population",g_pop_u:"Wesen",g_smi:"self I(E;Handlung)",g_cmi:"shuffled I(E;Handlung)",g_mi_u:"Bit/Block",g_coop:"Kooperation",g_coop_u:"Geben-Anteil",
   how_h:"warum das ein Experiment ist, keine Demo",
-  how:"Die Zahlen einer Welt zu betrachten beweist nichts — ein hoher Wert könnte aus indirekter Korrelation stammen, nicht daraus, dass ein Wesen sein Selbstsignal nutzt. Wissenschaft braucht eine <b>Kontrolle</b>. Also führen wir dieselbe Welt zweimal: <b>Behandlung</b> (das Wesen sieht seine echte Energie) und <b>Kontrolle</b> (dasselbe Signal unter den Wesen gemischt — gleiche Statistik, null Selbstinformation). Wir messen <b>I(Energie;Handlung)</b> in Blöcken, während beide Welten leben, und sammeln die Differenz. Die Kriterien stehen vorab im Code — wir <b>optimieren nichts</b>, damit ein Effekt erscheint. Eine lebende, unabhängige Replikation; die genauen Zahlen weichen von der aufgezeichneten Python-Studie ab (Reimplementierung), doch die Logik des Tests ist dieselbe.",
+  how:"Die Zahlen einer Welt zu betrachten beweist nichts, ein hoher Wert könnte aus indirekter Korrelation stammen, nicht daraus, dass ein Wesen sein Selbstsignal nutzt. Wissenschaft braucht eine <b>Kontrolle</b>. Also führen wir dieselbe Welt zweimal: <b>Behandlung</b> (das Wesen sieht seine echte Energie) und <b>Kontrolle</b> (dasselbe Signal unter den Wesen gemischt, gleiche Statistik, null Selbstinformation). Wir messen <b>I(Energie;Handlung)</b> in Blöcken, während beide Welten leben, und sammeln die Differenz. Die Kriterien stehen vorab im Code, wir <b>optimieren nichts</b>, damit ein Effekt erscheint. Eine lebende, unabhängige Replikation; die genauen Zahlen weichen von der aufgezeichneten Python-Studie ab (Reimplementierung), doch die Logik des Tests ist dieselbe.",
   coop_h:"was „Kooperation“ hier bedeutet",
-  coop:'Den Wesen wird nicht befohlen zu kooperieren — es setzt sich durch Selektion durch oder nicht. Zwei Weisen, mit einem Nachbarn umzugehen, direkt aus der Energie:',
-  give_t:"teilen",give_l1:'<span class="you">du</span>: <span class="neg">−8</span>',give_l2:'Nachbar: <span class="pos">+8</span>',give_net:"echte Kosten für dich, echter Gewinn für den anderen — keine Gratis-Energie",
-  take_t:"nehmen",take_l1:'<span class="you">du</span>: <span class="pos">+6</span>',take_l2:'Nachbar: <span class="neg">−10</span>',take_net:"gut für dich, schlechter für den anderen — insgesamt zerstörerisch",
+  coop:'Den Wesen wird nicht befohlen zu kooperieren, es setzt sich durch Selektion durch oder nicht. Zwei Weisen, mit einem Nachbarn umzugehen, direkt aus der Energie:',
+  give_t:"teilen",give_l1:'<span class="you">du</span>: <span class="neg">−8</span>',give_l2:'Nachbar: <span class="pos">+8</span>',give_net:"echte Kosten für dich, echter Gewinn für den anderen, keine Gratis-Energie",
+  take_t:"nehmen",take_l1:'<span class="you">du</span>: <span class="pos">+6</span>',take_l2:'Nachbar: <span class="neg">−10</span>',take_net:"gut für dich, schlechter für den anderen, insgesamt zerstörerisch",
   coop_after:'Die Anzeige <b>Kooperation</b> zeigt den Anteil des „Teilens“. Hier ist die Energetik <b>fair</b> (Geben kostet genau das, was der andere gewinnt).',
   log_h:"Messblöcke (in deinem Browser gespeichert)",
   a_blocks:"Blöcke",a_self:"Mittel self",a_shuf:"Mittel shuffled",a_diff:"Mittel Δ",
   c_t:"Paar",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"gespeicherte Daten löschen",
-  foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Eine live im Browser laufende Replikation — Begleiter, nicht Quelle der Forschung. Aufnahme und Bericht: <a href="sim.html">Aufnahme</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Eine live im Browser laufende Replikation, Begleiter, nicht Quelle der Forschung. Aufnahme und Bericht: <a href="sim.html">Aufnahme</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
  es:{eye:"vida artificial · experimento 1 · en vivo",exp2:"experimento 2: cuándo aprender compensa ↗",agi:"AGI ↗",about:"acerca ↗",rec:"grabación exacta ↗",journal:"diario ↗",live:"en vivo",
   brand:'mini<span class="dot">·</span>mundo',
-  lede:"Un experimento controlado ejecutándose ahora mismo en tu navegador. Dos mundos viven en paralelo desde el mismo fundador y semilla: en uno (tratamiento) una criatura percibe su propia energía; en el otro (control) esa señal se baraja entre las criaturas — mismos números, cero autoconocimiento. Si conocerse importa, el tratamiento debería puntuar más. El veredicto se acumula mientras los mundos viven y mueren.",
+  lede:"Un experimento controlado ejecutándose ahora mismo en tu navegador. Dos mundos viven en paralelo desde el mismo fundador y semilla: en uno (tratamiento) una criatura percibe su propia energía; en el otro (control) esa señal se baraja entre las criaturas, mismos números, cero autoconocimiento. Si conocerse importa, el tratamiento debería puntuar más. El veredicto se acumula mientras los mundos viven y mueren.",
   self:"tratamiento · self",ctrl:"control · shuffled",speed:"velocidad",newpair:"↻ nuevo par",seeding:"sembrando un mundo viable…",
   hud_pop:"pobl",hud_warm:"calentamiento",hud_social:"social",
   verdict_h:"veredicto en vivo sobre H1",v_delta:"self − shuffled",v_ci:"intervalo 95%",v_noise:"ruido del mundo 2σ",v_blocks:"bloques",v_bits:"bits",
-  v_wait:"recogiendo datos — faltan más bloques de medición…",
+  v_wait:"recogiendo datos: faltan más bloques de medición…",
   v_eff:"efecto: percibirse a sí misma supera al control más allá del propio ruido del mundo.",
-  v_weak:"self supera al control, pero la diferencia está dentro del ruido del mundo — no confirmado (coincide con el estudio grabado).",
+  v_weak:"self supera al control, pero la diferencia está dentro del ruido del mundo: no confirmado (coincide con el estudio grabado).",
   v_none:"indistinguible del ruido del control.",
   g_pop:"población",g_pop_u:"criaturas",g_smi:"self I(E;acción)",g_cmi:"shuffled I(E;acción)",g_mi_u:"bits/bloque",g_coop:"cooperación",g_coop_u:"proporción dar",
   how_h:"por qué esto es un experimento, no una demo",
-  how:"Mirar los números de un mundo no prueba nada — una puntuación alta podría venir de correlación indirecta, no de que la criatura use su señal propia. La ciencia necesita un <b>control</b>. Así que ejecutamos el mismo mundo dos veces: <b>tratamiento</b> (la criatura ve su energía real) y <b>control</b> (la misma señal barajada entre las criaturas — estadística idéntica, cero información propia). Medimos <b>I(energía;acción)</b> por bloques mientras ambos mundos viven, y acumulamos la diferencia. Los criterios están fijados en el código de antemano — <b>no</b> ajustamos nada para que aparezca un efecto. Es una réplica viva e independiente; los números exactos difieren del estudio grabado en Python (una reimplementación), pero la lógica de la prueba es la misma.",
+  how:"Mirar los números de un mundo no prueba nada, una puntuación alta podría venir de correlación indirecta, no de que la criatura use su señal propia. La ciencia necesita un <b>control</b>. Así que ejecutamos el mismo mundo dos veces: <b>tratamiento</b> (la criatura ve su energía real) y <b>control</b> (la misma señal barajada entre las criaturas, estadística idéntica, cero información propia). Medimos <b>I(energía;acción)</b> por bloques mientras ambos mundos viven, y acumulamos la diferencia. Los criterios están fijados en el código de antemano, <b>no</b> ajustamos nada para que aparezca un efecto. Es una réplica viva e independiente; los números exactos difieren del estudio grabado en Python (una reimplementación), pero la lógica de la prueba es la misma.",
   coop_h:"qué es la “cooperación” aquí",
-  coop:'A las criaturas no se les ordena cooperar — o lo fija la selección o no. Dos formas de tratar a un vecino, directas de la energía:',
-  give_t:"compartir",give_l1:'<span class="you">tú</span>: <span class="neg">−8</span>',give_l2:'vecino: <span class="pos">+8</span>',give_net:"un coste real para ti, una ganancia real para el otro — sin energía gratis",
-  take_t:"quitar",take_l1:'<span class="you">tú</span>: <span class="pos">+6</span>',take_l2:'vecino: <span class="neg">−10</span>',take_net:"bueno para ti, peor para el otro — destructivo en conjunto",
+  coop:'A las criaturas no se les ordena cooperar, o lo fija la selección o no. Dos formas de tratar a un vecino, directas de la energía:',
+  give_t:"compartir",give_l1:'<span class="you">tú</span>: <span class="neg">−8</span>',give_l2:'vecino: <span class="pos">+8</span>',give_net:"un coste real para ti, una ganancia real para el otro, sin energía gratis",
+  take_t:"quitar",take_l1:'<span class="you">tú</span>: <span class="pos">+6</span>',take_l2:'vecino: <span class="neg">−10</span>',take_net:"bueno para ti, peor para el otro, destructivo en conjunto",
   coop_after:'El indicador <b>cooperación</b> muestra la proporción de “compartir”. Aquí la energética es <b>justa</b> (dar cuesta exactamente lo que el otro recibe).',
   log_h:"bloques de medición (guardados en tu navegador)",
   a_blocks:"bloques",a_self:"media self",a_shuf:"media shuffled",a_diff:"media Δ",
   c_t:"par",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"borrar datos guardados",
-  foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Una réplica en vivo en el navegador — compañera, no fuente, de la investigación. Grabación e informe: <a href="sim.html">grabación</a> · <a href="about.html">acerca</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Una réplica en vivo en el navegador, compañera, no fuente, de la investigación. Grabación e informe: <a href="sim.html">grabación</a> · <a href="about.html">acerca</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
  zh:{eye:"人工生命 · 实验 1 · 实时",exp2:"实验 2：何时学习才划算 ↗",agi:"AGI ↗",about:"关于 ↗",rec:"精确录制 ↗",journal:"观测日志 ↗",live:"实时",
   brand:'微<span class="dot">·</span>世界',
   lede:"一个此刻正在你浏览器里运行的对照实验。两个世界从同一祖先与同一种子并行生活：其一（处理组）生物能感知自己的能量；另一（对照组）该信号在生物间被打乱——数字相同，却毫无自我信息。若“认识自己”重要，处理组的分数应更高。随着世界不断生死，结论会不断累积。",
@@ -337,7 +337,7 @@ if(!I18N[LANG])LANG=LDEF;
 function t(k){return (I18N[LANG]||I18N.en)[k];}
 
 // ---------- парный эксперимент ----------
-const BLOCK=8000;                 // измерительный блок (тиков); 1-й блок — прогрев
+const BLOCK=8000;                 // измерительный блок (тиков); 1-й блок, прогрев
 let POOL=null,LIVECFG=null,engS=null,engC=null,trial=0,blockIdx=0,SPEED=1,peakS=0;
 const cvS=document.getElementById('wS'),ctxS=cvS.getContext('2d');
 const cvC=document.getElementById('wC'),ctxC=cvC.getContext('2d');
@@ -434,7 +434,7 @@ function loop(){
       if(!aS||!aC){newTrial();break;}            // любой вымер -> новая пара
       if(engS.pop>peakS)peakS=engS.pop;
       if(engS.tick%BLOCK===0){
-        if(blockIdx>=1){                          // 1-й блок (0) — прогрев
+        if(blockIdx>=1){                          // 1-й блок (0), прогрев
           const mS=engS.miWindow(),mC=engC.miWindow();
           if(mS!=null&&mC!=null&&engS.occupiedDeciles()>=4&&engC.occupiedDeciles()>=4)
             recordBlock({trial:trial,self:mS,shuf:mC,diff:mS-mC,ts:Date.now()});
@@ -478,7 +478,7 @@ document.getElementById('clearbtn').onclick=()=>{try{localStorage.removeItem(SKE
 
 applyLang(LANG);
 splash.style.display='flex';splash.textContent=t('seeding');
-// параметры мира: maxPop заведомо большой (НЕ связывает — плотность регулирует
+// параметры мира: maxPop заведомо большой (НЕ связывает, плотность регулирует
 // физика/еда, а не потолок), плодородность умеренная (популяция ~400-600 для
 // плавности двух миров). Берём из json только предков, не мировые параметры.
 fetch('ancestors.json').then(r=>r.json()).then(d=>{
