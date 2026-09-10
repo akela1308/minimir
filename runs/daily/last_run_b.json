@@ -1,0 +1,14 @@
+{
+ "date": "2026-09-10T07:20:08Z",
+ "commit": "accbafa",
+ "protocol": "B1-100k-v1",
+ "ticks": 100000,
+ "added": [
+  1,
+  2
+ ],
+ "total": 2,
+ "target": 40,
+ "elapsed_s": 412.4,
+ "errors": 0
+}
