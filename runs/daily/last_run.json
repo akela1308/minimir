@@ -1,5 +1,16 @@
 {
- "added": [],
- "reason": "target_reached",
- "total": 40
+ "date": "2026-09-13T07:35:06Z",
+ "commit": "330a8e5",
+ "protocol": "A5-120k-blockavg-v1",
+ "ticks": 120000,
+ "added": [
+  41,
+  42,
+  43,
+  44
+ ],
+ "total": 44,
+ "target": 100,
+ "elapsed_s": 1259.7,
+ "errors": 0
 }
