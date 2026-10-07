@@ -15,7 +15,7 @@ BASE = "https://minimir.ilinmaks.com"
 GH = "https://github.com/akela1308/minimir"
 ART_VIEWER = "https://claude.ai/code/artifact/e9a5c20f-0137-466d-8f7b-769b5a24db34"
 ART_ABOUT = "https://claude.ai/code/artifact/7876772a-43f0-4fb5-b761-db802aa896a9"
-LASTMOD = "2026-09-09"
+LASTMOD = "2026-10-07"
 
 docs = Path("docs"); docs.mkdir(exist_ok=True)
 
@@ -81,7 +81,7 @@ LIVE_DESC = ("A controlled artificial-life experiment running live in your brows
              "verdict on whether self-knowledge changes behaviour accumulates as worlds "
              "live and die. No fitness function, no reward — selection only.")
 ABOUT_DESC = ("A tiny world of evolving creatures with no reward and no judge. We measure "
-              "whether behaviour that looks like a need can emerge from selection alone — "
+              "whether behaviour that looks like a need can emerge from selection alone: "
               "interoception, cooperation, and Vygotsky's sign. Open research: code, data, report.")
 SIM_DESC = ("The exact recorded run behind the research (Python engine): creatures coloured "
             "by energy, food, marks, and charts of population, energy, mutual information "
@@ -109,6 +109,7 @@ robots += f"Sitemap: {BASE}/sitemap.xml\n"
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 for loc, pr in ((BASE + "/", "1.0"), (BASE + "/interoception.html", "0.9"),
                 (BASE + "/journal.html", "0.9"), (BASE + "/notes.html", "0.9"),
+                (BASE + "/results-b.html", "0.9"),
                 (BASE + "/learning.html", "0.8"), (BASE + "/agi.html", "0.8"),
                 (BASE + "/about.html", "0.8"), (BASE + "/sim.html", "0.6")):
     sm += (f"  <url><loc>{loc}</loc><lastmod>{LASTMOD}</lastmod>"
@@ -137,7 +138,7 @@ try:
     ax.text(80, 410, "mini·world", color="#e9f1f2", fontsize=74, fontweight="bold", **mono)
     ax.text(84, 348, "живой эксперимент · live artificial life", color="#46c6d0", fontsize=21, **mono)
     ax.text(84, 262, "Can behaviour that looks like a need emerge from", color="#93a6ae", fontsize=24, **mono)
-    ax.text(84, 226, "selection alone — with no reward and no judge?", color="#93a6ae", fontsize=24, **mono)
+    ax.text(84, 226, "selection alone, with no reward and no judge?", color="#93a6ae", fontsize=24, **mono)
     ax.text(84, 96, "live in-browser experiment · open research", color="#5b6f77", fontsize=18, **mono)
     ax.text(84, 62, "github.com/akela1308/minimir", color="#e6c14a", fontsize=18, **mono)
     fig.savefig(docs / "og.png", facecolor="#0a0e11"); plt.close(fig)
@@ -146,7 +147,7 @@ except Exception as e:
     print("og.png skipped:", e)
 
 for f in ("index.html", "interoception.html", "notes.html", "learning.html",
-          "about.html", "sim.html", "agi.html"):
+          "results-b.html", "about.html", "sim.html", "agi.html"):
     if (docs / f).exists():
         print(f"docs/{f}: {(docs/f).stat().st_size/1024:.0f} KB")
 print("robots.txt, sitemap.xml, favicon.svg ok")

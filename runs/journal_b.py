@@ -405,6 +405,19 @@ def render_section(st):
 
     ext = st["extinction"]
     ab = st["ablation"]
+
+    closed = n >= st["target"]
+    reading_title = "Итоговое чтение" if closed else "Текущее чтение"
+    closed_note = ("" if not closed else
+        '<p class="note"><b>Протокол B1 закрыт.</b> Все три объявленных чтения '
+        "пройдены, накопление остановлено на сороковом seed'е, суточный прогон "
+        'новых не добавляет. Наблюдения и выводы разобраны на отдельной странице: '
+        '<a href="results-b.html">результаты эксперимента 2</a>, полный отчёт с '
+        'таблицами и оговорками в '
+        '<a href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md">'
+        'REPORT_B.md</a>. Эти данные под новый протокол не пересчитываются: '
+        'следующая версия мира получит свою предрегистрацию и свой файл '
+        'результатов.</p>')
     return f'''
 <div class="card">
   <p class="big">{n} из {st['target']} seed'ов</p>
@@ -414,7 +427,8 @@ def render_section(st):
   на одних и тех же seed'ах и с одним предком: см. таблицу ниже.</p>
 </div>
 
-<h2>Текущее чтение</h2>
+{closed_note}
+<h2>{reading_title}</h2>
 <div class="card">
   <p class="big">{vlabel}</p>
   <p>{vtext}</p>

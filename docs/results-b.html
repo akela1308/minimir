@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mini·world: thirty-two worlds out of forty died. Results of the second experiment</title>
+<meta name="description" content="Results of a preregistered artificial-life experiment on the evolution of learning. The declared failure boundary fired: 80 percent of populations died at the first rule reversal. Without learning all forty died. In the eight survivors the learning rate grew thirty-fold and the inherited taste did not move at all.">
+<meta name="keywords" content="evolution of learning, lifetime plasticity, ablation, McNemar test, extinction, preregistration, artificial life, ALife, results, эволюция обучения, пластичность, вымирание, результаты эксперимента">
+<meta name="author" content="Maksim Ilin">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://minimir.ilinmaks.com/results-b.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="mini-world">
+<meta property="og:title" content="mini·world: thirty-two worlds out of forty died. Results of the second experiment">
+<meta property="og:description" content="Results of a preregistered artificial-life experiment on the evolution of learning. The declared failure boundary fired: 80 percent of populations died at the first rule reversal. Without learning all forty died. In the eight survivors the learning rate grew thirty-fold and the inherited taste did not move at all.">
+<meta property="og:url" content="https://minimir.ilinmaks.com/results-b.html">
+<meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mini·world: thirty-two worlds out of forty died. Results of the second experiment">
+<meta name="twitter:description" content="Results of a preregistered artificial-life experiment on the evolution of learning. The declared failure boundary fired: 80 percent of populations died at the first rule reversal. Without learning all forty died.">
+<meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Thirty-two worlds out of forty died. Results of the second experiment","inLanguage":["en","ru","de","es","zh"],"datePublished":"2026-10-07","url":"https://minimir.ilinmaks.com/results-b.html","author":{"@id":"https://minimir.ilinmaks.com/#author"},"publisher":{"@id":"https://minimir.ilinmaks.com/#author"},"isPartOf":{"@id":"https://minimir.ilinmaks.com/#website"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","url":"https://minimir.ilinmaks.com/"}]}</script>
+<link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+<style>
+  .byline{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;
+    margin:6px 0 0}
+  .byline b{color:var(--ink);font-weight:500}
+  .tw{overflow-x:auto;margin:20px 0 4px;max-width:66ch}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px}
+  th,td{text-align:right;padding:6px 10px;border-bottom:1px solid var(--hair);white-space:nowrap}
+  th{color:var(--faint);font-weight:500;font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.07em}
+  th:first-child,td:first-child{text-align:left}
+  td.k{color:var(--ink)}
+  td.d{color:var(--dim);text-align:left;white-space:normal;font-family:var(--sans);
+    font-size:13px}
+  .cap{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin:0 0 0;
+    max-width:64ch;line-height:1.5}
+  .good{color:var(--coop)} .bad{color:var(--amber)}
+  span.mono{font-family:var(--mono);font-size:.92em;color:var(--ink)}
+</style>
+</head>
+<body>
+<canvas id="amb"></canvas>
+<div class="langbar" role="group" aria-label="language"><a class="brand" href="index.html">mini<span class="dot">·</span>world</a><div class="langs"><button data-set="en">EN</button><button data-set="ru">RU</button><button data-set="de">DE</button><button data-set="zh">中文</button><button data-set="es">ES</button></div></div>
+<div class="wrap">
+<div class="langblock" data-lang="en" lang="en">
+  <h1>Thirty-two worlds out of forty died.<br>Results of the second experiment</h1>
+  <div class="eyebrow">results · 7 october 2026 · protocol B1-100k-v1</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · AI Consultant</div>
+  <p class="lede"><b>The declared failure boundary fired. In the main condition eighty percent of the populations died at the first reversal of the food rule, and by our own preregistration that closes the protocol rather than opening a result.</b> Inside the eight worlds that survived the bottleneck, everything else behaved exactly as the hypothesis predicted, and the ablation came out as clean as an ablation can: without lifetime learning, all forty worlds died.</p>
+  <div class="cta"><a class="btn" href="index.html">▶ watch the live experiment</a><a class="btn ghost" href="journal.html">observation journal</a><a class="btn ghost" href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">full report</a><a class="btn ghost" href="notes.html">all notes</a></div>
+  <p>Accumulation ran from 10 to 29 september 2026: 240 runs, forty seeds by six conditions by one hundred thousand ticks each, written automatically by a nightly job. No run failed. The criteria, the readings and the failure boundaries were frozen in the preregistration before the first run, and nothing below was decided after looking at the data. Where we got something wrong, it is marked as ours and carried into the next protocol rather than corrected here.</p>
+
+  <section><h2>what was declared in advance</h2><h3>The design, in one paragraph</h3>
+    <p>Food comes in two colours. At any moment one colour is nutritious and the other is poison, a poisonous bite costing half a resource worth of energy. The rule reverses at moments drawn by a separate generator seeded from the seed alone, with intervals uniform on [0.5T, 1.5T] and the first reversal no earlier than tick 5000. Because the moments are unpredictable, no inherited value of the preference can be correct for long: the right colour can only be learned within a life.</p>
+    <p>What learns is a single plastic synapse we call taste, an addition of <span class="mono">taste × colour</span> to the logit of the eat action. It is inherited like any other weight and changes during life by a three factor rule, what was eaten, what it gave, and at what rate. The rate itself is a gene, mutating multiplicatively, so selection can raise or lower the capacity to learn without touching anything else. Lifetime changes are not inherited: the child gets the mutated genome of the parent, never the trained weights.</p>
+    <p>Six conditions ran on identical seeds from one shared ancestor: <span class="mono">never</span> (rule never changes), <span class="mono">slow</span> (T=5000), <span class="mono">life</span> (T=600, one reversal per lifetime, the treatment), <span class="mono">fast</span> (T=150), <span class="mono">life_frozen</span> (same world as the treatment, learning not applied) and <span class="mono">never_frozen</span> (stationary world, learning not applied, which measures what the rate gene does when it does nothing).</p>
+    <div class="callout">Four hypotheses were registered. H-B1: in a changing world the evolved learning rate is higher than in a stationary one. H-B2: in a stationary world selection drives learning down. H-B3: reversal several times per lifetime is worse than once per lifetime. H-B4, the ablation: a world with changing rules is not survivable without lifetime learning. Section 7.3 declared the failure boundary: if more than half of the treatment populations go extinct, the comparison is void and the protocol is replaced.</div></section>
+
+  <section><h2>the failure boundary fired</h2><h3>Survival, and the number nobody was looking at</h3>
+    <div class="tw"><table>
+      <tr><th>condition</th><th>rule changes</th><th>learning</th><th>extinct</th><th>median tick of death</th><th>reversals before death</th></tr>
+      <tr><td class="k">never</td><td class="d">never</td><td class="d">yes</td><td class="good">0 / 40</td><td>no</td><td>no</td></tr>
+      <tr><td class="k">never_frozen</td><td class="d">never</td><td class="d">no</td><td class="good">0 / 40</td><td>no</td><td>no</td></tr>
+      <tr><td class="k">slow</td><td class="d">every ~5000 ticks</td><td class="d">yes</td><td class="bad">30 / 40</td><td>10 741</td><td>1</td></tr>
+      <tr><td class="k">life</td><td class="d">every ~600 ticks</td><td class="d">yes</td><td class="bad">32 / 40</td><td>5 986</td><td>1</td></tr>
+      <tr><td class="k">fast</td><td class="d">every ~150 ticks</td><td class="d">yes</td><td class="bad">34 / 40</td><td>5 833</td><td>5</td></tr>
+      <tr><td class="k">life_frozen</td><td class="d">every ~600 ticks</td><td class="d">no</td><td class="bad">40 / 40</td><td>5 983</td><td>1</td></tr>
+    </table></div>
+    <p class="cap">Forty seeds per condition, 100 000 ticks per run. Extinct means the population reached zero before the end of the run.</p>
+    <p>The interesting column is the last one. The median number of rule reversals a population lives through before dying is one, in <span class="mono">life</span>, in <span class="mono">slow</span> and in <span class="mono">life_frozen</span> alike. Worlds do not grind down under accumulated switching; they die at the first switch. In <span class="mono">slow</span> the first reversal lands around tick 9615 and death arrives around 10 741, some eleven hundred ticks later. In <span class="mono">life</span> the first reversal is around 5637 and death around 5986, some three hundred fifty ticks later. In <span class="mono">fast</span> the count of reversals is formally higher only because they come every 150 ticks; in time, death arrives at the same place.</p>
+    <p>So the answer we got belongs to a question we had not asked: in this world a <b>single</b> reversal is lethal, not the frequency of reversals. The same fact makes H-B3 untestable on these data rather than refuted, because whatever gradient of frequency exists is hidden under the first switch. The paired test of <span class="mono">life</span> against <span class="mono">fast</span> gave three discordant pairs against one, p = 0.625.</p></section>
+
+  <section><h2>the arithmetic of dying</h2><h3>A calculation that belonged before the runs, not after</h3>
+    <p>At <span class="mono">toxic_factor = -0.5</span> a poisonous bite removes roughly five units of energy. The energy a creature can hold is capped at one hundred. One bite shifts taste by about 0.1 at the starting rate with a saturated modulator. Moving from an inherited taste of +3 through zero to a stable −3 therefore takes on the order of sixty poisonings, which is about three hundred units of energy out of a budget of one hundred.</p>
+    <div class="callout warn">A creature starting at the default learning rate cannot physically relearn. It dies of poison before it changes the sign of its own preference. Survival is available only to populations that already carry faster learners in the tail of their variation, plus the luck of standing on a food patch when the rule turns.</div></section>
+
+  <section><h2>the ablation: the cleanest result in the protocol</h2><h3>H-B4, confirmed without reservations</h3>
+    <p>The same world, the same seeds, the same ancestor, with lifetime learning applied and with lifetime learning switched off. Discordant pairs: eight, all in one direction. <span class="mono">life</span> survived and <span class="mono">life_frozen</span> died: eight cases. The reverse: zero. Exact McNemar test: <b>p = 0.0078</b>. Extinction 32 of 40 against <b>40 of 40</b>.</p>
+    <p>Not one world out of forty survived without learning. Eight survived with it. This is the only one of the four hypotheses that passed its criterion outright, and it is also the only thing that licenses reading the rise of the learning rate as an adaptation rather than as a passenger of selection. Worth noting: the ablation was added to the main criterion by amendment v1.1, hours before the first run, and it turned out to be the part that worked.</p></section>
+
+  <section><h2>what distinguished the eight survivors</h2><h3>Selection acted on standing variation</h3>
+    <p>The seeds that lived through the first reversal in <span class="mono">life</span>: 1, 2, 3, 10, 18, 28, 35, 39.</p>
+    <div class="tw"><table>
+      <tr><th>measure at the first reversal</th><th>survivors (n=8)</th><th>died (n=32)</th></tr>
+      <tr><td class="k">population size</td><td>180 (142…229)</td><td>183 (122…254)</td></tr>
+      <tr><td class="k">learning rate, median gene</td><td class="good">0.120 (0.093…0.215)</td><td>0.103 (0.050…0.181)</td></tr>
+      <tr><td class="k">minimum population afterwards</td><td class="good">14 (4…39)</td><td class="bad">2 (0…8)</td></tr>
+    </table></div>
+    <p class="cap">Medians with interquartile ranges. One sided Mann-Whitney on the learning rate: p = 0.023.</p>
+    <p>Population size before the catastrophe is the same in both groups, so this is not a story about who had more creatures. What differs is the learning rate: a median of 0.120 against 0.103. The difference is small and the ranges overlap, but it exists and it points the predicted way. The third row shows how narrow the bottleneck was. Survivors fell to fourteen individuals in the median, in one case to four. The ones that died fell to two. The distance between recovery and extinction is measured in single creatures.</p>
+    <p>After the bottleneck the learning rate goes up by an order of magnitude within a few hundred ticks, reaches 3.2 to 3.9 by tick ten thousand, and then holds between 2.8 and 3.7 for the remaining ninety thousand, near the top of the permitted range of 4.0. The pattern is identical in all eight worlds. It is not drift and not a slow climb: selection removes everything except the fast learners within roughly one generation, and the population regrows out of them.</p>
+    <div class="tw"><table>
+      <tr><th>condition</th><th>learning rate, median</th><th>quartiles</th><th>food accuracy</th></tr>
+      <tr><td class="k">never_frozen</td><td>0.185</td><td>0.028…0.428</td><td>1.00</td></tr>
+      <tr><td class="k">never</td><td>0.296</td><td>0.104…0.575</td><td>1.00</td></tr>
+      <tr><td class="k">slow</td><td>2.832</td><td>2.673…3.002</td><td>0.98</td></tr>
+      <tr><td class="k">life</td><td>3.491</td><td>3.381…3.555</td><td>0.93</td></tr>
+      <tr><td class="k">fast</td><td>3.697</td><td>3.576…3.734</td><td>0.79</td></tr>
+    </table></div>
+    <p class="cap">Surviving worlds only. Ratio of medians, life against never: ×14.47, paired Wilcoxon p = 0.0078 on eight pairs.</p>
+    <p>Food accuracy falls with switching frequency exactly as it should: one in the stationary world, 0.93 at one reversal per lifetime, 0.79 at several. The creatures in <span class="mono">fast</span> do not manage to relearn in time even though their learning rate is the highest of all.</p></section>
+
+  <section><h2>the genome does not move, the phenotype does</h2><h3>Where knowledge about today is actually stored</h3>
+    <div class="tw"><table>
+      <tr><th>condition</th><th>inherited taste (genome)</th><th>taste at end of life (phenotype)</th></tr>
+      <tr><td class="k">never</td><td>+3.04</td><td>+5.58</td></tr>
+      <tr><td class="k">never_frozen</td><td>+3.04</td><td>+3.04</td></tr>
+      <tr><td class="k">slow</td><td>+2.97</td><td>+5.92</td></tr>
+      <tr><td class="k">life</td><td>+2.91</td><td class="bad">−4.92</td></tr>
+      <tr><td class="k">fast</td><td>+3.21</td><td>+4.50</td></tr>
+    </table></div>
+    <p class="cap">Medians over living agents at the end of the run.</p>
+    <p>The inherited taste started at +3.0 and stayed near +3.0 in every condition, including the ones where the rule changes. Evolution did not touch it, and could not: the correct sign changes unpredictably, so no inherited value is worth having. The phenotype diverged. In <span class="mono">never_frozen</span>, where learning is switched off, phenotype equals genome exactly, which incidentally confirms that the barrier against inheriting lifetime change is intact. In <span class="mono">never</span> learning pushed taste up to +5.58, reinforcing an already correct innate preference. In <span class="mono">life</span> the phenotype went negative: at the moment of measurement the rule stood with colour −1 edible, and the population had learned that while keeping an innate plus.</p>
+    <div class="callout">The genome cannot record the rule. Lifetime learning records it. This is the separation the protocol was built to show, and it is the one place where the result is a picture rather than a p value.</div></section>
+
+  <section><h2>learning is visible inside a single life</h2><h3>Two curves measured within lifetimes, not between generations</h3>
+    <div class="tw"><table>
+      <tr><th>age of agent, ticks</th><th>0-50</th><th>50-100</th><th>100-200</th><th>200-400</th><th>400-800</th><th>800-1600</th><th>1600+</th></tr>
+      <tr><td class="k">share of edible bites</td><td>0.845</td><td>0.940</td><td>0.950</td><td>0.937</td><td>0.931</td><td>0.939</td><td>0.943</td></tr>
+    </table></div>
+    <p class="cap">Averaged over the eight surviving life worlds.</p>
+    <p>The young eat noticeably worse, reach a plateau within the first hundred ticks of life and do not improve after that. This is a learning curve inside an individual.</p>
+    <div class="tw"><table>
+      <tr><th>ticks since the reversal</th><th>0-99</th><th>100-199</th><th>200-299</th><th>300-399</th><th>400+</th></tr>
+      <tr><td class="k">born before (relearning)</td><td class="bad">0.66</td><td>0.98</td><td>0.99</td><td>0.99</td><td>0.99</td></tr>
+      <tr><td class="k">born after (learning from scratch)</td><td>0.87</td><td>0.94</td><td>0.97</td><td>0.97</td><td>0.98</td></tr>
+    </table></div>
+    <p class="cap">Food accuracy by time since a reversal, averaged over all reversals in the eight surviving worlds.</p>
+    <p>Those born before a reversal drop to 0.66 in the first hundred ticks and are back at 0.98 by the next hundred. Relearning takes something like a hundred and fifty ticks, a small fraction of a life. One caveat matters here: this curve is averaged over all reversals in a run, about a hundred and fifty of them, and by most of those the learning rate already stands at 3.4. It describes an <b>evolved</b> population, not a naive one. For a naive population at rate 0.1, relearning costs more than the creature is worth, which is precisely why the first reversal kills it.</p></section>
+
+  <section><h2>in a stationary world, learning did not go away</h2><h3>H-B2 not confirmed, and the reason narrows an earlier claim of ours</h3>
+    <p>We expected that where the world never changes, learning is useless and selection removes its cost, putting <span class="mono">never</span> <b>below</b> <span class="mono">never_frozen</span>. The opposite happened: 0.296 against 0.185, a ratio of 1.38 at p = 0.115, which is indistinguishable from drift. H-B2 is not confirmed.</p>
+    <p>This contradicts our own july pilot, where plasticity being on made the learning rate fall by half within fifteen thousand ticks. The explanation, we think, is the price of the rule. In july a general Hebbian rule ran across the whole output layer: it moved every weight continuously, degraded behaviour, and was therefore actively suppressed by selection. Here a single connection learns, with a dead zone on the modulator, and in a stationary world it merely confirms an innate preference, phenotype +5.58 against genome +3.04. Such learning costs almost nothing, so there is nothing for selection to push against.</p>
+    <div class="callout">The substantive conclusion is a narrowing of our earlier one. The fall of the learning rate in the july pilot was the price of one specific expensive plasticity rule, not a general property of stationary environments. Cheap learning survives idleness.</div></section>
+
+  <section><h2>our own measurement error</h2><h3>A threshold that grows with the length of the run is not a threshold</h3>
+    <p>Criterion 2 required the gap between median log10 learning rates to exceed two sigma of the spread of that same gene in <span class="mono">never_frozen</span>, where it affects nothing. The intent was right: you need a reference showing what the gene does when it does nothing. The implementation was not.</p>
+    <p>The rate gene mutates multiplicatively. Without selection that is a random walk on a logarithmic scale, and the variance of a random walk grows with time. So our own threshold grew as the run went on.</p>
+    <div class="tw"><table>
+      <tr><th>tick</th><th>median rate</th><th>sd(log10)</th><th>2σ as threshold</th><th>as a ratio</th></tr>
+      <tr><td class="k">2 000</td><td>0.101</td><td>0.066</td><td>0.131</td><td>1x</td></tr>
+      <tr><td class="k">10 000</td><td>0.103</td><td>0.293</td><td>0.587</td><td>4x</td></tr>
+      <tr><td class="k">20 000</td><td>0.128</td><td>0.503</td><td>1.006</td><td>10x</td></tr>
+      <tr><td class="k">40 000</td><td>0.129</td><td>0.681</td><td>1.363</td><td>23x</td></tr>
+      <tr><td class="k">60 000</td><td>0.090</td><td>0.822</td><td>1.644</td><td>44x</td></tr>
+      <tr><td class="k">80 000</td><td>0.122</td><td>0.861</td><td>1.721</td><td>53x</td></tr>
+      <tr><td class="k">100 000</td><td>0.185</td><td>0.893</td><td class="bad">1.786</td><td class="bad">61x</td></tr>
+    </table></div>
+    <p class="cap">Forty seeds of the never_frozen condition, where the learning rate gene is under no selection at all.</p>
+    <p>The effect we measured is ×14.5, which is 1.16 in log10. The threshold at tick one hundred thousand is 1.786, a sixtyfold range. The threshold overtook the effect somewhere around twenty to thirty thousand ticks. Had we declared a run length of 20 000, this very same effect would have passed.</p>
+    <p>That is a design error in the criterion and it should be named as one: we chose a bar that rises the longer the experiment runs. It does not measure the size of an effect, it measures the duration of a run. We will not move it after the fact, because a criterion invented after looking at the data is not a criterion. In the next version it compares against drift at the same tick, or uses the distribution of paired differences, or bounds the gene so the neutral walk cannot spread. That gets decided before the runs.</p></section>
+
+  <section><h2>limits, and what comes next</h2><h3>What this does not show, and what protocol B2 changes</h3>
+    <p>How the numbers in the tables are computed, for anyone recomputing them from the raw data. The rate gene mutates multiplicatively, so every median and quartile of the learning rate is taken on the log10 scale and mapped back: <span class="mono">10 ** median(log10 lr)</span>. The life against never ratio is <span class="mono">10 ** median(log10 life − log10 never)</span> over pairs, a median of ratios on the logarithmic scale rather than a ratio of linear medians. Recomputed with linear medians the same data give ×14.95 instead of ×14.47, which is a different scale and not a discrepancy. Food accuracy is a mean over the surviving runs of a condition, not a median. Extinction fractions and ticks of death use all forty runs of a condition, everything else uses the survivors only, because an extinct world has no final state.</p>
+    <p>The eight surviving <span class="mono">life</span> worlds that carry the learning rate, the accuracy and the curves are not a random sample of forty. They are a sample selected on survival, so comparing them with <span class="mono">never</span>, where all forty survived, compares survivors with non-survivors. The ratio of 14.5 characterises evolution in those worlds where evolution had time to happen, not the expected outcome in a world picked at random. Beyond that: one synapse is plastic, so nothing here generalises to a general learning rule, and we do not claim it does; there is one grid, one metabolism, one brain size, one ancestor per seed, and no transfer is claimed; and the version running in your browser on the front page is a showcase, not a source of numbers, differing from the nightly run in four parameters listed on that page.</p>
+    <p>Protocol B1 is closed. Tuning its parameters and recomputing the same data would be fitting, so B2 needs a new preregistration, a new results file and criteria declared before any runs. In order of importance, what changes: the world has to be survivable through the first reversal, either by making a poisonous bite cost two units instead of five or, better because it is closer to biology, by making the reversal gradual over a few dozen ticks so there is a window in which both colours are weakly nutritious; the starting learning rate has to be non zero in practice, either raised to around 0.5 where relearning fits the energy budget, or, more honestly, seeded as a distribution of rates so that standing variation is declared rather than accidental; the criterion has to be independent of run length; the frequency gradient needs its own condition in a world that reliably survives, or H-B3 drowns in the bottleneck again; and the age and learning rate of the dead have to be recorded, not only of the living, because right now an extinct world tells us only its tick of death.</p></section>
+
+  <section><h2>in plain language</h2><h3>For a reader who is not a biologist and has not followed the runs</h3>
+    <p>We built a world where food comes in two colours, and from time to time the colours swap roles: what was food becomes poison. The moments of the swap are random, so being born knowing the right colour is impossible. It can only be learned while alive. The question was simple: does selection switch on the ability to learn in a world that keeps changing its rules?</p>
+    <p>There were two pieces of news.</p>
+    <p>The first is that the world turned out to be too cruel. Eighty percent of the populations died at the very first swap, and in the variant where learning was switched off, every single one died, forty out of forty. We did the arithmetic afterwards and saw why. To relearn at the starting speed, a creature needed to be poisoned about sixty times, and its energy covers about twenty poisonings. It died before it could work out that the rules had changed. That is our mistake in the construction of the world, and we had declared in advance that in this case the protocol gets replaced rather than tuned until the result looks nice.</p>
+    <p>The second piece of news is more interesting. The eight worlds that scraped through the catastrophe behaved exactly as the hypothesis predicted. They did not survive by chance: by the moment of the swap they already contained creatures that learn slightly faster than the rest. Within a few hundred ticks after the catastrophe the learning rate in the population grew about thirtyfold and stayed there until the end of the run. The inherited taste meanwhile did not change at all, it remained what they started with, and that is correct: you cannot write into heredity something that changes at random. The taste learned during life, on the other hand, flipped to the opposite sign. What came out is a clean separation: heredity holds the design of the creature, and knowledge about what is edible today lives only within one life and is earned again by every generation.</p>
+    <p>And a third thing we had not expected. In the unchanging world, learning did not disappear, although by our own july sketch it should have. The explanation is simple: in july we tried expensive learning that damaged behaviour, and selection threw it out. Here learning is cheap, one single connection, and there is no reason to throw it out. So it is not that learning is always wasteful in a stable world, only learning that you have to pay dearly for.</p>
+    <p>One more thing is worth saying about our own error in measurement. We declared in advance that the effect has to exceed the spread of random drift, which is the right thought, but we chose a bad way of counting it. It worked out so that the longer the experiment ran, the higher the bar we had set ourselves. By the end of the run it demanded a sixtyfold difference, and the effect was fourteenfold. Had we stopped the runs five times earlier, the same result would have passed. We will not change the rule after the fact, because a criterion invented after looking at the data is no longer a criterion, but in the next version it will be a different one, and we have written down which.</p></section>
+
+  <footer>Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI Engineer and AI Consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Open research. Code, data and the frozen protocol: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">preregistration B</a> · <a href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">full report B</a> · <a href="journal.html">observation journal</a> · <a href="learning.html">the note that set up this experiment</a><br>Sources: M. Kozielska, F. J. Weissing, “A neural network model for the evolution of learning in changing environments”, PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton et al., “Loss of plasticity in deep continual learning”, Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+<div class="langblock" data-lang="ru" lang="ru">
+  <h1>Тридцать два мира из сорока вымерли.<br>Результаты второго эксперимента</h1>
+  <div class="eyebrow">результаты · 7 октября 2026 · протокол B1-100k-v1</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · Максим Ильин, AI-консультант</div>
+  <p class="lede"><b>Объявленная граница провала сработала. В основном условии восемьдесят процентов популяций погибли на первом же перевороте пищевого правила, а по нашей собственной предрегистрации это закрывает протокол, а не открывает результат.</b> Внутри тех восьми миров, что прошли горлышко, всё остальное повело себя ровно так, как предсказывала гипотеза, а абляция вышла настолько чистой, насколько абляция вообще может быть: без прижизненного обучения вымерли все сорок миров.</p>
+  <div class="cta"><a class="btn" href="index.html">▶ смотреть живой эксперимент</a><a class="btn ghost" href="journal.html">журнал наблюдений</a><a class="btn ghost" href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">полный отчёт</a><a class="btn ghost" href="notes.html">все заметки</a></div>
+  <p>Накопление шло с 10 по 29 сентября 2026 года: 240 прогонов, сорок семян на шесть условий по сто тысяч тиков каждый, записано автоматически суточной задачей. Ни один прогон не завершился ошибкой. Критерии, чтения и границы провала были заморожены в предрегистрации до первого прогона, и ничего из написанного ниже не решалось после взгляда на данные. Там, где мы ошиблись, ошибка названа нашей и перенесена в следующий протокол, а не исправлена здесь.</p>
+
+  <section><h2>что было объявлено заранее</h2><h3>Конструкция в одном абзаце</h3>
+    <p>Еда бывает двух цветов. В каждый момент один цвет питателен, а другой ядовит, и ядовитый укус отнимает энергию, равную половине ресурса. Правило переворачивается в моменты из отдельного генератора, засеянного только семенем, интервалы равномерны на [0.5T, 1.5T], первый переворот не раньше 5000-го тика. Моменты непредсказуемы, поэтому никакое наследуемое значение предпочтения не может быть верным долго: правильный цвет можно только выучить при жизни.</p>
+    <p>Учится один пластичный синапс, который мы называем вкусом: это прибавка <span class="mono">вкус × цвет</span> к логиту действия «есть». Он наследуется как обычный вес и меняется при жизни трёхфакторным правилом, что съел, что получил и с какой скоростью. Сама скорость это ген, мутирующий множителем, так что отбор может поднять или опустить способность учиться, ничего больше не трогая. Прижизненные изменения не наследуются: ребёнок получает мутированный геном родителя, а не обученные веса.</p>
+    <p>Шесть условий шли на одних и тех же семенах от одного общего предка: <span class="mono">never</span> (правило не меняется никогда), <span class="mono">slow</span> (T=5000), <span class="mono">life</span> (T=600, один переворот на жизнь, лечение), <span class="mono">fast</span> (T=150), <span class="mono">life_frozen</span> (тот же мир, что и лечение, но обучение не применяется) и <span class="mono">never_frozen</span> (стационарный мир, обучение не применяется, это измерение того, что делает ген скорости, когда он не делает ничего).</p>
+    <div class="callout">Зарегистрировано четыре гипотезы. H-B1: в меняющемся мире отобранная скорость обучения выше, чем в стационарном. H-B2: в стационарном мире отбор снижает обучение. H-B3: смена несколько раз за жизнь хуже, чем раз за жизнь. H-B4, абляция: мир с меняющимися правилами непереживаем без прижизненного обучения. Параграф 7.3 объявлял границу провала: если вымирает больше половины популяций лечения, сравнение недействительно и протокол заменяется.</div></section>
+
+  <section><h2>граница провала сработала</h2><h3>Выживаемость и столбец, на который никто не смотрел</h3>
+    <div class="tw"><table>
+      <tr><th>условие</th><th>смена правила</th><th>обучение</th><th>вымерло</th><th>медианный тик гибели</th><th>смен до гибели</th></tr>
+      <tr><td class="k">never</td><td class="d">никогда</td><td class="d">да</td><td class="good">0 / 40</td><td>нет</td><td>нет</td></tr>
+      <tr><td class="k">never_frozen</td><td class="d">никогда</td><td class="d">нет</td><td class="good">0 / 40</td><td>нет</td><td>нет</td></tr>
+      <tr><td class="k">slow</td><td class="d">раз в ~5000 тиков</td><td class="d">да</td><td class="bad">30 / 40</td><td>10 741</td><td>1</td></tr>
+      <tr><td class="k">life</td><td class="d">раз в ~600 тиков</td><td class="d">да</td><td class="bad">32 / 40</td><td>5 986</td><td>1</td></tr>
+      <tr><td class="k">fast</td><td class="d">раз в ~150 тиков</td><td class="d">да</td><td class="bad">34 / 40</td><td>5 833</td><td>5</td></tr>
+      <tr><td class="k">life_frozen</td><td class="d">раз в ~600 тиков</td><td class="d">нет</td><td class="bad">40 / 40</td><td>5 983</td><td>1</td></tr>
+    </table></div>
+    <p class="cap">Сорок семян на условие, 100 000 тиков на прогон. «Вымерло» означает, что популяция дошла до нуля раньше конца прогона.</p>
+    <p>Интересен последний столбец. Медианное число переворотов правила, которое популяция переживает до гибели, равно единице, и в <span class="mono">life</span>, и в <span class="mono">slow</span>, и в <span class="mono">life_frozen</span>. Миры не стираются постепенно от накопленных переключений, они гибнут на первом же. В <span class="mono">slow</span> первая смена приходится примерно на 9615-й тик, гибель около 10 741-го, то есть через тысячу с небольшим тиков. В <span class="mono">life</span> первая смена около 5637-го, гибель около 5986-го, то есть через триста пятьдесят тиков. В <span class="mono">fast</span> число смен формально больше только потому, что они идут каждые 150 тиков; по времени гибель наступает там же.</p>
+    <p>То есть мы получили ответ на вопрос, которого не задавали: в этом мире летален <b>один</b> переворот, а не частота переворотов. Этот же факт делает H-B3 непроверяемой на данных, а не опровергнутой, потому что градиент частоты, если он есть, спрятан под первым переключением. Парный тест <span class="mono">life</span> против <span class="mono">fast</span> дал три расхождения против одного, p = 0,625.</p></section>
+
+  <section><h2>арифметика гибели</h2><h3>Расчёт, который должен был идти до прогонов, а не после</h3>
+    <p>При <span class="mono">toxic_factor = -0.5</span> ядовитый укус отнимает около пяти единиц энергии. Энергия, которую существо может держать, ограничена сотней. Один укус сдвигает вкус примерно на 0,1 при стартовой скорости и насыщенном модуляторе. Значит, переезд от врождённого вкуса +3 через ноль к устойчивому −3 требует порядка шестидесяти отравлений, то есть около трёхсот единиц энергии при бюджете в сто.</p>
+    <div class="callout warn">Существо со стартовой скоростью обучения физически не может переучиться. Оно умирает от яда раньше, чем меняет знак собственного предпочтения. Выживание доступно только тем популяциям, в хвосте изменчивости которых уже есть более быстро обучающиеся особи, плюс везение оказаться на кормовом пятне в момент переворота.</div></section>
+
+  <section><h2>абляция: самый чистый результат протокола</h2><h3>H-B4, подтверждена без оговорок</h3>
+    <p>Тот же мир, те же семена, тот же предок, с применяемым прижизненным обучением и с отключённым. Расходящихся пар: восемь, все в одну сторону. <span class="mono">life</span> выжил, а <span class="mono">life_frozen</span> вымер: восемь случаев. Обратных: ноль. Точный тест Макнемара: <b>p = 0,0078</b>. Вымирание 32 из 40 против <b>40 из 40</b>.</p>
+    <p>Без обучения не выжил ни один мир из сорока. С обучением выжило восемь. Это единственная из четырёх гипотез, прошедшая свой критерий без оговорок, и заодно единственное, что оправдывает чтение роста скорости обучения как адаптации, а не как попутчика отбора. Стоит отметить: абляция была добавлена в главный критерий поправкой v1.1 за несколько часов до первого прогона, и именно она оказалась сработавшей частью.</p></section>
+
+  <section><h2>чем отличались восемь выживших</h2><h3>Отбор работал на стоячей изменчивости</h3>
+    <p>Семена, пережившие первый переворот в условии <span class="mono">life</span>: 1, 2, 3, 10, 18, 28, 35, 39.</p>
+    <div class="tw"><table>
+      <tr><th>показатель в момент первой смены</th><th>выжившие (n=8)</th><th>погибшие (n=32)</th></tr>
+      <tr><td class="k">численность популяции</td><td>180 (142…229)</td><td>183 (122…254)</td></tr>
+      <tr><td class="k">скорость обучения, медиана гена</td><td class="good">0,120 (0,093…0,215)</td><td>0,103 (0,050…0,181)</td></tr>
+      <tr><td class="k">минимум популяции после смены</td><td class="good">14 (4…39)</td><td class="bad">2 (0…8)</td></tr>
+    </table></div>
+    <p class="cap">Медианы с межквартильными размахами. Односторонний тест Манна-Уитни по скорости обучения: p = 0,023.</p>
+    <p>Численность перед катастрофой в обеих группах одинакова, так что дело не в том, кому досталось больше существ. Отличается скорость обучения: медиана 0,120 против 0,103. Различие небольшое и диапазоны перекрываются, но оно есть и направлено в предсказанную сторону. Третья строка показывает, насколько узким было горлышко. Выжившие просели до четырнадцати особей в медиане, в одном случае до четырёх. Погибшие просели до двух. Расстояние между восстановлением и вымиранием измеряется единицами существ.</p>
+    <p>После горлышка скорость обучения подскакивает на порядок за несколько сотен тиков, к десятитысячному тику выходит на 3,2…3,9 и дальше девяносто тысяч тиков держится в коридоре 2,8…3,7, у верхней границы допустимого диапазона 4,0. Картина одинаковая во всех восьми мирах. Это не дрейф и не медленный подъём: отбор выкашивает всех, кроме быстро обучающихся, примерно за одно поколение, и популяция восстанавливается уже из них.</p>
+    <div class="tw"><table>
+      <tr><th>условие</th><th>скорость обучения, медиана</th><th>квартили</th><th>точность еды</th></tr>
+      <tr><td class="k">never_frozen</td><td>0,185</td><td>0,028…0,428</td><td>1,00</td></tr>
+      <tr><td class="k">never</td><td>0,296</td><td>0,104…0,575</td><td>1,00</td></tr>
+      <tr><td class="k">slow</td><td>2,832</td><td>2,673…3,002</td><td>0,98</td></tr>
+      <tr><td class="k">life</td><td>3,491</td><td>3,381…3,555</td><td>0,93</td></tr>
+      <tr><td class="k">fast</td><td>3,697</td><td>3,576…3,734</td><td>0,79</td></tr>
+    </table></div>
+    <p class="cap">Только выжившие миры. Отношение медиан, life против never: ×14,47, парный Уилкоксон p = 0,0078 на восьми парах.</p>
+    <p>Точность еды падает с ростом частоты смен ровно так, как и должна: единица в стационарном мире, 0,93 при одном перевороте за жизнь, 0,79 при нескольких. Существа в <span class="mono">fast</span> не успевают переучиваться, хотя скорость обучения у них самая высокая.</p></section>
+
+  <section><h2>геном не меняется, фенотип меняется</h2><h3>Где на самом деле хранится знание о сегодняшнем дне</h3>
+    <div class="tw"><table>
+      <tr><th>условие</th><th>врождённый вкус (геном)</th><th>вкус в конце жизни (фенотип)</th></tr>
+      <tr><td class="k">never</td><td>+3,04</td><td>+5,58</td></tr>
+      <tr><td class="k">never_frozen</td><td>+3,04</td><td>+3,04</td></tr>
+      <tr><td class="k">slow</td><td>+2,97</td><td>+5,92</td></tr>
+      <tr><td class="k">life</td><td>+2,91</td><td class="bad">−4,92</td></tr>
+      <tr><td class="k">fast</td><td>+3,21</td><td>+4,50</td></tr>
+    </table></div>
+    <p class="cap">Медианы по живым агентам на конец прогона.</p>
+    <p>Врождённый вкус стартовал с +3,0 и остался около +3,0 во всех условиях, включая те, где правило меняется. Эволюция его не тронула и не могла: правильный знак меняется непредсказуемо, поэтому никакое врождённое значение не выгодно. А фенотип разошёлся. В <span class="mono">never_frozen</span>, где обучение отключено, фенотип в точности равен геному, что заодно подтверждает исправность барьера против наследования прижизненных изменений. В <span class="mono">never</span> обучение дотянуло вкус до +5,58, усилив и без того верное врождённое предпочтение. А в <span class="mono">life</span> фенотип ушёл в минус: на момент замера правило стояло в положении, где съедобен цвет −1, и популяция это выучила, оставаясь при врождённом плюсе.</p>
+    <div class="callout">Геном не может записать правило. Прижизненное обучение его записывает. Ровно это разделение протокол и был построен показать, и это единственное место, где результат выглядит как картинка, а не как p-значение.</div></section>
+
+  <section><h2>обучение видно внутри одной жизни</h2><h3>Две кривые, измеренные внутри жизней, а не между поколениями</h3>
+    <div class="tw"><table>
+      <tr><th>возраст агента, тиков</th><th>0-50</th><th>50-100</th><th>100-200</th><th>200-400</th><th>400-800</th><th>800-1600</th><th>1600+</th></tr>
+      <tr><td class="k">доля съедобных укусов</td><td>0,845</td><td>0,940</td><td>0,950</td><td>0,937</td><td>0,931</td><td>0,939</td><td>0,943</td></tr>
+    </table></div>
+    <p class="cap">Среднее по восьми выжившим мирам условия life.</p>
+    <p>Молодые едят заметно хуже, выходят на плато за первую сотню тиков жизни и дальше не улучшаются. Это кривая научения внутри особи.</p>
+    <div class="tw"><table>
+      <tr><th>тиков после смены</th><th>0-99</th><th>100-199</th><th>200-299</th><th>300-399</th><th>400+</th></tr>
+      <tr><td class="k">родились до смены (переучиваются)</td><td class="bad">0,66</td><td>0,98</td><td>0,99</td><td>0,99</td><td>0,99</td></tr>
+      <tr><td class="k">родились после (учатся с нуля)</td><td>0,87</td><td>0,94</td><td>0,97</td><td>0,97</td><td>0,98</td></tr>
+    </table></div>
+    <p class="cap">Точность еды по времени с момента смены, среднее по всем сменам в восьми выживших мирах.</p>
+    <p>Родившиеся до смены проваливаются до 0,66 в первую сотню тиков и к следующей сотне уже на 0,98. Переучивание занимает порядка полутора сотен тиков, малую долю жизни. Здесь важна оговорка: кривая усреднена по всем сменам за прогон, а их около полутора сотен, и к моменту большинства из них скорость обучения уже равна 3,4. Она описывает <b>эволюционировавшую</b> популяцию, а не наивную. У наивной со скоростью 0,1 переучивание стоит дороже, чем она весит, и именно поэтому первая смена её убивает.</p></section>
+
+  <section><h2>в стационарном мире обучение не исчезло</h2><h3>H-B2 не подтверждена, и причина сужает наше же прежнее утверждение</h3>
+    <p>Ожидалось, что там, где мир не меняется, обучение бесполезно и отбор снимет его цену, то есть <span class="mono">never</span> окажется <b>ниже</b> <span class="mono">never_frozen</span>. Получилось наоборот: 0,296 против 0,185, отношение 1,38 при p = 0,115, что неотличимо от дрейфа. H-B2 не подтверждена.</p>
+    <p>Это расходится с нашим июльским пилотом, где при включённой пластичности скорость обучения падала вдвое за пятнадцать тысяч тиков. Объяснение, по нашему мнению, в цене правила. В июле работало общее хеббовское правило на всём выходном слое: оно непрерывно двигало все веса, портило поведение и потому активно давилось отбором. Здесь учится одна связь, с мёртвой зоной модулятора, и в стационарном мире она просто подтверждает врождённое предпочтение, фенотип +5,58 против генома +3,04. Такое обучение почти ничего не стоит, и давить отбору не на что.</p>
+    <div class="callout">Содержательный вывод это сужение нашего же прежнего. Падение скорости обучения в июльском пилоте было платой за конкретное дорогое правило пластичности, а не общим свойством стационарной среды. Дешёвое обучение переживает собственную ненужность.</div></section>
+
+  <section><h2>наша собственная ошибка в измерении</h2><h3>Порог, который растёт с длиной прогона, это не порог</h3>
+    <p>Критерий 2 требовал, чтобы разница медиан log10 скорости обучения превышала два сигма разброса того же гена в <span class="mono">never_frozen</span>, где он ни на что не влияет. Замысел был верный: нужна точка отсчёта, показывающая, что делает ген, когда он не делает ничего. Реализация оказалась негодной.</p>
+    <p>Ген скорости мутирует множителем. Без отбора это случайное блуждание по логарифмической шкале, а дисперсия случайного блуждания растёт со временем. Поэтому наш собственный порог рос по ходу прогона.</p>
+    <div class="tw"><table>
+      <tr><th>тик</th><th>медиана скорости</th><th>sd(log10)</th><th>2σ как порог</th><th>во сколько раз</th></tr>
+      <tr><td class="k">2 000</td><td>0,101</td><td>0,066</td><td>0,131</td><td>1x</td></tr>
+      <tr><td class="k">10 000</td><td>0,103</td><td>0,293</td><td>0,587</td><td>4x</td></tr>
+      <tr><td class="k">20 000</td><td>0,128</td><td>0,503</td><td>1,006</td><td>10x</td></tr>
+      <tr><td class="k">40 000</td><td>0,129</td><td>0,681</td><td>1,363</td><td>23x</td></tr>
+      <tr><td class="k">60 000</td><td>0,090</td><td>0,822</td><td>1,644</td><td>44x</td></tr>
+      <tr><td class="k">80 000</td><td>0,122</td><td>0,861</td><td>1,721</td><td>53x</td></tr>
+      <tr><td class="k">100 000</td><td>0,185</td><td>0,893</td><td class="bad">1,786</td><td class="bad">61x</td></tr>
+    </table></div>
+    <p class="cap">Сорок семян условия never_frozen, где ген скорости обучения не находится ни под каким отбором.</p>
+    <p>Измеренный эффект составляет ×14,5, то есть 1,16 в log10. Порог на стотысячном тике равен 1,786, то есть шестидесятикратному диапазону. Порог обогнал эффект где-то между двадцатью и тридцатью тысячами тиков. Если бы мы объявили длину прогона в 20 000 тиков, тот же самый эффект критерий бы прошёл.</p>
+    <p>Это ошибка проектирования критерия, и назвать её надо прямо: мы выбрали планку, которая тем выше, чем дольше идёт эксперимент. Она измеряет не силу эффекта, а длину прогона. Задним числом мы её двигать не будем, потому что критерий, придуманный после взгляда на данные, уже не критерий. В следующей версии он сравнивается с дрейфом на том же тике, либо работает с распределением парных разниц, либо ген ограничен так, что нейтральное блуждание не расползается. Это решается до прогонов.</p></section>
+
+  <section><h2>границы и что дальше</h2><h3>Чего это не показывает и что меняет протокол B2</h3>
+    <p>Как считаются числа в таблицах, на случай если кто-то будет пересчитывать их по сырым данным. Ген скорости мутирует множителем, поэтому все медианы и квартили скорости обучения считаются на шкале log10 и возвращаются обратно: <span class="mono">10 ** median(log10 lr)</span>. Отношение life к never это <span class="mono">10 ** median(log10 life − log10 never)</span> по парам, то есть медиана отношений на логарифмической шкале, а не отношение линейных медиан. Если пересчитать те же данные линейными медианами, получится ×14,95 вместо ×14,47, и это другая шкала, а не расхождение. Точность еды это среднее по выжившим прогонам условия, а не медиана. Доли вымираний и тики гибели считаются по всем сорока прогонам условия, всё остальное только по выжившим, потому что у вымершего мира нет конечного состояния.</p>
+    <p>Восемь выживших миров <span class="mono">life</span>, по которым считаются скорость обучения, точность и кривые, это не случайная выборка из сорока, а выборка, прошедшая отбор на выживание. Поэтому сравнение их с условием <span class="mono">never</span>, где выжили все сорок, сравнивает выживших с невыжившими. Отношение 14,5 характеризует эволюцию в тех мирах, где она успела произойти, а не ожидаемый исход в случайно взятом мире. Дальше: пластичен один синапс, поэтому ничего здесь не обобщается на общее правило обучения, и мы этого не делаем; одна сетка, один метаболизм, один размер мозга, один предок на семя, переносимость не заявляется; а версия, которая считается у вас в браузере на главной, это витрина, а не источник чисел, и она отличается от суточного прогона четырьмя параметрами, перечисленными на той же странице.</p>
+    <p>Протокол B1 закрыт. Подкручивать его параметры и пересчитывать те же данные было бы подгонкой, поэтому B2 нужна новая предрегистрация, новый файл результатов и критерии, объявленные до прогонов. Что меняется, по убыванию важности: мир должен переживать первую смену, либо ядовитый укус стоит двух единиц вместо пяти, либо, что мне нравится больше, потому что ближе к биологии, смена делается постепенной за несколько десятков тиков, и тогда есть окно, в котором оба цвета слабо питательны; стартовая скорость обучения должна быть не нулевой на практике, либо поднята до величины около 0,5, при которой переучивание укладывается в энергетический бюджет, либо, что честнее, популяция засевается распределением скоростей, и тогда стоячая изменчивость заявлена, а не случайна; критерий должен быть независим от длины прогона; градиенту частоты нужно отдельное условие в заведомо выживающем мире, иначе H-B3 снова утонет в горлышке; и записывать надо возраст и скорость обучения погибших, а не только живых, потому что сейчас вымерший мир сообщает нам только тик своей гибели.</p></section>
+
+  <section><h2>вывод простым языком</h2><h3>Для читателя, который не биолог и за прогонами не следил</h3>
+    <p>Мы построили мир, в котором еда бывает двух цветов, и время от времени цвета меняются ролями: что было едой, становится ядом. Моменты этих переворотов случайны, поэтому родиться со знанием правильного цвета невозможно, его можно только выучить при жизни. Вопрос был простой: включит ли отбор способность учиться там, где мир меняет правила?</p>
+    <p>Получилось две новости.</p>
+    <p>Первая: мир оказался слишком жестоким. Восемьдесят процентов популяций погибли на первом же перевороте, а в варианте, где обучение было отключено, погибли все до единой, сорок из сорока. Мы посчитали арифметику уже после и увидели, почему: чтобы переучиться с нашей стартовой скоростью, существу нужно было отравиться около шестидесяти раз, а энергии у него хватает примерно на двадцать отравлений. Оно умирало раньше, чем успевало понять, что правила изменились. Это наш просчёт в конструкции мира, и мы объявили заранее, что при таком исходе протокол заменяется новым, а не подкручивается до красивого результата.</p>
+    <p>Вторая новость интереснее. Те восемь миров, которые прошли через катастрофу, повели себя в точности так, как предсказывала гипотеза. Выжили они не случайно: у них к моменту переворота уже были существа, которые учатся чуть быстрее остальных. За несколько сотен тиков после катастрофы скорость обучения в популяции выросла примерно в тридцать раз и держалась такой до конца прогона. Врождённый вкус при этом не изменился вообще, остался тем же, с которым начинали, и это правильно: записать в наследственность то, что меняется случайно, невозможно. Зато выученный при жизни вкус развернулся на противоположный. Получилось наглядное разделение: наследственность хранит устройство существа, а знание о том, что сегодня съедобно, живёт только в пределах одной жизни и каждым поколением добывается заново.</p>
+    <p>И третье, чего мы не ожидали. В неизменном мире обучение не исчезло, хотя по нашей же июльской заготовке должно было. Объяснение простое: в июле мы пробовали дорогое обучение, которое портило поведение, и отбор его выбрасывал. Здесь обучение дешёвое, одна-единственная связь, и выбрасывать его незачем. То есть не всякое обучение невыгодно в стабильном мире, а только то, за которое приходится дорого платить.</p>
+    <p>Отдельно стоит сказать про собственную ошибку в измерении. Мы заранее объявили, что эффект должен превышать разброс случайного дрейфа, и это верная мысль, но мы неудачно выбрали, как его считать. Получилось так, что чем дольше идёт эксперимент, тем выше становится планка, которую мы сами себе поставили. К концу прогона она требовала шестидесятикратной разницы, а эффект был в четырнадцать раз. Если бы мы остановили прогоны в пять раз раньше, тот же результат прошёл бы. Менять правило задним числом мы не будем, потому что критерий, придуманный после взгляда на данные, уже не критерий, но в следующей версии он будет другим, и мы написали, каким.</p></section>
+
+  <footer>Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Открытое исследование. Код, данные и замороженный протокол: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">предрегистрация B</a> · <a href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">полный отчёт B</a> · <a href="journal.html">журнал наблюдений</a> · <a href="learning.html">заметка, с которой начался этот эксперимент</a><br>Источники: M. Kozielska, F. J. Weissing, «A neural network model for the evolution of learning in changing environments», PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton и др., «Loss of plasticity in deep continual learning», Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+<div class="langblock" data-lang="de" lang="de">
+  <h1>Zweiunddreißig von vierzig Welten starben aus.<br>Ergebnisse des zweiten Experiments</h1>
+  <div class="eyebrow">ergebnisse · 7. Oktober 2026 · Protokoll B1-100k-v1</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · KI-Berater</div>
+  <p class="lede"><b>Die erklärte Scheitergrenze hat gegriffen. In der Hauptbedingung starben achtzig Prozent der Populationen schon bei der ersten Umkehrung der Nahrungsregel, und nach unserer eigenen Präregistrierung schließt das das Protokoll, anstatt ein Ergebnis zu eröffnen.</b> In den acht Welten, die den Flaschenhals passierten, verhielt sich alles andere genau so, wie die Hypothese vorhergesagt hatte, und die Ablation fiel so klar aus, wie eine Ablation nur ausfallen kann: ohne Lernen zu Lebzeiten starben alle vierzig Welten aus.</p>
+  <div class="cta"><a class="btn" href="index.html">▶ Live-Experiment ansehen</a><a class="btn ghost" href="journal.html">Beobachtungsjournal</a><a class="btn ghost" href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">vollständiger Bericht</a><a class="btn ghost" href="notes.html">alle Notizen</a></div>
+  <p>Die Akkumulation lief vom 10. bis 29. September 2026: 240 Läufe, vierzig Saaten mal sechs Bedingungen mal hunderttausend Ticks, automatisch von einem nächtlichen Job geschrieben. Kein Lauf brach ab. Kriterien, Lesungen und Scheitergrenzen waren vor dem ersten Lauf in der Präregistrierung eingefroren, und nichts von dem Folgenden wurde nach einem Blick in die Daten entschieden. Wo wir uns geirrt haben, ist der Irrtum als unserer benannt und ins nächste Protokoll übernommen, nicht hier korrigiert.</p>
+
+  <section><h2>was im Voraus erklärt war</h2><h3>Die Konstruktion in einem Absatz</h3>
+    <p>Nahrung gibt es in zwei Farben. In jedem Moment ist eine Farbe nahrhaft und die andere giftig, ein giftiger Biss kostet die Energie einer halben Ressource. Die Regel kehrt sich in Momenten um, die ein eigener, allein aus der Saat gespeister Generator zieht, Intervalle gleichverteilt auf [0.5T, 1.5T], die erste Umkehrung nicht vor Tick 5000. Da die Momente unvorhersehbar sind, kann kein vererbter Wert der Vorliebe lange richtig sein: die richtige Farbe lässt sich nur zu Lebzeiten lernen.</p>
+    <p>Was lernt, ist eine einzige plastische Synapse, die wir Geschmack nennen: ein Zuschlag <span class="mono">Geschmack × Farbe</span> auf das Logit der Handlung «fressen». Sie wird wie jedes andere Gewicht vererbt und ändert sich im Leben nach einer Dreifaktorregel, was gefressen wurde, was es brachte, und mit welcher Rate. Die Rate selbst ist ein Gen, das multiplikativ mutiert, sodass Selektion die Lernfähigkeit heben oder senken kann, ohne sonst etwas zu berühren. Änderungen zu Lebzeiten werden nicht vererbt: das Kind erhält das mutierte Genom des Elters, nie die trainierten Gewichte.</p>
+    <p>Sechs Bedingungen liefen auf identischen Saaten aus einem gemeinsamen Vorfahren: <span class="mono">never</span> (Regel ändert sich nie), <span class="mono">slow</span> (T=5000), <span class="mono">life</span> (T=600, eine Umkehrung pro Leben, die Behandlung), <span class="mono">fast</span> (T=150), <span class="mono">life_frozen</span> (dieselbe Welt wie die Behandlung, Lernen wird nicht angewandt) und <span class="mono">never_frozen</span> (stationäre Welt, Lernen abgeschaltet, was misst, was das Ratengen tut, wenn es nichts tut).</p>
+    <div class="callout">Vier Hypothesen wurden registriert. H-B1: in einer wechselnden Welt ist die evolvierte Lernrate höher als in einer stationären. H-B2: in einer stationären Welt drückt Selektion das Lernen nach unten. H-B3: mehrmaliger Wechsel pro Leben ist schlechter als einmal pro Leben. H-B4, die Ablation: eine Welt mit wechselnden Regeln ist ohne Lernen zu Lebzeiten nicht überlebbar. Abschnitt 7.3 erklärte die Scheitergrenze: stirbt mehr als die Hälfte der Behandlungspopulationen aus, ist der Vergleich nichtig und das Protokoll wird ersetzt.</div></section>
+
+  <section><h2>die Scheitergrenze hat gegriffen</h2><h3>Überleben, und die Spalte, auf die niemand geschaut hat</h3>
+    <div class="tw"><table>
+      <tr><th>Bedingung</th><th>Regelwechsel</th><th>Lernen</th><th>ausgestorben</th><th>Median-Tick des Todes</th><th>Wechsel bis zum Tod</th></tr>
+      <tr><td class="k">never</td><td class="d">nie</td><td class="d">ja</td><td class="good">0 / 40</td><td>nein</td><td>nein</td></tr>
+      <tr><td class="k">never_frozen</td><td class="d">nie</td><td class="d">nein</td><td class="good">0 / 40</td><td>nein</td><td>nein</td></tr>
+      <tr><td class="k">slow</td><td class="d">alle ~5000 Ticks</td><td class="d">ja</td><td class="bad">30 / 40</td><td>10 741</td><td>1</td></tr>
+      <tr><td class="k">life</td><td class="d">alle ~600 Ticks</td><td class="d">ja</td><td class="bad">32 / 40</td><td>5 986</td><td>1</td></tr>
+      <tr><td class="k">fast</td><td class="d">alle ~150 Ticks</td><td class="d">ja</td><td class="bad">34 / 40</td><td>5 833</td><td>5</td></tr>
+      <tr><td class="k">life_frozen</td><td class="d">alle ~600 Ticks</td><td class="d">nein</td><td class="bad">40 / 40</td><td>5 983</td><td>1</td></tr>
+    </table></div>
+    <p class="cap">Vierzig Saaten pro Bedingung, 100 000 Ticks pro Lauf. Ausgestorben heißt, die Population erreichte vor Ende des Laufs null.</p>
+    <p>Interessant ist die letzte Spalte. Die mediane Zahl der Regelumkehrungen, die eine Population vor ihrem Tod erlebt, ist eins, in <span class="mono">life</span>, in <span class="mono">slow</span> und in <span class="mono">life_frozen</span> gleichermaßen. Welten werden nicht durch angesammeltes Umschalten abgeschliffen, sie sterben beim ersten Umschalten. In <span class="mono">slow</span> fällt die erste Umkehrung etwa auf Tick 9615, der Tod tritt um 10 741 ein, gut elfhundert Ticks später. In <span class="mono">life</span> liegt die erste Umkehrung bei etwa 5637, der Tod bei etwa 5986, rund dreihundertfünfzig Ticks später. In <span class="mono">fast</span> ist die Zahl der Umkehrungen nur formal höher, weil sie alle 150 Ticks kommen; zeitlich tritt der Tod an derselben Stelle ein.</p>
+    <p>Wir haben also eine Antwort auf eine Frage bekommen, die wir nicht gestellt hatten: in dieser Welt ist <b>eine</b> Umkehrung tödlich, nicht die Häufigkeit der Umkehrungen. Dasselbe macht H-B3 auf diesen Daten unprüfbar statt widerlegt, denn ein etwaiger Häufigkeitsgradient liegt unter dem ersten Umschalten verborgen. Der gepaarte Test <span class="mono">life</span> gegen <span class="mono">fast</span> ergab drei diskordante Paare gegen eins, p = 0,625.</p></section>
+
+  <section><h2>die Arithmetik des Sterbens</h2><h3>Eine Rechnung, die vor die Läufe gehört hätte, nicht danach</h3>
+    <p>Bei <span class="mono">toxic_factor = -0.5</span> entzieht ein giftiger Biss etwa fünf Einheiten Energie. Die Energie, die ein Wesen halten kann, ist auf hundert begrenzt. Ein Biss verschiebt den Geschmack bei Startrate und gesättigtem Modulator um etwa 0,1. Der Weg vom angeborenen Geschmack +3 über null zu einem stabilen −3 kostet somit rund sechzig Vergiftungen, also etwa dreihundert Energieeinheiten bei einem Budget von hundert.</p>
+    <div class="callout warn">Ein Wesen mit der Startlernrate kann physisch nicht umlernen. Es stirbt am Gift, bevor es das Vorzeichen seiner eigenen Vorliebe wechselt. Überleben steht nur Populationen offen, die im Schwanz ihrer Variation schon schneller lernende Individuen tragen, plus dem Glück, im Moment der Umkehrung auf einem Nahrungsfleck zu stehen.</div></section>
+
+  <section><h2>die Ablation: das klarste Ergebnis des Protokolls</h2><h3>H-B4, bestätigt ohne Vorbehalt</h3>
+    <p>Dieselbe Welt, dieselben Saaten, derselbe Vorfahr, einmal mit angewandtem Lernen zu Lebzeiten und einmal ohne. Diskordante Paare: acht, alle in eine Richtung. <span class="mono">life</span> überlebte, <span class="mono">life_frozen</span> starb aus: acht Fälle. Umgekehrt: null. Exakter McNemar-Test: <b>p = 0,0078</b>. Aussterben 32 von 40 gegen <b>40 von 40</b>.</p>
+    <p>Ohne Lernen überlebte keine einzige von vierzig Welten. Mit Lernen überlebten acht. Dies ist die einzige der vier Hypothesen, die ihr Kriterium ohne Abstriche passiert hat, und zugleich das Einzige, was es erlaubt, den Anstieg der Lernrate als Anpassung zu lesen und nicht als Mitfahrer der Selektion. Bemerkenswert: die Ablation wurde durch den Nachtrag v1.1 wenige Stunden vor dem ersten Lauf ins Hauptkriterium aufgenommen, und genau sie war der Teil, der funktionierte.</p></section>
+
+  <section><h2>was die acht Überlebenden unterschied</h2><h3>Selektion arbeitete an stehender Variation</h3>
+    <p>Die Saaten, die in <span class="mono">life</span> die erste Umkehrung überlebten: 1, 2, 3, 10, 18, 28, 35, 39.</p>
+    <div class="tw"><table>
+      <tr><th>Maß zur ersten Umkehrung</th><th>Überlebende (n=8)</th><th>gestorben (n=32)</th></tr>
+      <tr><td class="k">Populationsgröße</td><td>180 (142…229)</td><td>183 (122…254)</td></tr>
+      <tr><td class="k">Lernrate, Median des Gens</td><td class="good">0,120 (0,093…0,215)</td><td>0,103 (0,050…0,181)</td></tr>
+      <tr><td class="k">Minimum der Population danach</td><td class="good">14 (4…39)</td><td class="bad">2 (0…8)</td></tr>
+    </table></div>
+    <p class="cap">Mediane mit Interquartilsbereichen. Einseitiger Mann-Whitney-Test auf die Lernrate: p = 0,023.</p>
+    <p>Die Populationsgröße vor der Katastrophe ist in beiden Gruppen gleich, es geht also nicht darum, wer mehr Wesen hatte. Unterschiedlich ist die Lernrate: Median 0,120 gegen 0,103. Der Unterschied ist klein und die Bereiche überlappen, aber er existiert und zeigt in die vorhergesagte Richtung. Die dritte Zeile zeigt, wie eng der Flaschenhals war. Die Überlebenden fielen im Median auf vierzehn Individuen, in einem Fall auf vier. Die Gestorbenen fielen auf zwei. Der Abstand zwischen Erholung und Aussterben misst sich in einzelnen Wesen.</p>
+    <p>Nach dem Flaschenhals springt die Lernrate binnen einiger hundert Ticks um eine Größenordnung, erreicht bis Tick zehntausend 3,2 bis 3,9 und hält sich die restlichen neunzigtausend Ticks zwischen 2,8 und 3,7, nahe der Obergrenze des erlaubten Bereichs von 4,0. Das Bild ist in allen acht Welten identisch. Es ist keine Drift und kein langsamer Anstieg: Selektion entfernt innerhalb etwa einer Generation alles außer den schnellen Lernern, und die Population wächst aus ihnen wieder nach.</p>
+    <div class="tw"><table>
+      <tr><th>Bedingung</th><th>Lernrate, Median</th><th>Quartile</th><th>Nahrungsgenauigkeit</th></tr>
+      <tr><td class="k">never_frozen</td><td>0,185</td><td>0,028…0,428</td><td>1,00</td></tr>
+      <tr><td class="k">never</td><td>0,296</td><td>0,104…0,575</td><td>1,00</td></tr>
+      <tr><td class="k">slow</td><td>2,832</td><td>2,673…3,002</td><td>0,98</td></tr>
+      <tr><td class="k">life</td><td>3,491</td><td>3,381…3,555</td><td>0,93</td></tr>
+      <tr><td class="k">fast</td><td>3,697</td><td>3,576…3,734</td><td>0,79</td></tr>
+    </table></div>
+    <p class="cap">Nur überlebende Welten. Verhältnis der Mediane, life gegen never: ×14,47, gepaarter Wilcoxon p = 0,0078 bei acht Paaren.</p>
+    <p>Die Nahrungsgenauigkeit fällt mit der Wechselhäufigkeit genau so, wie sie fallen soll: eins in der stationären Welt, 0,93 bei einer Umkehrung pro Leben, 0,79 bei mehreren. Die Wesen in <span class="mono">fast</span> kommen mit dem Umlernen nicht nach, obwohl ihre Lernrate die höchste von allen ist.</p></section>
+
+  <section><h2>das Genom bewegt sich nicht, der Phänotyp schon</h2><h3>Wo das Wissen über den heutigen Tag tatsächlich liegt</h3>
+    <div class="tw"><table>
+      <tr><th>Bedingung</th><th>angeborener Geschmack (Genom)</th><th>Geschmack am Lebensende (Phänotyp)</th></tr>
+      <tr><td class="k">never</td><td>+3,04</td><td>+5,58</td></tr>
+      <tr><td class="k">never_frozen</td><td>+3,04</td><td>+3,04</td></tr>
+      <tr><td class="k">slow</td><td>+2,97</td><td>+5,92</td></tr>
+      <tr><td class="k">life</td><td>+2,91</td><td class="bad">−4,92</td></tr>
+      <tr><td class="k">fast</td><td>+3,21</td><td>+4,50</td></tr>
+    </table></div>
+    <p class="cap">Mediane über lebende Agenten am Ende des Laufs.</p>
+    <p>Der angeborene Geschmack startete bei +3,0 und blieb in jeder Bedingung nahe +3,0, auch dort, wo die Regel wechselt. Die Evolution hat ihn nicht angetastet und konnte es nicht: das richtige Vorzeichen wechselt unvorhersehbar, also lohnt kein angeborener Wert. Der Phänotyp dagegen lief auseinander. In <span class="mono">never_frozen</span>, wo Lernen abgeschaltet ist, gleicht der Phänotyp exakt dem Genom, was nebenbei bestätigt, dass die Barriere gegen die Vererbung lebenszeitlicher Änderungen intakt ist. In <span class="mono">never</span> zog das Lernen den Geschmack auf +5,58 und verstärkte eine ohnehin richtige angeborene Vorliebe. In <span class="mono">life</span> ging der Phänotyp ins Minus: zum Zeitpunkt der Messung stand die Regel so, dass Farbe −1 essbar war, und die Population hatte das gelernt, während sie das angeborene Plus behielt.</p>
+    <div class="callout">Das Genom kann die Regel nicht festhalten. Das Lernen zu Lebzeiten hält sie fest. Genau diese Trennung sollte das Protokoll zeigen, und es ist die eine Stelle, an der das Ergebnis ein Bild ist und kein p-Wert.</div></section>
+
+  <section><h2>Lernen ist innerhalb eines Lebens sichtbar</h2><h3>Zwei Kurven, gemessen innerhalb von Leben, nicht zwischen Generationen</h3>
+    <div class="tw"><table>
+      <tr><th>Alter des Agenten, Ticks</th><th>0-50</th><th>50-100</th><th>100-200</th><th>200-400</th><th>400-800</th><th>800-1600</th><th>1600+</th></tr>
+      <tr><td class="k">Anteil essbarer Bisse</td><td>0,845</td><td>0,940</td><td>0,950</td><td>0,937</td><td>0,931</td><td>0,939</td><td>0,943</td></tr>
+    </table></div>
+    <p class="cap">Mittel über die acht überlebenden life-Welten.</p>
+    <p>Die Jungen fressen deutlich schlechter, erreichen innerhalb der ersten hundert Lebensticks ein Plateau und verbessern sich danach nicht. Das ist eine Lernkurve innerhalb eines Individuums.</p>
+    <div class="tw"><table>
+      <tr><th>Ticks nach der Umkehrung</th><th>0-99</th><th>100-199</th><th>200-299</th><th>300-399</th><th>400+</th></tr>
+      <tr><td class="k">vorher geboren (lernen um)</td><td class="bad">0,66</td><td>0,98</td><td>0,99</td><td>0,99</td><td>0,99</td></tr>
+      <tr><td class="k">danach geboren (lernen neu)</td><td>0,87</td><td>0,94</td><td>0,97</td><td>0,97</td><td>0,98</td></tr>
+    </table></div>
+    <p class="cap">Nahrungsgenauigkeit nach Zeit seit einer Umkehrung, Mittel über alle Umkehrungen in den acht überlebenden Welten.</p>
+    <p>Die vor einer Umkehrung Geborenen fallen in den ersten hundert Ticks auf 0,66 und sind bis zur nächsten Hundert wieder bei 0,98. Umlernen dauert etwa hundertfünfzig Ticks, einen kleinen Bruchteil eines Lebens. Ein Vorbehalt ist hier wichtig: diese Kurve ist über alle Umkehrungen eines Laufs gemittelt, rund hundertfünfzig, und bei den meisten davon steht die Lernrate schon bei 3,4. Sie beschreibt eine <b>evolvierte</b> Population, keine naive. Für eine naive bei Rate 0,1 kostet Umlernen mehr, als das Wesen wert ist, und genau deshalb tötet die erste Umkehrung sie.</p></section>
+
+  <section><h2>in der stationären Welt verschwand das Lernen nicht</h2><h3>H-B2 nicht bestätigt, und der Grund verengt eine frühere Aussage von uns</h3>
+    <p>Erwartet war, dass Lernen dort, wo die Welt sich nie ändert, nutzlos ist und die Selektion seinen Preis abschafft, <span class="mono">never</span> also <b>unter</b> <span class="mono">never_frozen</span> liegt. Es kam umgekehrt: 0,296 gegen 0,185, Verhältnis 1,38 bei p = 0,115, also nicht von Drift zu unterscheiden. H-B2 ist nicht bestätigt.</p>
+    <p>Das widerspricht unserem eigenen Julipilot, in dem bei eingeschalteter Plastizität die Lernrate binnen fünfzehntausend Ticks um die Hälfte fiel. Die Erklärung liegt unseres Erachtens im Preis der Regel. Im Juli lief eine allgemeine Hebb-Regel über die gesamte Ausgabeschicht: sie bewegte alle Gewichte fortwährend, verdarb das Verhalten und wurde darum von der Selektion aktiv unterdrückt. Hier lernt eine einzige Verbindung, mit einer Totzone am Modulator, und in der stationären Welt bestätigt sie bloß eine angeborene Vorliebe, Phänotyp +5,58 gegen Genom +3,04. Solches Lernen kostet fast nichts, und es gibt nichts, wogegen die Selektion drücken könnte.</p>
+    <div class="callout">Der inhaltliche Schluss ist eine Verengung unseres früheren. Der Abfall der Lernrate im Julipilot war der Preis für eine konkrete teure Plastizitätsregel, keine allgemeine Eigenschaft stationärer Umwelten. Billiges Lernen übersteht seine eigene Nutzlosigkeit.</div></section>
+
+  <section><h2>unser eigener Messfehler</h2><h3>Eine Schwelle, die mit der Lauflänge wächst, ist keine Schwelle</h3>
+    <p>Kriterium 2 verlangte, dass der Abstand der Mediane der log10-Lernraten zwei Sigma der Streuung desselben Gens in <span class="mono">never_frozen</span> übersteigt, wo es auf nichts wirkt. Die Absicht war richtig: man braucht einen Bezugspunkt, der zeigt, was das Gen tut, wenn es nichts tut. Die Umsetzung war untauglich.</p>
+    <p>Das Ratengen mutiert multiplikativ. Ohne Selektion ist das eine Irrfahrt auf logarithmischer Skala, und die Varianz einer Irrfahrt wächst mit der Zeit. Unsere eigene Schwelle wuchs daher im Verlauf des Laufs.</p>
+    <div class="tw"><table>
+      <tr><th>Tick</th><th>Median der Rate</th><th>sd(log10)</th><th>2σ als Schwelle</th><th>als Faktor</th></tr>
+      <tr><td class="k">2 000</td><td>0,101</td><td>0,066</td><td>0,131</td><td>1x</td></tr>
+      <tr><td class="k">10 000</td><td>0,103</td><td>0,293</td><td>0,587</td><td>4x</td></tr>
+      <tr><td class="k">20 000</td><td>0,128</td><td>0,503</td><td>1,006</td><td>10x</td></tr>
+      <tr><td class="k">40 000</td><td>0,129</td><td>0,681</td><td>1,363</td><td>23x</td></tr>
+      <tr><td class="k">60 000</td><td>0,090</td><td>0,822</td><td>1,644</td><td>44x</td></tr>
+      <tr><td class="k">80 000</td><td>0,122</td><td>0,861</td><td>1,721</td><td>53x</td></tr>
+      <tr><td class="k">100 000</td><td>0,185</td><td>0,893</td><td class="bad">1,786</td><td class="bad">61x</td></tr>
+    </table></div>
+    <p class="cap">Vierzig Saaten der Bedingung never_frozen, in der das Lernratengen unter keinerlei Selektion steht.</p>
+    <p>Der gemessene Effekt beträgt ×14,5, also 1,16 in log10. Die Schwelle bei Tick hunderttausend liegt bei 1,786, einem sechzigfachen Bereich. Die Schwelle überholte den Effekt irgendwo zwischen zwanzig- und dreißigtausend Ticks. Hätten wir eine Lauflänge von 20 000 Ticks erklärt, hätte genau derselbe Effekt das Kriterium passiert.</p>
+    <p>Das ist ein Entwurfsfehler im Kriterium, und er sollte so benannt werden: wir wählten eine Latte, die umso höher liegt, je länger das Experiment läuft. Sie misst nicht die Stärke eines Effekts, sie misst die Dauer eines Laufs. Nachträglich verschieben wir sie nicht, denn ein nach dem Blick in die Daten erfundenes Kriterium ist keines mehr. In der nächsten Version vergleicht es gegen die Drift am selben Tick, oder arbeitet mit der Verteilung gepaarter Differenzen, oder das Gen wird so begrenzt, dass die neutrale Irrfahrt nicht ausfranst. Das wird vor den Läufen entschieden.</p></section>
+
+  <section><h2>Grenzen und wie es weitergeht</h2><h3>Was dies nicht zeigt, und was Protokoll B2 ändert</h3>
+    <p>Wie die Zahlen in den Tabellen berechnet werden, für den Fall, dass jemand sie aus den Rohdaten nachrechnet. Das Ratengen mutiert multiplikativ, deshalb werden alle Mediane und Quartile der Lernrate auf der log10-Skala gebildet und zurückabgebildet: <span class="mono">10 ** median(log10 lr)</span>. Das Verhältnis life zu never ist <span class="mono">10 ** median(log10 life − log10 never)</span> über die Paare, also ein Median von Verhältnissen auf logarithmischer Skala und kein Verhältnis linearer Mediane. Mit linearen Medianen nachgerechnet ergeben dieselben Daten ×14,95 statt ×14,47, was eine andere Skala ist und keine Abweichung. Die Nahrungsgenauigkeit ist ein Mittelwert über die überlebenden Läufe einer Bedingung, kein Median. Aussterbeanteile und Todesticks nutzen alle vierzig Läufe einer Bedingung, alles andere nur die Überlebenden, denn eine ausgestorbene Welt hat keinen Endzustand.</p>
+    <p>Die acht überlebenden <span class="mono">life</span>-Welten, auf denen Lernrate, Genauigkeit und Kurven beruhen, sind keine Zufallsstichprobe aus vierzig, sondern eine auf Überleben selektierte Stichprobe. Sie mit <span class="mono">never</span> zu vergleichen, wo alle vierzig überlebten, vergleicht Überlebende mit Nichtüberlebenden. Das Verhältnis 14,5 kennzeichnet die Evolution in jenen Welten, in denen Evolution Zeit dazu hatte, nicht den erwarteten Ausgang in einer zufällig gewählten Welt. Weiter: plastisch ist eine Synapse, also verallgemeinert sich hier nichts auf eine allgemeine Lernregel, und wir behaupten das auch nicht; es gibt ein Gitter, einen Metabolismus, eine Hirngröße, einen Vorfahren pro Saat, Übertragbarkeit wird nicht beansprucht; und die Version, die auf der Startseite in Ihrem Browser läuft, ist eine Schauvitrine, keine Quelle von Zahlen, und weicht in vier auf jener Seite genannten Parametern vom nächtlichen Lauf ab.</p>
+    <p>Protokoll B1 ist geschlossen. Seine Parameter nachzustellen und dieselben Daten neu zu rechnen wäre Anpassung, deshalb braucht B2 eine neue Präregistrierung, eine neue Ergebnisdatei und vor allen Läufen erklärte Kriterien. Was sich ändert, nach Wichtigkeit: die Welt muss die erste Umkehrung überlebbar machen, entweder indem ein giftiger Biss zwei statt fünf Einheiten kostet oder, mir lieber, weil näher an der Biologie, indem die Umkehrung über einige Dutzend Ticks allmählich erfolgt, sodass es ein Fenster gibt, in dem beide Farben schwach nahrhaft sind; die Startlernrate muss praktisch von null verschieden sein, entweder auf etwa 0,5 gehoben, wo Umlernen ins Energiebudget passt, oder, ehrlicher, als Verteilung von Raten eingesät, sodass stehende Variation erklärt und nicht zufällig ist; das Kriterium muss von der Lauflänge unabhängig sein; der Häufigkeitsgradient braucht eine eigene Bedingung in einer sicher überlebenden Welt, sonst versinkt H-B3 erneut im Flaschenhals; und Alter und Lernrate der Gestorbenen müssen aufgezeichnet werden, nicht nur der Lebenden, denn derzeit teilt uns eine ausgestorbene Welt nur ihren Todestick mit.</p></section>
+
+  <section><h2>in einfachen Worten</h2><h3>Für Leser, die keine Biologen sind und die Läufe nicht verfolgt haben</h3>
+    <p>Wir haben eine Welt gebaut, in der Nahrung in zwei Farben vorkommt, und von Zeit zu Zeit tauschen die Farben die Rollen: was Nahrung war, wird Gift. Die Momente dieses Tauschs sind zufällig, also ist es unmöglich, mit dem Wissen um die richtige Farbe geboren zu werden. Man kann es nur im Leben lernen. Die Frage war einfach: schaltet die Selektion die Lernfähigkeit dort ein, wo die Welt ihre Regeln ändert?</p>
+    <p>Es gab zwei Nachrichten.</p>
+    <p>Die erste: die Welt erwies sich als zu grausam. Achtzig Prozent der Populationen starben beim allerersten Tausch, und in der Variante mit abgeschaltetem Lernen starb jede einzelne, vierzig von vierzig. Die Arithmetik haben wir erst danach gerechnet und gesehen, warum: um bei unserer Startgeschwindigkeit umzulernen, musste ein Wesen sich etwa sechzig Mal vergiften, und seine Energie reicht für etwa zwanzig Vergiftungen. Es starb, bevor es begreifen konnte, dass die Regeln sich geändert hatten. Das ist unser Konstruktionsfehler, und wir hatten im Voraus erklärt, dass das Protokoll in diesem Fall ersetzt und nicht so lange nachgestellt wird, bis das Ergebnis schön aussieht.</p>
+    <p>Die zweite Nachricht ist interessanter. Die acht Welten, die durch die Katastrophe kamen, verhielten sich genau so, wie die Hypothese vorhergesagt hatte. Sie überlebten nicht zufällig: zum Moment des Tauschs enthielten sie schon Wesen, die etwas schneller lernen als die übrigen. Binnen einiger hundert Ticks nach der Katastrophe wuchs die Lernrate der Population etwa auf das Dreißigfache und blieb dort bis zum Ende des Laufs. Der angeborene Geschmack änderte sich dabei überhaupt nicht, er blieb der, mit dem sie anfingen, und das ist richtig: in die Erblichkeit lässt sich nichts schreiben, was sich zufällig ändert. Der im Leben gelernte Geschmack dagegen kippte ins Gegenteil. Heraus kam eine klare Trennung: die Erblichkeit hält den Bauplan des Wesens, und das Wissen darüber, was heute essbar ist, lebt nur innerhalb eines Lebens und wird von jeder Generation neu erworben.</p>
+    <p>Und ein Drittes, mit dem wir nicht gerechnet hatten. In der unveränderlichen Welt verschwand das Lernen nicht, obwohl es nach unserer eigenen Juliskizze hätte verschwinden sollen. Die Erklärung ist einfach: im Juli probierten wir teures Lernen, das das Verhalten verdarb, und die Selektion warf es hinaus. Hier ist das Lernen billig, eine einzige Verbindung, und es gibt keinen Grund, es hinauszuwerfen. Also ist nicht jedes Lernen in einer stabilen Welt unrentabel, sondern nur solches, für das man teuer bezahlt.</p>
+    <p>Eigens erwähnt sei unser eigener Messfehler. Wir hatten im Voraus erklärt, der Effekt müsse die Streuung der Zufallsdrift übersteigen, und das ist der richtige Gedanke, aber wir wählten eine schlechte Art, sie zu berechnen. Es kam so, dass die Latte, die wir uns selbst gesetzt hatten, umso höher lag, je länger das Experiment lief. Am Ende verlangte sie einen sechzigfachen Unterschied, und der Effekt war vierzehnfach. Hätten wir die Läufe fünfmal früher beendet, wäre dasselbe Ergebnis durchgegangen. Die Regel ändern wir nachträglich nicht, denn ein nach dem Blick in die Daten erfundenes Kriterium ist keines mehr, aber in der nächsten Version wird es ein anderes sein, und wir haben aufgeschrieben, welches.</p></section>
+
+  <footer>Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Offene Forschung. Code, Daten und das eingefrorene Protokoll: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Präregistrierung B</a> · <a href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">vollständiger Bericht B</a> · <a href="journal.html">Beobachtungsjournal</a> · <a href="learning.html">die Notiz, mit der dieses Experiment begann</a><br>Quellen: M. Kozielska, F. J. Weissing, „A neural network model for the evolution of learning in changing environments“, PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton u. a., „Loss of plasticity in deep continual learning“, Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+<div class="langblock" data-lang="zh" lang="zh">
+  <h1>四十个世界里死了三十二个。<br>第二个实验的结果</h1>
+  <div class="eyebrow">结果 · 2026年10月7日 · 协议 B1-100k-v1</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · 马克西姆·伊林，AI 顾问</div>
+  <p class="lede"><b>事先声明的失败边界被触发了。在主条件下，百分之八十的种群在食物规则第一次翻转时就死掉了，而按照我们自己的预注册，这意味着协议到此关闭，而不是产出一个结果。</b>在挺过那道瓶颈的八个世界里，其余一切的表现恰如假设所预言，而消融对照干净得无可挑剔：没有终生学习，四十个世界全部灭绝。</p>
+  <div class="cta"><a class="btn" href="index.html">▶ 观看实时实验</a><a class="btn ghost" href="journal.html">观察日志</a><a class="btn ghost" href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">完整报告</a><a class="btn ghost" href="notes.html">全部札记</a></div>
+  <p>累积从 2026 年 9 月 10 日持续到 9 月 29 日：240 次运行，四十个种子乘六个条件，每次十万个时刻，由每日自动任务写入。没有一次运行出错。判据、读数和失败边界在第一次运行之前就冻结在预注册里，下面写的任何东西都不是看过数据之后才决定的。凡是我们弄错的地方，错误都被指明是我们自己的，并带进下一个协议，而不是在这里改掉。</p>
+
+  <section><h2>事先声明了什么</h2><h3>一段话讲完设计</h3>
+    <p>食物有两种颜色。任何时刻一种颜色有营养，另一种有毒，咬一口毒物要损失相当于半份资源的能量。规则翻转的时刻来自一个只由种子播种的独立生成器，间隔在 [0.5T, 1.5T] 上均匀分布，首次翻转不早于第 5000 个时刻。由于这些时刻无法预测，任何遗传得来的偏好值都不可能长期正确：正确的颜色只能在活着的时候学。</p>
+    <p>会学习的是一个可塑的突触，我们称之为口味：它是在「吃」这个动作的对数几率上加上 <span class="mono">口味 × 颜色</span>。它像任何别的权重一样被继承，并在生命期间按三因子规则变化，即吃了什么、得到了什么、以多快的速度。速度本身是一个基因，以乘法方式突变，所以选择可以抬高或压低学习能力而不触动别的东西。生命期间的改变不被继承：后代拿到的是亲代突变后的基因组，而不是训练过的权重。</p>
+    <p>六个条件跑在同样的种子上，出自同一个祖先：<span class="mono">never</span>（规则永不改变）、<span class="mono">slow</span>（T=5000）、<span class="mono">life</span>（T=600，一生一次翻转，处理组）、<span class="mono">fast</span>（T=150）、<span class="mono">life_frozen</span>（与处理组同一个世界，但不施加学习）和 <span class="mono">never_frozen</span>（静止世界，不施加学习，用来量出速度基因在什么都不做时会做什么）。</p>
+    <div class="callout">共登记了四个假设。H-B1：在变化的世界里被选择出来的学习速度高于静止世界。H-B2：在静止世界里选择会压低学习。H-B3：一生之内翻转多次比一生一次更糟。H-B4，消融：规则会变的世界，没有终生学习就活不下来。第 7.3 节声明了失败边界：如果处理组有超过一半的种群灭绝，则比较作废，协议被替换。</div></section>
+
+  <section><h2>失败边界被触发</h2><h3>存活率，以及那一列谁都没去看</h3>
+    <div class="tw"><table>
+      <tr><th>条件</th><th>规则变化</th><th>学习</th><th>灭绝</th><th>死亡时刻中位数</th><th>死前经历的翻转</th></tr>
+      <tr><td class="k">never</td><td class="d">从不</td><td class="d">有</td><td class="good">0 / 40</td><td>无</td><td>无</td></tr>
+      <tr><td class="k">never_frozen</td><td class="d">从不</td><td class="d">无</td><td class="good">0 / 40</td><td>无</td><td>无</td></tr>
+      <tr><td class="k">slow</td><td class="d">每 ~5000 时刻</td><td class="d">有</td><td class="bad">30 / 40</td><td>10 741</td><td>1</td></tr>
+      <tr><td class="k">life</td><td class="d">每 ~600 时刻</td><td class="d">有</td><td class="bad">32 / 40</td><td>5 986</td><td>1</td></tr>
+      <tr><td class="k">fast</td><td class="d">每 ~150 时刻</td><td class="d">有</td><td class="bad">34 / 40</td><td>5 833</td><td>5</td></tr>
+      <tr><td class="k">life_frozen</td><td class="d">每 ~600 时刻</td><td class="d">无</td><td class="bad">40 / 40</td><td>5 983</td><td>1</td></tr>
+    </table></div>
+    <p class="cap">每个条件四十个种子，每次运行 100 000 个时刻。灭绝指种群在运行结束前降到零。</p>
+    <p>值得看的是最后一列。种群在死亡之前经历的规则翻转次数的中位数是一，在 <span class="mono">life</span>、<span class="mono">slow</span> 和 <span class="mono">life_frozen</span> 中都是一。世界不是在累积的切换里被慢慢磨掉的，它们死在第一次切换上。在 <span class="mono">slow</span> 里首次翻转大约落在第 9615 个时刻，死亡大约在 10 741，也就是一千一百个时刻之后。在 <span class="mono">life</span> 里首次翻转大约在 5637，死亡大约在 5986，即三百五十个时刻之后。在 <span class="mono">fast</span> 里翻转次数形式上更多，只因为它每 150 个时刻就来一次；按时间算，死亡落在同一个地方。</p>
+    <p>于是我们拿到的是一个自己没问过的问题的答案：在这个世界里，致命的是<b>一次</b>翻转，而不是翻转的频率。同一个事实使 H-B3 在这批数据上不可检验，而非被否证，因为频率梯度若存在，也藏在第一次切换之下。<span class="mono">life</span> 对 <span class="mono">fast</span> 的配对检验给出三比一的不一致配对，p = 0.625。</p></section>
+
+  <section><h2>死亡的算术</h2><h3>一道本该在运行之前、而不是之后做的计算</h3>
+    <p>在 <span class="mono">toxic_factor = -0.5</span> 下，咬一口毒物大约夺走五个单位的能量。一个生物能携带的能量上限是一百。在起始速度和饱和调制下，咬一口把口味推动大约 0.1。于是从遗传而来的口味 +3 经过零走到稳定的 −3，大致需要六十次中毒，也就是在一百的预算下花掉三百个单位的能量。</p>
+    <div class="callout warn">带着起始学习速度的生物在物理上无法重新学会。它在改变自己偏好的符号之前就被毒死了。能够存活的只有那些在变异尾部已经带着学得更快的个体的种群，再加上翻转那一刻正好站在食物斑块上的运气。</div></section>
+
+  <section><h2>消融：协议中最干净的结果</h2><h3>H-B4，无保留地确认</h3>
+    <p>同一个世界、同样的种子、同一个祖先，一次施加终生学习，一次关掉它。不一致配对：八对，全部朝同一个方向。<span class="mono">life</span> 活下来而 <span class="mono">life_frozen</span> 灭绝：八例。反过来的：零例。精确 McNemar 检验：<b>p = 0.0078</b>。灭绝 40 中的 32 对 <b>40 中的 40</b>。</p>
+    <p>没有学习，四十个世界里一个也没活下来。有学习，活下来八个。这是四个假设中唯一毫无保留地通过了自己判据的一个，也是唯一让我们有资格把学习速度的上升读作适应、而不是选择的搭车客的东西。值得一提：消融条件是在第一次运行前几个小时，由 v1.1 修订加进主判据的，而它恰恰是起了作用的那一部分。</p></section>
+
+  <section><h2>那八个存活者有何不同</h2><h3>选择作用在现成的变异上</h3>
+    <p>在 <span class="mono">life</span> 条件下挺过首次翻转的种子：1、2、3、10、18、28、35、39。</p>
+    <div class="tw"><table>
+      <tr><th>首次翻转时的指标</th><th>存活（n=8）</th><th>死亡（n=32）</th></tr>
+      <tr><td class="k">种群数量</td><td>180（142…229）</td><td>183（122…254）</td></tr>
+      <tr><td class="k">学习速度，基因中位数</td><td class="good">0.120（0.093…0.215）</td><td>0.103（0.050…0.181）</td></tr>
+      <tr><td class="k">翻转之后的种群最低点</td><td class="good">14（4…39）</td><td class="bad">2（0…8）</td></tr>
+    </table></div>
+    <p class="cap">中位数与四分位距。学习速度的单侧 Mann-Whitney 检验：p = 0.023。</p>
+    <p>灾难之前的种群规模在两组里是一样的，所以这不是谁手上生物更多的故事。有差别的是学习速度：中位数 0.120 对 0.103。差别不大，区间也重叠，但它存在，并且指向预言的那一边。第三行显示瓶颈有多窄。存活者的中位数跌到十四个个体，有一例跌到四个。死掉的跌到两个。恢复与灭绝之间的距离是用个位数的生物来量的。</p>
+    <p>过了瓶颈，学习速度在几百个时刻之内上升一个数量级，到第一万个时刻达到 3.2 至 3.9，之后的九万个时刻稳定在 2.8 到 3.7 之间，接近允许上限 4.0。八个世界里的图景完全一致。这不是漂变也不是缓慢爬升：选择在大约一个世代之内把除快速学习者以外的一切清空，种群再从它们当中重新长出来。</p>
+    <div class="tw"><table>
+      <tr><th>条件</th><th>学习速度，中位数</th><th>四分位</th><th>取食准确率</th></tr>
+      <tr><td class="k">never_frozen</td><td>0.185</td><td>0.028…0.428</td><td>1.00</td></tr>
+      <tr><td class="k">never</td><td>0.296</td><td>0.104…0.575</td><td>1.00</td></tr>
+      <tr><td class="k">slow</td><td>2.832</td><td>2.673…3.002</td><td>0.98</td></tr>
+      <tr><td class="k">life</td><td>3.491</td><td>3.381…3.555</td><td>0.93</td></tr>
+      <tr><td class="k">fast</td><td>3.697</td><td>3.576…3.734</td><td>0.79</td></tr>
+    </table></div>
+    <p class="cap">仅限存活的世界。中位数之比，life 对 never：×14.47，八对配对的 Wilcoxon 检验 p = 0.0078。</p>
+    <p>取食准确率随切换频率下降，正如它应该下降的那样：静止世界里是一，一生一次翻转是 0.93，一生数次是 0.79。<span class="mono">fast</span> 里的生物来不及重新学会，尽管它们的学习速度是所有条件中最高的。</p></section>
+
+  <section><h2>基因组不动，表型在动</h2><h3>关于「今天」的知识究竟存放在哪里</h3>
+    <div class="tw"><table>
+      <tr><th>条件</th><th>先天口味（基因组）</th><th>生命末期口味（表型）</th></tr>
+      <tr><td class="k">never</td><td>+3.04</td><td>+5.58</td></tr>
+      <tr><td class="k">never_frozen</td><td>+3.04</td><td>+3.04</td></tr>
+      <tr><td class="k">slow</td><td>+2.97</td><td>+5.92</td></tr>
+      <tr><td class="k">life</td><td>+2.91</td><td class="bad">−4.92</td></tr>
+      <tr><td class="k">fast</td><td>+3.21</td><td>+4.50</td></tr>
+    </table></div>
+    <p class="cap">运行结束时对存活个体取中位数。</p>
+    <p>先天口味从 +3.0 出发，并在所有条件下都留在 +3.0 附近，包括规则会变的那些。演化没有碰它，也碰不了：正确的符号变得无法预测，因此任何先天值都不值得拥有。而表型分开了。在关掉学习的 <span class="mono">never_frozen</span> 里，表型与基因组完全相等，这也顺便确认了阻止生命期改变被继承的屏障是完好的。在 <span class="mono">never</span> 里，学习把口味拉到 +5.58，强化了本来就正确的先天偏好。而在 <span class="mono">life</span> 里，表型走到了负值：测量那一刻规则正处在颜色 −1 可食的位置，种群学会了这一点，同时仍带着先天的正值。</p>
+    <div class="callout">基因组记不住规则。终生学习把它记下来。协议要展示的正是这一分工，而这也是整份结果中唯一看起来像一幅图、而不像一个 p 值的地方。</div></section>
+
+  <section><h2>学习在一生之内就看得见</h2><h3>两条曲线，量在生命内部，而不是世代之间</h3>
+    <div class="tw"><table>
+      <tr><th>个体年龄，时刻</th><th>0-50</th><th>50-100</th><th>100-200</th><th>200-400</th><th>400-800</th><th>800-1600</th><th>1600+</th></tr>
+      <tr><td class="k">可食咬次的比例</td><td>0.845</td><td>0.940</td><td>0.950</td><td>0.937</td><td>0.931</td><td>0.939</td><td>0.943</td></tr>
+    </table></div>
+    <p class="cap">在八个存活的 life 世界上取平均。</p>
+    <p>年幼者吃得明显更差，在生命最初的一百个时刻内到达平台，之后不再改善。这是一条个体内部的学习曲线。</p>
+    <div class="tw"><table>
+      <tr><th>翻转之后的时刻</th><th>0-99</th><th>100-199</th><th>200-299</th><th>300-399</th><th>400+</th></tr>
+      <tr><td class="k">翻转前出生（需要重学）</td><td class="bad">0.66</td><td>0.98</td><td>0.99</td><td>0.99</td><td>0.99</td></tr>
+      <tr><td class="k">翻转后出生（从零学起）</td><td>0.87</td><td>0.94</td><td>0.97</td><td>0.97</td><td>0.98</td></tr>
+    </table></div>
+    <p class="cap">按距翻转的时间统计的取食准确率，在八个存活世界的所有翻转上取平均。</p>
+    <p>翻转之前出生的，在头一百个时刻跌到 0.66，到下一个一百就已经回到 0.98。重新学会大约要一百五十个时刻，只占一生的一小部分。这里有一条重要的保留：这条曲线是在一次运行中的所有翻转上取平均的，而翻转约有一百五十次，到其中大多数发生时，学习速度已经等于 3.4。它描述的是一个<b>已经演化过</b>的种群，不是天真的种群。对速度为 0.1 的天真种群来说，重新学会的代价高于它本身的身价，这正是第一次翻转会要它命的原因。</p></section>
+
+  <section><h2>在静止的世界里，学习没有消失</h2><h3>H-B2 未获确认，而原因收窄了我们自己先前的说法</h3>
+    <p>我们原本预期，在世界从不改变的地方学习是无用的，选择会取消它的代价，也就是 <span class="mono">never</span> 会落在 <span class="mono">never_frozen</span> <b>之下</b>。结果相反：0.296 对 0.185，比值 1.38，p = 0.115，与漂变无法区分。H-B2 未获确认。</p>
+    <p>这与我们七月的试点相矛盾：那里打开可塑性之后，学习速度在一万五千个时刻内降了一半。我们认为解释在于规则的代价。七月跑的是作用于整个输出层的一般赫布规则：它持续移动所有权重，败坏行为，因此被选择主动压制。这里学习的是一条连接，调制器上还有一个死区，而在静止世界里它只是确认了先天的偏好，表型 +5.58 对基因组 +3.04。这样的学习几乎不花什么代价，选择也就无处施压。</p>
+    <div class="callout">实质结论是对我们自己先前说法的收窄。七月试点中学习速度的下降，是为一条具体而昂贵的可塑性规则付的代价，而不是静止环境的普遍性质。便宜的学习经得起自己的无用。</div></section>
+
+  <section><h2>我们自己的测量失误</h2><h3>随运行长度增长的门槛不是门槛</h3>
+    <p>判据 2 要求 log10 学习速度的中位数之差超过同一基因在 <span class="mono">never_frozen</span>（那里它不影响任何东西）中离散度的两个 sigma。意图是对的：需要一个参照点，显示这个基因在什么都不做时会做什么。实现则是不合格的。</p>
+    <p>速度基因以乘法方式突变。在没有选择的情况下这是对数尺度上的随机游走，而随机游走的方差随时间增长。于是我们自己的门槛在运行过程中一直在长。</p>
+    <div class="tw"><table>
+      <tr><th>时刻</th><th>速度中位数</th><th>sd(log10)</th><th>作为门槛的 2σ</th><th>折合倍数</th></tr>
+      <tr><td class="k">2 000</td><td>0.101</td><td>0.066</td><td>0.131</td><td>1x</td></tr>
+      <tr><td class="k">10 000</td><td>0.103</td><td>0.293</td><td>0.587</td><td>4x</td></tr>
+      <tr><td class="k">20 000</td><td>0.128</td><td>0.503</td><td>1.006</td><td>10x</td></tr>
+      <tr><td class="k">40 000</td><td>0.129</td><td>0.681</td><td>1.363</td><td>23x</td></tr>
+      <tr><td class="k">60 000</td><td>0.090</td><td>0.822</td><td>1.644</td><td>44x</td></tr>
+      <tr><td class="k">80 000</td><td>0.122</td><td>0.861</td><td>1.721</td><td>53x</td></tr>
+      <tr><td class="k">100 000</td><td>0.185</td><td>0.893</td><td class="bad">1.786</td><td class="bad">61x</td></tr>
+    </table></div>
+    <p class="cap">never_frozen 条件的四十个种子，那里学习速度基因完全不受任何选择。</p>
+    <p>我们测到的效应是 ×14.5，在 log10 上是 1.16。第十万个时刻的门槛是 1.786，也就是六十倍的幅度。门槛大约在两万到三万个时刻之间超过了效应。如果我们当初声明的运行长度是 20 000 个时刻，同样的效应就会通过。</p>
+    <p>这是判据设计上的错误，应当直说：我们选了一根实验跑得越久就越高的横杆。它量的不是效应的大小，而是运行的长短。我们不会事后去移动它，因为看过数据之后才想出来的判据已经不是判据。在下一个版本里，它将与同一时刻的漂变比较，或者改用配对差的分布，或者把基因限制住，使中性游走不会散开。这要在运行之前决定。</p></section>
+
+  <section><h2>界限，以及接下来做什么</h2><h3>这不能说明什么，以及协议 B2 改了什么</h3>
+    <p>表中数字的算法，供从原始数据复算的人参考。速度基因以乘法方式突变，因此学习速度的所有中位数和四分位都在 log10 尺度上计算再映射回来：<span class="mono">10 ** median(log10 lr)</span>。life 对 never 的比值是按配对计算的 <span class="mono">10 ** median(log10 life − log10 never)</span>，也就是对数尺度上比值的中位数，而不是线性中位数之比。若改用线性中位数复算，同一批数据给出 ×14.95 而不是 ×14.47，这是尺度不同，不是对不上。取食准确率是某条件下存活运行的平均值，不是中位数。灭绝比例和死亡时刻用该条件的全部四十次运行，其余一切只用存活者，因为灭绝的世界没有末态。</p>
+    <p>承载学习速度、准确率和各条曲线的那八个存活的 <span class="mono">life</span> 世界，并不是从四十个里随机抽出的样本，而是经过存活筛选的样本。把它们与四十个全部存活的 <span class="mono">never</span> 相比，是在拿存活者与未存活者相比。因此 14.5 这个比值刻画的是演化在那些来得及发生演化的世界里的样貌，而不是随机取一个世界的预期结果。再往下：只有一个突触可塑，所以这里的一切都不能推广到一般的学习规则，我们也不作此推广；只有一张网格、一套代谢、一个脑容量、每个种子一个祖先，不声称可迁移；而在首页上你的浏览器里跑着的那个版本是展示窗，不是数字的来源，它与每日运行在该页面列出的四个参数上有差别。</p>
+    <p>协议 B1 已经关闭。调它的参数再把同一批数据重算一遍就是拟合，所以 B2 需要新的预注册、新的结果文件，以及在任何运行之前声明的判据。按重要性排序，要改的是：世界必须让第一次翻转可以活过去，办法要么是把一口毒物的代价从五个单位降到两个，要么，我更喜欢这一个，因为它更接近生物学，让翻转在几十个时刻里逐渐完成，这样就有一个窗口，其中两种颜色都微弱可食；起始学习速度在实践上必须不等于零，要么抬到大约 0.5，使重新学会能装进能量预算，要么更诚实一些，用一个速度的分布去播种种群，这样现成的变异就是声明过的，而不是碰巧有的；判据必须与运行长度无关；频率梯度需要一个单独的条件，放在肯定能存活的世界里，否则 H-B3 又会沉进瓶颈；还要记录死者的年龄和学习速度，而不只是活者的，因为现在一个灭绝的世界只告诉我们它死亡的那一个时刻。</p></section>
+
+  <section><h2>用通俗的话说</h2><h3>写给不是生物学家、也没跟过这些运行的读者</h3>
+    <p>我们造了一个世界，食物有两种颜色，并且时不时两种颜色会互换角色：原本是食物的变成毒药。互换的时刻是随机的，所以不可能一出生就知道正确的颜色，只能在活着的时候学。问题很简单：在一个不断改变规则的世界里，选择会不会把学习的能力打开？</p>
+    <p>结果有两条消息。</p>
+    <p>第一条：这个世界太残酷了。百分之八十的种群死在第一次互换上，而在关掉学习的那个变体里，一个不剩全死了，四十个里死了四十个。我们事后才做了算术，看出原因：要以我们的起始速度重新学会，一个生物需要中毒大约六十次，而它的能量只够大约二十次中毒。它在搞清规则已经变了之前就死了。这是我们在世界构造上的失算，而我们事先声明过，遇到这种结局，协议会被替换，而不是一路调参直到结果好看。</p>
+    <p>第二条消息更有意思。那八个穿过灾难的世界，表现恰如假设所预言。它们不是偶然活下来的：到互换那一刻，它们里面已经有学得比别人略快一点的生物。灾难之后几百个时刻之内，种群的学习速度上升了大约三十倍，并一直保持到运行结束。与此同时先天口味完全没有变化，还是出发时的那个，这是对的：把随机变化的东西写进遗传是不可能的。而在生命中学到的口味却翻到了相反的一侧。于是出现了一个清楚的分工：遗传保存生物的构造，而关于今天什么能吃的知识只活在一条生命之内，每一代都要重新挣来。</p>
+    <p>还有第三件我们没预料到的事。在不变的世界里学习没有消失，尽管按我们自己七月的草案它本该消失。解释很简单：七月我们试的是昂贵的学习，它败坏行为，于是被选择扔了出去。这里的学习很便宜，只有一条连接，没有理由扔掉它。也就是说，并不是任何学习在稳定的世界里都不划算，只有那种要付出高价的才不划算。</p>
+    <p>还要单独说一下我们自己在测量上的失误。我们事先声明效应必须超过随机漂变的离散度，这个想法是对的，但我们选了一种不好的算法。结果是，实验跑得越久，我们给自己设的横杆就越高。到运行结束时它要求六十倍的差别，而效应是十四倍。如果我们把运行提早五倍停下来，同一个结果就会通过。我们不会事后改规则，因为看过数据之后才想出来的判据已经不是判据，但在下一个版本里它会是另一个，而且我们已经写清是哪一个。</p></section>
+
+  <footer>项目与文字：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>开放研究。代码、数据与已冻结的协议：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">预注册 B</a> · <a href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">完整报告 B</a> · <a href="journal.html">观察日志</a> · <a href="learning.html">开启这个实验的那篇札记</a><br>资料来源：M. Kozielska, F. J. Weissing,《A neural network model for the evolution of learning in changing environments》, PLoS Computational Biology, 2024；S. Dohare, R. S. Sutton 等,《Loss of plasticity in deep continual learning》, Nature, 2024；L. Yaeger, Polyworld, 1994。</footer>
+</div>
+<div class="langblock" data-lang="es" lang="es">
+  <h1>Treinta y dos mundos de cuarenta se extinguieron.<br>Resultados del segundo experimento</h1>
+  <div class="eyebrow">resultados · 7 de octubre de 2026 · protocolo B1-100k-v1</div>
+  <div class="byline"><b>MAKSIM ILIN</b> · Consultor de IA</div>
+  <p class="lede"><b>El límite de fracaso declarado se activó. En la condición principal, el ochenta por ciento de las poblaciones murió en la primera inversión de la regla alimentaria, y según nuestro propio preregistro eso cierra el protocolo en lugar de abrir un resultado.</b> Dentro de los ocho mundos que pasaron el cuello de botella, todo lo demás se comportó exactamente como predecía la hipótesis, y la ablación salió tan limpia como puede salir una ablación: sin aprendizaje durante la vida se extinguieron los cuarenta mundos.</p>
+  <div class="cta"><a class="btn" href="index.html">▶ ver el experimento en vivo</a><a class="btn ghost" href="journal.html">diario de observaciones</a><a class="btn ghost" href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">informe completo</a><a class="btn ghost" href="notes.html">todas las notas</a></div>
+  <p>La acumulación corrió del 10 al 29 de septiembre de 2026: 240 ejecuciones, cuarenta semillas por seis condiciones por cien mil ticks cada una, escritas automáticamente por una tarea nocturna. Ninguna ejecución falló. Los criterios, las lecturas y los límites de fracaso quedaron congelados en el preregistro antes de la primera ejecución, y nada de lo que sigue se decidió después de mirar los datos. Donde nos equivocamos, el error está señalado como nuestro y trasladado al siguiente protocolo, no corregido aquí.</p>
+
+  <section><h2>qué se declaró de antemano</h2><h3>El diseño en un párrafo</h3>
+    <p>La comida viene en dos colores. En cada momento un color es nutritivo y el otro es veneno, y un bocado venenoso cuesta la energía de medio recurso. La regla se invierte en momentos que saca un generador aparte, sembrado solo con la semilla, con intervalos uniformes en [0.5T, 1.5T] y la primera inversión no antes del tick 5000. Como los momentos son impredecibles, ningún valor heredado de la preferencia puede ser correcto por mucho tiempo: el color correcto solo se puede aprender en vida.</p>
+    <p>Lo que aprende es una sola sinapsis plástica a la que llamamos gusto: es un añadido de <span class="mono">gusto × color</span> al logit de la acción de comer. Se hereda como cualquier otro peso y cambia durante la vida por una regla de tres factores, qué se comió, qué dio y a qué velocidad. La velocidad misma es un gen que muta de forma multiplicativa, de modo que la selección puede subir o bajar la capacidad de aprender sin tocar nada más. Los cambios de la vida no se heredan: la cría recibe el genoma mutado del progenitor, nunca los pesos entrenados.</p>
+    <p>Seis condiciones corrieron sobre semillas idénticas desde un único ancestro común: <span class="mono">never</span> (la regla nunca cambia), <span class="mono">slow</span> (T=5000), <span class="mono">life</span> (T=600, una inversión por vida, el tratamiento), <span class="mono">fast</span> (T=150), <span class="mono">life_frozen</span> (el mismo mundo del tratamiento, sin aplicar el aprendizaje) y <span class="mono">never_frozen</span> (mundo estacionario, sin aprendizaje, que mide qué hace el gen de la velocidad cuando no hace nada).</p>
+    <div class="callout">Se registraron cuatro hipótesis. H-B1: en un mundo cambiante la velocidad de aprendizaje seleccionada es mayor que en uno estacionario. H-B2: en un mundo estacionario la selección baja el aprendizaje. H-B3: cambiar varias veces por vida es peor que una vez por vida. H-B4, la ablación: un mundo con reglas cambiantes no es sobrevivible sin aprendizaje durante la vida. La sección 7.3 declaró el límite de fracaso: si se extingue más de la mitad de las poblaciones del tratamiento, la comparación queda nula y el protocolo se reemplaza.</div></section>
+
+  <section><h2>el límite de fracaso se activó</h2><h3>Supervivencia, y la columna que nadie estaba mirando</h3>
+    <div class="tw"><table>
+      <tr><th>condición</th><th>cambios de regla</th><th>aprendizaje</th><th>extintos</th><th>tick mediano de muerte</th><th>inversiones antes de morir</th></tr>
+      <tr><td class="k">never</td><td class="d">nunca</td><td class="d">sí</td><td class="good">0 / 40</td><td>no</td><td>no</td></tr>
+      <tr><td class="k">never_frozen</td><td class="d">nunca</td><td class="d">no</td><td class="good">0 / 40</td><td>no</td><td>no</td></tr>
+      <tr><td class="k">slow</td><td class="d">cada ~5000 ticks</td><td class="d">sí</td><td class="bad">30 / 40</td><td>10 741</td><td>1</td></tr>
+      <tr><td class="k">life</td><td class="d">cada ~600 ticks</td><td class="d">sí</td><td class="bad">32 / 40</td><td>5 986</td><td>1</td></tr>
+      <tr><td class="k">fast</td><td class="d">cada ~150 ticks</td><td class="d">sí</td><td class="bad">34 / 40</td><td>5 833</td><td>5</td></tr>
+      <tr><td class="k">life_frozen</td><td class="d">cada ~600 ticks</td><td class="d">no</td><td class="bad">40 / 40</td><td>5 983</td><td>1</td></tr>
+    </table></div>
+    <p class="cap">Cuarenta semillas por condición, 100 000 ticks por ejecución. Extinto significa que la población llegó a cero antes del final de la ejecución.</p>
+    <p>La columna interesante es la última. El número mediano de inversiones de la regla que una población vive antes de morir es uno, tanto en <span class="mono">life</span> como en <span class="mono">slow</span> y en <span class="mono">life_frozen</span>. Los mundos no se desgastan por conmutación acumulada, mueren en la primera conmutación. En <span class="mono">slow</span> la primera inversión cae alrededor del tick 9615 y la muerte llega hacia 10 741, unos mil cien ticks después. En <span class="mono">life</span> la primera inversión está cerca de 5637 y la muerte cerca de 5986, unos trescientos cincuenta ticks después. En <span class="mono">fast</span> el número de inversiones es mayor solo formalmente, porque llegan cada 150 ticks; en el tiempo, la muerte llega al mismo lugar.</p>
+    <p>Así que obtuvimos la respuesta a una pregunta que no habíamos hecho: en este mundo es letal <b>una</b> inversión, no la frecuencia de las inversiones. El mismo hecho deja H-B3 no comprobable con estos datos, no refutada, porque el gradiente de frecuencia, si existe, queda escondido bajo la primera conmutación. La prueba emparejada de <span class="mono">life</span> contra <span class="mono">fast</span> dio tres pares discordantes contra uno, p = 0,625.</p></section>
+
+  <section><h2>la aritmética de morir</h2><h3>Un cálculo que correspondía antes de las ejecuciones, no después</h3>
+    <p>Con <span class="mono">toxic_factor = -0.5</span> un bocado venenoso quita unas cinco unidades de energía. La energía que una criatura puede llevar está limitada a cien. Un bocado desplaza el gusto unos 0,1 a la velocidad inicial y con el modulador saturado. Pasar de un gusto heredado de +3 por el cero hasta un −3 estable cuesta entonces del orden de sesenta envenenamientos, es decir unas trescientas unidades de energía con un presupuesto de cien.</p>
+    <div class="callout warn">Una criatura con la velocidad de aprendizaje inicial no puede reaprender físicamente. Muere envenenada antes de cambiar el signo de su propia preferencia. La supervivencia solo está al alcance de poblaciones que ya llevan individuos más rápidos en la cola de su variación, más la suerte de estar sobre un parche de comida cuando la regla gira.</div></section>
+
+  <section><h2>la ablación: el resultado más limpio del protocolo</h2><h3>H-B4, confirmada sin reservas</h3>
+    <p>El mismo mundo, las mismas semillas, el mismo ancestro, con el aprendizaje de vida aplicado y con el aprendizaje apagado. Pares discordantes: ocho, todos en una dirección. <span class="mono">life</span> sobrevivió y <span class="mono">life_frozen</span> se extinguió: ocho casos. Al revés: cero. Prueba exacta de McNemar: <b>p = 0,0078</b>. Extinción 32 de 40 contra <b>40 de 40</b>.</p>
+    <p>Sin aprendizaje no sobrevivió ni un mundo de cuarenta. Con aprendizaje sobrevivieron ocho. Es la única de las cuatro hipótesis que pasó su criterio sin reservas, y también lo único que autoriza a leer el ascenso de la velocidad de aprendizaje como una adaptación y no como pasajero de la selección. Vale señalarlo: la ablación entró en el criterio principal por la enmienda v1.1, pocas horas antes de la primera ejecución, y resultó ser la parte que funcionó.</p></section>
+
+  <section><h2>qué distinguía a los ocho supervivientes</h2><h3>La selección actuó sobre la variación ya presente</h3>
+    <p>Las semillas que pasaron la primera inversión en <span class="mono">life</span>: 1, 2, 3, 10, 18, 28, 35, 39.</p>
+    <div class="tw"><table>
+      <tr><th>medida en la primera inversión</th><th>supervivientes (n=8)</th><th>muertos (n=32)</th></tr>
+      <tr><td class="k">tamaño de la población</td><td>180 (142…229)</td><td>183 (122…254)</td></tr>
+      <tr><td class="k">velocidad de aprendizaje, mediana del gen</td><td class="good">0,120 (0,093…0,215)</td><td>0,103 (0,050…0,181)</td></tr>
+      <tr><td class="k">mínimo de la población después</td><td class="good">14 (4…39)</td><td class="bad">2 (0…8)</td></tr>
+    </table></div>
+    <p class="cap">Medianas con rangos intercuartílicos. Mann-Whitney unilateral sobre la velocidad de aprendizaje: p = 0,023.</p>
+    <p>El tamaño de la población antes de la catástrofe es el mismo en los dos grupos, así que no se trata de quién tenía más criaturas. Lo que difiere es la velocidad de aprendizaje: mediana de 0,120 contra 0,103. La diferencia es pequeña y los rangos se solapan, pero existe y apunta en la dirección predicha. La tercera fila muestra lo estrecho que fue el cuello de botella. Los supervivientes cayeron a catorce individuos en la mediana, en un caso a cuatro. Los que murieron cayeron a dos. La distancia entre recuperarse y extinguirse se mide en criaturas sueltas.</p>
+    <p>Tras el cuello de botella la velocidad de aprendizaje sube un orden de magnitud en unos pocos cientos de ticks, llega a 3,2 o 3,9 hacia el tick diez mil y después se mantiene entre 2,8 y 3,7 durante los noventa mil restantes, cerca del tope permitido de 4,0. El patrón es idéntico en los ocho mundos. No es deriva ni un ascenso lento: la selección elimina todo salvo los que aprenden rápido en aproximadamente una generación, y la población vuelve a crecer a partir de ellos.</p>
+    <div class="tw"><table>
+      <tr><th>condición</th><th>velocidad de aprendizaje, mediana</th><th>cuartiles</th><th>precisión al comer</th></tr>
+      <tr><td class="k">never_frozen</td><td>0,185</td><td>0,028…0,428</td><td>1,00</td></tr>
+      <tr><td class="k">never</td><td>0,296</td><td>0,104…0,575</td><td>1,00</td></tr>
+      <tr><td class="k">slow</td><td>2,832</td><td>2,673…3,002</td><td>0,98</td></tr>
+      <tr><td class="k">life</td><td>3,491</td><td>3,381…3,555</td><td>0,93</td></tr>
+      <tr><td class="k">fast</td><td>3,697</td><td>3,576…3,734</td><td>0,79</td></tr>
+    </table></div>
+    <p class="cap">Solo mundos supervivientes. Razón de medianas, life contra never: ×14,47, Wilcoxon emparejado p = 0,0078 sobre ocho pares.</p>
+    <p>La precisión al comer baja con la frecuencia de cambios exactamente como debe: uno en el mundo estacionario, 0,93 con una inversión por vida, 0,79 con varias. Las criaturas de <span class="mono">fast</span> no llegan a reaprender a tiempo aunque su velocidad de aprendizaje sea la más alta de todas.</p></section>
+
+  <section><h2>el genoma no se mueve, el fenotipo sí</h2><h3>Dónde se guarda de verdad el saber sobre el día de hoy</h3>
+    <div class="tw"><table>
+      <tr><th>condición</th><th>gusto innato (genoma)</th><th>gusto al final de la vida (fenotipo)</th></tr>
+      <tr><td class="k">never</td><td>+3,04</td><td>+5,58</td></tr>
+      <tr><td class="k">never_frozen</td><td>+3,04</td><td>+3,04</td></tr>
+      <tr><td class="k">slow</td><td>+2,97</td><td>+5,92</td></tr>
+      <tr><td class="k">life</td><td>+2,91</td><td class="bad">−4,92</td></tr>
+      <tr><td class="k">fast</td><td>+3,21</td><td>+4,50</td></tr>
+    </table></div>
+    <p class="cap">Medianas sobre los agentes vivos al final de la ejecución.</p>
+    <p>El gusto innato arrancó en +3,0 y se quedó cerca de +3,0 en todas las condiciones, incluidas aquellas donde la regla cambia. La evolución no lo tocó, y no podía: el signo correcto cambia de forma impredecible, así que ningún valor innato conviene. El fenotipo, en cambio, se separó. En <span class="mono">never_frozen</span>, donde el aprendizaje está apagado, el fenotipo es exactamente igual al genoma, lo que confirma de paso que la barrera contra heredar los cambios de la vida está intacta. En <span class="mono">never</span> el aprendizaje llevó el gusto hasta +5,58, reforzando una preferencia innata que ya era correcta. Y en <span class="mono">life</span> el fenotipo se fue a negativo: en el momento de la medición la regla estaba en la posición en que el color −1 era comestible, y la población lo había aprendido manteniendo el signo positivo innato.</p>
+    <div class="callout">El genoma no puede anotar la regla. El aprendizaje durante la vida la anota. Esa separación es justo lo que el protocolo se construyó para mostrar, y es el único sitio donde el resultado es una imagen y no un valor p.</div></section>
+
+  <section><h2>el aprendizaje se ve dentro de una sola vida</h2><h3>Dos curvas medidas dentro de las vidas, no entre generaciones</h3>
+    <div class="tw"><table>
+      <tr><th>edad del agente, ticks</th><th>0-50</th><th>50-100</th><th>100-200</th><th>200-400</th><th>400-800</th><th>800-1600</th><th>1600+</th></tr>
+      <tr><td class="k">proporción de bocados comestibles</td><td>0,845</td><td>0,940</td><td>0,950</td><td>0,937</td><td>0,931</td><td>0,939</td><td>0,943</td></tr>
+    </table></div>
+    <p class="cap">Promedio sobre los ocho mundos life supervivientes.</p>
+    <p>Los jóvenes comen bastante peor, llegan a una meseta en los primeros cien ticks de vida y después no mejoran. Es una curva de aprendizaje dentro de un individuo.</p>
+    <div class="tw"><table>
+      <tr><th>ticks desde la inversión</th><th>0-99</th><th>100-199</th><th>200-299</th><th>300-399</th><th>400+</th></tr>
+      <tr><td class="k">nacidos antes (reaprenden)</td><td class="bad">0,66</td><td>0,98</td><td>0,99</td><td>0,99</td><td>0,99</td></tr>
+      <tr><td class="k">nacidos después (aprenden de cero)</td><td>0,87</td><td>0,94</td><td>0,97</td><td>0,97</td><td>0,98</td></tr>
+    </table></div>
+    <p class="cap">Precisión al comer según el tiempo desde una inversión, promediada sobre todas las inversiones de los ocho mundos supervivientes.</p>
+    <p>Los nacidos antes de una inversión caen a 0,66 en los primeros cien ticks y vuelven a 0,98 en los cien siguientes. Reaprender lleva algo así como ciento cincuenta ticks, una fracción pequeña de una vida. Aquí importa una reserva: esta curva está promediada sobre todas las inversiones de una ejecución, unas ciento cincuenta, y en la mayoría de ellas la velocidad de aprendizaje ya está en 3,4. Describe una población <b>ya evolucionada</b>, no una ingenua. Para una población ingenua a velocidad 0,1, reaprender cuesta más de lo que la criatura vale, y por eso precisamente la primera inversión la mata.</p></section>
+
+  <section><h2>en el mundo estacionario el aprendizaje no desapareció</h2><h3>H-B2 no confirmada, y la razón estrecha una afirmación nuestra anterior</h3>
+    <p>Se esperaba que donde el mundo nunca cambia el aprendizaje sea inútil y la selección le quite el coste, es decir que <span class="mono">never</span> quedara <b>por debajo</b> de <span class="mono">never_frozen</span>. Salió al contrario: 0,296 contra 0,185, una razón de 1,38 con p = 0,115, indistinguible de la deriva. H-B2 no está confirmada.</p>
+    <p>Esto contradice nuestro propio piloto de julio, donde con la plasticidad encendida la velocidad de aprendizaje caía a la mitad en quince mil ticks. La explicación, a nuestro juicio, está en el precio de la regla. En julio corría una regla hebbiana general sobre toda la capa de salida: movía todos los pesos continuamente, estropeaba la conducta y por eso la selección la reprimía activamente. Aquí aprende una sola conexión, con una zona muerta en el modulador, y en el mundo estacionario solo confirma una preferencia innata, fenotipo +5,58 contra genoma +3,04. Un aprendizaje así casi no cuesta nada, y la selección no tiene contra qué empujar.</p>
+    <div class="callout">La conclusión de fondo estrecha la nuestra anterior. La caída de la velocidad de aprendizaje en el piloto de julio era el precio de una regla de plasticidad concreta y cara, no una propiedad general de los entornos estacionarios. El aprendizaje barato sobrevive a su propia inutilidad.</div></section>
+
+  <section><h2>nuestro propio error de medición</h2><h3>Un umbral que crece con la duración de la ejecución no es un umbral</h3>
+    <p>El criterio 2 exigía que la diferencia entre medianas del log10 de la velocidad de aprendizaje superara dos sigmas de la dispersión del mismo gen en <span class="mono">never_frozen</span>, donde no afecta a nada. La intención era correcta: hace falta un punto de referencia que muestre qué hace el gen cuando no hace nada. La implementación no servía.</p>
+    <p>El gen de la velocidad muta de forma multiplicativa. Sin selección eso es un paseo aleatorio en escala logarítmica, y la varianza de un paseo aleatorio crece con el tiempo. Así que nuestro propio umbral creció a lo largo de la ejecución.</p>
+    <div class="tw"><table>
+      <tr><th>tick</th><th>mediana de la velocidad</th><th>sd(log10)</th><th>2σ como umbral</th><th>en veces</th></tr>
+      <tr><td class="k">2 000</td><td>0,101</td><td>0,066</td><td>0,131</td><td>1x</td></tr>
+      <tr><td class="k">10 000</td><td>0,103</td><td>0,293</td><td>0,587</td><td>4x</td></tr>
+      <tr><td class="k">20 000</td><td>0,128</td><td>0,503</td><td>1,006</td><td>10x</td></tr>
+      <tr><td class="k">40 000</td><td>0,129</td><td>0,681</td><td>1,363</td><td>23x</td></tr>
+      <tr><td class="k">60 000</td><td>0,090</td><td>0,822</td><td>1,644</td><td>44x</td></tr>
+      <tr><td class="k">80 000</td><td>0,122</td><td>0,861</td><td>1,721</td><td>53x</td></tr>
+      <tr><td class="k">100 000</td><td>0,185</td><td>0,893</td><td class="bad">1,786</td><td class="bad">61x</td></tr>
+    </table></div>
+    <p class="cap">Cuarenta semillas de la condición never_frozen, donde el gen de la velocidad de aprendizaje no está bajo ninguna selección.</p>
+    <p>El efecto que medimos es ×14,5, o sea 1,16 en log10. El umbral en el tick cien mil es 1,786, un rango de sesenta veces. El umbral adelantó al efecto en algún punto entre veinte y treinta mil ticks. Si hubiéramos declarado una duración de 20 000 ticks, ese mismo efecto habría pasado el criterio.</p>
+    <p>Es un error de diseño del criterio y hay que nombrarlo así: elegimos una vara que sube cuanto más dura el experimento. No mide el tamaño de un efecto, mide la duración de una ejecución. No la vamos a mover a posteriori, porque un criterio inventado después de mirar los datos ya no es un criterio. En la siguiente versión se comparará con la deriva en el mismo tick, o usará la distribución de diferencias emparejadas, o el gen quedará acotado para que el paseo neutro no se disperse. Eso se decide antes de las ejecuciones.</p></section>
+
+  <section><h2>límites y qué viene después</h2><h3>Qué no muestra esto y qué cambia el protocolo B2</h3>
+    <p>Cómo se calculan los números de las tablas, por si alguien los recalcula a partir de los datos brutos. El gen de la velocidad muta de forma multiplicativa, así que todas las medianas y cuartiles de la velocidad de aprendizaje se toman en la escala log10 y se devuelven: <span class="mono">10 ** median(log10 lr)</span>. La razón life contra never es <span class="mono">10 ** median(log10 life − log10 never)</span> sobre los pares, es decir una mediana de razones en escala logarítmica y no una razón de medianas lineales. Recalculados con medianas lineales, los mismos datos dan ×14,95 en lugar de ×14,47, lo cual es otra escala y no una discrepancia. La precisión al comer es una media sobre las ejecuciones supervivientes de una condición, no una mediana. Las fracciones de extinción y los ticks de muerte usan las cuarenta ejecuciones de una condición, todo lo demás usa solo a los supervivientes, porque un mundo extinto no tiene estado final.</p>
+    <p>Los ocho mundos <span class="mono">life</span> supervivientes sobre los que se calculan la velocidad de aprendizaje, la precisión y las curvas no son una muestra aleatoria de cuarenta, sino una muestra seleccionada por supervivencia. Compararlos con <span class="mono">never</span>, donde sobrevivieron los cuarenta, compara supervivientes con no supervivientes. La razón de 14,5 caracteriza la evolución en aquellos mundos donde la evolución tuvo tiempo de ocurrir, no el resultado esperado en un mundo tomado al azar. Además: es plástica una sinapsis, así que nada de aquí se generaliza a una regla general de aprendizaje, y no lo pretendemos; hay una rejilla, un metabolismo, un tamaño de cerebro, un ancestro por semilla, y no se reclama transferencia; y la versión que corre en su navegador en la portada es una vitrina, no una fuente de números, y se aparta de la ejecución nocturna en cuatro parámetros listados en esa misma página.</p>
+    <p>El protocolo B1 está cerrado. Retocar sus parámetros y recalcular los mismos datos sería ajuste, así que B2 necesita un preregistro nuevo, un archivo de resultados nuevo y criterios declarados antes de cualquier ejecución. Qué cambia, por orden de importancia: el mundo tiene que ser sobrevivible en la primera inversión, ya sea haciendo que un bocado venenoso cueste dos unidades en vez de cinco o, lo que me gusta más porque está más cerca de la biología, haciendo la inversión gradual a lo largo de unas decenas de ticks, de modo que haya una ventana en la que ambos colores sean débilmente nutritivos; la velocidad de aprendizaje inicial tiene que no ser nula en la práctica, bien subida a unos 0,5 donde reaprender entra en el presupuesto energético, bien, más honesto, sembrada como una distribución de velocidades para que la variación ya presente quede declarada y no sea accidental; el criterio tiene que ser independiente de la duración; el gradiente de frecuencia necesita una condición propia en un mundo que sobreviva con seguridad, o H-B3 se hundirá otra vez en el cuello de botella; y hay que registrar la edad y la velocidad de aprendizaje de los muertos, no solo de los vivos, porque ahora mismo un mundo extinto solo nos dice el tick de su muerte.</p></section>
+
+  <section><h2>en lenguaje llano</h2><h3>Para quien no es biólogo y no ha seguido las ejecuciones</h3>
+    <p>Construimos un mundo donde la comida viene en dos colores y de vez en cuando los colores se cambian los papeles: lo que era comida pasa a ser veneno. Los momentos del cambio son aleatorios, así que nacer sabiendo el color correcto es imposible. Solo se puede aprender estando vivo. La pregunta era simple: ¿enciende la selección la capacidad de aprender en un mundo que no deja de cambiar sus reglas?</p>
+    <p>Hubo dos noticias.</p>
+    <p>La primera es que el mundo resultó demasiado cruel. El ochenta por ciento de las poblaciones murió en el primerísimo cambio, y en la variante con el aprendizaje apagado murieron todas sin excepción, cuarenta de cuarenta. La aritmética la hicimos después y vimos por qué. Para reaprender a la velocidad inicial, una criatura necesitaba envenenarse unas sesenta veces, y su energía cubre unos veinte envenenamientos. Moría antes de poder darse cuenta de que las reglas habían cambiado. Ese es nuestro error en la construcción del mundo, y habíamos declarado de antemano que en ese caso el protocolo se reemplaza en lugar de retocarse hasta que el resultado quede bonito.</p>
+    <p>La segunda noticia es más interesante. Los ocho mundos que pasaron a duras penas la catástrofe se comportaron exactamente como predecía la hipótesis. No sobrevivieron por azar: para el momento del cambio ya contenían criaturas que aprenden algo más rápido que el resto. En unos pocos cientos de ticks tras la catástrofe la velocidad de aprendizaje de la población creció unas treinta veces y se mantuvo así hasta el final de la ejecución. El gusto innato, en cambio, no cambió en absoluto, siguió siendo el de partida, y eso es correcto: en la herencia no se puede escribir algo que cambia al azar. El gusto aprendido en vida, por su parte, se dio la vuelta al signo opuesto. Lo que salió es una separación nítida: la herencia guarda el diseño de la criatura, y el saber sobre qué es comestible hoy vive solo dentro de una vida y cada generación lo gana de nuevo.</p>
+    <p>Y una tercera cosa que no esperábamos. En el mundo inmutable el aprendizaje no desapareció, aunque por nuestro propio borrador de julio debería haberlo hecho. La explicación es simple: en julio probamos un aprendizaje caro que estropeaba la conducta, y la selección lo tiraba. Aquí el aprendizaje es barato, una única conexión, y no hay motivo para tirarlo. Es decir, no es que todo aprendizaje salga a pérdida en un mundo estable, solo el que hay que pagar caro.</p>
+    <p>Vale la pena mencionar aparte nuestro propio error de medición. Declaramos de antemano que el efecto tenía que superar la dispersión de la deriva aleatoria, y la idea es correcta, pero elegimos mal cómo calcularla. Resultó que cuanto más duraba el experimento, más alta se ponía la vara que nos habíamos fijado nosotros mismos. Al final de la ejecución exigía una diferencia de sesenta veces, y el efecto era de catorce. Si hubiéramos parado las ejecuciones cinco veces antes, el mismo resultado habría pasado. No vamos a cambiar la regla a posteriori, porque un criterio inventado después de mirar los datos ya no es un criterio, pero en la siguiente versión será otro, y hemos escrito cuál.</p></section>
+
+  <footer>Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a><br>Investigación abierta. Código, datos y el protocolo congelado: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">preregistro B</a> · <a href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md" target="_blank" rel="noopener">informe completo B</a> · <a href="journal.html">diario de observaciones</a> · <a href="learning.html">la nota con la que empezó este experimento</a><br>Fuentes: M. Kozielska, F. J. Weissing, «A neural network model for the evolution of learning in changing environments», PLoS Computational Biology, 2024; S. Dohare, R. S. Sutton y otros, «Loss of plasticity in deep continual learning», Nature, 2024; L. Yaeger, Polyworld, 1994.</footer>
+</div>
+</div>
+
+<script>
+(function(){
+  const KEY='minimir_lang', DEF='en';
+  const blocks=[...document.querySelectorAll('.langblock')];
+  const btns=[...document.querySelectorAll('.langbar button')];
+  function apply(l){
+    if(!blocks.some(b=>b.dataset.lang===l))l=DEF;
+    blocks.forEach(b=>b.classList.toggle('on',b.dataset.lang===l));
+    btns.forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+    document.documentElement.lang=l;
+    try{localStorage.setItem(KEY,l)}catch(e){}
+  }
+  btns.forEach(b=>b.onclick=()=>apply(b.dataset.set));
+  let saved=DEF; try{saved=localStorage.getItem(KEY)||DEF}catch(e){}
+  apply(saved);
+})();
+// ненавязчивая «чашка Петри»: дрейфующие точки цвета энергии
+(function(){
+  const c=document.getElementById('amb'), x=c.getContext('2d');
+  let W,H,pts;
+  function ec(t){let r,g,b;if(t<.5){const u=t/.5;r=0xe8+(0xd9-0xe8)*u;g=0x73+(0xc2-0x73)*u;b=0x4a+(0x6a-0x4a)*u;}
+    else{const u=(t-.5)/.5;r=0xd9+(0x46-0xd9)*u;g=0xc2+(0xc6-0xc2)*u;b=0x6a+(0xd0-0x6a)*u;}
+    return `rgba(${r|0},${g|0},${b|0},`;}
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;
+    pts=Array.from({length:Math.min(70,Math.floor(W/16))},()=>({
+      x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,
+      vy:(Math.random()-.5)*.22,e:Math.random(),r:1+Math.random()*2}));}
+  resize();addEventListener('resize',resize);
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function frame(){x.clearRect(0,0,W,H);
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      x.fillStyle=ec(p.e)+'0.5)';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();}
+    if(!reduce)requestAnimationFrame(frame);}
+  frame();
+})();
+</script>
+
+</body>
+</html>
