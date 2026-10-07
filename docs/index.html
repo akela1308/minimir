@@ -51,14 +51,34 @@
   .lede{flex-basis:100%;color:var(--dim);font-size:13px;max-width:82ch;margin-top:4px}
 
   .stage{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;margin-top:20px;align-items:start}
-  @media(max-width:880px){.stage{grid-template-columns:1fr}}
+  @media(max-width:880px){.stage{grid-template-columns:minmax(0,1fr)}}
   .worldwrap{position:relative}
   .wlabel{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint);
-    margin-bottom:5px;display:flex;justify-content:space-between}
+    margin-bottom:5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:2px 12px}
+  .wlabel>span{min-width:0;overflow-wrap:anywhere}
   .wlabel b{color:var(--cyan);font-weight:600}
   .screen{position:relative;background:#05080a;border:1px solid var(--hair);border-radius:6px;
     overflow:hidden;box-shadow:inset 0 0 60px #04070980}
   canvas{display:block;width:100%;height:auto;image-rendering:pixelated}
+  /* оформление экрана: сканлайны, виньетка, уголки терминала. Данных не несёт. */
+  .screen,.ctrlworld{isolation:isolate}
+  .screen::after,.ctrlworld::after{content:"";position:absolute;inset:0;z-index:2;
+    pointer-events:none;
+    background:
+      repeating-linear-gradient(0deg,rgba(0,0,0,.20) 0 1px,rgba(0,0,0,0) 1px 3px),
+      radial-gradient(130% 115% at 50% 42%,rgba(0,0,0,0) 52%,rgba(2,5,7,.55) 100%)}
+  .screen::before{content:"";position:absolute;inset:8px;z-index:3;pointer-events:none;
+    opacity:.45;
+    background:
+      linear-gradient(var(--cyan),var(--cyan)) 0 0/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 0 0/1px 13px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 0/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 0/1px 13px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 0 100%/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 0 100%/1px 13px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 100%/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 100%/1px 13px no-repeat}
+  .screen{box-shadow:inset 0 0 70px #0407094d,inset 0 0 0 1px #16232880}
   .hud{position:absolute;top:8px;left:10px;font-size:11px;color:var(--dim);text-shadow:0 1px 2px #000}
   .hud b{color:var(--ink)}
   .splash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -148,6 +168,7 @@
   .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11px;color:var(--faint);
     font-family:var(--mono);letter-spacing:.04em}
   .legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:-1px}
+  .legend>span{min-width:0}
   .screen.pulse{box-shadow:inset 0 0 60px #04070980,0 0 0 2px var(--mark)}
   .flash{position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:11px;
     color:var(--ground);background:var(--mark);padding:3px 8px;opacity:0;
@@ -233,13 +254,14 @@
 </div>
 
 <script src="engine.js"></script>
+<script src="render.js"></script>
 <script>
 const I18N={
  en:{eye:"artificial life · experiment 2 · live",exp1:"experiment 1 ↗",results:"results ↗",journal:"journal ↗",agi:"notes ↗",about:"about ↗",live:"live",
   brand:'when learning <span class="dot">pays</span>',
   lede:"Two worlds from one seed. In one the rule never changes: colour +1 is food, colour -1 is poison. In the other the rule flips at unpredictable moments, on average once per lifetime. The only thing the creatures can learn within a life is taste: which colour to eat. The speed of that learning is written in the genome. We watch whether selection switches it on where the world keeps changing the rules, and off where it does not.",
   wswitch:"the rule changes, on average once per 600 ticks",wstat:"the rule never changes",
-  lg_edible:"edible now",lg_toxic:"poisonous now",lg_creature:"creature (brightness = energy)",
+  lg_edible:"edible now",lg_toxic:"poisonous now",lg_creature:"creature (brightness = energy)",lg_decor:"tiles, frame and scanlines are decoration and carry no data",
   hud_tick:"tick",hud_pop:"pop",hud_since:"since last switch",hud_good:"edible now: colour",
   switched:"the rule has flipped",
   speed:"speed",newworld:"↻ new world",seeding:"seeding a viable world…",
@@ -272,7 +294,7 @@ const I18N={
   brand:'когда выгодно <span class="dot">учиться</span>',
   lede:"Два мира из одного семени. В одном правило не меняется: цвет +1 съедобен, цвет -1 ядовит. В другом правило переворачивается в непредсказуемые моменты, в среднем раз в жизнь. Единственное, что существа могут выучить при жизни, это вкус: какой цвет есть. Скорость этого обучения записана в геноме. Мы смотрим, включит ли её отбор там, где мир меняет правила, и выключит ли там, где не меняет.",
   wswitch:"правило меняется, в среднем раз в 600 тиков",wstat:"правило не меняется",
-  lg_edible:"съедобно сейчас",lg_toxic:"ядовито сейчас",lg_creature:"существо (яркость = энергия)",
+  lg_edible:"съедобно сейчас",lg_toxic:"ядовито сейчас",lg_creature:"существо (яркость = энергия)",lg_decor:"плитка, рамка и сканлайны это оформление, данных в них нет",
   hud_tick:"тик",hud_pop:"особей",hud_since:"с последней смены",hud_good:"съедобен сейчас: цвет",
   switched:"правило сменилось",
   speed:"скорость",newworld:"↻ новый мир",seeding:"засеваю жизнеспособный мир…",
@@ -305,7 +327,7 @@ const I18N={
   brand:'wann lernen sich <span class="dot">lohnt</span>',
   lede:"Zwei Welten aus einem Samen. In der einen ändert sich die Regel nie: Farbe +1 ist Nahrung, Farbe -1 ist Gift. In der anderen kippt die Regel zu unvorhersehbaren Zeitpunkten, im Schnitt einmal pro Leben. Das Einzige, was die Wesen zu Lebzeiten lernen können, ist der Geschmack: welche Farbe man isst. Die Geschwindigkeit dieses Lernens steht im Genom. Wir schauen, ob die Selektion sie dort einschaltet, wo die Welt die Regeln ändert, und dort abschaltet, wo sie es nicht tut.",
   wswitch:"die Regel ändert sich, im Schnitt alle 600 Ticks",wstat:"die Regel ändert sich nie",
-  lg_edible:"jetzt essbar",lg_toxic:"jetzt giftig",lg_creature:"Wesen (Helligkeit = Energie)",
+  lg_edible:"jetzt essbar",lg_toxic:"jetzt giftig",lg_creature:"Wesen (Helligkeit = Energie)",lg_decor:"Kacheln, Rahmen und Scanlines sind Dekoration und tragen keine Daten",
   hud_tick:"Tick",hud_pop:"Wesen",hud_since:"seit dem letzten Wechsel",hud_good:"jetzt essbar: Farbe",
   switched:"die Regel ist gekippt",
   speed:"Tempo",newworld:"↻ neue Welt",seeding:"säe eine lebensfähige Welt…",
@@ -338,7 +360,7 @@ const I18N={
   brand:'cuándo conviene <span class="dot">aprender</span>',
   lede:"Dos mundos desde una misma semilla. En uno la regla no cambia nunca: el color +1 es comida, el color -1 es veneno. En el otro la regla se invierte en momentos impredecibles, en promedio una vez por vida. Lo único que las criaturas pueden aprender durante su vida es el gusto: qué color comer. La velocidad de ese aprendizaje está escrita en el genoma. Miramos si la selección la enciende donde el mundo cambia las reglas, y la apaga donde no lo hace.",
   wswitch:"la regla cambia, en promedio cada 600 ticks",wstat:"la regla no cambia nunca",
-  lg_edible:"comestible ahora",lg_toxic:"venenoso ahora",lg_creature:"criatura (brillo = energía)",
+  lg_edible:"comestible ahora",lg_toxic:"venenoso ahora",lg_creature:"criatura (brillo = energía)",lg_decor:"las baldosas, el marco y las líneas de barrido son decoración y no llevan datos",
   hud_tick:"tick",hud_pop:"criaturas",hud_since:"desde el último cambio",hud_good:"comestible ahora: color",
   switched:"la regla se ha invertido",
   speed:"velocidad",newworld:"↻ mundo nuevo",seeding:"sembrando un mundo viable…",
@@ -371,7 +393,7 @@ const I18N={
   brand:'何时<span class="dot">值得学习</span>',
   lede:"同一颗种子，两个世界。一个世界的规则永不改变：颜色 +1 可吃，颜色 -1 有毒。另一个世界的规则会在不可预测的时刻翻转，平均每一生翻转一次。生物在一生之中唯一能学会的，就是口味：该吃哪种颜色。学习的速度写在基因组里。我们要看的是：在规则不断变化的世界里，选择会不会把它打开；在规则不变的世界里，会不会把它关掉。",
   wswitch:"规则会变，平均每 600 步一次",wstat:"规则永不改变",
-  lg_edible:"当前可吃",lg_toxic:"当前有毒",lg_creature:"生物（亮度即能量）",
+  lg_edible:"当前可吃",lg_toxic:"当前有毒",lg_creature:"生物（亮度即能量）",lg_decor:"地砖、边框与扫描线属于装饰，不携带数据",
   hud_tick:"步",hud_pop:"个体",hud_since:"距上次翻转",hud_good:"当前可吃：颜色",
   switched:"规则翻转了",
   speed:"速度",newworld:"↻ 新世界",seeding:"正在播种一个可存活的世界…",
@@ -432,27 +454,36 @@ function newEpisode(){
   engC=new MiniWorld.Engine(seed,Object.assign({},LIVECFG,{switchMean:0}),anc);
   engS._seed=seed;epNo++;sparkS=[];sparkC=[];deadAt=null;deadWho=null;lastSw=0;
   H=engS.cfg.H;W=engS.cfg.W;off.width=W;off.height=H;img=octx.createImageData(W,H);
-  SCS=cvS.width/W;SCC=cvC.width/W;splash.style.display='none';flash.classList.remove('on');
+  fitCanvases();splash.style.display='none';flash.classList.remove('on');
 }
 
 // ---------- отрисовка ----------
-// Цвет клетки это её постоянная география (+1 голубой, -1 янтарный). Тускнеет тот
-// цвет, который сейчас ядовит: в момент смены правила экран заметно меняется.
-const HUE=[[0xe0,0xa0,0x4a],[0x2e,0xb6,0xd0]];   // индексы: foodType 0 и 1
-function energyColor(e){var t=e/255,r,g,b;
-  if(t<.5){var u=t/.5;r=0xe8+(0xd9-0xe8)*u;g=0x73+(0xc2-0x73)*u;b=0x4a+(0x6a-0x4a)*u;}
-  else{var u2=(t-.5)/.5;r=0xd9+(0x46-0xd9)*u2;g=0xc2+(0xc6-0xc2)*u2;b=0x6a+(0xd0-0x6a)*u2;}
-  return `rgb(${r|0},${g|0},${b|0})`;}
-function drawWorld(eng,ctx,cvw,SC){
-  const d=img.data,res=eng.resource,ft=eng.foodType,gt=eng.goodType;
-  for(let i=0;i<W*H;i++){
-    const h=HUE[ft[i]],k=(ft[i]===gt?1:0.16)*Math.min(1,res[i]*1.6);
-    d[i*4]=8+h[0]*k;d[i*4+1]=11+h[1]*k;d[i*4+2]=13+h[2]*k;d[i*4+3]=255;}
-  octx.putImageData(img,0,0);ctx.imageSmoothingEnabled=false;
-  ctx.clearRect(0,0,cvw.width,cvw.height);ctx.drawImage(off,0,0,cvw.width,cvw.height);
+// Вид сверху, одна клетка поля это одна клетка данных. Цвет клетки это её
+// постоянная география (+1 голубой, -1 янтарный), яркость это ресурс в ней,
+// тускнеет тот цвет, который сейчас ядовит. Существо рисуется спрайтом, его
+// цвет это энергия: янтарное голодное, голубое сытое. Сетка, рамка и
+// сканлайны это оформление, данных в них нет. Всё это в render.js.
+let ATL=null,ATLC=null,FRAME=0;
+function fitCanvases(){
+  if(!W)return;
+  SCS=MiniRender.fit(cvS,W); SCC=MiniRender.fit(cvC,W);
+  ATL=MiniRender.atlas(SCS); ATLC=MiniRender.atlas(SCC);
+}
+let fitTimer=null;
+addEventListener('resize',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(fitCanvases,180);});
+
+function drawWorld(eng,ctx,cvw,SC,atl){
+  MiniRender.floorB(img,eng);
+  octx.putImageData(img,0,0);
+  ctx.imageSmoothingEnabled=false;
+  ctx.clearRect(0,0,cvw.width,cvw.height);
+  ctx.drawImage(off,0,0,cvw.width,cvw.height);
+  MiniRender.gridlines(ctx,SC,W,H);
+  const eMax=eng.cfg.eMax,half=SC/2,ph=(FRAME>>3);
   for(let a=0;a<eng.cfg.maxPop;a++)if(eng.alive[a]){
-    ctx.fillStyle=energyColor(Math.max(0,Math.min(255,eng.E[a]/eng.cfg.eMax*255)));
-    ctx.fillRect(eng.x[a]*SC-0.5,eng.y[a]*SC-0.5,SC+1,SC+1);}
+    let t=eng.E[a]/eMax; if(t<0)t=0; else if(t>1)t=1;
+    MiniRender.agent(ctx,atl,(eng.x[a]*SC+half)|0,(eng.y[a]*SC+half)|0,t,(ph+a)&1);
+  }
 }
 
 // ---------- накопление эпизодов ----------
@@ -555,7 +586,7 @@ function loop(){
         if(engS.tick>=EPISODE){endEpisode(false);newEpisode();break;}
       }
     }
-    drawWorld(engS,ctxS,cvS,SCS);drawWorld(engC,ctxC,cvC,SCC);
+    FRAME++;drawWorld(engS,ctxS,cvS,SCS,ATL);drawWorld(engC,ctxC,cvC,SCC,ATLC);
     const gcol=engS.goodType===1?'+1':'-1';
     document.getElementById('hudS').innerHTML=
       `${t('hud_tick')} ${engS.tick} · ${engS.pop} · ${t('hud_since')} `+
@@ -583,9 +614,10 @@ function applyLang(l){
   S('howbox').innerHTML=['p1','p2','p3','p4','p5']
     .map((k,i)=>`<p style="margin:${i?'12px':'0'} 0 0">${t(k)}</p>`).join('');
   S('legend').innerHTML=
-    `<span><i style="background:#2eb6d0"></i>${t('lg_edible')} (+1)</span>`+
-    `<span><i style="background:#3a2f1c"></i>${t('lg_toxic')} (-1)</span>`+
-    `<span><i style="background:#d9c26a"></i>${t('lg_creature')}</span>`;
+    `<span><i style="background:#34bcd4"></i>${t('lg_edible')} (+1)</span>`+
+    `<span><i style="background:#4c4a46"></i>${t('lg_toxic')} (-1)</span>`+
+    `<span><i style="background:#d9c26a"></i>${t('lg_creature')}</span>`+
+    `<span style="opacity:.75"><i style="background:#1b242a"></i>${t('lg_decor')}</span>`;
   document.querySelectorAll('.langbar button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
   buildGauges();renderLog();renderVerdict();
 }

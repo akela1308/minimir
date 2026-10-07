@@ -51,14 +51,36 @@
   .lede{flex-basis:100%;color:var(--dim);font-size:13px;max-width:82ch;margin-top:4px}
 
   .stage{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;margin-top:20px;align-items:start}
-  @media(max-width:880px){.stage{grid-template-columns:1fr}}
+  @media(max-width:880px){.stage{grid-template-columns:minmax(0,1fr)}}
   .worldwrap{position:relative}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11px;color:var(--faint)}
+  .legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:-1px}
+  .legend>span{min-width:0}
   .wlabel{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint);
-    margin-bottom:5px;display:flex;justify-content:space-between}
+    margin-bottom:5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:2px 12px}
+  .wlabel>span{min-width:0;overflow-wrap:anywhere}
   .wlabel b{color:var(--cyan);font-weight:600}
   .screen{position:relative;background:#05080a;border:1px solid var(--hair);border-radius:6px;
     overflow:hidden;box-shadow:inset 0 0 60px #04070980}
   canvas{display:block;width:100%;height:auto;image-rendering:pixelated}
+  /* оформление экрана: сканлайны, виньетка, уголки терминала. Данных не несёт. */
+  .screen,.ctrlworld{isolation:isolate}
+  .screen::after,.ctrlworld::after{content:"";position:absolute;inset:0;z-index:2;
+    pointer-events:none;
+    background:
+      repeating-linear-gradient(0deg,rgba(0,0,0,.20) 0 1px,rgba(0,0,0,0) 1px 3px),
+      radial-gradient(130% 115% at 50% 42%,rgba(0,0,0,0) 52%,rgba(2,5,7,.55) 100%)}
+  .screen::before{content:"";position:absolute;inset:8px;z-index:3;pointer-events:none;
+    opacity:.45;
+    background:
+      linear-gradient(var(--cyan),var(--cyan)) 0 0/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 0 0/1px 13px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 0/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 0/1px 13px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 0 100%/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 0 100%/1px 13px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 100%/13px 1px no-repeat,
+      linear-gradient(var(--cyan),var(--cyan)) 100% 100%/1px 13px no-repeat}
   .hud{position:absolute;top:8px;left:10px;font-size:11px;color:var(--dim);text-shadow:0 1px 2px #000}
   .hud b{color:var(--ink)}
   .splash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -171,6 +193,7 @@
           <canvas id="wS" width="512" height="512"></canvas>
           <div class="splash" id="splash"></div>
         </div>
+        <div class="legend" id="legend"></div>
       </div>
       <div class="transport">
         <button class="ctrlbtn" id="newbtn"></button>
@@ -218,9 +241,10 @@
 </div>
 
 <script src="engine.js"></script>
+<script src="render.js"></script>
 <script>
 const I18N={
- en:{eye:"artificial life · experiment 1 · live",exp2:"experiment 2: when learning pays ↗",agi:"notes ↗",about:"about ↗",rec:"exact recording ↗",journal:"journal ↗",live:"live",
+ en:{lg_res:"food; dim = fertile soil",lg_mark:"mark left in a cell",lg_creature:"creature (brightness = energy)",lg_decor:"tiles, frame and scanlines are decoration and carry no data",eye:"artificial life · experiment 1 · live",exp2:"experiment 2: when learning pays ↗",agi:"notes ↗",about:"about ↗",rec:"exact recording ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>world',
   lede:"A controlled experiment running in your browser right now. Two worlds live in parallel from the same founder and seed: in one (treatment) a creature senses its own energy; in the other (control) that signal is shuffled among creatures, same numbers, no self-knowledge. If knowing yourself matters, the treatment should score higher. The verdict accumulates as worlds live and die.",
   self:"treatment · self",ctrl:"control · shuffled",speed:"speed",newpair:"↻ new pair",seeding:"seeding a viable world…",
@@ -242,7 +266,7 @@ const I18N={
   a_blocks:"blocks",a_self:"mean self",a_shuf:"mean shuffled",a_diff:"mean Δ",
   c_t:"trial",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"clear saved data",
   foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser replication, a companion to, not the source of, the research. Exact recorded run and full report: <a href="sim.html">recording</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- ru:{eye:"искусственная жизнь · эксперимент 1 · живой",exp2:"эксперимент 2: когда выгодно учиться ↗",agi:"заметки ↗",about:"о проекте ↗",rec:"точная запись ↗",journal:"журнал ↗",live:"live",
+ ru:{lg_res:"ресурс (еда), тускло = плодородная почва",lg_mark:"метка, оставленная в клетке",lg_creature:"существо (яркость = энергия)",lg_decor:"плитка, рамка и сканлайны это оформление, данных в них нет",eye:"искусственная жизнь · эксперимент 1 · живой",exp2:"эксперимент 2: когда выгодно учиться ↗",agi:"заметки ↗",about:"о проекте ↗",rec:"точная запись ↗",journal:"журнал ↗",live:"live",
   brand:'мини<span class="dot">·</span>мир',
   lede:"Контролируемый эксперимент, идущий прямо сейчас в твоём браузере. Два мира живут параллельно от одного предка и семени: в одном (лечение) существо чувствует свою энергию; в другом (контроль) тот же сигнал перемешан между особями, те же числа, ноль знания о себе. Если знать себя важно, у лечения показатель должен быть выше. Вердикт копится, пока миры живут и вымирают.",
   self:"лечение · self",ctrl:"контроль · shuffled",speed:"скорость",newpair:"↻ новая пара",seeding:"засеваю жизнеспособный мир…",
@@ -264,7 +288,7 @@ const I18N={
   a_blocks:"блоков",a_self:"среднее self",a_shuf:"среднее shuffled",a_diff:"среднее Δ",
   c_t:"пара",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"очистить сохранённое",
   foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная репликация, спутник исследования, а не его источник. Точная запись и полный отчёт: <a href="sim.html">запись</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- de:{eye:"künstliches leben · experiment 1 · live",exp2:"experiment 2: wann lernen sich lohnt ↗",agi:"Notizen ↗",about:"über ↗",rec:"exakte aufnahme ↗",journal:"journal ↗",live:"live",
+ de:{lg_res:"Futter; blass = fruchtbarer Boden",lg_mark:"Markierung in einer Zelle",lg_creature:"Wesen (Helligkeit = Energie)",lg_decor:"Kacheln, Rahmen und Scanlines sind Dekoration und tragen keine Daten",eye:"künstliches leben · experiment 1 · live",exp2:"experiment 2: wann lernen sich lohnt ↗",agi:"Notizen ↗",about:"über ↗",rec:"exakte aufnahme ↗",journal:"journal ↗",live:"live",
   brand:'mini<span class="dot">·</span>welt',
   lede:"Ein kontrolliertes Experiment, das gerade in deinem Browser läuft. Zwei Welten leben parallel aus demselben Ahnen und Samen: in einer (Behandlung) spürt ein Wesen seine eigene Energie; in der anderen (Kontrolle) ist dieses Signal unter den Wesen gemischt, gleiche Zahlen, kein Selbstwissen. Wenn Selbsterkenntnis zählt, sollte die Behandlung höher liegen. Das Urteil wächst, während Welten leben und sterben.",
   self:"Behandlung · self",ctrl:"Kontrolle · shuffled",speed:"Tempo",newpair:"↻ neues Paar",seeding:"säe eine lebensfähige Welt…",
@@ -286,7 +310,7 @@ const I18N={
   a_blocks:"Blöcke",a_self:"Mittel self",a_shuf:"Mittel shuffled",a_diff:"Mittel Δ",
   c_t:"Paar",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"gespeicherte Daten löschen",
   foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Ingenieur und KI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Eine live im Browser laufende Replikation, Begleiter, nicht Quelle der Forschung. Aufnahme und Bericht: <a href="sim.html">Aufnahme</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- es:{eye:"vida artificial · experimento 1 · en vivo",exp2:"experimento 2: cuándo aprender compensa ↗",agi:"notas ↗",about:"acerca ↗",rec:"grabación exacta ↗",journal:"diario ↗",live:"en vivo",
+ es:{lg_res:"comida; tenue = suelo fértil",lg_mark:"marca dejada en una celda",lg_creature:"criatura (brillo = energía)",lg_decor:"las baldosas, el marco y las líneas de barrido son decoración y no llevan datos",eye:"vida artificial · experimento 1 · en vivo",exp2:"experimento 2: cuándo aprender compensa ↗",agi:"notas ↗",about:"acerca ↗",rec:"grabación exacta ↗",journal:"diario ↗",live:"en vivo",
   brand:'mini<span class="dot">·</span>mundo',
   lede:"Un experimento controlado ejecutándose ahora mismo en tu navegador. Dos mundos viven en paralelo desde el mismo fundador y semilla: en uno (tratamiento) una criatura percibe su propia energía; en el otro (control) esa señal se baraja entre las criaturas, mismos números, cero autoconocimiento. Si conocerse importa, el tratamiento debería puntuar más. El veredicto se acumula mientras los mundos viven y mueren.",
   self:"tratamiento · self",ctrl:"control · shuffled",speed:"velocidad",newpair:"↻ nuevo par",seeding:"sembrando un mundo viable…",
@@ -308,7 +332,7 @@ const I18N={
   a_blocks:"bloques",a_self:"media self",a_shuf:"media shuffled",a_diff:"media Δ",
   c_t:"par",c_self:"self I",c_shuf:"shuffled I",c_diff:"Δ",clear:"borrar datos guardados",
   foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Una réplica en vivo en el navegador, compañera, no fuente, de la investigación. Grabación e informe: <a href="sim.html">grabación</a> · <a href="about.html">acerca</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
- zh:{eye:"人工生命 · 实验 1 · 实时",exp2:"实验 2：何时学习才划算 ↗",agi:"札记 ↗",about:"关于 ↗",rec:"精确录制 ↗",journal:"观测日志 ↗",live:"实时",
+ zh:{lg_res:"食物（资源）；暗色＝肥沃土壤",lg_mark:"留在格子里的记号",lg_creature:"生物（亮度即能量）",lg_decor:"地砖、边框与扫描线属于装饰，不携带数据",eye:"人工生命 · 实验 1 · 实时",exp2:"实验 2：何时学习才划算 ↗",agi:"札记 ↗",about:"关于 ↗",rec:"精确录制 ↗",journal:"观测日志 ↗",live:"实时",
   brand:'微<span class="dot">·</span>世界',
   lede:"一个此刻正在你浏览器里运行的对照实验。两个世界从同一祖先与同一种子并行生活：其一（处理组）生物能感知自己的能量；另一（对照组）该信号在生物间被打乱——数字相同，却毫无自我信息。若“认识自己”重要，处理组的分数应更高。随着世界不断生死，结论会不断累积。",
   self:"处理组 · self",ctrl:"对照组 · shuffled",speed:"速度",newpair:"↻ 新的一对",seeding:"正在播种一个可存活的世界…",
@@ -355,24 +379,38 @@ function newTrial(){
   engC=new MiniWorld.Engine(seed,Object.assign({},LIVECFG,{interoMode:'shuffled'}),anc);
   trial++;blockIdx=0;peakS=0;
   H=engS.cfg.H;W=engS.cfg.W;off.width=W;off.height=H;img=octx.createImageData(W,H);
-  SCS=cvS.width/W;SCC=cvC.width/W;splash.style.display='none';
+  fitCanvases();splash.style.display='none';
 }
-function energyColor(e){var t=e/255,r,g,b;
-  if(t<.5){var u=t/.5;r=0xe8+(0xd9-0xe8)*u;g=0x73+(0xc2-0x73)*u;b=0x4a+(0x6a-0x4a)*u;}
-  else{var u2=(t-.5)/.5;r=0xd9+(0x46-0xd9)*u2;g=0xc2+(0xc6-0xc2)*u2;b=0x6a+(0xd0-0x6a)*u2;}
-  return `rgb(${r|0},${g|0},${b|0})`;}
-function drawWorld(eng,ctx,cvw,SC){
-  const d=img.data,cap=eng.capacity,res=eng.resource;
-  for(let i=0;i<W*H;i++){const c=cap[i],r=res[i];
-    d[i*4]=10+20*r;d[i*4+1]=26*c+(18*c+150*r)*0.9;d[i*4+2]=20*c+40*r;d[i*4+3]=255;}
-  octx.putImageData(img,0,0);ctx.imageSmoothingEnabled=false;
-  ctx.clearRect(0,0,cvw.width,cvw.height);ctx.drawImage(off,0,0,cvw.width,cvw.height);
-  ctx.fillStyle='rgba(230,193,74,0.8)';
-  for(let i=0;i<W*H;i++)if(Math.abs(eng.signs[i*2])+Math.abs(eng.signs[i*2+1])>0.02)
-    ctx.fillRect((i%W)*SC,((i/W)|0)*SC,SC,SC);
+// ---------- отрисовка ----------
+// Вид сверху, одна клетка поля это одна клетка данных. Фон это плодородность
+// почвы, яркая зелень это ресурс, янтарные точки это метки, оставленные
+// существами. Существо рисуется спрайтом, цвет это его энергия. Плитка,
+// рамка и сканлайны это оформление, данных в них нет. Всё это в render.js.
+let ATL=null,ATLC=null,FRAME=0;
+function fitCanvases(){
+  if(!W)return;
+  SCS=MiniRender.fit(cvS,W); SCC=MiniRender.fit(cvC,W);
+  ATL=MiniRender.atlas(SCS); ATLC=MiniRender.atlas(SCC);
+}
+let fitTimer=null;
+addEventListener('resize',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(fitCanvases,180);});
+
+function drawWorld(eng,ctx,cvw,SC,atl){
+  MiniRender.floorA(img,eng);
+  octx.putImageData(img,0,0);
+  ctx.imageSmoothingEnabled=false;
+  ctx.clearRect(0,0,cvw.width,cvw.height);
+  ctx.drawImage(off,0,0,cvw.width,cvw.height);
+  MiniRender.gridlines(ctx,SC,W,H);
+  const sg=eng.signs,m=Math.max(1,(SC*0.6)|0);
+  ctx.fillStyle='rgba(235,200,96,0.85)';
+  for(let i=0,n=W*H;i<n;i++)if(Math.abs(sg[i*2])+Math.abs(sg[i*2+1])>0.02)
+    ctx.fillRect((i%W)*SC+((SC-m)>>1),((i/W)|0)*SC+((SC-m)>>1),m,m);
+  const eMax=eng.cfg.eMax,half=SC/2,ph=(FRAME>>3);
   for(let a=0;a<eng.cfg.maxPop;a++)if(eng.alive[a]){
-    ctx.fillStyle=energyColor(Math.max(0,Math.min(255,eng.E[a]/eng.cfg.eMax*255)));
-    ctx.fillRect(eng.x[a]*SC-0.5,eng.y[a]*SC-0.5,SC+1,SC+1);}
+    let t=eng.E[a]/eMax; if(t<0)t=0; else if(t>1)t=1;
+    MiniRender.agent(ctx,atl,(eng.x[a]*SC+half)|0,(eng.y[a]*SC+half)|0,t,(ph+a)&1);
+  }
 }
 
 // ---------- накопление и вердикт ----------
@@ -442,7 +480,7 @@ function loop(){
         blockIdx++;engS.resetWindow();engC.resetWindow();
       }
     }
-    drawWorld(engS,ctxS,cvS,SCS);drawWorld(engC,ctxC,cvC,SCC);
+    FRAME++;drawWorld(engS,ctxS,cvS,SCS,ATL);drawWorld(engC,ctxC,cvC,SCC,ATLC);
     const socS=engS.tick>=engS.cfg.socialFromTick;
     document.getElementById('hudS').innerHTML=`${t('hud_pop')} ${engS.pop} · ${socS?t('hud_social'):t('hud_warm')}`;
     document.getElementById('hudC').innerHTML=`${t('hud_pop')} ${engC.pop}`;
@@ -457,6 +495,11 @@ function applyLang(l){
   document.documentElement.lang=l;const S=id=>document.getElementById(id);
   S('t_eye').textContent=t('eye');if(S('t_exp2'))S('t_exp2').textContent=t('exp2');S('t_about').textContent=t('about');S('t_rec').textContent=t('rec');S('t_journal').textContent=t('journal');if(S('t_agi'))S('t_agi').textContent=t('agi');
   S('t_brand').innerHTML=t('brand');S('t_live').textContent=t('live');S('t_lede').textContent=t('lede');
+  S('legend').innerHTML=
+    `<span><i style="background:#3fae6e"></i>${t('lg_res')}</span>`+
+    `<span><i style="background:#e6c14a"></i>${t('lg_mark')}</span>`+
+    `<span><i style="background:#d9c26a"></i>${t('lg_creature')}</span>`+
+    `<span style="opacity:.75"><i style="background:#1b242a"></i>${t('lg_decor')}</span>`;
   S('t_self').textContent=t('self');S('t_ctrl').textContent=t('ctrl');
   S('t_speed').textContent=t('speed');S('newbtn').textContent=t('newpair');
   S('t_verdict_h').textContent=t('verdict_h');S('t_how_h').textContent=t('how_h');
