@@ -58,13 +58,24 @@
   .screen{position:relative;background:#05080a;border:1px solid var(--hair);
     border-radius:6px;overflow:hidden;box-shadow:inset 0 0 60px #04070980}
   canvas{display:block;width:100%;height:auto;image-rendering:pixelated}
+  .zoombar{position:absolute;top:8px;right:10px;z-index:4;display:flex;gap:4px;align-items:center;
+    background:#0a1014d9;border:1px solid var(--hair);border-radius:4px;padding:3px 4px;
+    font-family:var(--mono);font-size:11px}
+  .zoombar button{font-family:var(--mono);font-size:11px;background:#17222899;color:var(--dim);
+    border:1px solid var(--hair);border-radius:3px;padding:3px 7px;cursor:pointer;line-height:1.2}
+  .zoombar button:hover:not(:disabled){color:var(--cyan);border-color:var(--cyan)}
+  .zoombar button:disabled{opacity:.35;cursor:default}
+  .zoombar span{color:var(--faint);padding:0 3px;min-width:4ch;text-align:center}
+  .zhint{margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em}
+  @media(max-width:560px){
+    .zoombar{top:6px;right:6px;gap:3px;padding:2px 3px}
+    .zoombar button{padding:2px 5px;font-size:10px}
+    .zoombar span{min-width:3ch;font-size:10px}
+  }
   /* оформление экрана: сканлайны, виньетка, уголки терминала. Данных не несёт. */
   .screen,.ctrlworld{isolation:isolate}
-  .screen::after,.ctrlworld::after{content:"";position:absolute;inset:0;z-index:2;
-    pointer-events:none;
-    background:
-      repeating-linear-gradient(0deg,rgba(0,0,0,.20) 0 1px,rgba(0,0,0,0) 1px 3px),
-      radial-gradient(130% 115% at 50% 42%,rgba(0,0,0,0) 52%,rgba(2,5,7,.55) 100%)}
+  .screen::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:radial-gradient(130% 115% at 50% 42%,rgba(0,0,0,0) 52%,rgba(2,5,7,.55) 100%)}
   .screen::before{content:"";position:absolute;inset:8px;z-index:3;pointer-events:none;
     opacity:.45;
     background:
@@ -191,10 +202,15 @@
   <div class="stage">
     <div>
       <div class="screen">
+        <div class="zoombar" id="zoombar">
+          <button data-z="-1">−</button><span id="zlevel">1.0×</span><button data-z="1">+</button>
+          <button id="zfit"></button>
+        </div>
         <canvas id="world" width="512" height="512"></canvas>
         <div class="scan"></div>
         <div class="hud" id="hud"></div>
       </div>
+      <div class="zhint" id="zhint"></div>
       <div class="transport">
         <button id="play"></button>
         <input type="range" id="scrub" min="0" value="0" step="1">
@@ -229,7 +245,7 @@ const I18N = {
     g_pop_l:"population",g_pop_u:"creatures",g_e_l:"mean energy",g_e_u:"of 100",
     g_mi_l:"I(energy;action)",g_mi_u:"bits/window",g_coop_l:"cooperative acts",g_coop_u:"cumulative",
     leg_title:"reading the screen",leg_hunger:"hungry",leg_full:"full",
-    leg_mark:"mark in a cell (sign)",leg_res:"food; dim = fertile soil",leg_decor:"tiles, frame and scanlines are decoration and carry no data",
+    leg_plant:"a plant is the same resource, three stages by how much is there",z_fit:"whole world",z_hint:"drag to walk around the world, double click or the wheel zooms in",leg_mark:"mark in a cell (sign)",leg_res:"food; dim = fertile soil",leg_decor:"tiles, frame and scanlines are decoration and carry no data",
     play:"▶ play",pause:"❚❚ pause",tick_l:"tick",frame_l:"frame",
     foot:'Every frame is a real simulation state (seed 1), not a for-show animation. Marks <span class="flag">are barely used</span> and the field never saturates, a measured stage-3 result, not a visualization artefact. Code, data, report: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
   ru:{eyebrow:"искусственная жизнь", about:"о проекте ↗",
@@ -240,7 +256,7 @@ const I18N = {
     g_pop_l:"популяция",g_pop_u:"агентов",g_e_l:"средняя энергия",g_e_u:"из 100",
     g_mi_l:"I(энергия;действие)",g_mi_u:"бит/окно",g_coop_l:"кооперативных актов",g_coop_u:"нарастающе",
     leg_title:"чтение экрана",leg_hunger:"голод",leg_full:"сытость",
-    leg_mark:"метка в клетке (знак)",leg_res:"ресурс (еда), тускло = плодородная почва",leg_decor:"плитка, рамка и сканлайны это оформление, данных в них нет",
+    leg_plant:"растение это тот же ресурс, три стадии по его количеству",z_fit:"весь мир",z_hint:"тащите мышью, чтобы ходить по миру, двойной щелчок или колесо приближают",leg_mark:"метка в клетке (знак)",leg_res:"ресурс (еда), тускло = плодородная почва",leg_decor:"плитка, рамка и сканлайны это оформление, данных в них нет",
     play:"▶ старт",pause:"❚❚ пауза",tick_l:"тик",frame_l:"кадр",
     foot:'Каждый кадр, реальное состояние симуляции (seed 1), а не анимация «для вида». Метки <span class="flag">почти не используются</span> и поле не насыщается это измеренный результат этапа 3, а не артефакт визуализации. Код, данные, отчёт: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
   de:{eyebrow:"künstliches Leben", about:"über ↗",
@@ -251,7 +267,7 @@ const I18N = {
     g_pop_l:"Population",g_pop_u:"Wesen",g_e_l:"mittlere Energie",g_e_u:"von 100",
     g_mi_l:"I(Energie;Handlung)",g_mi_u:"Bit/Fenster",g_coop_l:"kooperative Akte",g_coop_u:"kumulativ",
     leg_title:"was man sieht",leg_hunger:"Hunger",leg_full:"satt",
-    leg_mark:"Markierung in einer Zelle (Zeichen)",leg_res:"Futter; blass = fruchtbarer Boden",leg_decor:"Kacheln, Rahmen und Scanlines sind Dekoration und tragen keine Daten",
+    leg_plant:"eine Pflanze ist derselbe Vorrat, drei Stufen nach seiner Menge",z_fit:"ganze Welt",z_hint:"ziehen, um durch die Welt zu gehen, Doppelklick oder Mausrad zoomt",leg_mark:"Markierung in einer Zelle (Zeichen)",leg_res:"Futter; blass = fruchtbarer Boden",leg_decor:"Kacheln, Rahmen und Scanlines sind Dekoration und tragen keine Daten",
     play:"▶ Start",pause:"❚❚ Pause",tick_l:"Tick",frame_l:"Bild",
     foot:'Jedes Bild ist ein echter Simulationszustand (Seed 1), keine Show-Animation. Markierungen <span class="flag">werden kaum genutzt</span> und das Feld sättigt sich nie, ein gemessenes Stufe-3-Ergebnis, kein Visualisierungsartefakt. Code, Daten, Bericht: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
   zh:{eyebrow:"人工生命", about:"关于 ↗",
@@ -262,7 +278,7 @@ const I18N = {
     g_pop_l:"种群",g_pop_u:"个体",g_e_l:"平均能量",g_e_u:"满分100",
     g_mi_l:"I(能量;行为)",g_mi_u:"比特/窗口",g_coop_l:"合作行为",g_coop_u:"累计",
     leg_title:"如何看画面",leg_hunger:"饥饿",leg_full:"饱足",
-    leg_mark:"格子里的记号（符号）",leg_res:"食物（资源）；暗色＝肥沃土壤",leg_decor:"地砖、边框与扫描线属于装饰，不携带数据",
+    leg_plant:"植物就是同一份资源，按数量分三个阶段",z_fit:"整个世界",z_hint:"拖动即可在世界里走动，双击或滚轮可放大",leg_mark:"格子里的记号（符号）",leg_res:"食物（资源）；暗色＝肥沃土壤",leg_decor:"地砖、边框与扫描线属于装饰，不携带数据",
     play:"▶ 播放",pause:"❚❚ 暂停",tick_l:"刻",frame_l:"帧",
     foot:'每一帧都是真实的模拟状态（seed 1），并非“摆拍”动画。记号<span class="flag">几乎不被使用</span>，场也从不饱和——这是被测量到的阶段 3 结果，而非可视化的假象。代码、数据、报告：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>。'},
   es:{eyebrow:"vida artificial", about:"acerca ↗",
@@ -273,7 +289,7 @@ const I18N = {
     g_pop_l:"población",g_pop_u:"criaturas",g_e_l:"energía media",g_e_u:"de 100",
     g_mi_l:"I(energía;acción)",g_mi_u:"bits/ventana",g_coop_l:"actos cooperativos",g_coop_u:"acumulado",
     leg_title:"cómo leer la pantalla",leg_hunger:"hambre",leg_full:"saciado",
-    leg_mark:"marca en una celda (signo)",leg_res:"comida; tenue = suelo fértil",leg_decor:"las baldosas, el marco y las líneas de barrido son decoración y no llevan datos",
+    leg_plant:"una planta es el mismo recurso, tres etapas según su cantidad",z_fit:"mundo entero",z_hint:"arrastre para recorrer el mundo, doble clic o la rueda acercan",leg_mark:"marca en una celda (signo)",leg_res:"comida; tenue = suelo fértil",leg_decor:"las baldosas, el marco y las líneas de barrido son decoración y no llevan datos",
     play:"▶ reproducir",pause:"❚❚ pausa",tick_l:"tic",frame_l:"cuadro",
     foot:'Cada cuadro es un estado real de la simulación (seed 1), no una animación «de adorno». Las marcas <span class="flag">apenas se usan</span> y el campo nunca se satura, un resultado medido de la etapa 3, no un artefacto visual. Código, datos, informe: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a>.'},
 };
@@ -312,23 +328,42 @@ function energyColor(e){ // e in 0..255
 
 // ---- canvas мира ----
 // Вид сверху, одна клетка поля это одна клетка данных (террейн записан вдвое
-// грубее, 64 на 64). Фон это плодородность почвы, яркая зелень это ресурс,
-// янтарные точки это метки. Существо рисуется спрайтом, цвет это его энергия.
-// Плитка, рамка и сканлайны это оформление, данных в них нет. См. render.js.
+// грубее, 64 на 64). Фон это плодородность почвы, яркая зелень это ресурс, на
+// близком плане он прорастает растением. Янтарные точки это метки. Существо
+// рисуется спрайтом, цвет это его энергия. Плитка, рамка и сканлайны это
+// оформление, данных в них нет. См. render.js.
 const cv=document.getElementById('world'), ctx=cv.getContext('2d');
-let SC=4, ATL=null;
 const off=document.createElement('canvas'); off.width=M.rW; off.height=M.rH;
 const octx=off.getContext('2d');
 const img=octx.createImageData(M.rW,M.rH);
 const resF=new Float32Array(M.rW*M.rH);
+const GREEN=[[0x46,0xc8,0x74]];
+let cam=MiniRender.camera(cv,M.rW,M.rH), ATL=null, PL=null;
+// Камера считает в клетках террейна (64), а существа ходят по 128,
+// поэтому их координаты делятся пополам.
+const AG=M.W/M.rW;
 
-function fitCanvas(){
-  SC=MiniRender.fit(cv,M.W);
-  ATL=MiniRender.atlas(SC);
+function sprites(){
+  const c=cam.cell*AG;
+  if(!ATL||ATL._cell!==c){ATL=MiniRender.atlas(Math.max(3,Math.round(c)));ATL._cell=c;}
+  if(!PL||PL._cell!==cam.cell){PL=MiniRender.plantSheet(cam.cell,GREEN);PL._cell=cam.cell;}
 }
+function updateZoomUI(){
+  const S=id=>document.getElementById(id);
+  S('zlevel').textContent=(cam.cell/cam.levels[0]).toFixed(1)+'×';
+  S('zoombar').querySelector('[data-z="-1"]').disabled=cam.level<=0;
+  S('zoombar').querySelector('[data-z="1"]').disabled=cam.level>=cam.levels.length-1;
+}
+cam.attach(()=>{sprites();updateZoomUI();if(typeof cur==='number')drawFrame(cur);});
 let fitTimer=null;
-addEventListener('resize',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(()=>{fitCanvas();if(typeof cur==='number')drawFrame(cur);},180);});
-fitCanvas();
+addEventListener('resize',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(()=>{
+  cam.resize();sprites();updateZoomUI();if(typeof cur==='number')drawFrame(cur);},180);});
+document.getElementById('zoombar').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  if(b.id==='zfit')cam.fit(); else cam.zoom(+b.dataset.z);
+  sprites();updateZoomUI();if(typeof cur==='number')drawFrame(cur);
+});
+sprites();
 
 function drawFrame(f){
   const rs=resSnapForFrame(f)*resStride, d=img.data, nz=MiniRender.tileNoise(M.rW,M.rH);
@@ -340,30 +375,46 @@ function drawFrame(f){
     let glow=hl[i]*1.7; if(glow>1)glow=1;
     const k=core>glow*0.34?core:glow*0.34;
     const w=core>0.74?(core-0.74)*5.0:0, j=i*4;
-    d[j]  =10+z+14*c+ 22*k+48*w;
-    d[j+1]=15+z+28*c+118*k+52*w;
-    d[j+2]=18+z+22*c+ 62*k+50*w;
+    d[j]  =13+z+14*c+ 22*k+48*w;
+    d[j+1]=17+z+28*c+118*k+52*w;
+    d[j+2]=21+z+22*c+ 62*k+50*w;
     d[j+3]=255;
   }
   octx.putImageData(img,0,0);
-  ctx.imageSmoothingEnabled=false;
-  ctx.clearRect(0,0,cv.width,cv.height);
-  ctx.drawImage(off,0,0,cv.width,cv.height);
-  MiniRender.gridlines(ctx,SC,M.W,M.H);
+  MiniRender.blitFloor(ctx,off,cam);
+  MiniRender.gridlines(ctx,cam);
+  const c=cam.cell;
+
+  if(c>=10){
+    const sh=(c-PL.size)/2;
+    const x0=Math.max(0,Math.floor(cam.ox)),y0=Math.max(0,Math.floor(cam.oy));
+    const x1=Math.min(M.rW,x0+cam.cols+1),y1=Math.min(M.rH,y0+cam.rows+1);
+    for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){
+      const r=resF[y*M.rW+x];
+      if(r<0.24)continue;
+      const h=(Math.imul(x,374761393)^Math.imul(y,668265263))>>>0;
+      if(h%4===0)continue;            // прореживание, чтобы не было решётки
+      const jx=((h%3)-1)*(c/8),jy=(((h>>>3)%3)-1)*(c/8);
+      MiniRender.plant(ctx,PL,0,r>0.62?2:r>0.37?1:0,(h>>>5)&1,
+        cam.sx(x)+sh+jx,cam.sy(y)+sh+jy);
+    }
+  }
 
   // метки
-  const mo=mOff[f], mc=mCount[f], ms=Math.max(1,(SC*0.6)|0);
+  const mo=mOff[f], mc=mCount[f], ms=Math.max(1,(c/AG*0.5)|0);
   ctx.fillStyle='rgba(235,200,96,0.85)';
   for(let i=0;i<mc;i++){
-    const x=marks[mo+i*2], y=marks[mo+i*2+1];
-    ctx.fillRect(x*SC+((SC-ms)>>1), y*SC+((SC-ms)>>1), ms, ms);
+    const x=marks[mo+i*2]/AG, y=marks[mo+i*2+1]/AG;
+    if(!cam.visible(x,y,1))continue;
+    ctx.fillRect(Math.round(cam.sx(x)),Math.round(cam.sy(y)),ms,ms);
   }
 
   // существа
-  const ao=aOff[f], ac=aCount[f], half=SC/2, ph=(f>>1);
+  const ao=aOff[f], ac=aCount[f], ph=(f>>1), half=c/AG/2;
   for(let i=0;i<ac;i++){
-    const x=agents[ao+i*3], y=agents[ao+i*3+1], e=agents[ao+i*3+2];
-    MiniRender.agent(ctx,ATL,(x*SC+half)|0,(y*SC+half)|0,e/255,(ph+i)&1);
+    const x=agents[ao+i*3]/AG, y=agents[ao+i*3+1]/AG, e=agents[ao+i*3+2];
+    if(!cam.visible(x,y,2))continue;
+    MiniRender.agent(ctx,ATL,cam.sx(x)+half,cam.sy(y)+half,e/255,(ph+i)%3);
   }
 
   // HUD
@@ -396,6 +447,7 @@ function buildRail(){
     <div class="row"><span>${t('leg_hunger')}</span><span class="bar"></span><span>${t('leg_full')}</span></div>
     <div class="row"><span class="sw" style="background:#e6c14a"></span> ${t('leg_mark')}</div>
     <div class="row"><span class="sw" style="background:#3fae6e"></span> ${t('leg_res')}</div>
+    <div class="row"><span class="sw" style="background:#2f9f7a"></span> ${t('leg_plant')}</div>
     <div class="row" style="opacity:.7"><span class="sw" style="background:#1b242a"></span> ${t('leg_decor')}</div>`;
   rail.appendChild(leg);
 }
@@ -472,6 +524,8 @@ function applyLang(l){
   document.documentElement.lang=l;
   document.getElementById('t_eye').textContent=t('eyebrow');
   document.getElementById('t_about').textContent=t('about');
+  document.getElementById('zfit').textContent=t('z_fit');
+  document.getElementById('zhint').textContent=t('z_hint');
   document.getElementById('t_brand').innerHTML=t('brand');
   document.getElementById('t_thesis').innerHTML=t('thesis');
   document.getElementById('cond').textContent=t('cond');
