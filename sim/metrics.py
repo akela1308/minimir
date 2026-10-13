@@ -134,16 +134,28 @@ def action_profile(engine):
     return {name: float(c[i] / total) for i, name in enumerate(ACTION_NAMES)}
 
 
-def ablate_interoception(engine, ticks=2000):
+def ablate_interoception(engine, ticks=2000, mode=None):
     """Забираем у обученной популяции сенсор собственной энергии на ходу.
 
     Падение выживаемости = мера того, насколько существо следит за собой.
     Это операционализация пункта 3 нашего рецепта (петля уязвимости).
+
+    mode (14.10.2026, ИДЕИ_2026-10-13.md §2.3): если задан, абляция делается
+    ПОДМЕНОЙ, а не занулением: у клона intero_mode переключается на mode
+    (обычно "shuffled"), интероцепция остаётся включённой. Для популяции,
+    выросшей в shuffled, это переподмена, то есть контроль процедуры. Оба клона
+    стартуют с одного состояния генератора (deepcopy), сравнение парное.
+    Без mode поведение прежнее (зануление).
     """
     base = _clone_and_run(engine, ticks, interoception=True)
-    abl = _clone_and_run(engine, ticks, interoception=False)
-    return dict(intact=base, ablated=abl,
-                survival_drop=_safe_drop(base["survived"], abl["survived"]))
+    if mode is None:
+        abl = _clone_and_run(engine, ticks, interoception=False)
+    else:
+        abl = _clone_and_run(engine, ticks, interoception=True, intero_mode=mode)
+    return dict(intact=base, ablated=abl, mode=(mode or "off"), ticks=int(ticks),
+                survival_drop=_safe_drop(base["survived"], abl["survived"]),
+                pop_drop=_safe_drop(base["final_pop"], abl["final_pop"]),
+                mean_E_drop=_safe_drop(base["mean_E"], abl["mean_E"]))
 
 
 def ablate_recognition(engine, ticks=2000):

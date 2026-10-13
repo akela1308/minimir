@@ -81,6 +81,8 @@ def main():
         for c in conds:
             jobs.append(dict(label=c, key=f"{c}|seed{s}", ticks=args.ticks,
                              block_avg=True, track_individual=True,
+                             # исследовательское (ИДЕИ §2.3): абляция подменой в конце
+                             ablate_end=True, ablate_ticks=2000, ablate_mode="shuffled",
                              cfg=dict(seed=s, intero_mode=c, interoception=(c != "off"),
                                       track_individual=True)))
     t0 = time.time()

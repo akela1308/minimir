@@ -273,3 +273,15 @@ def test_taste_lr_init_sigma_off_is_bitwise_and_on_spreads():
     lr0 = c.pop.taste_lr[c.pop.ids()]
     assert lr0.std() > 0 and abs(np.median(np.log10(lr0)) - np.log10(0.1)) < 0.25
     assert np.all(lr0 <= c.cfg.taste_lr_max) and np.all(lr0 >= 0)
+
+
+# ------------------------------------------------------- абляция подменой
+def test_ablation_by_substitution_returns_paired_fields():
+    eng = Engine(Config(seed=5)); eng.run(300)
+    r = metrics.ablate_interoception(eng, ticks=50, mode="shuffled")
+    assert r["mode"] == "shuffled" and r["ticks"] == 50
+    assert 0 <= r["intact"]["survived"] <= 1 and 0 <= r["ablated"]["survived"] <= 1
+    # движок не тронут: популяция исходного движка не изменилась
+    assert eng.tick == 300
+    r0 = metrics.ablate_interoception(eng, ticks=50)
+    assert r0["mode"] == "off"

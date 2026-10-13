@@ -169,6 +169,12 @@ def _measure_inner(job):
     # слою по живым агентам, рядом тот же модуль для входов 0-7 (ресурс вокруг)
     # как опорный уровень. Предсказание §2.4: в off веса дрейфуют (растут), в
     # shuffled обрезаются к нулю, в self лепятся отбором.
+    # 14.10.2026 (ИДЕИ §2.3, исследовательское в A2): абляция подменой на
+    # выросшей популяции. Клон с прежним входом против клона, у которого вход 8-9
+    # переключён на shuffled; падение выживаемости за ablate_ticks тиков.
+    if job.get("ablate_end"):
+        row["ablation"] = metrics.ablate_interoception(
+            eng, ticks=int(job.get("ablate_ticks", 2000)), mode=job.get("ablate_mode", "shuffled"))
     ids = eng.pop.ids()
     if ids.size:
         G1 = eng.pop.brains.G1[ids]
