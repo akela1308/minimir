@@ -19,9 +19,15 @@ permissions:
   pages: write
   id-token: write
 
+# 13 октября 2026: cancel-in-progress включён. Деплой от 6 октября завис в
+# состоянии waiting на неделю и держал группу pages, из-за чего все следующие
+# публикации и суточные прогоны стояли в очереди и отменялись. Новый запуск
+# теперь снимает зависший. Причину зависания (окружение github-pages: правила
+# защиты или политика веток, API через прокси недоступно) проверить в настройках
+# репозитория: Settings → Environments → github-pages и Settings → Pages → Source.
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
