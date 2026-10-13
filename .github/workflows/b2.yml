@@ -1,0 +1,117 @@
+name: протокол B2
+
+# Протокол B2 (13 октября 2026): «Когда выгодно учиться», вторая версия, с
+# нейтральным маркерным геном. Накапливается как B1: по 2 seed'а за запуск, шесть
+# условий по 100k тиков, цель 40 seed'ов, чтения на 10, 20, 40 (страница docs/b2.html
+# показывает числа только по завершённому чтению).
+#
+# Заморозка это и есть включение: первый шаг проверяет, что файл
+# PREREGISTRATION_B2.md (без слова «черновик») существует. Пока его нет, запуск по
+# расписанию завершается без прогонов и без ошибки, а ручной запуск останавливается
+# с ошибкой, чтобы было видно. Расписание сдвинуто относительно daily.yml (02:20),
+# чтобы два коммита результатов не толкались.
+#
+# Оценка: 2 seed'а × 6 условий × 100k = 1,2 млн тиков, около 25-30 минут на двух
+# воркерах GitHub; 40 seed'ов это 20 запусков (B1 шёл с 10 по 29 сентября).
+
+on:
+  schedule:
+    - cron: "40 3 * * *"
+  workflow_dispatch:
+    inputs:
+      seeds:
+        description: "сколько новых seed'ов посчитать за этот запуск"
+        required: false
+        default: "2"
+      ticks:
+        description: "длина прогона (менять нельзя после заморозки)"
+        required: false
+        default: "100000"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: minimir-b2
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: предрегистрация заморожена?
+        id: frozen
+        run: |
+          if [ -f PREREGISTRATION_B2.md ]; then
+            echo "frozen=yes" >> "$GITHUB_OUTPUT"
+            echo "предрегистрация B2 на месте, commit $(git rev-parse --short HEAD)"
+          else
+            echo "frozen=no" >> "$GITHUB_OUTPUT"
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+              echo "::error::PREREGISTRATION_B2.md не найден: есть только черновик. Прогоны до заморозки не считаются."
+              exit 1
+            fi
+            echo "PREREGISTRATION_B2.md не найден: черновик не заморожен, по расписанию ничего не считаю."
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.frozen.outputs.frozen == 'yes'
+        with:
+          python-version: "3.12"
+
+      - name: зависимости
+        if: steps.frozen.outputs.frozen == 'yes'
+        run: pip install --quiet numpy scipy pytest
+
+      - name: тесты движка
+        if: steps.frozen.outputs.frozen == 'yes'
+        run: python -m pytest tests -q
+
+      - name: протокол B2, очередные seed'ы
+        if: steps.frozen.outputs.frozen == 'yes'
+        run: |
+          python runs/daily_b2.py \
+            --seeds "${{ github.event.inputs.seeds || '2' }}" \
+            --ticks "${{ github.event.inputs.ticks || '100000' }}" \
+            --workers 2 --target 40
+
+      - name: пересборка страницы B2
+        if: steps.frozen.outputs.frozen == 'yes'
+        run: python runs/journal_b2.py
+
+      - name: коммит результатов
+        if: steps.frozen.outputs.frozen == 'yes'
+        run: |
+          git config user.name  "minimir b2"
+          git config user.email "actions@users.noreply.github.com"
+          git add runs/b2 docs/b2.html docs/b2.json
+          if git diff --cached --quiet; then
+            echo "нечего коммитить"
+            exit 0
+          fi
+          MSG=$(python -c 'import json;d=json.load(open("runs/b2/last_run_b2.json"));print("seeds", d.get("added"), "всего", d.get("total"), "/", d.get("target"))')
+          git commit -m "B2 run: $MSG"
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main
+
+      - name: сводка
+        if: always()
+        run: |
+          echo "### Протокол B2" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.frozen.outputs.frozen }}" != "yes" ]; then
+            echo "- предрегистрация не заморожена, прогонов не было" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+          python - <<'PY' >> $GITHUB_STEP_SUMMARY
+          import json, pathlib
+          p = pathlib.Path("docs/b2.json")
+          if p.exists():
+              s = json.load(open(p))
+              print(f"- завершённых seed'ов {s['n_done']}/{s['target']}, чтений {sorted(int(k) for k in s['readings'])}")
+              if s.get("latest_reading"):
+                  print(f"- вердикт чтения на {s['latest_reading']}: {s['readings'][str(s['latest_reading'])]['verdict']}")
+          PY

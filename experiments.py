@@ -61,6 +61,10 @@ def measure(job):
         if job.get("protocol") == "B":
             from sim.protocol_b import measure_b
             return measure_b(job)
+        if job.get("protocol") == "B2":
+            # 13.10.2026: протокол B2 (черновик), конфигурация из sim/protocol_b2.py
+            from sim.protocol_b2 import measure_b2
+            return measure_b2(job)
         return _measure_inner(job)
     except Exception as e:                                    # noqa: BLE001
         return dict(key=job.get("key"), label=job.get("label"),

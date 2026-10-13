@@ -23,7 +23,7 @@ runs/daily/protocol_b.jsonl).
 from .config import Config
 from .protocol_b import CONDS, SWITCH, PLASTIC, WORLD_B, measure_b
 
-PROTOCOL = "B2-черновик"
+PROTOCOL = "B2-100k-draft"      # «draft» снимается при заморозке
 
 WORLD_B2 = dict(WORLD_B,
                 marker_gene=True, marker_init=0.1,
