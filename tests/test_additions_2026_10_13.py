@@ -285,3 +285,26 @@ def test_ablation_by_substitution_returns_paired_fields():
     assert eng.tick == 300
     r0 = metrics.ablate_interoception(eng, ticks=50)
     assert r0["mode"] == "off"
+
+
+# ------------------------------------------------------- запись погибших (B2 §0.3)
+def test_record_dead_is_bitwise_and_summarises_deaths():
+    from sim.protocol_b import measure_b
+    a = Engine(config_b(1, "life")); a.run(1500)
+    b = Engine(config_b(1, "life", record_dead=True)); b.run(1500)
+    assert _state(a) == _state(b), "запись погибших не должна менять мир"
+    assert a.pop.dead_lr == [] and len(b.pop.dead_lr) == b.pop.deaths > 0
+    assert len(b.pop.dead_age) == len(b.pop.dead_lr) == len(b.pop.dead_marker)
+
+    job = dict(key="life|seed1", label="life", ticks=4000, cfg=dict(seed=1))
+    off = measure_b(dict(job, overrides=dict(record_dead=False, marker_gene=True)))
+    on = measure_b(dict(job, overrides=dict(record_dead=True, marker_gene=True)))
+    assert "dead_total" not in off and all("dead_n" not in p for p in off["curve"])
+    assert on["record_dead"] and on["dead_total"] > 0
+    pts = [p for p in on["curve"] if "dead_n" in p]
+    assert pts and sum(p["dead_n"] for p in pts) <= on["dead_total"]
+    full = [p for p in pts if p["dead_n"]]
+    assert full and all(p["dead_lr_median"] > 0 and p["dead_age_median"] > 0
+                        and p["dead_marker_median"] > 0 for p in full)
+    # мир тот же (маркер включён в обоих, иначе расходится генератор): кривые живых совпадают
+    assert [p["lr_median"] for p in on["curve"]] == [p["lr_median"] for p in off["curve"]]

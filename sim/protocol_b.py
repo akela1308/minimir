@@ -47,6 +47,21 @@ def _overall_accuracy(eng):
     return g / (g + b) if (g + b) else None
 
 
+def _dead_summary(pop, cfg):
+    """Сводка по погибшим с прошлой точки кривой: сколько, медианный возраст,
+    медиана гена скорости (и маркера, если он есть). Медианы на линейной шкале,
+    как и lr_median живых в той же точке; сравнение живых и погибших на одном
+    тике и есть ответ на вопрос «кто умирает на смене правила»."""
+    import numpy as np
+    n = len(pop.dead_lr)
+    out = dict(dead_n=n,
+               dead_age_median=(float(np.median(pop.dead_age)) if n else None),
+               dead_lr_median=(float(np.median(pop.dead_lr)) if n else None))
+    if cfg.marker_gene:
+        out["dead_marker_median"] = float(np.median(pop.dead_marker)) if n else None
+    return out
+
+
 def measure_b(job):
     """Один прогон протокола B -> строка чисел для журнала.
 
@@ -84,6 +99,10 @@ def measure_b(job):
                 # 13.10.2026 (ИДЕИ §2.5, B2): маркер и отношение lr/marker на том же тике
                 point.update(marker_median=st["marker_median"],
                              lr_over_marker=st["lr_over_marker_median"])
+            if cfg.record_dead:
+                # 13.10.2026 (B2 §0.3): погибшие за окно между точками кривой
+                point.update(_dead_summary(e.pop, cfg))
+                e.pop.dead_age.clear(); e.pop.dead_lr.clear(); e.pop.dead_marker.clear()
             curve.append(point)
             e.eat_good = e.eat_bad = 0        # точность в кривой — по окну
 
@@ -106,6 +125,10 @@ def measure_b(job):
                      marker_init=cfg.marker_init,
                      lr_at_ceiling=(float((lr >= cfg.taste_lr_max * 0.99).mean()) if lr.size else None),
                      marker_at_ceiling=(float((m >= cfg.taste_lr_max * 0.99).mean()) if m.size else None))
+    if cfg.record_dead:
+        # 13.10.2026 (B2 §0.3): всего погибших за прогон; окна по погибшим лежат в curve
+        extra["dead_total"] = int(eng.pop.deaths)
+        extra["record_dead"] = True
     return dict(
         key=job["key"], label=job["label"], seed=cfg.seed,
         switch_mean=cfg.switch_mean, learning=cfg.taste_learning,

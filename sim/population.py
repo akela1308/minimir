@@ -46,6 +46,9 @@ class Population:
         self.births = 0
         self.deaths = 0
         self.lifespans = []      # возраст на момент смерти — для теста порядка развития
+        # 13.10.2026: журнал погибших (record_dead): возраст, ген скорости, маркер;
+        # measure_b опустошает его на каждой точке кривой
+        self.dead_age, self.dead_lr, self.dead_marker = [], [], []
 
     # ---------- слоты ----------
     def _take_slots(self, k):
@@ -156,6 +159,10 @@ class Population:
         dead = np.flatnonzero(self.alive & ((self.E <= 0.0) | (self.age > self.cfg.max_age)))
         if dead.size:
             self.lifespans.extend(self.age[dead].tolist())
+            if self.cfg.record_dead:
+                self.dead_age.extend(self.age[dead].tolist())
+                self.dead_lr.extend(self.taste_lr[dead].tolist())
+                self.dead_marker.extend(self.marker[dead].tolist())
             self.alive[dead] = False
             for s in dead.tolist():
                 self._free.append(s)
