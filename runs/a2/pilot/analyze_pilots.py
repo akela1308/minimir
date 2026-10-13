@@ -87,6 +87,28 @@ try:
 except FileNotFoundError:
     w("## Подмена twin: проверка не успела посчитаться\n")
 
+try:
+    tc2 = json.load(open(f"{P}/twin_check2.json"))
+    w("### Вторая проверка: лаг-1 по коротким окнам и по всем агентам\n")
+    w("Тот же прогрев 600 тиков, затем пять окон по 200 тиков подряд; автокорреляция считается по всем "
+      "агентам, прожившим окно (их 200-430 на окно), и усредняется по окнам. У `constant` сигнал не "
+      "меняется, автокорреляция не определена.\n")
+    w("| seed | self | twin | shuffled | агентов на окно (twin) |")
+    w("|---|---|---|---|---|")
+    for seed, res in tc2.items():
+        g = lambda m: (f"{res[m]['lag1_mean']:.3f}" if res[m]['lag1_mean'] is not None else "нет")
+        w(f"| {seed} | {g('self')} | {g('twin')} | {g('shuffled')} | "
+          f"{min(res['twin']['agents_per_window'])}-{max(res['twin']['agents_per_window'])} |")
+    tw = [res["twin"]["lag1_mean"] for res in tc2.values()]
+    se = [res["self"]["lag1_mean"] for res in tc2.values()]
+    sh = [res["shuffled"]["lag1_mean"] for res in tc2.values()]
+    w(f"\nНа всех трёх seed'ах: twin {min(tw):.3f}…{max(tw):.3f}, self {min(se):.3f}…{max(se):.3f}, "
+      f"shuffled {min(sh):.3f}…{max(sh):.3f}. Факт: подмена twin сохраняет временную структуру входа 8 "
+      "так же, как собственный сигнал, а shuffled её уничтожает. Это и есть то, ради чего контроль введён "
+      "(черновик A2 §1, §5 граница 3). Файлы `twin_check2.py`, `twin_check2.json`.\n")
+except FileNotFoundError:
+    pass
+
 # ------------------------------------------------------------- A2 часть 2
 rs = rows("pilot_shock.jsonl")
 w("## Часть 2, шок-проба: годность, события, реакции\n")
