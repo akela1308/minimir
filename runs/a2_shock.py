@@ -69,6 +69,9 @@ def main():
     p.add_argument("--conds", default="self,shuffled,twin")
     p.add_argument("--modes", default="abrupt,slow,sham")
     p.add_argument("--out", default=str(OUT))
+    p.add_argument("--seed_list", default="",
+                   help="явный список seed'ов через запятую (только для пилотов и проверок кода вне "
+                        "объявленных 1..N; по умолчанию пусто, тогда считаются 1..--seeds)")
     args = p.parse_args()
     conds = [c for c in args.conds.split(",") if c]
     modes = [m for m in args.modes.split(",") if m]
@@ -76,10 +79,11 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     commit = git_commit()
     print(f"дата {stamp}, коммит {commit}, протокол {PROTOCOL}")
-    print(f"считаю seed'ы 1..{args.seeds} × {conds} × {modes} × {args.ticks} тиков -> {args.out}")
+    seeds = [int(x) for x in args.seed_list.split(",") if x.strip()] or list(range(1, args.seeds + 1))
+    print(f"считаю seed'ы {seeds[0]}..{seeds[-1]} ({len(seeds)}) × {conds} × {modes} × {args.ticks} тиков -> {args.out}")
 
     jobs = []
-    for s in range(1, args.seeds + 1):
+    for s in seeds:
         for c in conds:
             for m in modes:
                 jobs.append(dict(label=f"{c}/{m}", key=f"{c}/{m}|seed{s}", ticks=args.ticks,
@@ -100,9 +104,16 @@ def main():
         for r in stamped:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
-    # сводка: реакция по условиям и парно self против shuffled в каждом режиме
+    # сводка: главная реакция gap_closure (черновик §6, правка по пилоту 13.10), рядом
+    # точность добычи и выживание; парно self против shuffled в каждом режиме.
+    # У sham gap_closure не определён (удара не было), там смотрят energy_gap_end.
     good = [r for r in stamped if not r.get("error") and r.get("extinct") is None
             and not r.get("hit_ceiling") and r.get("shock")]
+
+    def mean(xs):
+        xs = [x for x in xs if x is not None]
+        return (sum(xs) / len(xs), len(xs)) if xs else (float("nan"), 0)
+
     for m in modes:
         print(f"\nрежим удара {m}")
         by = {}
@@ -111,21 +122,24 @@ def main():
             if mm == m:
                 by.setdefault(c, {})[r["seed"]] = r["shock"]
         for c in conds:
-            vals = [v.get("forage_response") for v in by.get(c, {}).values()
-                    if v.get("forage_response") is not None]
-            surv = [v.get("survival_response") for v in by.get(c, {}).values()
-                    if v.get("survival_response") is not None]
-            if vals:
-                print(f"  {c:>9}: реакция (доля добычи) {sum(vals)/len(vals):+.4f}, "
-                      f"выживание {sum(surv)/len(surv) if surv else float('nan'):+.4f}, n={len(vals)}")
+            vs = list(by.get(c, {}).values())
+            gap, n = mean(v.get("energy_gap_end") for v in vs)
+            clo, _ = mean(v.get("gap_closure") for v in vs)
+            acc, _ = mean(v.get("accuracy_response") for v in vs)
+            sur, _ = mean(v.get("survival_response") for v in vs)
+            if n:
+                print(f"  {c:>9}: дефицит в конце окна {gap:+.2f}, закрытие {clo:.3f}, "
+                      f"точность {acc:+.4f}, выживание {sur:+.4f}, n={n}")
+        key = "energy_gap_end" if m == "sham" else "gap_closure"
         if "self" in by and "shuffled" in by:
             common = sorted(set(by["self"]) & set(by["shuffled"]))
-            a = [by["self"][s].get("forage_response") for s in common]
-            b = [by["shuffled"][s].get("forage_response") for s in common]
+            a = [by["self"][s].get(key) for s in common]
+            b = [by["shuffled"][s].get(key) for s in common]
             ok = [(x, y) for x, y in zip(a, b) if x is not None and y is not None]
             if ok:
                 w = wilcoxon_paired([x for x, _ in ok], [y for _, y in ok])
-                print(f"  self vs shuffled: p={w.get('p')}, n={w['n']}")
+                d = [x - y for x, y in ok]
+                print(f"  self vs shuffled по {key}: Δ={sum(d)/len(d):+.4f}, p={w.get('p')}, n={w['n']}")
     print(f"\nготово за {elapsed:.0f}s; строк в файле: {len(stamped)}")
 
 

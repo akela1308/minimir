@@ -66,6 +66,9 @@ def main():
     p.add_argument("--workers", type=int, default=0)
     p.add_argument("--conds", default=",".join(CONDS))
     p.add_argument("--out", default=str(OUT))
+    p.add_argument("--seed_list", default="",
+                   help="явный список seed'ов через запятую (только для пилотов и проверок кода вне "
+                        "объявленных 1..N; по умолчанию пусто, тогда считаются 1..--seeds)")
     args = p.parse_args()
     conds = [c for c in args.conds.split(",") if c]
     if "shuffled" not in conds:
@@ -74,10 +77,11 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     commit = git_commit()
     print(f"дата {stamp}, коммит {commit}, протокол {PROTOCOL}")
-    print(f"считаю seed'ы 1..{args.seeds} × {conds} × {args.ticks} тиков -> {args.out}")
+    seeds = [int(x) for x in args.seed_list.split(",") if x.strip()] or list(range(1, args.seeds + 1))
+    print(f"считаю seed'ы {seeds[0]}..{seeds[-1]} ({len(seeds)}) × {conds} × {args.ticks} тиков -> {args.out}")
 
     jobs = []
-    for s in range(1, args.seeds + 1):
+    for s in seeds:
         for c in conds:
             jobs.append(dict(label=c, key=f"{c}|seed{s}", ticks=args.ticks,
                              block_avg=True, track_individual=True,
