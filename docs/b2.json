@@ -1,0 +1,44 @@
+{
+ "built_at": "2026-10-13T06:48:58Z",
+ "commit": "9367d89",
+ "frozen": false,
+ "protocol": "B2-100k-draft",
+ "n_rows": 0,
+ "n_done": 0,
+ "target": 40,
+ "next_checkpoint": 10,
+ "latest_reading": null,
+ "readings": {},
+ "validity": {
+  "never": {
+   "n": 0,
+   "errors": 0,
+   "extinct": 0
+  },
+  "slow": {
+   "n": 0,
+   "errors": 0,
+   "extinct": 0
+  },
+  "life": {
+   "n": 0,
+   "errors": 0,
+   "extinct": 0
+  },
+  "fast": {
+   "n": 0,
+   "errors": 0,
+   "extinct": 0
+  },
+  "life_frozen": {
+   "n": 0,
+   "errors": 0,
+   "extinct": 0
+  },
+  "never_frozen": {
+   "n": 0,
+   "errors": 0,
+   "extinct": 0
+  }
+ }
+}
