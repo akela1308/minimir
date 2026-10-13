@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>mini·world: протокол A2, контроли и шок-проба</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--ground:#0a0e11;--panel:#10161a;--hair:#1c262c;--ink:#e9f1f2;--dim:#93a6ae;--faint:#5b6f77;
+  --cyan:#46c6d0;--amber:#e8734a;--coop:#4fd08a;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 700px at 70% -10%,#101a1f 0%,var(--ground) 55%);
+  color:var(--ink);font-family:var(--mono);line-height:1.55}
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px 70px}
+header{border-bottom:1px solid var(--hair);padding-bottom:14px;margin-bottom:22px}
+.eyebrow{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--faint)}
+h1{font-size:22px;margin:6px 0 4px;font-weight:600}
+h2{font-size:15px;margin:34px 0 10px;color:var(--cyan);font-weight:600}
+p{color:var(--dim);font-size:13px} a{color:var(--cyan)}
+nav a{font-size:12px;border:1px solid #2a3a41;border-radius:16px;padding:4px 10px;text-decoration:none;margin-right:6px;display:inline-block}
+.card{background:#0d1317;border:1px solid var(--hair);border-radius:10px;padding:16px 18px;margin:14px 0}
+.big{font-size:19px;color:var(--ink);margin:0 0 6px}
+.bar{height:6px;background:#161f24;border-radius:3px;overflow:hidden;margin:12px 0 6px} .bar i{display:block;height:100%;background:var(--cyan)}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+th,td{text-align:right;padding:6px 8px;border-bottom:1px solid #161f24}
+th{color:var(--faint);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+th:first-child,td:first-child{text-align:left} .mono{color:var(--ink)}
+.yes{color:var(--coop)} .no{color:var(--amber)} .muted{color:var(--faint);font-size:12px}
+.note{border-left:2px solid var(--amber);padding-left:12px;color:var(--dim)}
+</style>
+</head>
+<body><div class="wrap">
+<header>
+<div class="eyebrow">mini·world · протокол A2</div>
+<h1>Два новых контроля на входах 8-9 и шок-проба</h1>
+<nav><a href="index.html">живой эксперимент</a><a href="journal.html">журнал</a><a href="results-b.html">эксперимент 2</a><a href="about.html">о проекте</a></nav>
+</header>
+<p class="note"><b>Предрегистрация A2 не заморожена.</b> Файл <span class="mono">PREREGISTRATION_A2.md</span> ещё не существует, есть только черновик. Прогоны по протоколу до заморозки не считаются.</p>
+<p>Зачем: главное сравнение этапа 1 (self против shuffled) смешивало пользу знания о себе
+с вредом от шума на входе, потому что shuffled берёт энергию нового случайного агента каждый
+тик и разрушает временную структуру сигнала. Контроль twin сохраняет распределение и
+автокорреляцию, constant даёт ненулевой вход без информации. Шок-проба меряет реакцию на
+экзогенный удар по энергии, а не корреляцию. Протокол:
+<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_A2_черновик.md">предрегистрация A2</a>.
+Чтение одно, промежуточных чисел страница не показывает.</p>
+
+<h2>Часть 1: контроли</h2>
+<div class="card"><p class="big">0 из 20 seed'ов</p><div class="bar"><i style="width:0%"></i></div>
+<p class="big">накопление, чтение не состоялось</p><p>Числа появятся один раз, когда все seed'ы посчитаны во всех условиях.</p></div>
+<table><tr><th>условие</th><th>строк</th><th>годных</th><th>вымерло</th><th>потолок</th></tr><tr><td class="mono">self</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td class="mono">shuffled</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td class="mono">twin</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td class="mono">constant</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td class="mono">off</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></table>
+
+
+
+<h2>Часть 2: шок-проба</h2>
+<div class="card"><p class="big">0 из 20 seed'ов</p><div class="bar"><i style="width:0%"></i></div>
+<p class="big">накопление, чтение не состоялось</p><p></p></div>
+<table><tr><th>условие / удар</th><th>строк</th><th>годных</th><th>вымерло</th></tr></table>
+
+
+
+<footer><p class="muted">Собрано 2026-10-13T05:19:03Z · код 31cca1c · сырые числа:
+<a href="https://github.com/akela1308/minimir/tree/main/runs/a2">runs/a2/</a></p></footer>
+</div></body></html>

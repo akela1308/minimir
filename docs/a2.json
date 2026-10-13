@@ -1,0 +1,52 @@
+{
+ "built_at": "2026-10-13T05:19:03Z",
+ "commit": "31cca1c",
+ "frozen": false,
+ "target": 20,
+ "controls": {
+  "target": 20,
+  "n_done": 0,
+  "complete": false,
+  "rows": 0,
+  "validity": {
+   "self": {
+    "n": 0,
+    "valid": 0,
+    "extinct": 0,
+    "ceiling": 0
+   },
+   "shuffled": {
+    "n": 0,
+    "valid": 0,
+    "extinct": 0,
+    "ceiling": 0
+   },
+   "twin": {
+    "n": 0,
+    "valid": 0,
+    "extinct": 0,
+    "ceiling": 0
+   },
+   "constant": {
+    "n": 0,
+    "valid": 0,
+    "extinct": 0,
+    "ceiling": 0
+   },
+   "off": {
+    "n": 0,
+    "valid": 0,
+    "extinct": 0,
+    "ceiling": 0
+   }
+  }
+ },
+ "shock": {
+  "target": 20,
+  "n_done": 0,
+  "complete": false,
+  "labels": [],
+  "rows": 0,
+  "validity": {}
+ }
+}

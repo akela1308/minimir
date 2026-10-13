@@ -1,0 +1,128 @@
+name: протокол A2
+
+# Протокол A2 (13 октября 2026): два новых контроля на входах 8-9 (twin, constant)
+# и шок-проба. Запуск ТОЛЬКО вручную и только после заморозки предрегистрации:
+# первый шаг проверяет, что файл PREREGISTRATION_A2.md (без слова «черновик»)
+# существует, иначе прогон останавливается. Расписания нет нарочно: чтение
+# одно, на объявленном числе seed'ов, промежуточных заявок не бывает.
+#
+# Раннеры возобновляемы (experiments.run_series пропускает уже посчитанные
+# (условие, seed)), поэтому большую часть можно считать за несколько запусков:
+# сначала --seeds 10, потом --seeds 20. Результаты коммитятся в runs/a2/, страница
+# docs/a2.html пересобирается runs/journal_a2.py и показывает числа только когда
+# все seed'ы части посчитаны.
+#
+# Оценка: часть 1 (5 условий × 20 seed'ов × 120k, track_individual) около 12 млн
+# тиков, на двух воркерах GitHub это 3-4 часа; часть 2 полная (9 сочетаний × 20 ×
+# 120k) около 21,6 млн тиков, лучше двумя запусками по 10 seed'ов.
+
+on:
+  workflow_dispatch:
+    inputs:
+      part:
+        description: "какую часть считать"
+        required: true
+        type: choice
+        options: [controls, shock]
+        default: controls
+      seeds:
+        description: "seed'ы 1..N (объявлено в предрегистрации; раннер досчитывает недостающие)"
+        required: false
+        default: "20"
+      ticks:
+        description: "длина прогона (менять нельзя после заморозки)"
+        required: false
+        default: "120000"
+      conds:
+        description: "условия через запятую (часть 1: self,shuffled,twin,constant,off; часть 2: self,shuffled,twin)"
+        required: false
+        default: ""
+      modes:
+        description: "режимы удара для части 2 через запятую (abrupt,slow,sham)"
+        required: false
+        default: "abrupt,slow,sham"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: minimir-a2
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: предрегистрация заморожена?
+        run: |
+          if [ ! -f PREREGISTRATION_A2.md ]; then
+            echo "::error::PREREGISTRATION_A2.md не найден: есть только черновик. Прогоны до заморозки не считаются."
+            exit 1
+          fi
+          echo "предрегистрация A2 на месте, commit $(git rev-parse --short HEAD)"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: зависимости
+        run: pip install --quiet numpy scipy pytest
+
+      - name: тесты движка
+        run: python -m pytest tests -q
+
+      - name: часть 1, контроли
+        if: ${{ github.event.inputs.part == 'controls' }}
+        run: |
+          CONDS="${{ github.event.inputs.conds }}"
+          python runs/a2_controls.py \
+            --seeds "${{ github.event.inputs.seeds || '20' }}" \
+            --ticks "${{ github.event.inputs.ticks || '120000' }}" \
+            --workers 2 \
+            ${CONDS:+--conds "$CONDS"}
+
+      - name: часть 2, шок-проба
+        if: ${{ github.event.inputs.part == 'shock' }}
+        run: |
+          CONDS="${{ github.event.inputs.conds }}"
+          python runs/a2_shock.py \
+            --seeds "${{ github.event.inputs.seeds || '20' }}" \
+            --ticks "${{ github.event.inputs.ticks || '120000' }}" \
+            --workers 2 \
+            --modes "${{ github.event.inputs.modes || 'abrupt,slow,sham' }}" \
+            ${CONDS:+--conds "$CONDS"}
+
+      - name: пересборка страницы A2
+        run: python runs/journal_a2.py --target "${{ github.event.inputs.seeds || '20' }}"
+
+      - name: коммит результатов
+        run: |
+          git config user.name  "minimir a2"
+          git config user.email "actions@users.noreply.github.com"
+          git add runs/a2 docs/a2.html docs/a2.json
+          if git diff --cached --quiet; then
+            echo "нечего коммитить"
+            exit 0
+          fi
+          git commit -m "A2 run: ${{ github.event.inputs.part }}, seeds до ${{ github.event.inputs.seeds || '20' }}"
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main
+
+      - name: сводка
+        if: always()
+        run: |
+          echo "### Протокол A2, часть ${{ github.event.inputs.part }}" >> $GITHUB_STEP_SUMMARY
+          python - <<'PY' >> $GITHUB_STEP_SUMMARY
+          import json, pathlib
+          p = pathlib.Path("docs/a2.json")
+          if p.exists():
+              s = json.load(open(p))
+              for part in ("controls", "shock"):
+                  c = s[part]
+                  print(f"- {part}: seed'ов {c['n_done']}/{c['target']}, "
+                        f"{'чтение состоялось, вердикт ' + c.get('verdict', '') if c['complete'] else 'накопление'}")
+          PY
