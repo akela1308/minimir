@@ -53,6 +53,16 @@ class Config:
     taste_deadzone: float = 0.5     # изменения энергии меньше порога правило не видит
     taste_learning: bool = True     # False = ген скорости есть и мутирует, но
                                     # правило не применяется (абляция обучения)
+    # Нейтральный маркерный ген (добавлено 13.10.2026, ИДЕИ_2026-10-13.md §2.5,
+    # для B2). Второй мультипликативный ген с тем же ядром мутации
+    # exp(N(0, taste_lr_sigma)) и теми же границами [0, taste_lr_max], ни на что
+    # не влияющий. Он переживает те же горлышки и тот же дрейф, что taste_lr,
+    # поэтому log(lr / marker) в том же мире на том же тике измеряет отбор, а не
+    # длину прогона (критерий 2 протокола B1 рос с длиной прогона, REPORT_B §6).
+    # По умолчанию выключен: при False генератор не трогается, старые прогоны
+    # воспроизводятся бит в бит.
+    marker_gene: bool = False
+    marker_init: float = 0.1        # тот же старт, что taste_lr_init
 
     # --- метаболизм (это и есть уязвимость) ---
     e_max: float = 100.0
@@ -105,7 +115,16 @@ class Config:
     #   shuffled  — чужая случайная: то же распределение, ноль информации о себе (КОНТРОЛЬ)
     #   neighbour — энергия ближайшего соседа: сигнал о мире, но не о себе
     #   off       — нули (старый плохой контроль, оставлен для сравнения)
+    # Добавлено 13.10.2026 (ИДЕИ_2026-10-13.md §2.1, §5.2), для A2:
+    #   constant:   вход 8 равен intero_const, вход 9 равен нулю: ненулевой
+    #               вход без информации и без шума (REPORT.md §6, пункт 3)
+    #   twin:       настоящая траектория энергии случайного живого «близнеца»,
+    #               назначенного при рождении (при его смерти назначается новый):
+    #               то же распределение И та же временная структура, что у self,
+    #               информации о себе ноль. shuffled берёт нового агента каждый
+    #               тик и потому ещё и разрушает автокорреляцию сигнала
     intero_mode: str = "self"
+    intero_const: float = 0.5       # уровень для режима constant (e_start / e_max)
     interoception: bool = True      # legacy-совместимость: False == intero_mode "off"
     social: bool = False            # этап 1.5: дилемма заключённого
     social_from_tick: int = 0       # открывать дилемму только на выжившей популяции
@@ -166,6 +185,30 @@ class Config:
     # воспроизведения тех пилотов.
     lamarck: bool = False
 
+    # --- шок-проба (добавлено 13.10.2026, ИДЕИ_2026-10-13.md §2.2, для A2) ---
+    # Экзогенный удар по энергии как событие: раз в shock_every тиков у случайной
+    # доли shock_frac живых агентов с E > shock_min_energy отнимается
+    # shock_amount энергии напрямую, минуя еду; такая же по размеру случайная
+    # группа неударенных становится парным контролем. Дальше shock_window тиков
+    # копятся действия обеих групп, через shock_survival_ticks проверяется, кто
+    # жив. Моменты и выбор агентов идут из ОТДЕЛЬНОГО генератора, засеянного
+    # seed'ом: основной поток случайных чисел не трогается, и прогон без шока
+    # воспроизводится бит в бит. Удары включает раннер (engine.shock_enabled)
+    # только в измерительном окне. shock_every = 0 выключает всё.
+    #   shock_mode: abrupt: весь удар за один тик (виден и уровню, и производной);
+    #               slow:   тот же удар порциями за shock_slow_ticks тиков, ниже
+    #                        мёртвой зоны производной (виден только уровню);
+    #               sham:   агенты выбираются, энергия не трогается (проверка
+    #                        самой процедуры: реакция обязана быть нулевой)
+    shock_every: int = 0
+    shock_frac: float = 0.2
+    shock_amount: float = 20.0
+    shock_min_energy: float = 30.0
+    shock_mode: str = "abrupt"
+    shock_slow_ticks: int = 50
+    shock_window: int = 50
+    shock_survival_ticks: int = 200
+
     # --- калибровка прибора: рукописные политики вместо эволюции ---
     #   evolved   — обычный режим
     #   threshold — положительный контроль: "энергия ниже порога -> добывай"
@@ -187,6 +230,12 @@ class Config:
             raise ValueError("switch_mean имеет смысл только при food_types=2")
         if self.food_types == 2 and self.n_hidden < 2:
             raise ValueError("food_types=2: нужен хотя бы один нейрон под рефлекс")
+        if self.intero_mode not in ("self", "shuffled", "neighbour", "off", "constant", "twin"):
+            raise ValueError(f"intero_mode: неизвестный режим {self.intero_mode!r}")
+        if self.shock_mode not in ("abrupt", "slow", "sham"):
+            raise ValueError(f"shock_mode: только abrupt, slow или sham, не {self.shock_mode!r}")
+        if self.shock_every < 0 or not (0.0 < self.shock_frac <= 0.5):
+            raise ValueError("shock_every >= 0, shock_frac в (0, 0.5]: контролю нужна такая же группа")
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), sort_keys=True)

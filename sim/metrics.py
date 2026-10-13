@@ -36,6 +36,60 @@ def mi_from_hist(h):
                 samples=int(n))
 
 
+def mi_corrected_nofloor(h):
+    """Та же поправленная на смещение MI, что в mi_from_hist, но без пола n >= 1000.
+
+    Добавлено 13 октября 2026 (ИДЕИ_2026-10-13.md §5.1). Нужна для метрики при
+    порогах 200 и 1000 решений на агента: mi_from_hist молча отбрасывает агентов
+    с n < 1000, из-за чего действующий порог главной метрики этапа 1 оказался
+    1000 при заявленных в предрегистрации 200. Формула и порядок операций те же,
+    поэтому при n >= 1000 результат совпадает с mi_from_hist бит в бит.
+    Возвращает None, если таблица пуста или в ней одна строка/столбец.
+    """
+    h = np.asarray(h, dtype=np.float64)
+    n = h.sum()
+    if n <= 0:
+        return None
+    p = h / n
+    pe = p.sum(axis=1, keepdims=True)
+    pa = p.sum(axis=0, keepdims=True)
+    denom = pe * pa
+    nz = (p > 0) & (denom > 0)
+    mi = float((p[nz] * np.log2(p[nz] / denom[nz])).sum())
+    r = int((h.sum(axis=1) > 0).sum())
+    c = int((h.sum(axis=0) > 0).sum())
+    chance = (r - 1) * (c - 1) / (2 * n * np.log(2)) if r > 1 and c > 1 else 0.0
+    return float(mi - chance)
+
+
+def within_agent_dependence_at(engine, min_samples):
+    """Внутриагентная MI при явном пороге числа решений на агента.
+
+    Добавлено 13 октября 2026 (ИДЕИ_2026-10-13.md §5.1). В отличие от
+    within_agent_dependence, порог здесь единственный и действует буквально:
+    агент входит в среднее, если набрал >= min_samples решений в окне. При
+    min_samples=1000 даёт те же числа, что within_agent_dependence (там
+    действующий порог 1000 из-за пола в mi_from_hist); при 200 показывает,
+    что было бы при заявленном в предрегистрации пороге.
+    """
+    if not getattr(engine, "track_individual", False):
+        return dict(mean_mi_bits=None, n_agents=0, min_samples=int(min_samples),
+                    note="включите cfg.track_individual")
+    vals = []
+    for h in engine.all_individual_hists():
+        if h.sum() >= min_samples:
+            v = mi_corrected_nofloor(h)
+            if v is not None:
+                vals.append(v)
+    if not vals:
+        return dict(mean_mi_bits=None, n_agents=0, min_samples=int(min_samples))
+    v = np.array(vals, float)
+    return dict(mean_mi_bits=float(v.mean()),
+                sd=float(v.std(ddof=1)) if v.size > 1 else 0.0,
+                median=float(np.median(v)),
+                n_agents=int(v.size), min_samples=int(min_samples))
+
+
 def behaviour_depends_on_energy(engine):
     """ГЛАВНАЯ метрика этапа 1: взаимная информация I(энергия; действие) в битах.
 
@@ -250,6 +304,13 @@ def within_agent_dependence(engine, min_samples=200):
     индивидуальности (Krakauer и др., 2020).
 
     Требует включённого engine.track_individual.
+
+    Внимание (13 октября 2026, ИДЕИ_2026-10-13.md §5.1): min_samples=200 здесь
+    не действует буквально. mi_from_hist возвращает оценку только при n >= 1000,
+    поэтому фактический порог этой функции 1000 решений на агента. Функция
+    оставлена без изменений, чтобы поле within_mi в журнале значило то же, что
+    во всех прошлых прогонах; порог по заявлению считает
+    within_agent_dependence_at.
     """
     if getattr(engine, "track_individual", False):
         hists = engine.all_individual_hists()

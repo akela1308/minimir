@@ -34,6 +34,11 @@ class Population:
         self.taste_g = np.zeros(n, dtype=np.float32)     # наследуется
         self.taste = np.zeros(n, dtype=np.float32)       # рабочее значение, учится
         self.taste_lr = np.zeros(n, dtype=np.float32)
+        # нейтральный маркерный ген (13.10.2026, Config.marker_gene)
+        self.marker = np.zeros(n, dtype=np.float32)
+        # «близнец» для intero_mode="twin" (13.10.2026): слот агента, чью
+        # энергию этот агент видит на входах 8-9; -1 = ещё не назначен
+        self.twin = np.full(n, -1, dtype=np.int64)
 
         self.brains = Brains(cfg, rng)
         self._free = list(range(n - 1, -1, -1))
@@ -73,6 +78,9 @@ class Population:
             self.taste_g[slots] = self.cfg.taste_init
             self.taste[slots] = self.cfg.taste_init
             self.taste_lr[slots] = self.cfg.taste_lr_init
+        if self.cfg.marker_gene:
+            self.marker[slots] = self.cfg.marker_init
+        self.twin[slots] = -1
 
     def _place_random(self, slots):
         self.y[slots] = self.rng.integers(0, self.world.H, len(slots))
@@ -126,6 +134,15 @@ class Population:
                     0.0, c.taste_lr_max).astype(np.float32)
             else:
                 self.taste_lr[children] = self.taste_lr[parents]
+        if self.cfg.marker_gene:
+            # то же ядро мутации, что у скорости обучения, и те же границы;
+            # обращение к генератору только при включённом флаге
+            c = self.cfg
+            self.marker[children] = np.clip(
+                self.marker[parents]
+                * np.exp(self.rng.normal(0, c.taste_lr_sigma, children.size)),
+                0.0, c.taste_lr_max).astype(np.float32)
+        self.twin[children] = -1
         self.births += children.size
         return children.size
 

@@ -75,11 +75,16 @@ def measure_b(job):
             state["min_after_switch"] = p if m is None else min(m, p)
         if e.tick % SAMPLE_EVERY == 0:
             st = e.stats()
-            curve.append(dict(
+            point = dict(
                 tick=e.tick, pop=p,
                 lr_median=st["taste_lr_median"], lr_mean=st["taste_lr_mean"],
                 taste_g=st["taste_g_mean"], taste=st["taste_mean"],
-                acc=st["eat_accuracy"], switches=st["switches"]))
+                acc=st["eat_accuracy"], switches=st["switches"])
+            if cfg.marker_gene:
+                # 13.10.2026 (ИДЕИ §2.5, B2): маркер и отношение lr/marker на том же тике
+                point.update(marker_median=st["marker_median"],
+                             lr_over_marker=st["lr_over_marker_median"])
+            curve.append(point)
             e.eat_good = e.eat_bad = 0        # точность в кривой — по окну
 
     warm = min(cfg.switch_from_tick, ticks)
@@ -91,6 +96,16 @@ def measure_b(job):
     ids = eng.pop.ids()
     life = float(np.median(eng.pop.lifespans)) if eng.pop.lifespans else None
     lr = eng.pop.taste_lr[ids] if ids.size else np.zeros(0)
+    extra = {}
+    if cfg.marker_gene:
+        # 13.10.2026 (ИДЕИ §2.5, B2): нейтральный маркер в конце прогона
+        m = eng.pop.marker[ids] if ids.size else np.zeros(0)
+        extra = dict(marker_median=st["marker_median"], marker_q25=st["marker_q25"],
+                     marker_q75=st["marker_q75"],
+                     lr_over_marker_median=st["lr_over_marker_median"],
+                     marker_init=cfg.marker_init,
+                     lr_at_ceiling=(float((lr >= cfg.taste_lr_max * 0.99).mean()) if lr.size else None),
+                     marker_at_ceiling=(float((m >= cfg.taste_lr_max * 0.99).mean()) if m.size else None))
     return dict(
         key=job["key"], label=job["label"], seed=cfg.seed,
         switch_mean=cfg.switch_mean, learning=cfg.taste_learning,
@@ -107,4 +122,5 @@ def measure_b(job):
         age_curve=eng.age_curve(),
         recovery=eng.recovery_curve(),
         curve=curve,
+        **extra,
     )

@@ -93,6 +93,8 @@ def _measure_inner(job):
     eng.reset_metrics()
     if track:
         eng.reset_individual()                               # только измерительное окно
+    if cfg.shock_every > 0:
+        eng.shock_enabled = True                             # шок-проба только в окне (13.10.2026)
 
     measure_ticks = ticks - warm
     block_mis = []
@@ -150,6 +152,18 @@ def _measure_inner(job):
         row["within_sd"] = wa.get("sd")
         row["within_median"] = wa.get("median")
         row["within_n_agents"] = wa.get("n_agents")
+        # 13.10.2026 (ИДЕИ_2026-10-13.md §5.1): та же метрика при двух явных
+        # порогах. within_mi выше сохранён как был (действующий порог 1000).
+        for thr in (200, 1000):
+            at = metrics.within_agent_dependence_at(eng, thr)
+            row[f"within_mi_{thr}"] = at.get("mean_mi_bits")
+            row[f"within_n_{thr}"] = at.get("n_agents")
+    # 13.10.2026 (§5.3): в режиме neighbour доля агент-тиков с настоящим соседом
+    row["intero_mode"] = cfg.intero_mode if cfg.interoception else "off"
+    nr, ns = eng.neigh_real, eng.neigh_sub
+    row["neighbour_real_fraction"] = (nr / (nr + ns)) if (nr + ns) else None
+    # 13.10.2026 (§2.2): сводка шок-пробы, если она была включена
+    row["shock"] = eng.shock_summary()
     return row
 
 
@@ -333,8 +347,15 @@ def cmd_noise(args):
 
 
 def cmd_compare(args):
-    """Главный эксперимент: четыре условия на одних и тех же seed'ах."""
-    conds = ["self", "shuffled", "neighbour", "off"]
+    """Главный эксперимент: четыре условия на одних и тех же seed'ах.
+
+    --conds (13.10.2026) задаёт другой набор, например для A2:
+    --conds self,shuffled,twin,constant. Контролем в парных сравнениях
+    остаётся shuffled, поэтому он обязан быть в списке.
+    """
+    conds = [c.strip() for c in (args.conds or "self,shuffled,neighbour,off").split(",") if c.strip()]
+    if "shuffled" not in conds:
+        raise SystemExit("--conds: контроль shuffled обязателен")
     jobs = []
     for s in range(1, args.seeds + 1):
         for c in conds:
@@ -370,7 +391,7 @@ def cmd_compare(args):
           f"{metric_key}):")
     # общие валидные seed'ы для парности
     base_by_seed = {r["seed"]: r.get(metric_key) for r in valid["shuffled"]}
-    for c in ("self", "neighbour", "off"):
+    for c in [c for c in conds if c != "shuffled"]:
         pairs = [(r.get(metric_key), base_by_seed[r["seed"]])
                  for r in valid[c] if r["seed"] in base_by_seed]
         vals = [p[0] for p in pairs]
@@ -394,6 +415,9 @@ def main():
     p.add_argument("--track", action="store_true",
                    help="track_individual: считать и внутриагентную метрику")
     p.add_argument("--out", default=None)
+    p.add_argument("--conds", default=None,
+                   help="compare: список условий через запятую (по умолчанию "
+                        "self,shuffled,neighbour,off; для A2 self,shuffled,twin,constant)")
     args = p.parse_args()
     args.workers = args.workers or None
     if args.out is None:

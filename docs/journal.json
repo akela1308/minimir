@@ -72,8 +72,8 @@
   20,
   40
  ],
- "built_at": "2026-10-07T21:50:23Z",
- "commit": "b1555bd",
+ "built_at": "2026-10-13T01:28:21Z",
+ "commit": "0599387",
  "population_metric": {
   "metric": "mi",
   "n_seeds": 56,
@@ -142,6 +142,11 @@
     "confirmed": false
    }
   }
+ },
+ "thresholds": {
+  "n_rows": 0,
+  "at_200": null,
+  "at_1000": null
  },
  "curve": [
   {

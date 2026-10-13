@@ -80,6 +80,25 @@ class Engine:
         self.since_bad = np.zeros((2, SINCE_BINS), dtype=np.int64)
         self.age_good = np.zeros(len(AGE_EDGES) - 1, dtype=np.int64)
         self.age_bad = np.zeros(len(AGE_EDGES) - 1, dtype=np.int64)
+        # 13.10.2026 (ИДЕИ_2026-10-13.md §5.3): в режиме neighbour считаем, на
+        # скольких агент-тиках на входах 8-9 стоял настоящий сосед, а на скольких
+        # подмена случайным агентом (соседа в радиусе 2 не было)
+        self.neigh_real = 0
+        self.neigh_sub = 0
+        # 13.10.2026 (ИДЕИ_2026-10-13.md §2.2): шок-проба. Отдельный генератор,
+        # чтобы основной поток случайных чисел не зависел от того, включён ли шок.
+        self.shock_enabled = False
+        self._shock_rng = (np.random.default_rng(cfg.seed * 104729 + 31)
+                           if cfg.shock_every > 0 else None)
+        self.shock_group = np.zeros(cfg.max_pop, dtype=np.int8)     # 0 нет, 1 удар, 2 контроль
+        self.shock_t0 = np.full(cfg.max_pop, -1, dtype=np.int64)
+        self.shock_birth = np.full(cfg.max_pop, -1, dtype=np.int64)
+        self.shock_left = np.zeros(cfg.max_pop, dtype=np.float32)   # остаток медленного удара
+        self.shock_hist = np.zeros((2, N_ACTIONS), dtype=np.int64)  # действия в окне после удара
+        self.shock_n = np.zeros(2, dtype=np.int64)                  # сколько агентов попало в группы
+        self.shock_alive = np.zeros(2, dtype=np.int64)              # сколько дожили до проверки
+        self.shock_checked = np.zeros(2, dtype=np.int64)            # у скольких проверка состоялась
+        self.shock_events = 0
 
     @property
     def social_active(self) -> bool:
@@ -102,6 +121,12 @@ class Engine:
         self.since_bad[:] = 0
         self.age_good[:] = 0
         self.age_bad[:] = 0
+        self.neigh_real = self.neigh_sub = 0
+        self.shock_hist[:] = 0
+        self.shock_n[:] = 0
+        self.shock_alive[:] = 0
+        self.shock_checked[:] = 0
+        self.shock_events = 0
 
     def reset_individual(self):
         """Обнулить индивидуальные накопители на старте измерительного окна.
@@ -231,6 +256,11 @@ class Engine:
             return e[idx], de[idx]
         if mode == "neighbour":
             has = partner >= 0
+            # 13.10.2026 (§5.3): доля настоящих соседей против подмены. Пишется в
+            # строку результата как neighbour_real_fraction.
+            nreal = int(has.sum())
+            self.neigh_real += nreal
+            self.neigh_sub += k - nreal
             src = np.where(has, partner, ids)
             e_n = (pop.E[src] / cfg.e_max).astype(np.float32)
             de_n = np.clip((pop.E[src] - pop.E_lag[src]) / 5.0, -1.0, 1.0).astype(np.float32)
@@ -241,6 +271,35 @@ class Engine:
                 e_n = np.where(has, e_n, e[idx])
                 de_n = np.where(has, de_n, de[idx])
             return e_n.astype(np.float32), de_n.astype(np.float32)
+        if mode == "constant":
+            # 13.10.2026 (§2.1): ненулевой вход без информации и без шума.
+            # Отличие от off (нули) проверяет, важен ли сам факт ненулевого входа;
+            # отличие от shuffled проверяет, вредит ли агенту прыгающий сигнал.
+            return (np.full(k, cfg.intero_const, dtype=np.float32), zeros)
+        if mode == "twin":
+            # 13.10.2026 (§2.1): настоящая траектория случайного живого близнеца.
+            # Близнец назначается при первом же обращении после рождения и
+            # переназначается, когда умирает (или если это сам агент).
+            if k < 2:
+                return zeros, zeros
+            tw = pop.twin[ids]
+            bad = (tw < 0) | (tw == ids)
+            okm = ~bad
+            if okm.any():
+                bad[okm] = ~pop.alive[tw[okm]]
+            if bad.any():
+                nb = int(bad.sum())
+                pick = ids[self.rng.integers(0, k, nb)]
+                same = pick == ids[bad]
+                if same.any():
+                    # случайно выпал сам агент: берём следующего по списку живых
+                    pos = np.searchsorted(ids, pick[same])
+                    pick[same] = ids[(pos + 1) % k]
+                pop.twin[ids[bad]] = pick
+                tw = pop.twin[ids]
+            e_t = (pop.E[tw] / cfg.e_max).astype(np.float32)
+            de_t = np.clip((pop.E[tw] - pop.E_lag[tw]) / 5.0, -1.0, 1.0).astype(np.float32)
+            return e_t, de_t
         raise ValueError(f"неизвестный intero_mode: {mode}")
 
     def _sense_signs(self, ids, X):
@@ -469,6 +528,86 @@ class Engine:
         self.pop.mem_valid[who, p] = True
         self.pop.mem_ptr[who] = (p + 1) % K
 
+    # ------------------------------------------------------------------ шок-проба
+    def _shock_step(self, ids, act):
+        """Экзогенный удар по энергии как событие (13.10.2026, ИДЕИ §2.2).
+
+        Вызывается после _apply (энергия за тик уже списана) и до cull.
+        Порядок внутри тика: (1) накопить действия этого тика у агентов,
+        находящихся в окне после удара; (2) проверить выживание у тех, у кого
+        подошёл срок; (3) продолжить медленные удары; (4) если тик кратен
+        shock_every, выбрать новые группы и нанести удар.
+        """
+        cfg, pop = self.cfg, self.pop
+        t = self.tick
+        grp = self.shock_group[ids]
+        inwin = (grp > 0) & (t - self.shock_t0[ids] < cfg.shock_window) \
+            & (pop.birth_tick[ids] == self.shock_birth[ids])
+        if inwin.any():
+            np.add.at(self.shock_hist, (grp[inwin].astype(np.int64) - 1, act[inwin]), 1)
+        # проверка выживания: по всем слотам с группой, не только по живым
+        due = np.flatnonzero((self.shock_group > 0)
+                             & (self.shock_t0 + cfg.shock_survival_ticks == t))
+        if due.size:
+            g = self.shock_group[due].astype(np.int64) - 1
+            alive_same = pop.alive[due] & (pop.birth_tick[due] == self.shock_birth[due])
+            np.add.at(self.shock_checked, g, 1)
+            np.add.at(self.shock_alive, g[alive_same], 1)
+            self.shock_group[due] = 0
+            self.shock_t0[due] = -1
+            self.shock_left[due] = 0.0
+        # медленный удар: порциями
+        if cfg.shock_mode == "slow":
+            slow = np.flatnonzero((self.shock_left[ids] > 0) & pop.alive[ids])
+            if slow.size:
+                s = ids[slow]
+                portion = np.minimum(self.shock_left[s],
+                                     np.float32(cfg.shock_amount / cfg.shock_slow_ticks))
+                pop.E[s] -= portion
+                self.shock_left[s] -= portion
+        # новый удар
+        if cfg.shock_every > 0 and t % cfg.shock_every == 0:
+            free = (self.shock_group[ids] == 0) & (pop.E[ids] > cfg.shock_min_energy)
+            elig = ids[free]
+            n_sh = int(round(cfg.shock_frac * elig.size))
+            if n_sh >= 1 and elig.size >= 2 * n_sh:
+                perm = self._shock_rng.permutation(elig.size)
+                shocked = elig[perm[:n_sh]]
+                control = elig[perm[n_sh:2 * n_sh]]
+                for g, sub in ((1, shocked), (2, control)):
+                    self.shock_group[sub] = g
+                    self.shock_t0[sub] = t
+                    self.shock_birth[sub] = pop.birth_tick[sub]
+                    self.shock_n[g - 1] += sub.size
+                if cfg.shock_mode == "abrupt":
+                    pop.E[shocked] -= np.float32(cfg.shock_amount)
+                elif cfg.shock_mode == "slow":
+                    self.shock_left[shocked] = np.float32(cfg.shock_amount)
+                # sham: группы выбраны, энергия не тронута
+                np.clip(pop.E, -1.0, cfg.e_max, out=pop.E)
+                self.shock_events += 1
+
+    def shock_summary(self):
+        """Сводка шок-пробы: доля добывающих действий и выживаемость по группам."""
+        if self._shock_rng is None:
+            return None
+        out = dict(events=int(self.shock_events), mode=self.cfg.shock_mode,
+                   n_shocked=int(self.shock_n[0]), n_control=int(self.shock_n[1]))
+        for g, name in ((0, "shocked"), (1, "control")):
+            tot = int(self.shock_hist[g].sum())
+            forage = int(self.shock_hist[g, A_FORWARD] + self.shock_hist[g, A_EAT])
+            out[f"forage_{name}"] = (forage / tot) if tot else None
+            out[f"eat_{name}"] = (int(self.shock_hist[g, A_EAT]) / tot) if tot else None
+            out[f"samples_{name}"] = tot
+            chk = int(self.shock_checked[g])
+            out[f"survival_{name}"] = (int(self.shock_alive[g]) / chk) if chk else None
+            out[f"checked_{name}"] = chk
+        fs, fc = out["forage_shocked"], out["forage_control"]
+        out["forage_response"] = (fs - fc) if (fs is not None and fc is not None) else None
+        ss, sc = out["survival_shocked"], out["survival_control"]
+        out["survival_response"] = (ss - sc) if (ss is not None and sc is not None) else None
+        return out
+
     # ------------------------------------------------------------------ тик
     def step(self):
         pop = self.pop
@@ -541,6 +680,8 @@ class Engine:
             upd = pop.taste_lr[ids] * mod * self._taste_pre * self._taste_post
             pop.taste[ids] = np.clip(pop.taste[ids] + upd,
                                      -self.cfg.taste_clip, self.cfg.taste_clip)
+        if self.shock_enabled and self._shock_rng is not None:
+            self._shock_step(ids, act)
         if self.cfg.hebbian and self.tick % self.cfg.hebb_every == 0:
             mod = np.ones(ids.size, dtype=np.float32)
             if self.cfg.hebb_modulated:
@@ -589,7 +730,24 @@ class Engine:
             taste_lr_mean=float(self.pop.taste_lr[ids].mean()) if (n and self.cfg.taste) else None,
             taste_lr_median=float(np.median(self.pop.taste_lr[ids])) if (n and self.cfg.taste) else None,
             switches=len(self.world.switches),
+            **self._marker_stats(ids),
         )
+
+    def _marker_stats(self, ids):
+        """Нейтральный маркерный ген (13.10.2026, ИДЕИ §2.5): медиана, квартили
+        и медиана log10(lr / marker) по живым агентам с положительными обоими."""
+        if not self.cfg.marker_gene or ids.size == 0:
+            return dict(marker_median=None, marker_q25=None, marker_q75=None,
+                        lr_over_marker_median=None)
+        m = self.pop.marker[ids]
+        out = dict(marker_median=float(np.median(m)),
+                   marker_q25=float(np.percentile(m, 25)),
+                   marker_q75=float(np.percentile(m, 75)))
+        lr = self.pop.taste_lr[ids]
+        ok = (lr > 0) & (m > 0)
+        out["lr_over_marker_median"] = (float(10 ** np.median(np.log10(lr[ok] / m[ok])))
+                                        if ok.any() else None)
+        return out
 
     def recovery_curve(self):
         """Точность еды по корзинам тиков после смены правила, по когортам.
