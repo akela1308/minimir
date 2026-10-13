@@ -230,3 +230,46 @@ def test_marker_gene_off_leaves_protocol_b_bitwise():
     b = Engine(config_b(1, "life", marker_gene=False)); b.run(600)
     assert _state(a) == _state(b)
     assert a.stats()["marker_median"] is None
+
+
+# ------------------------------------------------------- постепенная смена правила
+def test_switch_ramp_off_is_bitwise_identical_to_b1():
+    a = Engine(config_b(1, "life")); a.run(6500)
+    b = Engine(config_b(1, "life", switch_ramp_ticks=0)); b.run(6500)
+    assert _state(a) == _state(b)
+
+
+def test_switch_ramp_interpolates_factors():
+    cfg = config_b(1, "life", switch_ramp_ticks=100)
+    eng = Engine(cfg)
+    w = eng.world
+    tox = cfg.toxic_factor
+    # дойти до первой смены
+    while not w.switches:
+        assert eng.step(), "популяция вымерла до первой смены, тест не о том"
+    t_sw = w.switches[0]
+    yx_new = np.argwhere(w.food_type == w.good_type)[:5]          # новый съедобный
+    yx_old = np.argwhere(w.food_type != w.good_type)[:5]          # старый съедобный
+    f_new0 = w.energy_factor(yx_new[:, 0], yx_new[:, 1])
+    f_old0 = w.energy_factor(yx_old[:, 0], yx_old[:, 1])
+    # сразу после смены новый цвет ещё почти яд, старый почти еда
+    assert np.allclose(f_new0, tox, atol=0.06) and np.allclose(f_old0, 1.0, atol=0.06)
+    eng.run(50)
+    f_new = w.energy_factor(yx_new[:, 0], yx_new[:, 1])
+    assert tox < f_new[0] < 1.0                                   # на полпути
+    eng.run(60)
+    f_new1 = w.energy_factor(yx_new[:, 0], yx_new[:, 1])
+    f_old1 = w.energy_factor(yx_old[:, 0], yx_old[:, 1])
+    assert w.t - t_sw >= 100
+    assert np.allclose(f_new1, 1.0) and np.allclose(f_old1, tox)
+
+
+# ------------------------------------------------------- посев распределением скоростей
+def test_taste_lr_init_sigma_off_is_bitwise_and_on_spreads():
+    a = Engine(config_b(1, "never_frozen")); a.run(300)
+    b = Engine(config_b(1, "never_frozen", taste_lr_init_sigma=0.0)); b.run(300)
+    assert _state(a) == _state(b)
+    c = Engine(config_b(1, "never_frozen", taste_lr_init_sigma=1.0))
+    lr0 = c.pop.taste_lr[c.pop.ids()]
+    assert lr0.std() > 0 and abs(np.median(np.log10(lr0)) - np.log10(0.1)) < 0.25
+    assert np.all(lr0 <= c.cfg.taste_lr_max) and np.all(lr0 >= 0)

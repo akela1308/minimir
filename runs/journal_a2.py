@@ -157,8 +157,12 @@ def analyse_shock(rows, target):
                 if valid(r) and r["shock"].get(key) is not None}
 
     state["responses"] = {}
+    # 14.10.2026, по пилоту: доля добывающих действий у этих популяций около 0,99,
+    # запаса у неё нет; главная реакция теперь gap_closure (какая доля снятой
+    # энергии восстановлена к концу окна), рядом accuracy_response (точность шага
+    # к еде в окне), survival_response и старая forage_response для сопоставимости.
     for l in present:
-        for key in ("forage_response", "survival_response"):
+        for key in ("gap_closure", "accuracy_response", "survival_response", "forage_response", "energy_gap_end"):
             v = np.array(list(vals(l, key).values()), float)
             state["responses"][f"{l}:{key}"] = dict(
                 n=int(v.size), mean=float(v.mean()) if v.size else None,
@@ -180,20 +184,24 @@ def analyse_shock(rows, target):
 
     cmp = {}
     for m in MODES_2:
-        if f"self/{m}" in by and f"shuffled/{m}" in by:
-            cmp[f"self_vs_shuffled:{m}:forage"] = pair(f"self/{m}", f"shuffled/{m}", "forage_response")
-            cmp[f"self_vs_shuffled:{m}:survival"] = pair(f"self/{m}", f"shuffled/{m}", "survival_response")
-        if f"twin/{m}" in by and f"shuffled/{m}" in by:
-            cmp[f"twin_vs_shuffled:{m}:forage"] = pair(f"twin/{m}", f"shuffled/{m}", "forage_response")
+        for key, short in (("gap_closure", "gap"), ("accuracy_response", "accuracy"),
+                           ("survival_response", "survival"), ("forage_response", "forage")):
+            if f"self/{m}" in by and f"shuffled/{m}" in by:
+                cmp[f"self_vs_shuffled:{m}:{short}"] = pair(f"self/{m}", f"shuffled/{m}", key)
+            if f"twin/{m}" in by and f"shuffled/{m}" in by:
+                cmp[f"twin_vs_shuffled:{m}:{short}"] = pair(f"twin/{m}", f"shuffled/{m}", key)
     if "self/abrupt" in by and "self/slow" in by:
-        cmp["self:abrupt_vs_slow:forage"] = pair("self/abrupt", "self/slow", "forage_response")
+        cmp["self:abrupt_vs_slow:gap"] = pair("self/abrupt", "self/slow", "gap_closure")
+        cmp["self:abrupt_vs_slow:accuracy"] = pair("self/abrupt", "self/slow", "accuracy_response")
     state["comparisons"] = cmp
 
-    # вердикты части 2 (§6 черновика)
-    sham_ok = all(state["responses"].get(f"{c}/sham:forage_response", {}).get("within_2sd_of_zero", True)
-                  for c in CONDS_2 if f"{c}/sham" in by)
-    h4 = cmp.get("self_vs_shuffled:abrupt:forage", {}).get("confirmed", False)
-    self_pos = state["responses"].get("self/abrupt:forage_response", {})
+    # вердикты части 2 (§6 черновика): sham по energy_gap_end и accuracy_response
+    # должен быть неотличим от нуля; главная реакция gap_closure
+    sham_ok = all(state["responses"].get(f"{c}/sham:{k}", {}).get("within_2sd_of_zero", True)
+                  for c in CONDS_2 if f"{c}/sham" in by
+                  for k in ("energy_gap_end", "accuracy_response"))
+    h4 = cmp.get("self_vs_shuffled:abrupt:gap", {}).get("confirmed", False)
+    self_pos = state["responses"].get("self/abrupt:gap_closure", {})
     self_above_zero = bool(self_pos.get("mean") is not None and self_pos.get("sd") is not None
                            and self_pos["mean"] > 2 * self_pos["sd"] / math.sqrt(max(self_pos["n"], 1)))
     if not sham_ok:

@@ -78,6 +78,12 @@ class Population:
             self.taste_g[slots] = self.cfg.taste_init
             self.taste[slots] = self.cfg.taste_init
             self.taste_lr[slots] = self.cfg.taste_lr_init
+            if self.cfg.taste_lr_init_sigma > 0:
+                # посев распределением (14.10.2026); обращение к генератору только
+                # при включённой опции, иначе B1 воспроизводится бит в бит
+                spread = np.exp(self.rng.normal(0, self.cfg.taste_lr_init_sigma, len(slots)))
+                self.taste_lr[slots] = np.clip(self.cfg.taste_lr_init * spread,
+                                               0.0, self.cfg.taste_lr_max).astype(np.float32)
         if self.cfg.marker_gene:
             self.marker[slots] = self.cfg.marker_init
         self.twin[slots] = -1

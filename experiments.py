@@ -164,6 +164,19 @@ def _measure_inner(job):
     row["neighbour_real_fraction"] = (nr / (nr + ns)) if (nr + ns) else None
     # 13.10.2026 (§2.2): сводка шок-пробы, если она была включена
     row["shock"] = eng.shock_summary()
+    # 13.10.2026 (ИДЕИ §2.4, исследовательское): геном вместо поведения. Средний
+    # модуль наследуемых весов от входов 8-9 (энергия и производная) к скрытому
+    # слою по живым агентам, рядом тот же модуль для входов 0-7 (ресурс вокруг)
+    # как опорный уровень. Предсказание §2.4: в off веса дрейфуют (растут), в
+    # shuffled обрезаются к нулю, в self лепятся отбором.
+    ids = eng.pop.ids()
+    if ids.size:
+        G1 = eng.pop.brains.G1[ids]
+        row["w_in_energy_abs"] = float(np.abs(G1[:, 8:10, :]).mean())
+        row["w_in_resource_abs"] = float(np.abs(G1[:, 0:8, :]).mean())
+        row["w_in_energy_sign_agreement"] = float(np.abs(np.sign(G1[:, 8:10, :]).mean(axis=0)).mean())
+    else:
+        row["w_in_energy_abs"] = row["w_in_resource_abs"] = row["w_in_energy_sign_agreement"] = None
     return row
 
 

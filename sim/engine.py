@@ -99,6 +99,16 @@ class Engine:
         self.shock_alive = np.zeros(2, dtype=np.int64)              # сколько дожили до проверки
         self.shock_checked = np.zeros(2, dtype=np.int64)            # у скольких проверка состоялась
         self.shock_events = 0
+        # 14.10.2026, по пилоту: доля добывающих действий у этих популяций около 0,99,
+        # то есть у метрики нет запаса. Поэтому дополнительно: энергия обеих групп
+        # в конце окна (закрылся ли дефицит) и точность добычи (шаг в более богатую
+        # клетку) внутри окна.
+        self.shock_E_end = np.zeros(2, dtype=np.float64)
+        self.shock_E_end_n = np.zeros(2, dtype=np.int64)
+        self.shock_fwd_moves = np.zeros(2, dtype=np.int64)
+        self.shock_fwd_hits = np.zeros(2, dtype=np.int64)
+        self._fwd_ids = None
+        self._fwd_hit = None
 
     @property
     def social_active(self) -> bool:
@@ -127,6 +137,10 @@ class Engine:
         self.shock_alive[:] = 0
         self.shock_checked[:] = 0
         self.shock_events = 0
+        self.shock_E_end[:] = 0.0
+        self.shock_E_end_n[:] = 0
+        self.shock_fwd_moves[:] = 0
+        self.shock_fwd_hits[:] = 0
 
     def reset_individual(self):
         """Обнулить индивидуальные накопители на старте измерительного окна.
@@ -441,8 +455,13 @@ class Engine:
             here = w.resource[pop.y[sub], pop.x[sub]]
             self.forage_moves += sub.size
             self.forage_hits += int((ahead > here).sum())
+            # для шок-пробы (13.10.2026): кто шагнул и попал ли в более богатую клетку
+            self._fwd_ids = sub
+            self._fwd_hit = ahead > here
             pop.y[sub], pop.x[sub] = ny, nx
             cost[m] += cfg.move_cost
+        else:
+            self._fwd_ids = None
 
         # еда
         m = act == A_EAT
@@ -457,8 +476,13 @@ class Engine:
                 factor = w.energy_factor(cell_y, cell_x)
                 pop.E[sub] += take * cfg.energy_per_resource * factor
                 bite = take > 0.01                       # пустую клетку не считаем
-                good = bite & (factor > 0)
-                bad = bite & (factor <= 0)
+                # «правильный» укус определяется действующим правилом (good_type),
+                # а не знаком множителя: при постепенной смене (switch_ramp_ticks)
+                # знак в переходном окне может ещё не совпадать с правилом. При
+                # мгновенной смене это ровно прежнее factor > 0.
+                is_good = w.food_type[cell_y, cell_x] == w.good_type
+                good = bite & is_good
+                bad = bite & ~is_good
                 self.eat_good += int(good.sum())
                 self.eat_bad += int(bad.sum())
                 ab = np.searchsorted(AGE_EDGES, pop.age[sub], side="right") - 1
@@ -544,7 +568,23 @@ class Engine:
         inwin = (grp > 0) & (t - self.shock_t0[ids] < cfg.shock_window) \
             & (pop.birth_tick[ids] == self.shock_birth[ids])
         if inwin.any():
-            np.add.at(self.shock_hist, (grp[inwin].astype(np.int64) - 1, act[inwin]), 1)
+            g_in = grp[inwin].astype(np.int64) - 1
+            np.add.at(self.shock_hist, (g_in, act[inwin]), 1)
+            # энергия в последний тик окна: дефицит ударенных против контроля
+            at_end = inwin & (t - self.shock_t0[ids] == cfg.shock_window - 1)
+            if at_end.any():
+                g_end = grp[at_end].astype(np.int64) - 1
+                np.add.at(self.shock_E_end, g_end, pop.E[ids[at_end]].astype(np.float64))
+                np.add.at(self.shock_E_end_n, g_end, 1)
+            # точность добычи внутри окна: шаг вперёд в более богатую клетку
+            if self._fwd_ids is not None and self._fwd_ids.size:
+                fg = self.shock_group[self._fwd_ids]
+                fwin = (fg > 0) & (t - self.shock_t0[self._fwd_ids] < cfg.shock_window) \
+                    & (pop.birth_tick[self._fwd_ids] == self.shock_birth[self._fwd_ids])
+                if fwin.any():
+                    gf = fg[fwin].astype(np.int64) - 1
+                    np.add.at(self.shock_fwd_moves, gf, 1)
+                    np.add.at(self.shock_fwd_hits, gf[self._fwd_hit[fwin]], 1)
         # проверка выживания: по всем слотам с группой, не только по живым
         due = np.flatnonzero((self.shock_group > 0)
                              & (self.shock_t0 + cfg.shock_survival_ticks == t))
@@ -606,6 +646,20 @@ class Engine:
         out["forage_response"] = (fs - fc) if (fs is not None and fc is not None) else None
         ss, sc = out["survival_shocked"], out["survival_control"]
         out["survival_response"] = (ss - sc) if (ss is not None and sc is not None) else None
+        # 14.10.2026: дефицит энергии в конце окна и точность добычи
+        for g, name in ((0, "shocked"), (1, "control")):
+            n = int(self.shock_E_end_n[g])
+            out[f"energy_end_{name}"] = (float(self.shock_E_end[g] / n) if n else None)
+            mv = int(self.shock_fwd_moves[g])
+            out[f"accuracy_{name}"] = (int(self.shock_fwd_hits[g]) / mv) if mv else None
+            out[f"moves_{name}"] = mv
+        es, ec = out["energy_end_shocked"], out["energy_end_control"]
+        out["energy_gap_end"] = (ec - es) if (es is not None and ec is not None) else None
+        # доля восстановленного дефицита: 1 = ударенные догнали контроль к концу окна
+        out["gap_closure"] = ((1.0 - out["energy_gap_end"] / self.cfg.shock_amount)
+                              if (out["energy_gap_end"] is not None and self.cfg.shock_mode != "sham") else None)
+        a_s, a_c = out["accuracy_shocked"], out["accuracy_control"]
+        out["accuracy_response"] = (a_s - a_c) if (a_s is not None and a_c is not None) else None
         return out
 
     # ------------------------------------------------------------------ тик

@@ -32,7 +32,12 @@ WORLD_B2 = dict(WORLD_B,
                 # или постепенную смену правила (в движке её пока нет)
                 toxic_factor=WORLD_B["toxic_factor"],
                 # TODO: taste_lr_max 4.0 цензурировал эффект в B1 (§5.7)
-                taste_lr_max=4.0)
+                taste_lr_max=4.0,
+                # TODO (решение владельца): постепенная смена правила, тиков на
+                # переход (Config.switch_ramp_ticks, реализовано 13.10.2026);
+                # 0 = мгновенно, как в B1. Пилот на seed'ах 101-103: см.
+                # runs/b2/pilot/PILOT_2026-10-13.md
+                switch_ramp_ticks=0)
 
 
 def config_b2(seed, cond, **overrides):

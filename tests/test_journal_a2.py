@@ -60,7 +60,10 @@ def test_shock_complete_and_render(tmp_path):
     def sh(resp):
         return dict(events=100, mode="x", n_shocked=1000, n_control=1000,
                     forage_response=resp + rng.normal(0, 0.005),
-                    survival_response=resp / 2 + rng.normal(0, 0.005))
+                    survival_response=resp / 2 + rng.normal(0, 0.005),
+                    gap_closure=resp * 3 + rng.normal(0, 0.01),
+                    accuracy_response=resp / 4 + rng.normal(0, 0.005),
+                    energy_gap_end=(20 - resp * 60) + rng.normal(0, 0.2))
     rows = []
     for s in range(1, 7):
         for c in j.CONDS_2:

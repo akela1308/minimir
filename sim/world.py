@@ -75,12 +75,35 @@ class World:
         self.switches.append(self.t)
         self.last_switch = self.t
 
+    def ramp_progress(self):
+        """Доля завершённости постепенной смены: 1.0 = правило установилось.
+
+        13.10.2026 (Config.switch_ramp_ticks). При ramp = 0 всегда 1.0, и
+        energy_factor совпадает с прежним бит в бит.
+        """
+        ramp = self.cfg.switch_ramp_ticks
+        if ramp <= 0 or not self.switches:
+            return 1.0
+        return min(1.0, (self.t - self.last_switch) / float(ramp))
+
     def energy_factor(self, y, x):
-        """Множитель энергии за съеденное в клетках (y, x): 1 или toxic_factor."""
+        """Множитель энергии за съеденное в клетках (y, x): 1 или toxic_factor.
+
+        При постепенной смене (switch_ramp_ticks > 0) в первые ramp тиков после
+        смены множители едут линейно: новый съедобный цвет от toxic_factor к 1,
+        старый от 1 к toxic_factor. Съедобность по-прежнему определяется
+        good_type, то есть тем, куда правило идёт, а не где оно сейчас.
+        """
         if self.cfg.food_types != 2:
             return 1.0
         good = self.food_type[y, x] == self.good_type
-        return np.where(good, 1.0, self.cfg.toxic_factor).astype(np.float32)
+        tox = self.cfg.toxic_factor
+        p = self.ramp_progress()
+        if p >= 1.0:
+            return np.where(good, 1.0, tox).astype(np.float32)
+        f_good = tox + (1.0 - tox) * p          # новый съедобный: из яда в еду
+        f_bad = 1.0 + (tox - 1.0) * p           # старый съедобный: из еды в яд
+        return np.where(good, f_good, f_bad).astype(np.float32)
 
     def color(self, y, x):
         """Цвет клетки как сенсорный сигнал: -1 / +1. Не говорит, какой съедобен."""
