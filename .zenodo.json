@@ -1,0 +1,44 @@
+{
+  "title": "mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays",
+  "upload_type": "software",
+  "description": "<p>A small artificial-life world for preregistered experiments on the evolution of learning. Creatures on a 128 by 128 torus look for food, burn energy, reproduce and die; each is driven by a tiny neural network inherited with mutations. Protocol B asks whether selection switches on lifetime learning only when the environment changes its rules unpredictably. Six conditions ran on 40 identical seeds, 100,000 ticks each, 240 runs, accumulated automatically between 10 and 29 September 2026 under a preregistration frozen before the first run.</p><p>Main results: the declared failure boundary fired (32 of 40 treatment populations died at the first rule reversal), so the main comparison is void by the preregistered rules. The ablation was unambiguous: without lifetime learning all 40 worlds died, with it 8 survived (exact McNemar p = 0.0078). In the survivors the median learning rate rose 14.5-fold within a few hundred ticks of the first reversal and held for the remaining 90,000 ticks, while the inherited preference did not move and the learned preference reversed sign. This release contains the engine, the frozen preregistrations, the raw results (runs/daily/protocol_b.jsonl), the analysis scripts, the tests and the report in English (REPORT_B_EN.md) and Russian (REPORT_B.md).</p><p>Results page: https://minimir.ilinmaks.com/results-b.html</p>",
+  "creators": [
+    {
+      "name": "Ilin, Maksim",
+      "affiliation": "Independent researcher, Zagreb, Croatia"
+    }
+  ],
+  "keywords": [
+    "artificial life",
+    "evolution of learning",
+    "lifetime plasticity",
+    "preregistration",
+    "agent-based simulation",
+    "open science",
+    "neural networks",
+    "evolutionary simulation"
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "https://minimir.ilinmaks.com/results-b.html",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-report",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/akela1308/minimir",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.1371/journal.pcbi.1011840",
+      "relation": "references",
+      "resource_type": "publication-article",
+      "scheme": "doi"
+    }
+  ],
+  "notes": "Protocol B1-100k-v1 is closed. Nightly accumulation stops at seed 40. Protocol B2 will get its own preregistration and results file."
+}

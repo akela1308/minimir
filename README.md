@@ -1,304 +1,98 @@
-# Мини-мир
+# mini-world (minimir)
 
-**Живой сайт:** [живой эксперимент](https://akela1308.github.io/minimir/) ·
-[журнал наблюдений](https://akela1308.github.io/minimir/journal.html) ·
-[записанный прогон](https://akela1308.github.io/minimir/sim.html) ·
-[о проекте](https://akela1308.github.io/minimir/about.html)
-(GitHub Pages, ничего ставить не нужно, открывается у любого).
+A small artificial-life world for preregistered experiments on the evolution of learning. Creatures on a 128 by 128 torus look for food, burn energy, reproduce and die; each one is driven by a tiny neural network that passes to its offspring with mutations. No rewards, no goals. Every experiment has a control condition on the same seed, the same map and the same genome shape, and every hypothesis, criterion and failure boundary is frozen in a preregistration before the first run.
 
-## Что уже закрыто
+**Live site:** [live experiment](https://minimir.ilinmaks.com/) · [results of protocol B](https://minimir.ilinmaks.com/results-b.html) · [observation journal](https://minimir.ilinmaks.com/journal.html) · [about](https://minimir.ilinmaks.com/about.html). GitHub Pages, nothing to install.
 
-| эксперимент | протокол | вердикт | где разбор |
-|---|---|---|---|
-| 1. Интероцепция (`self` против `shuffled`) | A, 2 чтения пройдены | не подтверждено, сигнал внутри шума | `REPORT.md` |
-| 2. Когда выгодно учиться | B1-100k-v1, закрыт 7 октября 2026 | граница провала сработала (32 из 40 вымерли); абляция H-B4 подтверждена, p = 0,0078 | `REPORT_B.md`, [страница результатов](https://minimir.ilinmaks.com/results-b.html) |
+Russian version of this file: [README.ru.md](README.ru.md). Reports and preregistrations are in Russian unless marked otherwise; the results pages on the site are in English.
 
-Протокол B копится не больше: суточный прогон останавливается на сороковом
-seed'е. Подкручивать параметры B1 и пересчитывать те же данные нельзя, это
-была бы подгонка. Следующая версия мира получит свою предрегистрацию (B2),
-её набросок в `REPORT_B.md` §10. Тексты для публикации по итогам B лежат в
-`PUBLICATIONS/`.
+## What is closed
 
-Три разные вещи, которые легко перепутать:
+| experiment | protocol | verdict | where |
+| --- | --- | --- | --- |
+| 1. Interoception (`self` against `shuffled`) | A, two readings passed | not confirmed, the signal sits inside the noise | `REPORT.md` |
+| 2. When learning pays | B1-100k-v1, closed 7 October 2026 | the declared failure boundary fired (32 of 40 treatment worlds died at the first rule reversal); the ablation H-B4 confirmed, exact McNemar p = 0.0078 | `REPORT_B.md` (RU), `REPORT_B_EN.md` (EN), [results page](https://minimir.ilinmaks.com/results-b.html) |
 
-* **живой эксперимент** — мир считается в браузере читателя и умирает вместе
-  со вкладкой. Витрина метода, не источник чисел;
-* **записанный прогон** — точное воспроизведение одного сохранённого прогона,
-  конечное и зацикленное;
-* **журнал наблюдений** — то, что копится по-настоящему. Раз в сутки GitHub
-  Actions прогоняет новые seed'ы главного сравнения, дописывает сырые числа
-  в репозиторий и пересобирает страницу. Ничей компьютер для этого включён
-  быть не должен.
+Protocol B in one table (40 seeds per condition, 100,000 ticks per run, 240 runs, accumulated automatically from 10 to 29 September 2026, no run failed):
 
+| condition | rule changes | learning | extinct | median tick of death | reversals before death |
+| --- | --- | --- | --- | --- | --- |
+| never | never | yes | 0 / 40 | none | none |
+| never_frozen | never | no | 0 / 40 | none | none |
+| slow | every ~5,000 ticks | yes | 30 / 40 | 10,741 | 1 |
+| life | every ~600 ticks | yes | 32 / 40 | 5,986 | 1 |
+| fast | every ~150 ticks | yes | 34 / 40 | 5,833 | 5 |
+| life_frozen | every ~600 ticks | no | 40 / 40 | 5,983 | 1 |
 
-Проверяемая гипотеза, а не «выращивание разума вообще»:
+Without lifetime learning not one world out of forty survived a change of the food rule. With it, eight did, and in those eight the median learning rate rose 14.5-fold within a few hundred ticks of the first reversal and stayed there for the remaining 90,000 ticks, while the inherited preference did not move at all. The main hypothesis is still not confirmed, by our own preregistered rules: the world was too harsh, and one of our criteria was built so that it grows with run length. Both errors are named in the report and fixed in protocol B2, not retroactively.
 
-> Если агент имеет доступ к сигналу о собственном состоянии и смерть необратима,
-> эволюция породит поведение, которое **зависит от внутреннего состояния** —
-> и которое дешевле объяснять через «он хочет есть», чем через механику.
+Protocol B1 accumulates no further; the nightly job stops at seed 40. Tuning B1 and recomputing the same data would be fitting. B2 gets its own preregistration (draft: `PREREGISTRATION_B2_черновик.md`, pilot: `runs/b2/pilot/`).
 
-Ключевое: у каждого эксперимента есть **контрольная группа** с тем же seed,
-той же картой и той же формой генома. Единственная разница — подменённый
-сенсор собственной энергии. Без контроля весь эксперимент был бы картинкой ни о чём.
+## Three things that are easy to confuse
 
-Точная формулировка гипотез и главной метрики — в `PREREGISTRATION.md`,
-обзор чужих работ и наших ошибок — в `PRIOR_WORK.md`, проект знакового
-слоя — в `STAGE3_DESIGN.md`.
+- **Live experiment**: the world runs in the reader's browser and dies with the tab. A showcase of the method, not a source of numbers.
+- **Recorded run**: an exact replay of one saved run, finite and looped.
+- **Observation journal**: what actually accumulates. Once a day GitHub Actions runs new seeds, appends raw numbers to the repository and rebuilds the page. Nobody's computer has to be on.
 
-## Визуализация
+## The hypothesis being tested
 
-`minimir_viewer.html` — самодостаточный веб-проигрыватель реального прогона
-(цвет агента = энергия, зелёное = еда, жёлтое = метки, живые графики
-популяции/энергии/MI/кооперации). Открой файл в браузере. Пересобрать под
-другой прогон: `python runs/record_run.py && python runs/build_viewer.py`.
+Not "growing a mind in general", but one testable claim per protocol. Protocol A:
 
-## Запуск
+> If an agent has access to a signal about its own state and death is irreversible, evolution will produce behaviour that depends on the internal state, and that is cheaper to explain by "it is hungry" than by mechanics.
+
+Protocol B, after Kozielska and Weissing (2024):
+
+> Selection switches on lifetime learning only where the world changes its rules unpredictably and faster than generations turn over.
+
+Exact wording of hypotheses and the main metric: `PREREGISTRATION.md` (A) and `PREREGISTRATION_B.md` (B). Prior work and our own mistakes: `PRIOR_WORK.md`. Design of the sign layer: `STAGE3_DESIGN.md`.
+
+## Run it
 
 ```bash
-python run.py smoke                      # 3000 тиков, проверка что мир живой
-python run.py paired  --ticks 200000     # интероцепция vs контроль, один seed
-python run.py social  --ticks 200000     # этап 1.5: дилемма из метаболизма
-python run.py solo    --ticks 200000 --ablate
-```
-
-Зависимости ядра: только `numpy`. Анализ дополнительно использует
-`scipy` и `matplotlib`, но работает и без них.
-
-Скорость по замеру `REPORT.md` 0.3: 380-600 тиков/с при рабочих популяциях
-(599 при pop < 250, 474 при 250-500, 381 при 500-750), то есть 200k тиков это
-6-9 минут на одном ядре. Прежняя оценка 800-1000 была завышена примерно вдвое
-(поправлено 13 октября 2026, `ИДЕИ_2026-10-13.md` §5.11).
-Режим `track_individual=True` заметно медленнее: индивидуальные гистограммы
-пока накапливаются питоновским циклом по агентам.
-
-```bash
-python experiments.py calibrate                        # кривая чувствительности метрики
-python experiments.py noise    --seeds 10              # межсидовый разброс
-python experiments.py compare  --seeds 20 --ticks 200000  # четыре условия, Уилкоксон
+pip install -r requirements.txt     # numpy for the engine; scipy, matplotlib, pytest for analysis and tests
+python run.py smoke                 # 3,000 ticks, checks the world is alive
+python run.py paired --ticks 200000 # interoception vs control, one seed
+python run.py social --ticks 200000 # stage 1.5: a dilemma built from metabolism
+python experiments.py compare --seeds 20 --ticks 200000   # four conditions, Wilcoxon
 python analyze.py list
-python analyze.py show 7
-python analyze.py plateau 7 --out runs/p.png
+pytest
 ```
 
-У `experiments.py` есть `--ticks`, `--seeds`, `--seed`, `--workers`, `--out`,
-`--track`. Результаты пишутся **инкрементально в JSONL** (по строке на прогон),
-серия **возобновляема** (повторный запуск пропускает уже посчитанные
-`(условие, seed)`), падение отдельного прогона не роняет серию (пишется
-`{"error": ...}`). `--workers` по умолчанию `cpu_count()-1`; `--track`
-включает `track_individual` и внутриагентную метрику. Файл по умолчанию —
-`runs/<mode>.jsonl`. Главная метрика считается блочным усреднением по блокам
-15 000 тиков (preregistration §4).
+Speed: 380 to 600 ticks per second at working population sizes, so 200,000 ticks take 6 to 9 minutes on one core. Results are written incrementally to JSONL (one line per run), series are resumable, and a failed run does not stop the series.
 
-## Что где
+## Where things are
 
-| файл | содержание |
-|---|---|
-| `sim/config.py` | все параметры + индексы действий и сенсоров |
-| `sim/world.py` | тор 128×128, пятнистая ёмкость, отрост, сезоны, `energy_budget()` |
-| `sim/brain.py` | геном = MLP 25→12→12, мутация при делении, `hebbian_update()` |
-| `sim/population.py` | слоты агентов, рождение, необратимая смерть, `lifespans` |
-| `sim/ancestry.py` | `find_viable_ancestor()`: отбор предка + кэш в `runs/ancestors/` |
-| `sim/engine.py` | тик: сенсоры → выбор → действия → метаболизм → отбор |
-| `sim/metrics.py` | метрики, проверяющие гипотезу |
-| `sim/policies.py` | рукописные политики для калибровки |
-| `sim/store.py` | SQLite + снапшоты геномов |
-| `run.py` | solo / paired / social / smoke |
-| `experiments.py` | калибровка, шум, сравнение условий, статистика |
-| `analyze.py` | чтение логов, проверка выхода на плато |
-| `runs/daily.py` | суточный прогон: добавляет новые seed'ы к A.5, пишет происхождение (дата, коммит, протокол) |
-| `runs/journal.py` | пересчёт по всему накопленному → `docs/journal.html`, `docs/journal.json`, `runs/daily/journal.jsonl` |
-| `.github/workflows/daily.yml` | расписание: прогон → журнал → коммит → публикация |
-| `PREREGISTRATION.md` | зафиксированный протокол |
+| file | contents |
+| --- | --- |
+| `sim/config.py` | all parameters plus indices of actions and sensors |
+| `sim/world.py` | torus 128 by 128, patchy capacity, regrowth, seasons, `energy_budget()` |
+| `sim/brain.py` | genome = MLP 25 to 12 to 12, mutation at division, `hebbian_update()` |
+| `sim/population.py` | agent slots, birth, irreversible death, `lifespans` |
+| `sim/ancestry.py` | `find_viable_ancestor()`: ancestor selection with a cache in `runs/ancestors/` |
+| `sim/engine.py` | one tick: sensors, choice, actions, metabolism, selection |
+| `sim/protocol_b.py` | world B: two colours of food, rule reversals, the plastic taste synapse |
+| `sim/metrics.py` | metrics that test the hypotheses |
+| `runs/daily_b.py`, `runs/journal_b.py` | the nightly protocol B run and the journal rebuild |
+| `runs/daily/protocol_b.jsonl` | raw results of protocol B, 240 lines |
+| `.github/workflows/daily.yml` | schedule: run, journal, commit, publish |
+| `PREREGISTRATION_B.md` | the frozen protocol B |
+| `REPORT_B.md`, `REPORT_B_EN.md` | the report on protocol B, Russian and English |
+| `PUBLICATIONS/` | texts about the results for LinkedIn, Medium, dev.to and Reddit |
 
-## Автономное накопление (журнал наблюдений)
+## Honest list of simplifications
 
-Главное ограничение блока A — не длина прогонов, а число seed'ов: парный
-сигнал `self` > `shuffled` значим (p=0.0005), но не превышает 2σ межсидового
-разброса, а предрегистрация требует обоих условий сразу. Ночная сессия дала
-12 seed'ов вместо 20 — упёрлись в двухъядерную машину.
+One grid, one metabolism, one brain size, one ancestor per seed. In protocol B a single synapse is plastic, so nothing generalises to a general learning rule. The browser version differs from the nightly run in four parameters listed on the front page. The full list is in `README.ru.md` and in the reports.
 
-Поэтому счёт вынесен на серверы GitHub и идёт сам:
+## How to cite
 
-```
-runs/daily.py     # +4 seed'а × 4 условия × 120k тиков, дописывает
-                  # runs/daily/compare_ext.jsonl (compare.jsonl заморожен)
-runs/journal.py   # пересчёт по 12 замороженным + всему накопленному
-```
+Ilin, M. (2026). mini-world: preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1 report, version 1.0. https://minimir.ilinmaks.com/results-b.html (a Zenodo DOI will be added with the first release)
 
-Длина 120k выбрана не «покороче», а чтобы новые прогоны были сопоставимы
-с уже имеющимися: смешивать в одном пуле разную длину нельзя.
+A `CITATION.cff` file is in the repository; GitHub shows it under "Cite this repository".
 
-**Про многократный подгляд.** Статистика пересчитывается после каждой порции,
-и это опасно: остановка «когда цифра понравилась» завышает долю ложных
-срабатываний. Поэтому подтверждающих чтения объявлено ровно два — на **20**
-seed'ах (объём предрегистрации по числу seed'ов) и на **40** (пункт 2а
-из `REPORT.md` §6). Всё между ними страница помечает как промежуточное
-и заявкой не считает.
+## Author
 
-Каждая строка результата несёт дату, короткий хеш коммита, протокол и seed —
-этих четырёх чисел достаточно, чтобы прогон воспроизвести.
+Maksim Ilin, AI engineer and AI consultant, Zagreb. https://www.ilinmaks.com · [about](https://www.ilinmaks.com/about/en)
 
-Однократный запуск руками: вкладка Actions → «суточный прогон» → Run workflow.
+## License
 
-## Принципиальные решения
-
-**Никакой fitness-функции.** Размножение — следствие поведения (накопил энергию —
-поделился), а не оценка сверху. Отбор идёт сам, как в Avida. Судьи нет.
-
-**Смерть необратима.** Слот освобождается, геном исчезает, респавна нет.
-Это пункт «необратимость» из нашего рецепта.
-
-**Форма генома постоянна во всех экспериментах.** 25 входов и 12 выходов всегда,
-включая социальные действия, репутационные входы и знаковый слой. Выключенные
-тумблеры маскируют их нулями. Так геномы из разных условий сравнимы напрямую.
-
-**Контроль — это подмена, а не зануление.** Зануление меняет одновременно
-информацию и статистику входа, поэтому основной контроль везде —
-перестановка или подмена с сохранением распределения (`intero_mode="shuffled"`,
-`sign_mode="shuffled"`). Условие `off` оставлено только для сравнения со старым
-плохим контролем.
-
-**Единый проверенный предок** (`ancestor_mode="clone"`). Мир заселяется
-мутантными копиями одного генома, который обязан доказать жизнеспособность
-в мини-симуляции: вырастить популяцию в 1,5 раза за 3000 тиков. Как рукописный
-`@ancestor` в Avida, проверенный на самокопирование.
-
-Две причины именно так, обе выяснены измерением. Первая: случайные основатели
-дают лотерею — треть seed'ов вымирала в первые 900 тиков. Вторая, важнее:
-расход генератора различается между условиями эксперимента, поэтому случайные
-основатели были бы разными, и мы сравнивали бы условия вместе с удачей
-основателей. Предок ищется отдельным генератором от seed'а и кэшируется
-в `runs/ancestors/seed{N}_h{n_hidden}_in{N_IN}_out{N_OUT}.npz`. Имя кэша
-содержит всю тройку формы генома (`N_IN`, `n_hidden`, `N_OUT`) и проверяется
-на совпадение формы при загрузке — раньше в имени не было `N_OUT`, и смена
-числа выходов молча подхватывала несовместимого предка.
-
-**Плотность регулируется физикой, а не константой.** Расход энергии растёт
-с числом соседей в радиусе 1 (`crowd_cost`). `max_pop` служит предохранителем
-и при расчётной ёмкости мира около 480 достигаться не должен; если достигнут,
-прогон исключается из анализа.
-
-**Сенсоры эгоцентричны.** 8 клеток вокруг повёрнуты по курсу агента, иначе
-направление взгляда не имело бы смысла.
-
-## Сенсоры (25 входов)
-
-Порядок задан `SENSOR_NAMES` в `sim/config.py`; он же — единственный
-источник истины.
-
-| # | сигнал |
-|---|---|
-| 0–7 | ресурс в 8 клетках вокруг, повёрнуто по курсу |
-| 8 | **собственная энергия / e_max** ← тумблер эксперимента `intero_mode` |
-| 9 | **производная энергии** (сглаживание ~10 тиков) ← тумблер |
-| 10 | возраст |
-| 11–12 | пеленг и близость ближайшего соседа |
-| 13 | bias |
-| 14–15 | собственная память с прошлого тика (рекуррентность) |
-| 16 | узнан ли партнёр (только при `social`) |
-| 17 | чем кончился прошлый контакт с ним: +1 дал / −1 отнял |
-| 18 | ресурс в клетке под собой |
-| 19–20 | содержание метки в клетке под собой (только при `signs`) |
-| 21–22 | содержание метки в клетке впереди |
-| 23 | метка под собой — моя ← тумблер `sign_mode` |
-| 24 | метка под собой — чужая, но автор знаком |
-
-## Действия и выходы (12)
-
-Восемь действий: `forward, left, right, eat, rest, give, take, mark`.
-Плюс два выхода памяти (возвращаются на входы 14–15) и два выхода
-содержания метки (пишутся в клетку действием `mark`).
-
-## Тумблеры условий
-
-| параметр | значения | смысл |
-|---|---|---|
-| `intero_mode` | `self` / `shuffled` / `neighbour` / `off` | что стоит на входах 8–9 |
-| `sign_mode` | `self` / `shuffled` / `others` / `off` | видит ли агент авторство меток |
-| `social` + `social_from_tick` | | дилемма открывается на выжившей популяции |
-| `signs`, `mark_cost`, `sign_decay` | | знаковый слой этапа 3 |
-| `hebbian`, `hebb_every`, `hebb_layers` | | пластичность внутри жизни |
-| `policy` | `evolved` / `threshold` / `random` / `mark_always` / `mark_when_hungry_follow_own` / `ignore_marks` | рукописные политики для калибровки (последние три — калибровка метрик знака, этап 3) |
-| `track_individual` | | копить гистограммы по каждому агенту |
-| `think_cost` | | стоимость мышления (из Polyworld), по умолчанию 0 |
-
-## Метрики
-
-- **`within_agent_dependence`** — главная по итогам обзора литературы.
-  I(энергия; действие), посчитанная внутри каждого агента за его жизнь
-  и затем усреднённая. Требует `track_individual=True`.
-- **`behaviour_depends_on_energy`** — популяционная версия того же.
-  Откалибрована, но занижает примерно вдвое: на коротком прогоне
-  0,072 против внутриагентных 0,166 ± 0,130. Переведена в исследовательские.
-- **`switch_point`** — при каком уровне сытости включается добыча еды.
-  Реактивное существо кормится у нуля, упреждающее — заранее.
-- **`energy_occupancy`** — сколько децилей энергии популяция реально занимает.
-  Диагностика слепоты прибора: метрика не может увидеть зависимость
-  за пределами занятого диапазона.
-- **`ablate_interoception`** — забираем сенсор у уже обученной популяции.
-  Падение выживаемости = мера того, насколько существо следит за собой.
-- **`ablate_recognition`** — без узнавания взаимность невозможна (предусловие Аксельрода).
-- **`hunger_vs_cooperation`** — меняется ли стратегия с сытостью.
-- **`within_agent_hunger_vs_cooperation`** — внутриагентная версия
-  hunger_vs_cooperation, закрывает confound `take`→энергия (блок B).
-- **`sign_metrics`** — метрики знакового слоя этапа 3: доля `MARK`,
-  `MI(состояние; содержание метки)`, свежесть читаемых своих меток,
-  доля прочтений собственных меток. Калибруются на рукописных политиках.
-- **`genome_diversity`**, **`action_profile`** — служебные.
-
-Калибровка популяционной метрики уже сделана: положительный контроль
-(`policy=threshold`, порог 40) даёт 0,586 бит, отрицательный (`policy=random`) — 0,0000.
-Внутриагентная версия пока не откалибрована — это первый пункт блока A задания.
-
-## Этап 1.5: дилемма из метаболизма
-
-Матрицы выигрышей нет. `give` стоит 8 энергии и даёт партнёру 12 (сумма
-положительная — поэтому кооперация вообще имеет смысл); `take` приносит 6
-и отнимает 10 (сумма отрицательная — конфликт разрушителен). Узнавание —
-через наследуемое «лицо» из 3 чисел и кольцевую память на 8 контактов.
-
-Тень будущего **не задаётся, а получается** из смертности и подвижности.
-Отсюда следующий эксперимент: свипом по `regrowth` проверить фазовый переход,
-предсказанный Requejo и Camacho, — при дефиците ресурса должны выживать
-безусловные кооператоры даже у агентов без узнавания (`recognition=False`).
-
-Важно: социальный слой включается только на выжившей популяции
-(`social_from_tick`). Если открыть его с нуля, половина стартовых геномов
-застревает на `give`/`take` и умирает, не научившись есть — это артефакт
-инициализации, а не результат.
-
-## Этап 3: знак
-
-Проектный документ — `STAGE3_DESIGN.md`. Механика в коде есть: поле знаков
-в клетках мира с затуханием `sign_decay`, авторство метки, действие `mark`
-стоимостью `mark_cost`, хеббовская пластичность с генетически закодированной
-скоростью обучения. Пилоты C.1-C.4 проведены в июле 2026 (`REPORT.md`, блок C):
-мир с метками и пластичностью жизнеспособен, отбор давит дорогое правило
-пластичности (поправка в `REPORT.md` от 7 октября сужает этот вывод), метки
-почти не ставятся, самонаправленное чтение метки врождённое, влияния на других
-нет. Полных прогонов этапа 3 не было; порядок работ в `CLAUDE_CODE_TASK.md`
-(поправлено 13 октября 2026, `ИДЕИ_2026-10-13.md` §5.11).
-
-## Известные упрощения (честный список)
-
-- В клетке может стоять несколько агентов; сетка занятости при коллизии
-  запоминает последнего, так что «ближайший сосед» иногда пропускается.
-- Расход ресурса при одновременной еде списывается через `np.add.at` —
-  клетку можно выесть глубже, чем в ней было, до последующего clip.
-- Память контактов при одновременных взаимодействиях перезаписывается
-  последним событием.
-- **Главный confound (закрыт):** доля кооперации по децилям энергии по всей
-  популяции обогащена «отнимающими» в верхних децилях, потому что `take`
-  сам поднимает энергию. Внутриагентная версия метрики
-  (`within_agent_hunger_vs_cooperation` в `metrics.py`) считает корреляцию
-  внутри каждого агента за его жизнь и усредняет — свойство индивида,
-  а не популяционного облака. Используется в блоке B.
-
-## Что уже измерено (не переоткрывать)
-
-- энергетический баланс мира: запас около 2,4× к стартовой популяции;
-- медиана жизни агента 880 тиков, 43% живут дольше 1000;
-- калибровка популяционной метрики: 0,586 бит на положительном контроле,
-  0,0000 на отрицательном;
-- внутриагентная метрика на коротком прогоне: 0,166 ± 0,130;
-- пластичность с `hebb_every=5, hebb_layers="w2"` стоит около 4% скорости.
+Code: MIT. Text of the reports, the preregistrations and the data in `runs/`: CC BY 4.0. See `LICENSE`.
