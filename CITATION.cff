@@ -10,8 +10,16 @@ authors:
 repository-code: "https://github.com/akela1308/minimir"
 url: "https://minimir.ilinmaks.com/"
 license: MIT
+doi: 10.5281/zenodo.23713553
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23713553
+    description: "Release v1.0-protocol-b"
+  - type: doi
+    value: 10.5281/zenodo.23713552
+    description: "All versions"
 version: "1.0-protocol-b"
-date-released: "2026-10-14"
+date-released: "2026-10-28"
 keywords:
   - artificial life
   - evolution of learning
@@ -28,4 +36,5 @@ preferred-citation:
   year: 2026
   month: 10
   version: "1.0"
+  doi: 10.5281/zenodo.23713553
   url: "https://minimir.ilinmaks.com/results-b.html"

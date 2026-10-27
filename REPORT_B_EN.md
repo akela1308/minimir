@@ -6,7 +6,7 @@ Maksim Ilin, independent researcher, Zagreb, Croatia. https://www.ilinmaks.com
 
 - Results page: https://minimir.ilinmaks.com/results-b.html
 - Code, data and the frozen preregistration: https://github.com/akela1308/minimir
-- DOI: to be minted on Zenodo with the first release of the repository
+- DOI: https://doi.org/10.5281/zenodo.23713553 (release v1.0-protocol-b, Zenodo; all versions: https://doi.org/10.5281/zenodo.23713552)
 
 ## Abstract
 
@@ -251,7 +251,7 @@ And a third thing we had not expected. In the unchanging world, learning did not
 
 ## How to cite
 
-Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0. https://minimir.ilinmaks.com/results-b.html (Zenodo DOI to follow)
+Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0. Zenodo. https://doi.org/10.5281/zenodo.23713553. Results page: https://minimir.ilinmaks.com/results-b.html
 
 ```
 @techreport{ilin2026minimir_b,
@@ -260,6 +260,7 @@ Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment 
   year    = {2026},
   month   = {10},
   version = {1.0},
+  doi     = {10.5281/zenodo.23713553},
   url     = {https://minimir.ilinmaks.com/results-b.html}
 }
 ```

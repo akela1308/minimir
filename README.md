@@ -1,5 +1,7 @@
 # mini-world (minimir)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23713553.svg)](https://doi.org/10.5281/zenodo.23713553)
+
 A small artificial-life world for preregistered experiments on the evolution of learning. Creatures on a 128 by 128 torus look for food, burn energy, reproduce and die; each one is driven by a tiny neural network that passes to its offspring with mutations. No rewards, no goals. Every experiment has a control condition on the same seed, the same map and the same genome shape, and every hypothesis, criterion and failure boundary is frozen in a preregistration before the first run.
 
 **Live site:** [live experiment](https://minimir.ilinmaks.com/) · [results of protocol B](https://minimir.ilinmaks.com/results-b.html) · [observation journal](https://minimir.ilinmaks.com/journal.html) · [about](https://minimir.ilinmaks.com/about.html). GitHub Pages, nothing to install.
@@ -85,7 +87,9 @@ One grid, one metabolism, one brain size, one ancestor per seed. In protocol B a
 
 ## How to cite
 
-Ilin, M. (2026). mini-world: preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1 report, version 1.0. https://minimir.ilinmaks.com/results-b.html (a Zenodo DOI will be added with the first release)
+Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0-protocol-b. Zenodo. https://doi.org/10.5281/zenodo.23713553
+
+The DOI above points to release v1.0-protocol-b. The DOI for all versions is 10.5281/zenodo.23713552. Results page: https://minimir.ilinmaks.com/results-b.html
 
 A `CITATION.cff` file is in the repository; GitHub shows it under "Cite this repository".
 

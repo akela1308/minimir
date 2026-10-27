@@ -6,6 +6,8 @@
 [о проекте](https://akela1308.github.io/minimir/about.html)
 (GitHub Pages, ничего ставить не нужно, открывается у любого).
 
+**DOI релиза v1.0-protocol-b:** [10.5281/zenodo.23713553](https://doi.org/10.5281/zenodo.23713553) (Zenodo, архив кода, данных и отчёта по протоколу B). Как цитировать: см. `CITATION.cff` и раздел How to cite в `README.md`.
+
 ## Что уже закрыто
 
 | эксперимент | протокол | вердикт | где разбор |
