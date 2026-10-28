@@ -20,6 +20,7 @@ seed'ов) и на 40 (пункт 2а из REPORT.md §6). Все прочие �
 """
 import json
 import math
+import os
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -39,7 +40,7 @@ OUT_HTML = ROOT / "docs" / "journal.html"
 
 CONDS = ["self", "shuffled", "neighbour", "off"]
 CHECKPOINTS = [20, 40]
-TARGET = 100                   # после 40 (оба чтения прошли) копится дальше раз в неделю
+TARGET = 56                    # накопление остановлено 13 октября 2026 на 56 seed'ах; шкала равна накопленному
 FROZEN_DATE = "2026-07-26"     # ночная сессия, из которой взяты первые 12 seed'ов
 METRIC = "within_mi"           # главная метрика: внутриагентная
 
@@ -169,7 +170,7 @@ def git_commit():
                                        cwd=ROOT, stderr=subprocess.DEVNULL
                                        ).decode().strip()
     except Exception:
-        return None
+        return os.environ.get("MINIMIR_COMMIT") or None
 
 
 # --------------------------------------------------------------- построение
@@ -250,6 +251,8 @@ def build():
 
     state_b = journal_b.build_state()
     html = render(state, state_b)
+    # таблицы в прокручиваемой обёртке, чтобы на узком экране страница не уезжала вбок
+    html = html.replace("<table>", '<div class="tw"><table>').replace("</table>", "</table></div>")
     with open(OUT_HTML, "w") as f:
         f.write(html)
     print(f"A: seed'ов {state['n_seeds']}/{TARGET}, вердикт {state['verdict']}")
@@ -260,12 +263,12 @@ def build():
 
 # ------------------------------------------------------------------ страница
 def fmt(x, digits=4):
-    return "—" if x is None else f"{x:.{digits}f}"
+    return "·" if x is None else f"{x:.{digits}f}"
 
 
 def fmt_p(p):
     if p is None:
-        return "—"
+        return "·"
     if p < 0.0001:
         return "&lt;0.0001"
     return f"{p:.4f}"
@@ -346,16 +349,24 @@ VERDICTS = {
     "confirmed": ("подтверждено",
                   "Разрыв между self и shuffled прошёл оба критерия сразу: "
                   "p&lt;0.01 по парному тесту И превышение 2σ межсидового шума."),
-    "signal_within_noise": ("не подтверждено, сигнал внутри шума",
+    "signal_within_noise": ("не подтверждено по объявленному критерию; парная разница "
+                            "есть, унаследована от основателей и убывает (ERRATUM §3)",
                             "Внутри каждого seed'а self стабильно выше контроля "
                             "(парный тест значим), но разрыв меньше 2σ разброса "
                             "между seed'ами. По объявленному двойному критерию "
-                            "это не заявка. Что это значит: парный эффект есть, "
-                            "но заявленный критерий 2σ сравнивал его с разбросом "
-                            "уровней self между seed'ами, а не с разбросом самих "
-                            "парных разниц; для парного дизайна это слишком "
-                            "строгая мерка. Критерий был объявлен заранее, поэтому "
-                            "вердикт не меняется (пометка 13 октября 2026)."),
+                            "это не заявка. Парная разница self минус shuffled "
+                            "статистически надёжна (6,4 стандартной ошибки, "
+                            "стандартизованный размер 0,87), но порог 2σ был задан в "
+                            "единицах разброса уровней между seed'ами, не уменьшается "
+                            "с ростом выборки и не мог быть пройден ни при каком числе "
+                            "seed'ов; для парного дизайна это слишком строгая мерка. "
+                            "Читать вердикт как «эффекта нет» нельзя. Отдельно: сигнал "
+                            "максимален у неэволюционировавших основателей и убывает по "
+                            "ходу прогона (0,0177 → 0,0073 по пяти блокам), то есть "
+                            "унаследован от случайной проводки предка; часть разницы "
+                            "вносит сам контроль shuffled как шум. Критерий был объявлен "
+                            "заранее, поэтому вердикт не меняется (пометка 13 октября "
+                            "2026, поправки 28 октября 2026, ERRATUM_2026-10-28.md §3)."),
     "not_distinguishable": ("неотличимо от контроля",
                             "Ни парный тест, ни размер разрыва не выделяют self "
                             "на фоне подменённого сигнала."),
@@ -395,13 +406,13 @@ def render(st, st_b):
 
     rows_j = ""
     for e in reversed(st["entries"]):
-        vl = VERDICTS.get(e.get("verdict", "nodata"), ("—", ""))[0]
+        vl = VERDICTS.get(e.get("verdict", "nodata"), ("·", ""))[0]
         seeds = e.get("seeds") or []
-        srange = (f"{min(seeds)}–{max(seeds)}" if len(seeds) > 1
-                  else (str(seeds[0]) if seeds else "—"))
+        srange = (f"{min(seeds)}-{max(seeds)}" if len(seeds) > 1
+                  else (str(seeds[0]) if seeds else "·"))
         rows_j += (
             f"<tr><td class=\"mono\">{e['date']}</td><td>{srange}</td>"
-            f"<td>{e.get('n_seeds', '—')}</td>"
+            f"<td>{e.get('n_seeds', '·')}</td>"
             f"<td>{fmt(e.get('mean_diff'))}</td><td>{fmt_p(e.get('p'))}</td>"
             f"<td>{fmt(e.get('two_sigma'))}</td><td>{vl}</td></tr>")
 
@@ -441,9 +452,8 @@ def render(st, st_b):
 <link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="site.css">
 <style>
-:root{{--ground:#0a0e11;--panel:#10161a;--hair:#1c262c;--ink:#e9f1f2;
-  --dim:#93a6ae;--faint:#5b6f77;--cyan:#46c6d0;--amber:#e8734a;--coop:#4fd08a;
-  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}}
+:root{{--ground:#0a0e11;--panel:#10161a;--ink:#e9f1f2;
+  --dim:#93a6ae;--cyan:#46c6d0;--amber:#e8734a;--coop:#4fd08a;}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:radial-gradient(1200px 700px at 70% -10%,#101a1f 0%,var(--ground) 55%);
   color:var(--ink);font-family:var(--mono);line-height:1.55;-webkit-font-smoothing:antialiased}}
@@ -490,6 +500,8 @@ h2{{font-family:var(--sans);letter-spacing:-.01em}}
 h2::before{{content:none}}
 table,th,td,.mono,.big,.cp,.cpl,.ax{{font-family:var(--mono)}}
 .card,.chart{{border-radius:2px}}
+.card{{display:block}}
+.tw{{margin:8px 0 0}} .tw table{{margin-top:0}} .tw th,.tw td{{white-space:nowrap}} .tw .dimtd{{white-space:normal;min-width:14em}}
 .exp{{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair)}}
 /* в общей системе стилей h2 уходит в левое поле по сетке секции; здесь
    заголовков в одной секции много, и сетку надо отключить, иначе они
@@ -507,29 +519,43 @@ section.exp>h2,section.exp>:not(h2){{grid-column:auto}}
   <div class="eyebrow">искусственная жизнь · журнал наблюдений</div>
   <h1>mini·world: что накопилось</h1>
   <nav style="margin-top:10px">
-    <a href="index.html">эксперимент 2: когда выгодно учиться</a>
-    <a href="interoception.html">эксперимент 1: интероцепция</a>
-    <a href="sim.html">записанный прогон</a>
-    <a href="results-b.html">результаты эксперимента 2</a>
-    <a href="notes.html">заметки</a>
-    <a href="about.html">о проекте</a>
-    <a href="https://github.com/akela1308/minimir">исходники</a>
+    <a href="index.html">эксперимент 2 / experiment 2</a>
+    <a href="interoception.html">эксперимент 1 / experiment 1</a>
+    <a href="sim.html">записанный прогон / recording</a>
+    <a href="results-b.html">результаты эксперимента 2 / results</a>
+    <a href="a2.html">протокол A2 / protocol A2</a>
+    <a href="b2.html">протокол B2 / protocol B2</a>
+    <a href="notes.html">заметки / notes</a>
+    <a href="about.html">о проекте / about</a>
+    <a href="https://github.com/akela1308/minimir">исходники / source</a>
   </nav>
 </header>
+
+<p class="muted" lang="en">This journal is generated in Russian from the raw run files.
+The English summary of experiment 2, with the corrections of 28 October 2026, is on
+<a href="results-b.html">the results page</a>; experiment 1 is summarised on
+<a href="learning.html">the note of 10 September</a>.</p>
+<p class="muted"><span lang="de">Dieses Journal wird auf Russisch erzeugt; die englische
+Zusammenfassung steht auf der <a href="results-b.html">Ergebnisseite</a>.</span>
+<span lang="es">Este diario se genera en ruso; el resumen en inglés está en la
+<a href="results-b.html">página de resultados</a>.</span>
+<span lang="zh">本日志以俄语生成；英文摘要见<a href="results-b.html">结果页</a>。</span></p>
 
 <p>Эта страница собирается машиной. На серверах GitHub запускается движок
 мира, добавляет новые независимые прогоны и пересчитывает статистику по
 всему накопленному. Никто при этом не должен сидеть с открытой вкладкой:
 живые эксперименты на <a href="index.html">главной</a> и на
 <a href="interoception.html">странице первого эксперимента</a> считаются у
-вас в браузере и исчезают вместе с ним, а здесь то, что остаётся. Сейчас
-два эксперимента идут параллельно: второй (главный) считается каждый день,
-первый, оба объявленных чтения которого уже прошли, продолжает копить
-seed'ы раз в неделю.</p>
+вас в браузере и исчезают вместе с ним, а здесь то, что остаётся. Оба
+протокола закрыты: B остановлен на 40 seed'ах 29 сентября 2026, A на 56
+seed'ах 13 октября 2026. Страница пересобирается, но новых прогонов не
+добавляет. Поправки от 28 октября 2026 к обоим отчётам:
+<a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md">ERRATUM_2026-10-28.md</a>.
+Черновики следующих протоколов: <a href="a2.html">A2</a> и <a href="b2.html">B2</a>.</p>
 
 <section class="exp" id="b" style="border-top:0;margin-top:26px;padding-top:0">
 <h2 class="title">Эксперимент 2: когда выгодно учиться</h2>
-<p class="sub">протокол {journal_b.PROTOCOL} · каждый день · с 9 сентября 2026</p>
+<p class="sub">протокол {journal_b.PROTOCOL} · 10-29 сентября 2026 · накопление остановлено</p>
 {section_b}
 </section>
 
@@ -537,7 +563,7 @@ seed'ы раз в неделю.</p>
 <h2 class="title">Эксперимент 1: интероцепция под одним отбором</h2>
 <p class="sub">протокол A5-120k-blockavg-v1 · с 26 июля 2026 · накопление остановлено 13 октября 2026</p>
 <div class="card">
-  <p class="big">{n} из {st['target']} seed'ов</p>
+  <p class="big">{n} из {st['target']} seed'ов{' (накопление остановлено)' if n >= st['target'] else ''}</p>
   <div class="bar"><i style="width:{pct}%"></i></div>
   <p class="muted">Главная метрика: внутриагентная взаимная информация между
   энергией и действием. Условия: <b>self</b> (агент видит свои энергию и
@@ -599,16 +625,19 @@ seed'ы раз в неделю.</p>
 (новые seed'ы) и
 <a href="https://github.com/akela1308/minimir/blob/main/runs/compare.jsonl">runs/compare.jsonl</a>
 (замороженные двенадцать из ночной сессии). Каждая строка несёт дату, хеш
-коммита и seed, любой прогон воспроизводится этими тремя числами.</p>
+коммита и seed, любой прогон воспроизводится этими тремя числами на той же
+машине; между машинами последний бит вещественной арифметики может
+разойтись, и у пограничных миров исход меняется (ERRATUM 1.12).</p>
 
 </section>
 
 <footer>
-Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> ·
-Собрано {st['built_at']} · код {st.get('commit') or '—'} ·
+Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-консультант, независимый исследователь · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> ·
+Собрано {st['built_at']} · код {st.get('commit') or '·'} ·
 протокол A5-120k-blockavg-v1 · метод и критерии,
 <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION.md">предрегистрация</a>,
 <a href="https://github.com/akela1308/minimir/blob/main/REPORT.md">отчёт ночной сессии</a>
+<span class="cite">Цитировать: Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0.1-protocol-b. Zenodo. <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.23713553</a> · Код и данные: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · Поправки: <a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md" target="_blank" rel="noopener">ERRATUM_2026-10-28.md</a> · Связь: <a href="https://github.com/akela1308/minimir/issues" target="_blank" rel="noopener">GitHub issues</a> или <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">www.ilinmaks.com</a></span>
 </footer>
 </div></body></html>
 '''

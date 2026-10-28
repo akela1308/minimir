@@ -6,14 +6,14 @@ A small artificial-life world for preregistered experiments on the evolution of 
 
 **Live site:** [live experiment](https://minimir.ilinmaks.com/) · [results of protocol B](https://minimir.ilinmaks.com/results-b.html) · [observation journal](https://minimir.ilinmaks.com/journal.html) · [about](https://minimir.ilinmaks.com/about.html). GitHub Pages, nothing to install.
 
-Russian version of this file: [README.ru.md](README.ru.md). Reports and preregistrations are in Russian unless marked otherwise; the results pages on the site are in English.
+Russian README with the engine details (an older, differently structured document): [README.ru.md](README.ru.md). Reports and preregistrations are in Russian unless marked otherwise; the site pages are in five languages (EN, RU, DE, ES, ZH).
 
 ## What is closed
 
 | experiment | protocol | verdict | where |
 | --- | --- | --- | --- |
-| 1. Interoception (`self` against `shuffled`) | A, two readings passed | not confirmed, the signal sits inside the noise | `REPORT.md` |
-| 2. When learning pays | B1-100k-v1, closed 7 October 2026 | the declared failure boundary fired (32 of 40 treatment worlds died at the first rule reversal); the ablation H-B4 confirmed, exact McNemar p = 0.0078 | `REPORT_B.md` (RU), `REPORT_B_EN.md` (EN), [results page](https://minimir.ilinmaks.com/results-b.html) |
+| 1. Interoception (`self` against `shuffled`) | A, two readings passed | not confirmed by the registered criterion; the paired difference is real but small, inherited from the founders and decaying over the run, and the threshold could not be met at any sample size (see `ERRATUM_2026-10-28.md` §3) | `REPORT.md` |
+| 2. When learning pays | B1-100k-v1, closed 7 October 2026 | the declared failure boundary fired (32 of 40 treatment worlds died at the first rule reversal); the ablation H-B4 confirmed, exact McNemar p = 0.0078, true by construction, see corrections | `REPORT_B.md` (RU), `REPORT_B_EN.md` (EN), [results page](https://minimir.ilinmaks.com/results-b.html) |
 
 Protocol B in one table (40 seeds per condition, 100,000 ticks per run, 240 runs, accumulated automatically from 10 to 29 September 2026, no run failed):
 
@@ -26,7 +26,9 @@ Protocol B in one table (40 seeds per condition, 100,000 ticks per run, 240 runs
 | fast | every ~150 ticks | yes | 34 / 40 | 5,833 | 5 |
 | life_frozen | every ~600 ticks | no | 40 / 40 | 5,983 | 1 |
 
-Without lifetime learning not one world out of forty survived a change of the food rule. With it, eight did, and in those eight the median learning rate rose 14.5-fold within a few hundred ticks of the first reversal and stayed there for the remaining 90,000 ticks, while the inherited preference did not move at all. The main hypothesis is still not confirmed, by our own preregistered rules: the world was too harsh, and one of our criteria was built so that it grows with run length. Both errors are named in the report and fixed in protocol B2, not retroactively.
+Corrections of 28 October 2026: `ERRATUM_2026-10-28.md` (included in release v1.0.1).
+
+Without lifetime learning not one world out of forty survived a change of the food rule, which the design made nearly certain (a frozen taste of +3 is lethal after a reversal). With it, eight did; each of the eight descends from one to four individuals that happened to carry a high learning rate at the switch (evolutionary rescue from standing variation). In those eight the learning rate went to the ceiling of its range within a few hundred ticks and stayed there, while the inherited preference did not move at all. The ratio to the stationary world (14.5 at tick 100,000) depends on the cap and on the tick, so it is not an effect size. Two pilot seeds (1 and 2) are in the confirmatory data against our own preregistration; without them McNemar gives p = 0.031. The main hypothesis is still not confirmed, by our own preregistered rules: the world was too harsh, and one of our criteria was built so that it grows with run length. Both errors are named in the report and fixed in protocol B2, not retroactively.
 
 Protocol B1 accumulates no further; the nightly job stops at seed 40. Tuning B1 and recomputing the same data would be fitting. B2 gets its own preregistration (draft: `PREREGISTRATION_B2_черновик.md`, pilot: `runs/b2/pilot/`).
 
@@ -81,21 +83,21 @@ Speed: 380 to 600 ticks per second at working population sizes, so 200,000 ticks
 | `REPORT_B.md`, `REPORT_B_EN.md` | the report on protocol B, Russian and English |
 | `PUBLICATIONS/` | texts about the results for LinkedIn, Medium, dev.to and Reddit |
 
-## Honest list of simplifications
+## Simplifications
 
-One grid, one metabolism, one brain size, one ancestor per seed. In protocol B a single synapse is plastic, so nothing generalises to a general learning rule. The browser version differs from the nightly run in four parameters listed on the front page. The full list is in `README.ru.md` and in the reports.
+One grid, one metabolism, one brain size, one ancestor per seed. In protocol B a single synapse is plastic, so nothing generalises to a general learning rule. The browser version differs from the nightly run in several parameters and two engine settings (general Hebbian plasticity and Lamarckian inheritance of learned weights are on in the browser engine and were never part of the measured protocols), listed on the front page. The full list is in `README.ru.md` and in the reports.
 
 ## How to cite
 
-Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0-protocol-b. Zenodo. https://doi.org/10.5281/zenodo.23713553
+Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0.1. Zenodo. https://doi.org/10.5281/zenodo.23713553. Results page: https://minimir.ilinmaks.com/results-b.html
 
-The DOI above points to release v1.0-protocol-b. The DOI for all versions is 10.5281/zenodo.23713552. Results page: https://minimir.ilinmaks.com/results-b.html
+The DOI above points to the release of the repository (software version 1.0.1-protocol-b; v1.0-protocol-b is the archived original, v1.0.1 adds the corrections file `ERRATUM_2026-10-28.md`). The DOI for all versions is 10.5281/zenodo.23713552.
 
-A `CITATION.cff` file is in the repository; GitHub shows it under "Cite this repository".
+A `CITATION.cff` file is in the repository; GitHub shows its preferred citation (the report above) under "Cite this repository".
 
 ## Author
 
-Maksim Ilin, AI engineer and AI consultant, Zagreb. https://www.ilinmaks.com · [about](https://www.ilinmaks.com/about/en)
+Maksim Ilin, AI consultant, independent researcher, Zagreb. https://www.ilinmaks.com · [about](https://www.ilinmaks.com/about/en)
 
 ## License
 

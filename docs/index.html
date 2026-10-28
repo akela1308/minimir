@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mini·world: when learning pays, live experiment</title>
-<meta name="description" content="A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?">
+<meta name="description" content="Live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule flips. Does selection turn lifetime learning on where the rules change?">
 <meta name="keywords" content="artificial life, ALife, evolutionary simulation, evolution of learning, Baldwin effect, lifetime plasticity, changing environment, Kozielska Weissing, agent-based model, preregistration, open research, live simulation, in-browser, мини-мир, искусственная жизнь">
 <meta name="author" content="Maksim Ilin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
@@ -13,16 +13,16 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mini-world">
 <meta property="og:title" content="mini·world: when learning pays, live experiment">
-<meta property="og:description" content="A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?">
+<meta property="og:description" content="Live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule flips. Does selection turn lifetime learning on where the rules change?">
 <meta property="og:url" content="https://minimir.ilinmaks.com/">
 <meta property="og:image" content="https://minimir.ilinmaks.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="mini·world: when learning pays, live experiment">
-<meta name="twitter:description" content="A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?">
+<meta name="twitter:description" content="Live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule flips. Does selection turn lifetime learning on where the rules change?">
 <meta name="twitter:image" content="https://minimir.ilinmaks.com/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"A live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule switches and one without. The only thing creatures can learn in a lifetime is taste, and the speed of that learning is a gene. Does selection turn learning on where the world keeps changing the rules, and off where it does not?","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, evolution of learning, Baldwin effect, lifetime plasticity, changing environment, Kozielska Weissing, agent-based model, preregistration, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI engineer and AI consultant","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing when selection favours lifetime learning.","url":"https://minimir.ilinmaks.com/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://minimir.ilinmaks.com/#website","name":"mini-world","alternateName":"мини-мир","url":"https://minimir.ilinmaks.com/","description":"Live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule flips. Does selection turn lifetime learning on where the rules change?","inLanguage":["en","ru","de","es","zh"],"keywords":"artificial life, ALife, evolutionary simulation, evolution of learning, Baldwin effect, lifetime plasticity, changing environment, Kozielska Weissing, agent-based model, preregistration, open research, live simulation, in-browser, мини-мир, искусственная жизнь","sameAs":["https://github.com/akela1308/minimir"],"author":{"@id":"https://minimir.ilinmaks.com/#author"}},{"@type":"Person","@id":"https://minimir.ilinmaks.com/#author","name":"Maksim Ilin","alternateName":"Максим Ильин","jobTitle":"AI consultant, independent researcher","url":"https://www.ilinmaks.com/","sameAs":["https://www.ilinmaks.com/","https://www.linkedin.com/in/ilinmaks/"]},{"@type":"SoftwareSourceCode","name":"mini-world","codeRepository":"https://github.com/akela1308/minimir","programmingLanguage":["Python","JavaScript"],"about":"Artificial-life engine testing when selection favours lifetime learning.","url":"https://minimir.ilinmaks.com/"}]}</script>
 </head>
 <body>
 <link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -180,7 +180,7 @@
     .zoombar button{padding:2px 5px;font-size:10px}
     .zoombar span{min-width:3ch;font-size:10px}
   }
-  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11px;color:var(--faint);
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 6px;font-size:11px;color:var(--faint);
     font-family:var(--mono);letter-spacing:.04em}
   .legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:-1px}
   .legend>span{min-width:0}
@@ -191,7 +191,12 @@
   .flash.on{opacity:1}
   .spark{display:block;width:100%;height:34px;margin-top:5px}
   .wlabel{gap:14px}
-  .wlabel span:last-child{text-align:right;white-space:nowrap}
+  .wlabel span:last-child{text-align:right;white-space:normal}
+  .result{flex-basis:100%;margin-top:14px;padding:12px 0 2px;border-top:1px solid var(--hair);
+    font-size:14px;color:var(--ink);line-height:1.55;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+  .result a{color:var(--cyan);text-decoration:none}
+  .result a.btn{color:var(--ground);padding:8px 14px;font-size:11px;flex:none}
+  .result a.btn:hover{color:var(--ground)}
   .links{color:var(--dim);font-size:13px;line-height:1.9;margin-top:14px}
   .links a{color:var(--cyan);text-decoration:none}
   .links a:hover{text-decoration:underline}
@@ -214,23 +219,24 @@
     </div>
     <h1 id="t_brand"></h1><span class="live-badge" id="t_live">live</span>
     <div class="lede" id="t_lede"></div>
+    <div class="result" id="t_result"></div>
   </header>
 
   <div class="stage">
     <div>
       <div class="worldwrap">
         <div class="wlabel"><span id="t_wswitch"></span><span id="hudS"></span></div>
+        <div class="legend" id="legend"></div>
         <div class="screen" id="screenS">
           <div class="zoombar" id="zoombar">
             <button data-z="-1" title="−">−</button><span id="zlevel">1.0×</span><button data-z="1" title="+">+</button>
             <button id="zfit"></button><button id="zfollow"></button>
           </div>
-          <canvas id="wS" width="512" height="512"></canvas>
+          <canvas id="wS" width="512" height="512" role="img" aria-label="changing world"></canvas>
           <div class="flash" id="flash"></div>
           <div class="splash" id="splash"></div>
         </div>
         <div class="zhint" id="zhint"></div>
-        <div class="legend" id="legend"></div>
       </div>
       <div class="transport">
         <button class="ctrlbtn" id="newbtn"></button>
@@ -245,13 +251,13 @@
     <div class="rail" id="rail">
       <div class="verdict">
         <div class="h" id="t_verdict_h"></div>
-        <div class="big" id="v_big">—</div>
+        <div class="big" id="v_big">·</div>
         <div class="sub" id="v_sub"></div>
         <div class="say wait" id="v_say"></div>
       </div>
       <div>
         <div class="wlabel"><span id="t_wstat"></span><span id="hudC"></span></div>
-        <div class="ctrlworld"><canvas id="wC" width="256" height="256"></canvas></div>
+        <div class="ctrlworld"><canvas id="wC" width="256" height="256" role="img" aria-label="stationary world"></canvas></div>
       </div>
       <div id="gauges"></div>
     </div>
@@ -277,9 +283,10 @@
 <script src="render.js"></script>
 <script>
 const I18N={
- en:{eye:"artificial life · experiment 2 · live",exp1:"experiment 1 ↗",results:"results ↗",journal:"journal ↗",agi:"notes ↗",about:"about ↗",live:"live",
+ en:{title:'mini·world: when learning pays, live experiment',desc:'Live artificial-life experiment in your browser: two worlds from one seed, one with unpredictable rule flips. Does selection turn lifetime learning on where the rules change?',result:'Result, 7 October 2026: 32 of 40 worlds died at the first rule flip; none survived without learning; corrections of 28 October 2026. DOI <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">10.5281/zenodo.23713553</a> <a class="btn" href="results-b.html">read the results</a>',
+  eye:"artificial life · experiment 2 · live",exp1:"experiment 1 ↗",results:"results ↗",journal:"journal ↗",agi:"notes ↗",about:"about ↗",live:"live",
   brand:'when learning <span class="dot">pays</span>',
-  lede:"Two worlds from one seed. In one the rule never changes: colour +1 is food, colour -1 is poison. In the other the rule flips at unpredictable moments, on average once per lifetime. The only thing the creatures can learn within a life is taste: which colour to eat. The speed of that learning is written in the genome. We watch whether selection switches it on where the world keeps changing the rules, and off where it does not.",
+  lede:"Two worlds from one seed. In one the rule never changes: colour +1 is food, colour -1 is poison. In the other the rule flips at unpredictable moments, on average once per lifetime. In the measured protocol the only thing the creatures could learn within a life was taste: which colour to eat; this browser engine also keeps general Hebbian plasticity and inheritance of learned weights on, see the caveat below. The speed of that learning is written in the genome. We watch whether selection switches it on where the world keeps changing the rules, and off where it does not.",
   wswitch:"the rule changes, on average once per 600 ticks",wstat:"the rule never changes",
   lg_plant:"a plant is the same resource, three stages by how much is there",z_fit:"whole world",z_follow:"follow one",z_hint:"drag to walk around the world, double click or the wheel zooms in",lg_edible:"edible now",lg_toxic:"poisonous now",lg_creature:"creature (brightness = energy)",lg_decor:"tiles, frame and scanlines are decoration and carry no data",
   hud_tick:"tick",hud_pop:"pop",hud_since:"since last switch",hud_good:"edible now: colour",
@@ -287,10 +294,10 @@ const I18N={
   speed:"speed",newworld:"↻ new world",seeding:"seeding a viable world…",
   verdict_h:"learning-rate gene",
   v_switch:"changing",v_stat:"stationary",
-  v_warm:"warm-up: the rule has not changed yet.",
-  v_on:"selection switched learning on: in the changing world the speed gene grew {n}-fold.",
-  v_grow:"growing, but not yet tenfold.",
-  v_same:"no difference so far.",
+  v_warm:"this pair, warm-up: the rule has not changed yet.",
+  v_on:"in this showcase pair the speed gene is {n} times higher than in the stationary world. One browser run with the parameters proposed for protocol B2, not a statistic; the measured protocol B1 did not confirm the hypothesis (see results).",
+  v_grow:"this pair: growing, but not yet tenfold.",
+  v_same:"this pair: no difference so far.",
   v_dead_s:"the world did not survive the switch: the population died out, restarting in 5 seconds.",
   v_dead_c:"the stationary world died out, restarting in 5 seconds.",
   g_lr:"learning-rate gene",g_lr_u:"median, log scale",
@@ -300,19 +307,20 @@ const I18N={
   how_h:"what is going on here",
   p1:"The world is the one from the first experiment: a grid, food, creatures with a tiny neural net, no reward and no judge. Whoever eats enough energy reproduces. One thing is added: food comes in two colours, and at any moment one colour is nourishing while the other is poisonous (a bite takes away half of what the nourishing one would give).",
   p2:"In the large world the rule flips at random moments, on average once per 600 ticks, roughly one lifetime. Writing that into a genome is impossible: the moments are unpredictable. Learning it within a life is possible: every creature has a taste, a single connection from colour to eat, and it changes by a three-factor rule: what you ate, what you got (food or poison), and how fast you learn. The learning speed is a gene: inherited, mutated, and selection can raise it or lower it. The small world is the same, except the rule never changes.",
-  p3:"What was predicted in advance. By the model of Kozielska and Weissing (2024), learning evolves only where the environment changes often, strongly and unpredictably, while in a stationary environment the innate wins and learning is selected away. Our July pilot showed the second half: in an unchanging world the learning speed halved. Here both halves are tested at once: in the changing world the speed gene should grow by an order of magnitude, in the stationary one it should not.",
+  p3:"What was predicted in advance. By the model of Kozielska and Weissing (2024), learning evolves only where the environment changes often, strongly and unpredictably, while in a stationary environment the innate wins and learning is selected away. Our July pilot showed the second half: in an unchanging world the learning speed halved, later narrowed to one expensive plasticity rule (REPORT_B §7); the stationary condition of protocol B showed no fall. Here both halves are tested at once: in the changing world the speed gene should grow by an order of magnitude, in the stationary one it should not.",
   p4:"An honest caveat. The first switch is a bottleneck: most creatures with an innate taste will be poisoned or starve, and the survivors are those who managed to relearn. Sometimes nobody survives, and the world restarts. That is not a bug but a failure boundary declared in advance (preregistration B, §7.3), and in the journal such runs are counted separately.",
-  p5:"What here is real and what is not. The world in your tab is computed for real, but it is a showcase of the method: one seed, one pair of worlds, all of it gone with the tab. The numbers we rely on accumulate elsewhere: every day GitHub servers compute six conditions on fresh seeds, and the observation journal recalculates the statistics over everything accumulated. Declared readings: 10, 20 and 40 seeds. In your tab four things differ from the daily run: the innate taste is weaker, the learning speed starts higher, the social layer is off and the warm-up is shorter. Otherwise almost every world dies at the very first switch, because relearning would cost more energy than a creature has. The comparison between the two worlds is unaffected: both start from the same value.",
-  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Preregistration B: hypotheses, criteria, failure boundaries</a> · <a href="journal.html">Observation journal</a> · <a href="interoception.html">Experiment 1: interoception (continues weekly)</a>',
+  p5:"What here is real and what is not. The world in your tab is computed for real, but it is a showcase of the method: one seed, one pair of worlds, all of it gone with the tab. The numbers we rely on were accumulated elsewhere: between 10 and 29 September 2026 GitHub servers computed six conditions on fresh seeds, 40 seeds in all, and the observation journal recalculated the statistics over everything accumulated. The three declared readings, at 10, 20 and 40 seeds, were all taken; the protocol is closed. In your tab the world differs from the daily run in more than parameters: the innate taste is weaker (1.5 against 3), the learning speed starts higher (0.5 against 0.1, which is the change proposed for protocol B2), the social layer is off, the warm-up is shorter, and the browser engine also keeps general Hebbian plasticity and inheritance of learned weights switched on, which the measured protocol never had. The worlds here mostly survive the switch; in the measured protocol 80 percent did not. The comparison between the two worlds is unaffected: both start from the same value.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Preregistration B: hypotheses, criteria, failure boundaries</a> · <a href="journal.html">Observation journal</a> · <a href="interoception.html">Experiment 1: interoception (closed at 56 seeds)</a>',
   log_h:"episodes accumulated in this browser",
   a_eps:"episodes",a_ratio:"median ratio",a_dead:"changing worlds died",
   c_n:"№",c_seed:"seed",c_ticks:"ticks",c_lrs:"speed gene, changing",c_lrn:"speed gene, stationary",c_ratio:"ratio",c_out:"outcome",
   out_alive:"alive",out_dead:"died out",clear:"clear saved data",
-  foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI engineer and AI consultant · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser showcase, a companion to the research rather than its source. Accumulated numbers: <a href="journal.html">journal</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Project and texts: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI consultant, independent researcher · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · A live in-browser showcase, a companion to the research rather than its source. Accumulated numbers: <a href="journal.html">journal</a> · <a href="about.html">about</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.<br><span class="cite">Cite: Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0.1-protocol-b. Zenodo. <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.23713553</a> · Code and data: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · Corrections: <a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md" target="_blank" rel="noopener">ERRATUM_2026-10-28.md</a> · Contact: <a href="https://github.com/akela1308/minimir/issues" target="_blank" rel="noopener">GitHub issues</a> or <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">www.ilinmaks.com</a></span>'},
 
- ru:{eye:"искусственная жизнь · эксперимент 2 · живой",exp1:"эксперимент 1 ↗",results:"результаты ↗",journal:"журнал ↗",agi:"заметки ↗",about:"о проекте ↗",live:"live",
+ ru:{title:'mini·world: когда выгодно учиться, живой эксперимент',desc:'Живой эксперимент по искусственной жизни в браузере: два мира из одного семени, в одном правило непредсказуемо переворачивается. Включает ли отбор обучение там, где меняются правила?',result:'Результат, 7 октября 2026: 32 мира из 40 погибли на первой же смене правила; без обучения не выжил ни один; поправки от 28 октября 2026. DOI <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">10.5281/zenodo.23713553</a> <a class="btn" href="results-b.html">читать результаты</a>',
+  eye:"искусственная жизнь · эксперимент 2 · живой",exp1:"эксперимент 1 ↗",results:"результаты ↗",journal:"журнал ↗",agi:"заметки ↗",about:"о проекте ↗",live:"live",
   brand:'когда выгодно <span class="dot">учиться</span>',
-  lede:"Два мира из одного семени. В одном правило не меняется: цвет +1 съедобен, цвет -1 ядовит. В другом правило переворачивается в непредсказуемые моменты, в среднем раз в жизнь. Единственное, что существа могут выучить при жизни, это вкус: какой цвет есть. Скорость этого обучения записана в геноме. Мы смотрим, включит ли её отбор там, где мир меняет правила, и выключит ли там, где не меняет.",
+  lede:"Два мира из одного семени. В одном правило не меняется: цвет +1 съедобен, цвет -1 ядовит. В другом правило переворачивается в непредсказуемые моменты, в среднем раз в жизнь. В измеренном протоколе единственное, что существа могли выучить при жизни, это вкус: какой цвет есть; в этом браузерном движке к тому же включены общая пластичность Хебба и наследование выученных весов, см. оговорку ниже. Скорость этого обучения записана в геноме. Мы смотрим, включит ли её отбор там, где мир меняет правила, и выключит ли там, где не меняет.",
   wswitch:"правило меняется, в среднем раз в 600 тиков",wstat:"правило не меняется",
   lg_plant:"растение это тот же ресурс, три стадии по его количеству",z_fit:"весь мир",z_follow:"за существом",z_hint:"тащите мышью, чтобы ходить по миру, двойной щелчок или колесо приближают",lg_edible:"съедобно сейчас",lg_toxic:"ядовито сейчас",lg_creature:"существо (яркость = энергия)",lg_decor:"плитка, рамка и сканлайны это оформление, данных в них нет",
   hud_tick:"тик",hud_pop:"особей",hud_since:"с последней смены",hud_good:"съедобен сейчас: цвет",
@@ -320,10 +328,10 @@ const I18N={
   speed:"скорость",newworld:"↻ новый мир",seeding:"засеваю жизнеспособный мир…",
   verdict_h:"ген скорости обучения",
   v_switch:"меняющийся",v_stat:"стационарный",
-  v_warm:"прогрев: правило ещё не менялось.",
-  v_on:"отбор включил обучение: в меняющемся мире ген скорости вырос в {n} раз.",
-  v_grow:"растёт, но пока меньше десятикратного.",
-  v_same:"пока не отличается.",
+  v_warm:"эта пара, прогрев: правило ещё не менялось.",
+  v_on:"в этой паре витрины ген скорости в {n} раз выше, чем в стационарном мире. Один браузерный прогон с параметрами будущего протокола B2, не статистика; измеренный протокол B1 гипотезу не подтвердил (см. результаты).",
+  v_grow:"эта пара: растёт, но пока меньше десятикратного.",
+  v_same:"эта пара: пока не отличается.",
   v_dead_s:"мир не выдержал смены правила: популяция вымерла, перезапуск через 5 секунд.",
   v_dead_c:"стационарный мир вымер, перезапуск через 5 секунд.",
   g_lr:"ген скорости обучения",g_lr_u:"медиана, лог. шкала",
@@ -333,19 +341,20 @@ const I18N={
   how_h:"что здесь происходит",
   p1:"Мир тот же, что в первом эксперименте: сетка, еда, существа с крошечной нейросетью, никакой награды и никакого судьи. Размножается тот, кто наел энергию. Добавлено одно: еда бывает двух цветов, и в каждый момент один цвет питателен, а другой ядовит (укус отнимает половину того, что дал бы питательный).",
   p2:"В большом мире правило переворачивается в случайные моменты, в среднем раз в 600 тиков, примерно одна жизнь. Записать такое в геном нельзя: моменты непредсказуемы. Выучить при жизни можно: у каждого существа есть вкус, одна связь «цвет → есть», и она меняется по трёхфакторному правилу: что ел, что получил (еду или яд), с какой скоростью учишься. Скорость обучения это ген: наследуется, мутирует, и отбор может её поднять или опустить. В малом мире всё то же, только правило не меняется никогда.",
-  p3:"Что предсказано заранее. По модели Kozielska и Weissing (2024) обучение эволюционирует только там, где среда меняется часто, сильно и непредсказуемо, а в стационарной среде выигрывает врождённое, и обучение отбирается прочь. Наш июльский пилот показал второе: в неизменном мире скорость обучения упала вдвое. Здесь проверяются оба плеча сразу: в меняющемся мире ген скорости должен вырасти на порядок, в стационарном не должен.",
+  p3:"Что предсказано заранее. По модели Kozielska и Weissing (2024) обучение эволюционирует только там, где среда меняется часто, сильно и непредсказуемо, а в стационарной среде выигрывает врождённое, и обучение отбирается прочь. Наш июльский пилот показал второе: в неизменном мире скорость обучения упала вдвое, позже это сужено до одного дорогого правила пластичности (REPORT_B §7); в стационарном условии протокола B падения не было. Здесь проверяются оба плеча сразу: в меняющемся мире ген скорости должен вырасти на порядок, в стационарном не должен.",
   p4:"Честная оговорка. Первая смена правила это узкое горлышко: большинство существ с врождённым вкусом отравится или оголодает, выживут те, кто успел переучиться. Иногда не выживает никто, и мир перезапускается. Это не сбой, а граница провала, объявленная заранее (предрегистрация B, §7.3), и в журнале такие прогоны считаются отдельно.",
-  p5:"Что здесь настоящее, а что нет. Мир в вашей вкладке считается по-настоящему, но это витрина метода: одно семя, одна пара миров, всё исчезает вместе с вкладкой. Числа, на которые мы опираемся, копятся отдельно: каждый день на серверах GitHub считаются шесть условий на новых семенах, и журнал наблюдений пересчитывает статистику по всему накопленному. Объявленные чтения: 10, 20 и 40 семян. В вашей вкладке от суточного прогона отличаются четыре вещи: врождённый вкус слабее, стартовая скорость обучения выше, социальный слой выключен, прогрев короче. Иначе почти каждый мир гибнет на первой же смене, потому что переучивание стоит больше энергии, чем у существа есть. Сравнение двух миров от этого не страдает: у обоих старт одинаковый.",
-  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Предрегистрация B: гипотезы, критерии, границы провала</a> · <a href="journal.html">Журнал наблюдений</a> · <a href="interoception.html">Эксперимент 1: интероцепция (продолжается раз в неделю)</a>',
+  p5:"Что здесь настоящее, а что нет. Мир в вашей вкладке считается по-настоящему, но это витрина метода: одно семя, одна пара миров, всё исчезает вместе с вкладкой. Числа, на которые мы опираемся, накоплены отдельно: с 10 по 29 сентября 2026 года на серверах GitHub считались шесть условий на новых семенах, всего 40 семян, и журнал наблюдений пересчитывал статистику по всему накопленному. Три объявленных чтения, на 10, 20 и 40 семенах, сняты; протокол закрыт. В вашей вкладке мир отличается от суточного прогона не четырьмя параметрами, а больше: врождённый вкус слабее (1,5 вместо 3), стартовая скорость обучения выше (0,5 вместо 0,1, и это та самая поправка, что предложена для протокола B2), социальный слой выключен, прогрев короче, а кроме того в браузерном движке включены общая пластичность Хебба и наследование выученных весов, которых в измеренном протоколе не было. Здесь миры в основном переживают смену; в измеренном протоколе 80% не пережили. Сравнение двух миров от этого не страдает: у обоих старт одинаковый.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Предрегистрация B: гипотезы, критерии, границы провала</a> · <a href="journal.html">Журнал наблюдений</a> · <a href="interoception.html">Эксперимент 1: интероцепция (закрыт на 56 семенах)</a>',
   log_h:"накопленные эпизоды в этом браузере",
   a_eps:"эпизодов",a_ratio:"медиана отношения",a_dead:"вымерло меняющихся",
   c_n:"№",c_seed:"семя",c_ticks:"тиков",c_lrs:"ген скорости, меняющийся",c_lrn:"ген скорости, стационарный",c_ratio:"отношение",c_out:"исход",
   out_alive:"жив",out_dead:"вымер",clear:"очистить",
-  foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-инженер и AI-консультант · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная витрина метода, спутник исследования, а не его источник. Накопленные числа: <a href="journal.html">журнал</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Проект и тексты: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Максим Ильин</a>, AI-консультант, независимый исследователь · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Живая браузерная витрина метода, спутник исследования, а не его источник. Накопленные числа: <a href="journal.html">журнал</a> · <a href="about.html">о проекте</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.<br><span class="cite">Цитировать: Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0.1-protocol-b. Zenodo. <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.23713553</a> · Код и данные: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · Поправки: <a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md" target="_blank" rel="noopener">ERRATUM_2026-10-28.md</a> · Связь: <a href="https://github.com/akela1308/minimir/issues" target="_blank" rel="noopener">GitHub issues</a> или <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">www.ilinmaks.com</a></span>'},
 
- de:{eye:"künstliches leben · experiment 2 · live",exp1:"Experiment 1 ↗",results:"Ergebnisse ↗",journal:"Journal ↗",agi:"Notizen ↗",about:"über ↗",live:"live",
+ de:{title:'mini·world: wann Lernen sich lohnt, Live-Experiment',desc:'Live-Experiment zu künstlichem Leben im Browser: zwei Welten aus einem Samen, in einer kippt die Regel unvorhersehbar. Schaltet die Selektion das Lernen dort ein, wo sich die Regeln ändern?',result:'Ergebnis, 7. Oktober 2026: 32 von 40 Welten starben beim ersten Regelwechsel; ohne Lernen überlebte keine; Korrekturen vom 28. Oktober 2026. DOI <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">10.5281/zenodo.23713553</a> <a class="btn" href="results-b.html">Ergebnisse lesen</a>',
+  eye:"künstliches leben · experiment 2 · live",exp1:"Experiment 1 ↗",results:"Ergebnisse ↗",journal:"Journal ↗",agi:"Notizen ↗",about:"über ↗",live:"live",
   brand:'wann lernen sich <span class="dot">lohnt</span>',
-  lede:"Zwei Welten aus einem Samen. In der einen ändert sich die Regel nie: Farbe +1 ist Nahrung, Farbe -1 ist Gift. In der anderen kippt die Regel zu unvorhersehbaren Zeitpunkten, im Schnitt einmal pro Leben. Das Einzige, was die Wesen zu Lebzeiten lernen können, ist der Geschmack: welche Farbe man isst. Die Geschwindigkeit dieses Lernens steht im Genom. Wir schauen, ob die Selektion sie dort einschaltet, wo die Welt die Regeln ändert, und dort abschaltet, wo sie es nicht tut.",
+  lede:"Zwei Welten aus einem Samen. In der einen ändert sich die Regel nie: Farbe +1 ist Nahrung, Farbe -1 ist Gift. In der anderen kippt die Regel zu unvorhersehbaren Zeitpunkten, im Schnitt einmal pro Leben. Im gemessenen Protokoll war das Einzige, was die Wesen zu Lebzeiten lernen konnten, der Geschmack: welche Farbe man isst; diese Browser-Engine lässt außerdem allgemeine Hebb-Plastizität und die Vererbung gelernter Gewichte eingeschaltet, siehe den Vorbehalt unten. Die Geschwindigkeit dieses Lernens steht im Genom. Wir schauen, ob die Selektion sie dort einschaltet, wo die Welt die Regeln ändert, und dort abschaltet, wo sie es nicht tut.",
   wswitch:"die Regel ändert sich, im Schnitt alle 600 Ticks",wstat:"die Regel ändert sich nie",
   lg_plant:"eine Pflanze ist derselbe Vorrat, drei Stufen nach seiner Menge",z_fit:"ganze Welt",z_follow:"einem folgen",z_hint:"ziehen, um durch die Welt zu gehen, Doppelklick oder Mausrad zoomt",lg_edible:"jetzt essbar",lg_toxic:"jetzt giftig",lg_creature:"Wesen (Helligkeit = Energie)",lg_decor:"Kacheln, Rahmen und Scanlines sind Dekoration und tragen keine Daten",
   hud_tick:"Tick",hud_pop:"Wesen",hud_since:"seit dem letzten Wechsel",hud_good:"jetzt essbar: Farbe",
@@ -353,10 +362,10 @@ const I18N={
   speed:"Tempo",newworld:"↻ neue Welt",seeding:"säe eine lebensfähige Welt…",
   verdict_h:"Gen der Lerngeschwindigkeit",
   v_switch:"wechselnd",v_stat:"stationär",
-  v_warm:"Aufwärmen: die Regel hat sich noch nicht geändert.",
-  v_on:"Selektion hat das Lernen eingeschaltet: in der wechselnden Welt wuchs das Geschwindigkeitsgen um das {n}-fache.",
-  v_grow:"wächst, aber noch nicht zehnfach.",
-  v_same:"bisher kein Unterschied.",
+  v_warm:"dieses Paar, Aufwärmen: die Regel hat sich noch nicht geändert.",
+  v_on:"in diesem Schaufenster-Paar ist das Geschwindigkeitsgen {n}-mal höher als in der stationären Welt. Ein Browserlauf mit den für Protokoll B2 vorgeschlagenen Parametern, keine Statistik; das gemessene Protokoll B1 hat die Hypothese nicht bestätigt (siehe Ergebnisse).",
+  v_grow:"dieses Paar: wächst, aber noch nicht zehnfach.",
+  v_same:"dieses Paar: bisher kein Unterschied.",
   v_dead_s:"die Welt hat den Regelwechsel nicht überstanden: die Population starb aus, Neustart in 5 Sekunden.",
   v_dead_c:"die stationäre Welt ist ausgestorben, Neustart in 5 Sekunden.",
   g_lr:"Gen der Lerngeschwindigkeit",g_lr_u:"Median, log. Skala",
@@ -366,19 +375,20 @@ const I18N={
   how_h:"was hier geschieht",
   p1:"Die Welt ist dieselbe wie im ersten Experiment: ein Gitter, Nahrung, Wesen mit einem winzigen neuronalen Netz, keine Belohnung und kein Richter. Wer genug Energie frisst, pflanzt sich fort. Eines kommt hinzu: Nahrung gibt es in zwei Farben, und zu jedem Zeitpunkt ist eine Farbe nahrhaft und die andere giftig (ein Biss nimmt die Hälfte dessen, was die nahrhafte gäbe).",
   p2:"In der großen Welt kippt die Regel zu zufälligen Zeitpunkten, im Schnitt alle 600 Ticks, also etwa ein Leben. Ins Genom schreiben lässt sich das nicht: die Zeitpunkte sind unvorhersehbar. Zu Lebzeiten lernen lässt es sich schon: jedes Wesen hat einen Geschmack, eine einzige Verbindung von Farbe zu essen, und sie ändert sich nach einer Drei-Faktoren-Regel: was du gegessen hast, was du bekommen hast (Nahrung oder Gift), und wie schnell du lernst. Die Lerngeschwindigkeit ist ein Gen: vererbt, mutierend, und die Selektion kann sie heben oder senken. Die kleine Welt ist dieselbe, nur ändert sich die Regel nie.",
-  p3:"Was vorab vorhergesagt wurde. Nach dem Modell von Kozielska und Weissing (2024) entwickelt sich Lernen nur dort, wo die Umwelt sich oft, stark und unvorhersehbar ändert, während in einer stationären Umwelt das Angeborene gewinnt und Lernen wegselektiert wird. Unser Pilot im Juli zeigte die zweite Hälfte: in einer unveränderlichen Welt halbierte sich die Lerngeschwindigkeit. Hier werden beide Hälften zugleich geprüft: in der wechselnden Welt soll das Geschwindigkeitsgen um eine Größenordnung wachsen, in der stationären nicht.",
+  p3:"Was vorab vorhergesagt wurde. Nach dem Modell von Kozielska und Weissing (2024) entwickelt sich Lernen nur dort, wo die Umwelt sich oft, stark und unvorhersehbar ändert, während in einer stationären Umwelt das Angeborene gewinnt und Lernen wegselektiert wird. Unser Pilot im Juli zeigte die zweite Hälfte: in einer unveränderlichen Welt halbierte sich die Lerngeschwindigkeit, später eingegrenzt auf eine einzige teure Plastizitätsregel (REPORT_B §7); die stationäre Bedingung von Protokoll B zeigte keinen Abfall. Hier werden beide Hälften zugleich geprüft: in der wechselnden Welt soll das Geschwindigkeitsgen um eine Größenordnung wachsen, in der stationären nicht.",
   p4:"Eine ehrliche Einschränkung. Der erste Wechsel ist ein Nadelöhr: die meisten Wesen mit angeborenem Geschmack werden vergiftet oder verhungern, und es überleben die, die rechtzeitig umgelernt haben. Manchmal überlebt niemand, und die Welt startet neu. Das ist kein Fehler, sondern eine vorab erklärte Fehlergrenze (Präregistrierung B, §7.3), und im Journal werden solche Läufe getrennt gezählt.",
-  p5:"Was hier echt ist und was nicht. Die Welt in deinem Tab wird wirklich gerechnet, aber sie ist ein Schaufenster der Methode: ein Samen, ein Paar Welten, alles verschwindet mit dem Tab. Die Zahlen, auf die wir uns stützen, sammeln sich anderswo: täglich rechnen GitHub-Server sechs Bedingungen auf frischen Samen, und das Beobachtungsjournal rechnet die Statistik über alles Gesammelte neu. Erklärte Ablesungen: 10, 20 und 40 Samen. In deinem Tab unterscheiden sich vier Dinge vom täglichen Lauf: der angeborene Geschmack ist schwächer, die Lerngeschwindigkeit startet höher, die soziale Schicht ist aus und das Aufwärmen ist kürzer. Sonst stirbt fast jede Welt schon beim ersten Wechsel, weil das Umlernen mehr Energie kostet, als ein Wesen besitzt. Der Vergleich der beiden Welten leidet nicht darunter: beide starten vom selben Wert.",
-  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Präregistrierung B: Hypothesen, Kriterien, Fehlergrenzen</a> · <a href="journal.html">Beobachtungsjournal</a> · <a href="interoception.html">Experiment 1: Interozeption (läuft wöchentlich weiter)</a>',
+  p5:"Was hier echt ist und was nicht. Die Welt in deinem Tab wird wirklich gerechnet, aber sie ist ein Schaufenster der Methode: ein Samen, ein Paar Welten, alles verschwindet mit dem Tab. Die Zahlen, auf die wir uns stützen, wurden anderswo gesammelt: vom 10. bis 29. September 2026 rechneten GitHub-Server sechs Bedingungen auf frischen Samen, 40 Samen insgesamt, und das Beobachtungsjournal rechnete die Statistik über alles Gesammelte neu. Die drei erklärten Ablesungen bei 10, 20 und 40 Samen wurden alle genommen; das Protokoll ist geschlossen. In deinem Tab unterscheidet sich die Welt vom täglichen Lauf in mehr als Parametern: der angeborene Geschmack ist schwächer (1,5 statt 3), die Lerngeschwindigkeit startet höher (0,5 statt 0,1, das ist die für Protokoll B2 vorgeschlagene Änderung), die soziale Schicht ist aus, das Aufwärmen ist kürzer, und die Browser-Engine lässt außerdem allgemeine Hebb-Plastizität und die Vererbung gelernter Gewichte eingeschaltet, was das gemessene Protokoll nie hatte. Die Welten hier überleben den Wechsel meist; im gemessenen Protokoll taten es 80 Prozent nicht. Der Vergleich der beiden Welten leidet nicht darunter: beide starten vom selben Wert.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Präregistrierung B: Hypothesen, Kriterien, Fehlergrenzen</a> · <a href="journal.html">Beobachtungsjournal</a> · <a href="interoception.html">Experiment 1: Interozeption (geschlossen bei 56 Samen)</a>',
   log_h:"in diesem Browser gesammelte Episoden",
   a_eps:"Episoden",a_ratio:"Median des Verhältnisses",a_dead:"wechselnde Welten gestorben",
   c_n:"Nr.",c_seed:"Samen",c_ticks:"Ticks",c_lrs:"Geschwindigkeitsgen, wechselnd",c_lrn:"Geschwindigkeitsgen, stationär",c_ratio:"Verhältnis",c_out:"Ausgang",
   out_alive:"lebt",out_dead:"ausgestorben",clear:"gespeicherte Daten löschen",
-  foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, AI-Ingenieur und AI-Berater · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Ein lebendes Schaufenster im Browser, Begleiter der Forschung, nicht ihre Quelle. Gesammelte Zahlen: <a href="journal.html">Journal</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Projekt und Texte: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, KI-Berater, unabhängiger Forscher · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Ein lebendes Schaufenster im Browser, Begleiter der Forschung, nicht ihre Quelle. Gesammelte Zahlen: <a href="journal.html">Journal</a> · <a href="about.html">über</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.<br><span class="cite">Zitieren: Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0.1-protocol-b. Zenodo. <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.23713553</a> · Code und Daten: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · Korrekturen: <a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md" target="_blank" rel="noopener">ERRATUM_2026-10-28.md</a> · Kontakt: <a href="https://github.com/akela1308/minimir/issues" target="_blank" rel="noopener">GitHub issues</a> oder <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">www.ilinmaks.com</a></span>'},
 
- es:{eye:"vida artificial · experimento 2 · en vivo",exp1:"experimento 1 ↗",results:"resultados ↗",journal:"diario ↗",agi:"notas ↗",about:"sobre ↗",live:"live",
+ es:{title:'mini·world: cuándo conviene aprender, experimento en vivo',desc:'Experimento de vida artificial en vivo en tu navegador: dos mundos desde una semilla, en uno la regla se invierte de forma impredecible. ¿Enciende la selección el aprendizaje donde cambian las reglas?',result:'Resultado, 7 de octubre de 2026: 32 de 40 mundos murieron en el primer cambio de regla; ninguno sobrevivió sin aprendizaje; correcciones del 28 de octubre de 2026. DOI <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">10.5281/zenodo.23713553</a> <a class="btn" href="results-b.html">leer los resultados</a>',
+  eye:"vida artificial · experimento 2 · en vivo",exp1:"experimento 1 ↗",results:"resultados ↗",journal:"diario ↗",agi:"notas ↗",about:"sobre ↗",live:"live",
   brand:'cuándo conviene <span class="dot">aprender</span>',
-  lede:"Dos mundos desde una misma semilla. En uno la regla no cambia nunca: el color +1 es comida, el color -1 es veneno. En el otro la regla se invierte en momentos impredecibles, en promedio una vez por vida. Lo único que las criaturas pueden aprender durante su vida es el gusto: qué color comer. La velocidad de ese aprendizaje está escrita en el genoma. Miramos si la selección la enciende donde el mundo cambia las reglas, y la apaga donde no lo hace.",
+  lede:"Dos mundos desde una misma semilla. En uno la regla no cambia nunca: el color +1 es comida, el color -1 es veneno. En el otro la regla se invierte en momentos impredecibles, en promedio una vez por vida. En el protocolo medido, lo único que las criaturas podían aprender durante su vida era el gusto: qué color comer; este motor del navegador además mantiene encendidas la plasticidad hebbiana general y la herencia de los pesos aprendidos, véase la advertencia más abajo. La velocidad de ese aprendizaje está escrita en el genoma. Miramos si la selección la enciende donde el mundo cambia las reglas, y la apaga donde no lo hace.",
   wswitch:"la regla cambia, en promedio cada 600 ticks",wstat:"la regla no cambia nunca",
   lg_plant:"una planta es el mismo recurso, tres etapas según su cantidad",z_fit:"mundo entero",z_follow:"seguir a una",z_hint:"arrastre para recorrer el mundo, doble clic o la rueda acercan",lg_edible:"comestible ahora",lg_toxic:"venenoso ahora",lg_creature:"criatura (brillo = energía)",lg_decor:"las baldosas, el marco y las líneas de barrido son decoración y no llevan datos",
   hud_tick:"tick",hud_pop:"criaturas",hud_since:"desde el último cambio",hud_good:"comestible ahora: color",
@@ -386,10 +396,10 @@ const I18N={
   speed:"velocidad",newworld:"↻ mundo nuevo",seeding:"sembrando un mundo viable…",
   verdict_h:"gen de velocidad de aprendizaje",
   v_switch:"cambiante",v_stat:"estacionario",
-  v_warm:"calentamiento: la regla aún no ha cambiado.",
-  v_on:"la selección encendió el aprendizaje: en el mundo cambiante el gen de velocidad creció {n} veces.",
-  v_grow:"crece, pero todavía menos de diez veces.",
-  v_same:"por ahora no hay diferencia.",
+  v_warm:"este par, calentamiento: la regla aún no ha cambiado.",
+  v_on:"en este par del escaparate el gen de velocidad es {n} veces mayor que en el mundo estacionario. Una sola corrida en el navegador con los parámetros propuestos para el protocolo B2, no una estadística; el protocolo medido B1 no confirmó la hipótesis (véanse los resultados).",
+  v_grow:"este par: crece, pero todavía menos de diez veces.",
+  v_same:"este par: por ahora no hay diferencia.",
   v_dead_s:"el mundo no resistió el cambio de regla: la población se extinguió, reinicio en 5 segundos.",
   v_dead_c:"el mundo estacionario se extinguió, reinicio en 5 segundos.",
   g_lr:"gen de velocidad",g_lr_u:"mediana, escala log.",
@@ -399,19 +409,20 @@ const I18N={
   how_h:"qué ocurre aquí",
   p1:"El mundo es el del primer experimento: una cuadrícula, comida, criaturas con una red neuronal diminuta, sin recompensa y sin juez. Se reproduce quien acumula energía comiendo. Se añade una cosa: la comida viene en dos colores, y en cada momento un color es nutritivo y el otro venenoso (un bocado quita la mitad de lo que daría el nutritivo).",
   p2:"En el mundo grande la regla se invierte en momentos aleatorios, en promedio cada 600 ticks, aproximadamente una vida. Escribir eso en el genoma es imposible: los momentos son impredecibles. Aprenderlo durante la vida sí se puede: cada criatura tiene un gusto, una sola conexión de color a comer, y cambia según una regla de tres factores: qué comiste, qué recibiste (comida o veneno), y a qué velocidad aprendes. La velocidad de aprendizaje es un gen: se hereda, muta, y la selección puede subirla o bajarla. El mundo pequeño es igual, salvo que la regla no cambia nunca.",
-  p3:"Lo predicho de antemano. Según el modelo de Kozielska y Weissing (2024), el aprendizaje evoluciona solo donde el entorno cambia con frecuencia, con fuerza y de forma impredecible, mientras que en un entorno estacionario gana lo innato y el aprendizaje es eliminado por la selección. Nuestro piloto de julio mostró la segunda mitad: en un mundo inmutable la velocidad de aprendizaje cayó a la mitad. Aquí se comprueban ambas mitades a la vez: en el mundo cambiante el gen de velocidad debería crecer un orden de magnitud, en el estacionario no.",
+  p3:"Lo predicho de antemano. Según el modelo de Kozielska y Weissing (2024), el aprendizaje evoluciona solo donde el entorno cambia con frecuencia, con fuerza y de forma impredecible, mientras que en un entorno estacionario gana lo innato y el aprendizaje es eliminado por la selección. Nuestro piloto de julio mostró la segunda mitad: en un mundo inmutable la velocidad de aprendizaje cayó a la mitad, lo que después se acotó a una sola regla de plasticidad cara (REPORT_B §7); la condición estacionaria del protocolo B no mostró caída. Aquí se comprueban ambas mitades a la vez: en el mundo cambiante el gen de velocidad debería crecer un orden de magnitud, en el estacionario no.",
   p4:"Una advertencia honesta. El primer cambio es un cuello de botella: la mayoría de las criaturas con gusto innato se envenenarán o pasarán hambre, y sobreviven las que alcanzaron a reaprender. A veces no sobrevive nadie, y el mundo se reinicia. No es un fallo, sino un límite de fracaso declarado de antemano (preregistro B, §7.3), y en el diario esas corridas se cuentan aparte.",
-  p5:"Qué es real aquí y qué no. El mundo de tu pestaña se calcula de verdad, pero es un escaparate del método: una semilla, un par de mundos, todo desaparece con la pestaña. Los números en los que nos apoyamos se acumulan en otro lugar: cada día los servidores de GitHub calculan seis condiciones con semillas nuevas, y el diario de observaciones recalcula la estadística sobre todo lo acumulado. Lecturas declaradas: 10, 20 y 40 semillas. En tu pestaña cuatro cosas difieren de la corrida diaria: el gusto innato es más débil, la velocidad de aprendizaje empieza más alta, la capa social está apagada y el calentamiento es más corto. De lo contrario casi todos los mundos mueren en el primer cambio, porque reaprender costaría más energía de la que una criatura tiene. La comparación entre los dos mundos no se ve afectada: ambos parten del mismo valor.",
-  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Preregistro B: hipótesis, criterios, límites de fracaso</a> · <a href="journal.html">Diario de observaciones</a> · <a href="interoception.html">Experimento 1: interocepción (continúa cada semana)</a>',
+  p5:"Qué es real aquí y qué no. El mundo de tu pestaña se calcula de verdad, pero es un escaparate del método: una semilla, un par de mundos, todo desaparece con la pestaña. Los números en los que nos apoyamos se acumularon en otro lugar: del 10 al 29 de septiembre de 2026 los servidores de GitHub calcularon seis condiciones con semillas nuevas, 40 semillas en total, y el diario de observaciones recalculó la estadística sobre todo lo acumulado. Las tres lecturas declaradas, a 10, 20 y 40 semillas, se tomaron todas; el protocolo está cerrado. En tu pestaña el mundo difiere de la corrida diaria en más que parámetros: el gusto innato es más débil (1,5 frente a 3), la velocidad de aprendizaje empieza más alta (0,5 frente a 0,1, que es el cambio propuesto para el protocolo B2), la capa social está apagada, el calentamiento es más corto, y además el motor del navegador mantiene encendidas la plasticidad hebbiana general y la herencia de los pesos aprendidos, que el protocolo medido nunca tuvo. Aquí los mundos sobreviven casi siempre al cambio; en el protocolo medido el 80 por ciento no lo hizo. La comparación entre los dos mundos no se ve afectada: ambos parten del mismo valor.",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">Preregistro B: hipótesis, criterios, límites de fracaso</a> · <a href="journal.html">Diario de observaciones</a> · <a href="interoception.html">Experimento 1: interocepción (cerrado con 56 semillas)</a>',
   log_h:"episodios acumulados en este navegador",
   a_eps:"episodios",a_ratio:"mediana de la razón",a_dead:"mundos cambiantes extinguidos",
   c_n:"№",c_seed:"semilla",c_ticks:"ticks",c_lrs:"gen de velocidad, cambiante",c_lrn:"gen de velocidad, estacionario",c_ratio:"razón",c_out:"desenlace",
   out_alive:"vivo",out_dead:"extinguido",clear:"borrar lo guardado",
-  foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, ingeniero y consultor de IA · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Un escaparate vivo en el navegador, compañero de la investigación y no su fuente. Números acumulados: <a href="journal.html">diario</a> · <a href="about.html">sobre</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.'},
+  foot:'Proyecto y textos: <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>, consultor de IA, investigador independiente · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · Un escaparate vivo en el navegador, compañero de la investigación y no su fuente. Números acumulados: <a href="journal.html">diario</a> · <a href="about.html">sobre</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>.<br><span class="cite">Citar: Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0.1-protocol-b. Zenodo. <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.23713553</a> · Código y datos: <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · Correcciones: <a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md" target="_blank" rel="noopener">ERRATUM_2026-10-28.md</a> · Contacto: <a href="https://github.com/akela1308/minimir/issues" target="_blank" rel="noopener">GitHub issues</a> o <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">www.ilinmaks.com</a></span>'},
 
- zh:{eye:"人工生命 · 实验二 · 实时",exp1:"实验一 ↗",results:"结果 ↗",journal:"观察日志 ↗",agi:"札记 ↗",about:"关于 ↗",live:"live",
+ zh:{title:'mini·world：何时值得学习，实时实验',desc:'浏览器里的实时人工生命实验：同一颗种子的两个世界，其中一个的规则会不可预测地翻转。在规则变化的地方，选择会不会打开学习？',result:'结果，2026 年 10 月 7 日：40 个世界里有 32 个死在第一次规则翻转上；没有学习的一个也没活下来；2026 年 10 月 28 日的订正。DOI <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">10.5281/zenodo.23713553</a> <a class="btn" href="results-b.html">阅读结果</a>',
+  eye:"人工生命 · 实验二 · 实时",exp1:"实验一 ↗",results:"结果 ↗",journal:"观察日志 ↗",agi:"札记 ↗",about:"关于 ↗",live:"live",
   brand:'何时<span class="dot">值得学习</span>',
-  lede:"同一颗种子，两个世界。一个世界的规则永不改变：颜色 +1 可吃，颜色 -1 有毒。另一个世界的规则会在不可预测的时刻翻转，平均每一生翻转一次。生物在一生之中唯一能学会的，就是口味：该吃哪种颜色。学习的速度写在基因组里。我们要看的是：在规则不断变化的世界里，选择会不会把它打开；在规则不变的世界里，会不会把它关掉。",
+  lede:"同一颗种子，两个世界。一个世界的规则永不改变：颜色 +1 可吃，颜色 -1 有毒。另一个世界的规则会在不可预测的时刻翻转，平均每一生翻转一次。在测得的协议里，生物一生之中唯一能学会的就是口味：该吃哪种颜色；而这个浏览器引擎还开着一般赫布可塑性和习得权重的继承，见下文的说明。学习的速度写在基因组里。我们要看的是：在规则不断变化的世界里，选择会不会把它打开；在规则不变的世界里，会不会把它关掉。",
   wswitch:"规则会变，平均每 600 步一次",wstat:"规则永不改变",
   lg_plant:"植物就是同一份资源，按数量分三个阶段",z_fit:"整个世界",z_follow:"跟随一只",z_hint:"拖动即可在世界里走动，双击或滚轮可放大",lg_edible:"当前可吃",lg_toxic:"当前有毒",lg_creature:"生物（亮度即能量）",lg_decor:"地砖、边框与扫描线属于装饰，不携带数据",
   hud_tick:"步",hud_pop:"个体",hud_since:"距上次翻转",hud_good:"当前可吃：颜色",
@@ -419,10 +430,10 @@ const I18N={
   speed:"速度",newworld:"↻ 新世界",seeding:"正在播种一个可存活的世界…",
   verdict_h:"学习速度基因",
   v_switch:"变化世界",v_stat:"稳定世界",
-  v_warm:"预热中：规则尚未改变。",
-  v_on:"选择打开了学习：在变化的世界里，速度基因增长了 {n} 倍。",
-  v_grow:"在增长，但还不到十倍。",
-  v_same:"目前没有差别。",
+  v_warm:"这一对，预热中：规则尚未改变。",
+  v_on:"在这一对展示世界里，速度基因比稳定世界高 {n} 倍。这是一次使用协议 B2 拟议参数的浏览器运行，不是统计；测得的协议 B1 没有确认这一假设（见结果）。",
+  v_grow:"这一对：在增长，但还不到十倍。",
+  v_same:"这一对：目前没有差别。",
   v_dead_s:"这个世界没能挺过规则翻转：种群灭绝，5 秒后重启。",
   v_dead_c:"稳定世界灭绝了，5 秒后重启。",
   g_lr:"学习速度基因",g_lr_u:"中位数，对数刻度",
@@ -432,15 +443,15 @@ const I18N={
   how_h:"这里发生了什么",
   p1:"世界和第一个实验一样：一张网格、食物、带有微型神经网络的生物，没有奖励，也没有裁判。吃够能量的才会繁殖。只加了一件事：食物有两种颜色，而在任一时刻，一种颜色有营养，另一种有毒（咬一口会失去有营养的那种本可提供的一半）。",
   p2:"在大世界里，规则会在随机时刻翻转，平均每 600 步一次，大约就是一生。这写不进基因组：时刻是不可预测的。但一生之内可以学会：每个生物都有一个口味，即从颜色到进食的一条连接，它按三因素规则改变：吃了什么、得到了什么（食物还是毒），以及学习速度有多快。学习速度是一个基因：可遗传、会突变，选择可以把它调高或调低。小世界完全相同，只是规则永不改变。",
-  p3:"事先做出的预测。按照 Kozielska 与 Weissing（2024）的模型，只有在环境频繁、剧烈且不可预测地变化的地方，学习才会演化出来；而在稳定环境中先天的一方胜出，学习会被选择淘汰。我们七月的试点显示了后半句：在不变的世界里，学习速度下降了一半。这里同时检验前后两半：在变化的世界里，速度基因应当增长一个数量级；在稳定的世界里，则不应当。",
+  p3:"事先做出的预测。按照 Kozielska 与 Weissing（2024）的模型，只有在环境频繁、剧烈且不可预测地变化的地方，学习才会演化出来；而在稳定环境中先天的一方胜出，学习会被选择淘汰。我们七月的试点显示了后半句：在不变的世界里，学习速度下降了一半，后来这被收窄为一条昂贵的可塑性规则（REPORT_B §7）；协议 B 的静止条件没有出现下降。这里同时检验前后两半：在变化的世界里，速度基因应当增长一个数量级；在稳定的世界里，则不应当。",
   p4:"一点诚实的说明。第一次翻转是一个瓶颈：多数带着先天口味的生物会中毒或饿死，活下来的是那些及时重新学会的。有时无人幸存，世界便重启。这不是故障，而是事先声明的失败边界（预注册 B，§7.3），在日志中这类运行会单独计数。",
-  p5:"这里哪些是真的，哪些不是。你标签页里的世界是真的在计算，但它是方法的橱窗：一颗种子、一对世界，一切都随标签页消失。我们真正依据的数字在别处积累：每天 GitHub 的服务器会在新的种子上计算六种条件，观察日志则对全部已积累的数据重新统计。已声明的读数节点：10、20 和 40 颗种子。 在你的标签页里，有四点与每日运行不同：先天口味更弱、学习速度的初始值更高、社交层被关闭、预热更短。否则几乎每个世界都会在第一次翻转时死去，因为重新学习所需的能量超过了生物所拥有的。这不影响两个世界之间的比较：两者的起点相同。",
-  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">预注册 B：假设、判据、失败边界</a> · <a href="journal.html">观察日志</a> · <a href="interoception.html">实验一：内感受（每周继续）</a>',
+  p5:"这里哪些是真的，哪些不是。你标签页里的世界是真的在计算，但它是方法的橱窗：一颗种子、一对世界，一切都随标签页消失。我们真正依据的数字是在别处积累的：2026 年 9 月 10 日至 29 日，GitHub 的服务器在新的种子上计算了六种条件，共 40 颗种子，观察日志则对全部已积累的数据重新统计。已声明的三个读数节点（10、20 和 40 颗种子）都已读取；协议已关闭。你标签页里的世界与每日运行的差别不止于参数：先天口味更弱（1.5 而非 3），学习速度的初始值更高（0.5 而非 0.1，这正是为协议 B2 提出的改动），社交层被关闭，预热更短，此外浏览器引擎还开着一般赫布可塑性和习得权重的继承，这些在测得的协议里从未有过。这里的世界大多能挺过翻转；在测得的协议里，80% 没有挺过去。这不影响两个世界之间的比较：两者的起点相同。",
+  links:'<a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B.md" target="_blank" rel="noopener">预注册 B：假设、判据、失败边界</a> · <a href="journal.html">观察日志</a> · <a href="interoception.html">实验一：内感受（已在 56 颗种子处关闭）</a>',
   log_h:"本浏览器中累积的回合",
   a_eps:"回合数",a_ratio:"比值中位数",a_dead:"变化世界灭绝比例",
   c_n:"№",c_seed:"种子",c_ticks:"步数",c_lrs:"速度基因，变化世界",c_lrn:"速度基因，稳定世界",c_ratio:"比值",c_out:"结局",
   out_alive:"存活",out_dead:"灭绝",clear:"清除已保存数据",
-  foot:'项目与文字：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，AI 工程师与 AI 顾问 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · 浏览器中的实时橱窗，是研究的伴侣而非来源。累积数字：<a href="journal.html">日志</a> · <a href="about.html">关于</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>。'}
+  foot:'项目与文字：<a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">Maksim Ilin</a>，人工智能顾问，独立研究者 · <a href="https://www.linkedin.com/in/ilinmaks/" target="_blank" rel="noopener">LinkedIn</a> · 浏览器中的实时橱窗，是研究的伴侣而非来源。累积数字：<a href="journal.html">日志</a> · <a href="about.html">关于</a> · <a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github</a>。<br><span class="cite">引用：Ilin, M. (2026). mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays. Version 1.0.1-protocol-b. Zenodo. <a href="https://doi.org/10.5281/zenodo.23713553" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.23713553</a> · 代码与数据：<a href="https://github.com/akela1308/minimir" target="_blank" rel="noopener">github.com/akela1308/minimir</a> · 订正：<a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md" target="_blank" rel="noopener">ERRATUM_2026-10-28.md</a> · 联系：<a href="https://github.com/akela1308/minimir/issues" target="_blank" rel="noopener">GitHub issues</a> 或 <a href="https://www.ilinmaks.com/" target="_blank" rel="noopener">www.ilinmaks.com</a></span>'}
 };
 
 const LKEY='minimir_lang',LDEF='en';
@@ -571,15 +582,15 @@ function renderLog(){
   const dead=b.filter(e=>e.extinct).length;
   document.getElementById('agg').innerHTML=[
     [t('a_eps'),b.length],
-    [t('a_ratio'),rs.length?'×'+median(rs).toFixed(1):'—'],
-    [t('a_dead'),b.length?dead+'/'+b.length:'—'],
+    [t('a_ratio'),rs.length?'×'+median(rs).toFixed(1):'·'],
+    [t('a_dead'),b.length?dead+'/'+b.length:'·'],
   ].map(([k,v])=>`<div class="aggcard"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
   document.getElementById('thead').innerHTML='<tr>'+['c_n','c_seed','c_ticks','c_lrs','c_lrn','c_ratio','c_out']
     .map(k=>`<th>${t(k)}</th>`).join('')+'</tr>';
   document.getElementById('tbody').innerHTML=b.slice().reverse().slice(0,50).map(e=>
     `<tr><td>${e.n}</td><td>${e.seed}</td><td>${e.ticks}</td>`+
-    `<td>${e.lrS==null?'—':e.lrS.toFixed(3)}</td><td>${e.lrC==null?'—':e.lrC.toFixed(3)}</td>`+
-    `<td style="color:${(e.ratio||0)>=2?'var(--coop)':'var(--dim)'}">${e.ratio==null?'—':'×'+e.ratio.toFixed(1)}</td>`+
+    `<td>${e.lrS==null?'·':e.lrS.toFixed(3)}</td><td>${e.lrC==null?'·':e.lrC.toFixed(3)}</td>`+
+    `<td style="color:${(e.ratio||0)>=2?'var(--coop)':'var(--dim)'}">${e.ratio==null?'·':'×'+e.ratio.toFixed(1)}</td>`+
     `<td style="color:${e.extinct?'var(--amber)':'var(--dim)'}">${e.extinct?t('out_dead'):t('out_alive')}</td></tr>`).join('');
 }
 
@@ -587,11 +598,11 @@ function renderLog(){
 function renderVerdict(){
   const big=document.getElementById('v_big'),sub=document.getElementById('v_sub'),
         say=document.getElementById('v_say');
-  if(!engS||!engC){big.textContent='—';return;}
+  if(!engS||!engC){big.textContent='·';return;}
   const lrS=engS.tasteLrMedian(),lrC=engC.tasteLrMedian(),r=ratioOf(engS,engC);
-  big.textContent=r==null?'—':'×'+r.toFixed(1);
-  sub.innerHTML=`${t('v_switch')} ${lrS==null?'—':lrS.toFixed(3)} · `+
-                `${t('v_stat')} ${lrC==null?'—':lrC.toFixed(3)}`;
+  big.textContent=r==null?'·':'×'+r.toFixed(1);
+  sub.innerHTML=`${t('v_switch')} ${lrS==null?'·':lrS.toFixed(3)} · `+
+                `${t('v_stat')} ${lrC==null?'·':lrC.toFixed(3)}`;
   if(deadWho==='S'){say.className='say none';say.textContent=t('v_dead_s');return;}
   if(deadWho==='C'){say.className='say none';say.textContent=t('v_dead_c');return;}
   if(!engS.switches.length){say.className='say wait';say.textContent=t('v_warm');return;}
@@ -601,14 +612,14 @@ function renderVerdict(){
 }
 
 // ---------- приборы ----------
-const GA=[{k:'g_lr',u:'g_lr_u',spark:true,get:()=>engS.tasteLrMedian(),fmt:v=>v==null?'—':v.toFixed(3)},
-  {k:'g_taste',u:'g_taste_u',get:()=>engS.tasteGMean(),fmt:v=>v==null?'—':v.toFixed(2)},
-  {k:'g_acc',u:'g_acc_u',get:()=>engS.eatAccuracy(),fmt:v=>v==null?'—':v.toFixed(2)},
+const GA=[{k:'g_lr',u:'g_lr_u',spark:true,get:()=>engS.tasteLrMedian(),fmt:v=>v==null?'·':v.toFixed(3)},
+  {k:'g_taste',u:'g_taste_u',get:()=>engS.tasteGMean(),fmt:v=>v==null?'·':v.toFixed(2)},
+  {k:'g_acc',u:'g_acc_u',get:()=>engS.eatAccuracy(),fmt:v=>v==null?'·':v.toFixed(2)},
   {k:'g_sw',u:'g_sw_u',get:()=>engS.switches.length,fmt:v=>v}];
 let gEls=[],sparkCv=null;
 function buildGauges(){const r=document.getElementById('gauges');r.innerHTML='';gEls=[];sparkCv=null;
   for(const g of GA){const el=document.createElement('div');el.className='gauge';
-    el.innerHTML=`<div class="lbl">${t(g.k)}</div><div class="val"><span data-v>—</span> <span class="unit">${t(g.u)}</span></div>`+
+    el.innerHTML=`<div class="lbl">${t(g.k)}</div><div class="val"><span data-v>·</span> <span class="unit">${t(g.u)}</span></div>`+
       (g.spark?'<canvas class="spark" width="300" height="34"></canvas>':'');
     r.appendChild(el);gEls.push({g,val:el.querySelector('[data-v]')});
     if(g.spark)sparkCv=el.querySelector('canvas');}}
@@ -626,7 +637,7 @@ function drawSpark(){
     arr.forEach((v,i)=>{const x=i/(arr.length-1)*(w-2)+1;i?c.lineTo(x,Y(v)):c.moveTo(x,Y(v));});
     c.stroke();});
 }
-function updateGauges(){for(const {g,val} of gEls){const v=g.get();val.textContent=v==null?'—':g.fmt(v);}
+function updateGauges(){for(const {g,val} of gEls){const v=g.get();val.textContent=v==null?'·':g.fmt(v);}
   drawSpark();}
 
 // ---------- цикл ----------
@@ -653,9 +664,11 @@ function loop(){
     FRAME++;camS.tick();sprites();drawWorld(engS,ctxS,camS,ATL,PLB);drawWorld(engC,ctxC,camC,ATLC,PLC);
     const gcol=engS.goodType===1?'+1':'-1';
     document.getElementById('hudS').innerHTML=
-      `${t('hud_tick')} ${engS.tick} · ${engS.pop} · ${t('hud_since')} `+
+      `${t('hud_tick')} ${engS.tick} · ${t('hud_pop')} ${engS.pop} · ${t('hud_since')} `+
       `${engS.ticksSinceSwitch()} · ${t('hud_good')} ${gcol}`;
     document.getElementById('hudC').innerHTML=`${t('hud_pop')} ${engC.pop}`;
+    if(FRAME%60===0){cvS.setAttribute('aria-label',`${t('wswitch')}: ${document.getElementById('hudS').textContent}`);
+      cvC.setAttribute('aria-label',`${t('wstat')}: ${t('hud_pop')} ${engC.pop}`);}
     updateGauges();renderVerdict();
   }
   requestAnimationFrame(loop);
@@ -683,8 +696,11 @@ function applyLang(l){
     `<span><i style="background:#34bcd4"></i>${t('lg_edible')} (+1)</span>`+
     `<span><i style="background:#4c4a46"></i>${t('lg_toxic')} (-1)</span>`+
     `<span><i style="background:#d9c26a"></i>${t('lg_creature')}</span>`+
-    `<span><i style="background:#2f9f7a"></i>${t('lg_plant')}</span>`+
-    `<span style="opacity:.75"><i style="background:#1b242a"></i>${t('lg_decor')}</span>`;
+    `<span><i style="background:#2f9f7a"></i>${t('lg_plant')}</span>`;
+  S('legend').title=t('lg_decor');
+  S('t_result').innerHTML=t('result');
+  document.title=t('title');
+  const md=document.querySelector('meta[name=description]');if(md)md.setAttribute('content',t('desc'));
   document.querySelectorAll('.langbar button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
   buildGauges();renderLog();renderVerdict();
 }
@@ -712,14 +728,19 @@ document.getElementById('clearbtn').onclick=()=>{try{localStorage.removeItem(SKE
 applyLang(LANG);
 splash.style.display='flex';splash.textContent=t('seeding');
 fetch('ancestors_b.json').then(r=>r.json()).then(d=>{
-  // Отличия витрины от суточного прогона, все четыре вынужденные и заявлены
-  // в тексте страницы:
-  //   вкус 1.5 вместо 3.0 и стартовая скорость обучения 0.5 вместо 0.1 —
-  //     иначе переучивание стоит больше энергии, чем у существа есть (тридцать
-  //     отравлений по пять единиц при запасе в сто), и первую же смену
-  //     правила не переживает никто;
-  //   социальный слой выключен — предки мира B отбирались без него;
-  //   прогрев 3000 тиков вместо 5000 — чтобы витрину не ждали минуту.
+  // Отличия витрины от суточного прогона (см. ERRATUM_2026-10-28.md, §2):
+  //   вкус 1.5 вместо 3.0 и стартовая скорость обучения 0.5 вместо 0.1,
+  //     это параметры будущего протокола B2; при параметрах B1 переучивание
+  //     стоит больше энергии, чем у существа есть (тридцать отравлений по
+  //     пять единиц при запасе в сто), и первую же смену правила не
+  //     переживает никто;
+  //   социальный слой выключен: предки мира B отбирались без него;
+  //   прогрев 3000 тиков вместо 5000, чтобы витрину не ждали минуту;
+  //   кроме того движок по умолчанию держит включёнными общую пластичность
+  //     Хебба (hebbEnabled) и ламарковское наследование выученных весов
+  //     (lamarck), которых в измеренных протоколах A и B не было; до
+  //     28 октября 2026 на странице это заявлено не было. Порядок обновления
+  //     агентов и правило тесноты в браузере тоже отличаются.
   // Сравнение двух миров от этого не страдает: у обоих старт одинаковый.
   // Потолок численности заведомо большой: плотность регулируется едой
   // и теснотой, а не константой.

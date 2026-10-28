@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use this code, data or results, please cite the report below."
-title: "mini-world (minimir): preregistered artificial-life experiments on the evolution of learning"
+message: "If you use this code, data or results, please cite the report below (the preferred citation; GitHub shows it under Cite this repository). The code is MIT; report texts, preregistrations and data in runs/ are CC BY 4.0, see LICENSE. Version 1.0.1-protocol-b adds ERRATUM_2026-10-28.md with corrections to the reading of the results; v1.0-protocol-b is the archived original."
+title: "mini-world (minimir): preregistered artificial-life experiments on the evolution of learning. Protocol B1-100k-v1: when learning pays"
 type: software
 authors:
   - family-names: Ilin
@@ -18,7 +18,7 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.23713552
     description: "All versions"
-version: "1.0-protocol-b"
+version: "1.0.1-protocol-b"
 date-released: "2026-10-28"
 keywords:
   - artificial life
@@ -35,6 +35,6 @@ preferred-citation:
       given-names: Maksim
   year: 2026
   month: 10
-  version: "1.0"
+  version: "1.0.1"
   doi: 10.5281/zenodo.23713553
   url: "https://minimir.ilinmaks.com/results-b.html"

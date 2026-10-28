@@ -266,12 +266,12 @@ VERDICTS = {
 
 
 def fmt(x, d=3):
-    return "—" if x is None else f"{x:.{d}f}"
+    return "·" if x is None else f"{x:.{d}f}"
 
 
 def fmt_p(p):
     if p is None:
-        return "—"
+        return "·"
     return "&lt;0.0001" if p < 0.0001 else f"{p:.4f}"
 
 
@@ -396,7 +396,7 @@ th:first-child,td:first-child{{text-align:left}} .mono{{color:var(--ink)}}
 <p class="big">{v[0]}</p><p>{v[1]}</p></div>
 <table><tr><th>условие</th><th>строк</th><th>ошибок</th><th>вымерло</th></tr>{val}</table>
 {body}
-<footer><p class="muted">Собрано {st["built_at"]} · код {st.get("commit") or "—"} · сырые числа:
+<footer><p class="muted">Собрано {st["built_at"]} · код {st.get("commit") or "·"} · сырые числа:
 <a href="https://github.com/akela1308/minimir/tree/main/runs/b2">runs/b2/</a></p></footer>
 </div></body></html>'''
 

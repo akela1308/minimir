@@ -238,12 +238,12 @@ VERDICTS_2 = {
 
 
 def fmt(x, d=4):
-    return "—" if x is None else f"{x:.{d}f}"
+    return "·" if x is None else f"{x:.{d}f}"
 
 
 def fmt_p(p):
     if p is None:
-        return "—"
+        return "·"
     return "&lt;0.0001" if p < 0.0001 else f"{p:.4f}"
 
 
@@ -361,7 +361,7 @@ th:first-child,td:first-child{{text-align:left}} .mono{{color:var(--ink)}}
 {"<h2>Реакции</h2><table><tr><th>условие / удар : метрика</th><th>среднее</th><th>sd</th><th>в 2σ от нуля</th><th>n</th></tr>" + rows2 + "</table>" if c2["complete"] else ""}
 {"<h2>Парные сравнения</h2><table><tr><th>сравнение</th><th>Δ</th><th>p</th><th>2σ парных</th><th>подтв.</th><th>пар</th></tr>" + cmp2 + "</table>" if c2["complete"] else ""}
 
-<footer><p class="muted">Собрано {st["built_at"]} · код {st.get("commit") or "—"} · сырые числа:
+<footer><p class="muted">Собрано {st["built_at"]} · код {st.get("commit") or "·"} · сырые числа:
 <a href="https://github.com/akela1308/minimir/tree/main/runs/a2">runs/a2/</a></p></footer>
 </div></body></html>'''
 

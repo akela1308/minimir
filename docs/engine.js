@@ -37,10 +37,10 @@
       reproThreshold: 80, childEnergy: 40, reproOverhead: 5,
       mutationRate: 0.12, mutationSigma: 0.08,
       initPop: 200, maxPop: 1400, foundingSigma: 0.15, initWeightSigma: 0.5,
-      // социальный слой (кооперация) — ПОЧИЩЕННАЯ энергетика: give нейтрален
+      // социальный слой (кооперация), ПОЧИЩЕННАЯ энергетика: give нейтрален
       giveCost: 8, giveGain: 8, takeGain: 6, takeLoss: 10,
       memorySlots: 8, faceTol: 0.15, socialFromTick: 300, actionNoise: 0.02,
-      // условие интероцепции: 'self' (лечение) или 'shuffled' (контроль —
+      // условие интероцепции: 'self' (лечение) или 'shuffled' (контроль,
       // тот же сигнал энергии, но переставленный между особями: ноль знания о себе)
       interoMode: 'self',
       // знаки
@@ -77,7 +77,7 @@
   function Engine(seed, cfg, ancestor) {
     this.cfg = Object.assign(defaults(), cfg || {});
     this.seed = seed >>> 0;
-    this.ancestor = ancestor || null;   // {W1,b1,W2,b2} — жизнеспособный предок
+    this.ancestor = ancestor || null;   // {W1,b1,W2,b2}: жизнеспособный предок
     this.rng = mulberry32(seed);
     var c = this.cfg, n = c.maxPop, H = c.H, W = c.W;
     // входы 23-24 в мире с двумя цветами заняты цветом, знаковый слой выключен
@@ -98,7 +98,7 @@
     this.eatGood = 0; this.eatBad = 0;
     if (c.foodTypes === 2) {
       this.foodType = this._makeTypes();
-      // моменты смен — из ОТДЕЛЬНОГО генератора, засеянного только seed'ом:
+      // моменты смен берутся из ОТДЕЛЬНОГО генератора, засеянного только seed'ом:
       // расписание не зависит от того, что происходило в мире
       this._switchRng = mulberry32((seed * 7919 + 13) >>> 0);
       if (c.switchMean > 0) this.nextSwitch = c.switchFromTick + this._drawInterval();
@@ -184,7 +184,7 @@
 
   // --- мир B: цвет клетки, смена правила ---
   Engine.prototype._makeTypes = function () {
-    // цвет клетки — знак второго, более мелкозернистого поля, половина на
+    // цвет клетки: знак второго, более мелкозернистого поля, половина на
     // половину (медиана). Оба цвета обычно есть в окрестности агента
     var c = this.cfg, HW = c.H * c.W;
     var field = this._lowFreqField(c.typePatchFreq);
@@ -211,7 +211,7 @@
   Engine.prototype.ticksSinceSwitch = function () { return this.tick - this.lastSwitch; };
 
   Engine.prototype.normal = function () {
-    // Бокс–Мюллер
+    // преобразование Бокса-Мюллера
     var u = 1 - this.rng(), v = this.rng();
     return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
   };
@@ -271,13 +271,13 @@
     for (var a = 0; a < c.maxPop; a++) if (this.alive[a]) {
       this._occ[this.y[a] * W + this.x[a]] = a;
     }
-    // плотность (3x3) через свёртку по занятым — считаем локально по агентам
+    // плотность (3x3) через свёртку по занятым, считаем локально по агентам
     // (дешевле: для каждого агента посчитаем соседей в 3x3 по _occ соседям)
 
     var ids = [];
     for (var b = 0; b < c.maxPop; b++) if (this.alive[b]) ids.push(b);
     var k = ids.length;
-    // снимок сигнала энергии до хода: self берёт свой, shuffled — переставленный
+    // снимок сигнала энергии до хода: self берёт свой, shuffled берёт переставленный
     var es = this._es || (this._es = new Float32Array(c.maxPop));
     var des = this._des || (this._des = new Float32Array(c.maxPop));
     for (var qq = 0; qq < k; qq++) {
@@ -448,7 +448,7 @@
       this.age[id]++;
 
       // вкус: трёхфакторное правило на одном синапсе (до × после × модулятор).
-      // Модулятор — изменение энергии за тик (еда или яд), с мёртвой зоной:
+      // Модулятор: изменение энергии за тик (еда или яд), с мёртвой зоной:
       // обычный обмен веществ, шаг и поворот правило не видит
       if (c.taste && c.tasteLearning) {
         var dE = this.E[id] - eBefore;
@@ -552,7 +552,7 @@
       if (this.rng() < c.mutationRate) tg += this.normal() * c.mutationSigma;
       tg = tg > c.tasteClip ? c.tasteClip : (tg < -c.tasteClip ? -c.tasteClip : tg);
       this.tasteG[s] = tg; this.taste[s] = tg;
-      // скорость обучения — тоже ген: множительная мутация, чтобы отбор мог
+      // скорость обучения тоже ген: множительная мутация, чтобы отбор мог
       // поднять её на порядки за десятки поколений
       if (c.tasteLrSigma > 0) {
         var v = this.tasteLr[par] * Math.exp(this.normal() * c.tasteLrSigma);

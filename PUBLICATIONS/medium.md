@@ -15,7 +15,7 @@ https://minimir.ilinmaks.com/results-b.html
 ### Восемьдесят процентов наших миров погибли на первой же смене правила. Это и есть результат
 
 *Отчёт о закрытом эксперименте, в котором отрицательный исход был объявлен
-заранее, а самым чистым числом оказалось сорок из сорока*
+заранее, а число сорок из сорока оказалось заложено в саму конструкцию мира*
 
 Полгода назад я поставил себе рамку, которая теперь регулярно портит мне
 настроение: критерии объявляются до прогонов, и вердикт после них не
@@ -72,20 +72,27 @@ https://minimir.ilinmaks.com/results-b.html
 обучения физически не может переучиться. Оно умирает от яда раньше, чем меняет
 знак собственного предпочтения.
 
-### Самое чистое число в проекте
+### Число, которое было заложено в конструкцию
 
-И вот на этом фоне абляция дала результат, которого я, честно говоря, не ожидал.
+И вот на этом фоне абляция дала результат, который в октябре, после аудита, я
+читаю иначе, чем в день написания отчёта.
 
 Тот же мир, те же семена, тот же предок, разница только в том, применяется ли
 прижизненное обучение. Без обучения не выжил ни один мир из сорока. С обучением
 выжило восемь. Восемь расходящихся пар, все в одну сторону, ноль в обратную,
 точный тест Макнемара p = 0,0078.
 
-Это единственная из четырёх зарегистрированных гипотез, прошедшая свой критерий
-без оговорок. И она же единственное, что позволяет читать дальнейший рост гена
-скорости обучения как адаптацию, а не как попутчика отбора. Условие, кстати, было
-добавлено в главный критерий поправкой за несколько часов до первого прогона.
-Сработала именно оно.
+Это единственная из четырёх зарегистрированных гипотез, прошедшая свой критерий.
+Но оговорка есть, и серьёзная. Существо с замороженным вкусом плюс три после
+смены правила теряет около пяти единиц энергии на каждом укусе привычного цвета
+и не успевает ничего унаследовать за те триста пятьдесят тиков, что остаются до
+гибели. Исход абляции был предопределён тем, как мы построили мир, и пилот это
+уже показывал. А p = 0,0078 это наименьшее значение, какое вообще бывает при
+восьми парах. Так что рост гена скорости после смены я больше не могу читать как
+адаптацию, которую абляция отделила от попутчика отбора: прослеживание
+родословных показало ровно сценарий попутчика, об этом ниже. Условие, кстати,
+было добавлено в главный критерий поправкой за несколько часов до первого
+прогона.
 
 ### Где на самом деле лежит знание
 
@@ -101,19 +108,26 @@ https://minimir.ilinmaks.com/results-b.html
 что заодно подтверждает исправность барьера против наследования прижизненных
 изменений. Там, где правило не меняется, обучение дотянуло вкус до плюс пяти с
 половиной, усилив и без того верное врождённое предпочтение. А там, где правило
-меняется раз в жизнь, фенотип ушёл в минус пять, при врождённом плюс три.
+меняется раз в жизнь, фенотип следует за текущим правилом: медиана по восьми
+мирам минус 4,92 при врождённом плюс три, а в двух мирах из восьми на последнем
+тике вкус положительный, потому что правило там стояло в другом положении.
 
 Геном не может записать правило. Прижизненное обучение его записывает. Ровно это
 разделение протокол и был построен показать, и это единственное место, где
 результат выглядит как картинка, а не как p-значение.
 
-У выживших, к слову, видно и то, за счёт чего они выжили. Численность перед
-катастрофой у них такая же, как у погибших. Отличается скорость обучения: медиана
-0,120 против 0,103, p = 0,023 по одностороннему тесту Манна-Уитни. Отбор работал
-на стоячей изменчивости, пережили те популяции, в хвосте которых уже были
-достаточно быстро обучающиеся особи. После горлышка скорость обучения выросла
-примерно в тридцать раз за несколько сотен тиков и девяносто тысяч тиков
-держалась у верхней границы допустимого диапазона.
+У выживших, к слову, видно и то, за счёт чего они выжили. Численность на
+4000-м тике, последней точке кривой перед сменой, у них такая же, как у
+погибших. Отличается скорость обучения: медиана 0,120 против 0,103, p = 0,023 по
+одностороннему тесту Манна-Уитни. Отбор работал на стоячей изменчивости, и
+родословные показывают, насколько буквально: каждый выживший мир происходит от
+одной-четырёх особей, которые к моменту смены случайно оказались в верхних
+процентах разброса гена и которым ещё повезло с едой. В биологии это называется
+эволюционным спасением за счёт стоячей изменчивости. После горлышка скорость
+обучения за несколько сотен тиков ушла к потолку допустимого диапазона (ген
+ограничен сверху четвёркой) и девяносто тысяч тиков там держалась. Рост в
+тридцать раз, о котором я писал раньше, это отношение к стартовому 0,1, и
+размером эффекта оно не является: числитель упёрся в потолок гена.
 
 ### Третья новость, которой не ждали
 
@@ -165,7 +179,7 @@ https://minimir.ilinmaks.com/results-b.html
 поэтому единственная защита это заранее объявленные критерии и готовность
 опубликовать провал.
 
-Так что протокол B1 закрыт. Восемь из сорока выживших дали очень чистую картину, и
+Так что протокол B1 закрыт. Восемь из сорока выживших дали ясную картину, и
 именно поэтому новый протокол нужен: мир должен переживать первую смену правила,
 иначе мы измеряем не эволюцию обучения, а узость горлышка. Самое прямое решение
 это сделать переворот постепенным, за несколько десятков тиков, чтобы у популяции
@@ -183,7 +197,7 @@ https://minimir.ilinmaks.com/results-b.html
 ### Eighty percent of our worlds died at the first rule change. That is the result
 
 *A report on a closed experiment where the negative outcome was declared in
-advance, and the cleanest number turned out to be forty out of forty*
+advance, and the number forty out of forty turned out to be built into the world itself*
 
 Half a year ago I set myself a frame that now regularly ruins my mood: criteria
 are declared before the runs, and the verdict is not rewritten afterwards. In
@@ -242,21 +256,27 @@ sixty poisonings, which is three hundred units of energy against a reserve of a
 hundred. A creature at the starting learning rate cannot physically relearn. It
 dies of poison before it changes the sign of its own preference.
 
-### The cleanest number in the project
+### The number the design guaranteed
 
-Against that background the ablation produced a result I honestly had not
-expected.
+Against that background the ablation produced a result that I read differently
+now, after the October audit, than on the day I wrote the report.
 
 Same world, same seeds, same ancestor, with the only difference being whether
 lifetime learning is applied. Without learning, not one world out of forty
 survived. With learning, eight survived. Eight discordant pairs, all in one
 direction, zero in the other, exact McNemar test p = 0.0078.
 
-This is the only one of the four registered hypotheses that passed its criterion
-without reservations. It is also the only thing that lets the later rise of the
-learning rate gene be read as an adaptation rather than as a passenger of
-selection. The condition, incidentally, was added to the main criterion by an
-amendment a few hours before the first run. It is the part that worked.
+This is the only one of the four registered hypotheses that passed its
+criterion. There is a serious caveat, though. A creature with a frozen taste of
+plus three pays about five units of energy per bite of the familiar colour after
+a reversal and cannot inherit anything within the three hundred and fifty ticks
+it has left. The outcome of the ablation was decided by how we built the world,
+and the pilot had already shown it. And p = 0.0078 is the smallest value eight
+pairs can produce. So I can no longer read the rise of the learning rate gene
+after the switch as an adaptation that the ablation separated from a passenger
+of selection: lineage tracing shows exactly the passenger scenario, more on that
+below. The condition, incidentally, was added to the main criterion by an
+amendment a few hours before the first run.
 
 ### Where the knowledge actually sits
 
@@ -273,20 +293,27 @@ exactly equal to the genome, which incidentally confirms that the barrier
 against inheriting lifetime change is intact. Where the rule never changes,
 learning pulled taste up to plus five and a half, reinforcing an already correct
 innate preference. And where the rule changes once per lifetime, the phenotype
-went to minus five while the genome stayed at plus three.
+tracks the current rule: the median over eight worlds is minus 4.92 while the
+genome stayed at plus three, and in two of the eight worlds the taste at the
+last tick is positive, because the rule stood the other way there.
 
 The genome cannot record the rule. Lifetime learning records it. That separation
 is exactly what the protocol was built to show, and it is the one place where
 the result looks like a picture rather than a p value.
 
 In the survivors you can also see what they survived by. Their population size
-before the catastrophe is the same as in those that died. What differs is the
-learning rate: a median of 0.120 against 0.103, p = 0.023 on a one sided
-Mann-Whitney test. Selection worked on standing variation. The populations that
-made it were the ones that already had fast enough learners in the tail. After
-the bottleneck the learning rate grew roughly thirtyfold within a few hundred
-ticks and then held near the top of the permitted range for ninety thousand
-ticks.
+at tick 4,000, the last curve point before the switch, is the same as in those
+that died. What differs is the learning rate: a median of 0.120 against 0.103,
+p = 0.023 on a one sided Mann-Whitney test. Selection worked on standing
+variation, and the lineages show how literally: each surviving world descends
+from one to four individuals that happened to sit in the top few percent of the
+spread of the gene at the moment of the switch and that also got lucky with
+food. In biology this is called evolutionary rescue from standing variation.
+After the bottleneck the learning rate went to the ceiling of its permitted
+range within a few hundred ticks (the gene is capped at four) and held there for
+ninety thousand ticks. The thirtyfold rise I wrote about earlier is the ratio to
+the starting value of 0.1, and it is not an effect size: the numerator sits at
+the cap of the gene.
 
 ### A third piece of news nobody ordered
 
@@ -340,8 +367,8 @@ nothing, and it looks exactly like a result obtained honestly. There is no way
 to tell them apart from the outside, so the only defence is criteria declared in
 advance and a willingness to publish the failure.
 
-So protocol B1 is closed. The eight survivors out of forty gave a very clean
-picture, and that is precisely why a new protocol is needed: the world has to be
+So protocol B1 is closed. The eight survivors out of forty gave a clear picture,
+and that is precisely why a new protocol is needed: the world has to be
 survivable through the first rule change, otherwise what we measure is not the
 evolution of learning but the narrowness of a bottleneck. The most direct fix is
 to make the reversal gradual over a few dozen ticks, so the population has a

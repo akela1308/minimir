@@ -56,8 +56,9 @@ The nightly job, the statistics module and the page builder all import this. A
 condition cannot drift between the runner and the analysis, because there is
 nowhere for it to drift to. The two `frozen` conditions are the ablation: the
 gene is present and inherited, the learning simply is not applied. That one flag
-is the difference between a correlation and a causal claim, and it costs one
-boolean.
+turns a correlation into a survival comparison. Here the comparison was decided
+by the design of the world (a frozen taste is lethal after a reversal), see the
+results at the end.
 
 #### The barrier that has to be explicit
 
@@ -122,9 +123,14 @@ you a reference that widens every tick.
 | 20 000 | 1.006 | 10x |
 | 100 000 | 1.786 | 61x |
 
-The effect I measured was 1.16 in log10, a ratio of 14.5. It would have passed
-the criterion at twenty thousand ticks and failed at a hundred thousand. Same
-effect, same data, different declared run length.
+The effect I measured was 1.16 in log10, a ratio of 14.5 at tick 100,000. It
+would have passed the criterion at twenty thousand ticks and failed at a hundred
+thousand. Same effect, same data, different declared run length. The ratio
+itself is also shaky: the numerator sits at the cap of the gene (4.0; the
+within-run 75th percentile is exactly 4.000 in all eight survivors) and the
+denominator is a random walk, so the number moves between 10 and 36 depending
+on the tick you read it at. What the data support is that the learning rate
+went to the ceiling of its range and stayed there.
 
 That is not a statistical subtlety, it is a unit error of a sort: the threshold
 measures the duration of the run rather than the size of the effect. I am not
@@ -147,13 +153,19 @@ five energy, the cap is a hundred, one bite shifts taste by about 0.1, and
 crossing from plus three to minus three takes sixty poisonings. A creature at
 the starting rate cannot afford to relearn.
 
-The ablation is clean. Without lifetime learning, forty worlds out of forty
-died. With it, eight survived. Eight discordant pairs, zero in the other
-direction, exact McNemar p = 0.0078.
+The ablation held, which the design made close to certain: a creature with a
+frozen taste of plus three pays five energy per bite of the old colour after the
+switch and cannot inherit its way out in 350 ticks. Without lifetime learning,
+forty worlds out of forty died. With it, eight survived. Eight discordant pairs,
+zero in the other direction, exact McNemar p = 0.0078, which is the floor for
+eight pairs. The eight survivors each descend from one to four individuals that
+happened to carry a high learning rate at the switch: evolutionary rescue from
+standing variation, not gradual selection.
 
 And the clearest mechanism: the inherited taste stayed at about plus three in
-every condition, while in the changing world the learned phenotype flipped to
-minus five. The genome cannot record a rule that changes at random, lifetime
+every condition, while in the changing world the learned phenotype tracks the
+current rule (median over eight worlds −4.92, two of eight positive at the last
+tick). The genome cannot record a rule that changes at random, lifetime
 learning can.
 
 Code, raw data and the frozen preregistration:
@@ -202,8 +214,9 @@ PLASTIC = dict(never=True, slow=True, life=True, fast=True,
 Суточная задача, модуль статистики и сборщик страницы импортируют это. Условие
 не может разъехаться между прогоном и анализом, потому что разъезжаться некуда.
 Два условия `frozen` это абляция: ген есть и наследуется, просто обучение не
-применяется. Этот один флаг отличает корреляцию от причинного утверждения и
-стоит одного булева значения.
+применяется. Этот один флаг превращает корреляцию в сравнение выживаемости. Здесь
+исход сравнения был предрешён конструкцией мира (замороженный вкус после смены
+правила смертелен), см. результаты в конце.
 
 #### Барьер, который надо делать явно
 
@@ -269,9 +282,13 @@ GitHub Actions для публичного репозитория, по два �
 | 20 000 | 1,006 | 10x |
 | 100 000 | 1,786 | 61x |
 
-Измеренный эффект составил 1,16 в log10, то есть отношение 14,5. На двадцати
-тысячах тиков он бы критерий прошёл, на ста тысячах не прошёл. Тот же эффект, те
-же данные, разная объявленная длина прогона.
+Измеренный эффект составил 1,16 в log10, то есть отношение 14,5 на 100-тысячном
+тике. На двадцати тысячах тиков он бы критерий прошёл, на ста тысячах не прошёл.
+Тот же эффект, те же данные, разная объявленная длина прогона. Само отношение
+тоже ненадёжно: числитель упёрся в потолок гена (4,0; 75-й процентиль внутри
+прогона равен ровно 4,000 во всех восьми выживших мирах), а знаменатель
+блуждает, поэтому число гуляет от 10 до 36 в зависимости от тика. Данные
+поддерживают одно: скорость обучения ушла к потолку диапазона и там осталась.
 
 Это не статистическая тонкость, это по сути ошибка размерности: порог измеряет
 длительность прогона, а не величину эффекта. Сейчас я его не двигаю, потому что
@@ -293,12 +310,19 @@ GitHub Actions для публичного репозитория, по два �
 шестидесяти отравлений. Существо со стартовой скоростью не может позволить себе
 переучивание.
 
-Абляция чистая. Без прижизненного обучения вымерли сорок миров из сорока. С ним
-выжило восемь. Восемь расходящихся пар, ноль в обратную сторону, точный тест
-Макнемара p = 0,0078.
+Абляция сработала, и конструкция мира делала это почти неизбежным: существо с
+замороженным вкусом плюс три после смены теряет пять единиц энергии на каждом
+укусе старого цвета и за 350 тиков ничего унаследовать не успевает. Без
+прижизненного обучения вымерли сорок миров из сорока. С ним выжило восемь.
+Восемь расходящихся пар, ноль в обратную сторону, точный тест Макнемара
+p = 0,0078, и это пол для восьми пар. Каждый из восьми выживших миров происходит
+от одной-четырёх особей, у которых к моменту смены случайно была высокая
+скорость обучения: эволюционное спасение за счёт стоячей изменчивости, а не
+постепенный отбор.
 
 И самый наглядный механизм: врождённый вкус остался около плюс трёх во всех
-условиях, а в меняющемся мире выученный фенотип развернулся в минус пять. Геном
+условиях, а в меняющемся мире выученный фенотип следует за текущим правилом (медиана по
+восьми мирам −4,92, в двух из восьми на последнем тике плюс). Геном
 не может записать правило, которое меняется случайно, прижизненное обучение
 может.
 

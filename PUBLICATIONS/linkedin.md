@@ -29,10 +29,16 @@ Kozielska и Weissing в PLoS Computational Biology за 2024 год, и мы х
 ставилось, недействительно, протокол заменяется, а не подкручивается до красивых
 чисел.
 
-Но в той же серии получился самый чистый результат за всё время проекта. Тот же
+В той же серии подтвердилось то, что мы сами заложили в конструкцию мира. Тот же
 мир, те же семена, тот же предок, только прижизненное обучение отключено:
 вымерли все сорок из сорока. С обучением выжило восемь. Точный тест Макнемара
-даёт p = 0,0078. Без способности учиться этот мир не переживается вообще.
+даёт p = 0,0078, и это наименьшее значение, какое вообще бывает при восьми
+парах. Без способности учиться этот мир не переживается, но это свойство мира,
+который мы построили: замороженный вкус после смены правила смертелен сам по
+себе. А выжившие восемь миров, как показало прослеживание родословных,
+происходят от одной-четырёх особей, которые к моменту смены случайно оказались
+в верхнем хвосте разброса гена скорости обучения. Это везение хвоста, в
+биологии оно называется эволюционным спасением за счёт стоячей изменчивости.
 
 И отдельно то, что мне нравится больше всего. У выживших врождённый вкус не
 изменился совсем, остался тем же, с которым начинали. А выученный при жизни
@@ -74,11 +80,16 @@ By our preregistration that is the failure boundary: the comparison the whole
 thing was built for is void, and the protocol gets replaced rather than tuned
 until the numbers look good.
 
-And yet the same series produced the cleanest result in the project so far. Same
-world, same seeds, same ancestor, with lifetime learning switched off: all forty
-out of forty went extinct. With learning, eight survived. The exact McNemar test
-gives p = 0.0078. Without the ability to learn, this world is not survivable at
-all.
+The same series also confirmed something we had built into the world ourselves.
+Same world, same seeds, same ancestor, with lifetime learning switched off: all
+forty out of forty went extinct. With learning, eight survived. The exact McNemar
+test gives p = 0.0078, which is the smallest value eight pairs can produce.
+Without the ability to learn this world cannot be survived, but that is a
+property of the world we built: a frozen taste after a reversal is lethal on its
+own. And the eight survivors, once we traced their lineages, each descend from
+one to four individuals that happened to sit in the upper tail of the spread of
+the learning rate gene at the moment of the switch. Luck of the tail; in biology
+this is called evolutionary rescue from standing variation.
 
 Then the part I like most. In the survivors the inherited taste did not change
 at all, it stayed what they started with. The taste learned during life flipped
@@ -103,17 +114,17 @@ is in the link below.
 
 RU: Закрыли второй эксперимент мини-мира. Восемьдесят процентов популяций
 погибли на первой же смене пищевого правила, и по нашей предрегистрации это
-граница провала, а не результат. Зато абляция вышла идеальной: без прижизненного
-обучения вымерли все сорок миров из сорока, с обучением выжило восемь, p =
-0,0078. У выживших врождённый вкус не сдвинулся, а выученный развернулся в
+граница провала, а не результат. Абляция сработала, как и было заложено: без
+прижизненного обучения вымерли все сорок миров из сорока, с обучением выжило
+восемь, p = 0,0078. У выживших врождённый вкус не сдвинулся, а выученный развернулся в
 минус. Наследственность хранит устройство, знание о сегодняшнем дне живёт внутри
 одной жизни. Разбор целиком, включая нашу собственную ошибку в критерии, по
 ссылке.
 
 EN: We closed the second mini-world experiment. Eighty percent of the
 populations died at the first change of the food rule, and by our own
-preregistration that is a failure boundary, not a result. The ablation, though,
-came out perfect: without lifetime learning all forty worlds out of forty went
+preregistration that is a failure boundary, not a result. The ablation held, as
+the design required: without lifetime learning all forty worlds out of forty went
 extinct, with learning eight survived, p = 0.0078. In the survivors the
 inherited taste did not budge while the learned one flipped negative. Heredity
 holds the design, knowledge about today lives inside a single life. The full

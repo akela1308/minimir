@@ -13,11 +13,11 @@
 
 ## 1. r/MachineLearning
 
-**Title (EN):** [R] Preregistered ALife experiment on the evolution of learning: the declared failure boundary fired, but the ablation is clean (40/40 extinctions without lifetime plasticity)
+**Title (EN):** [R] Preregistered ALife experiment on the evolution of learning: the declared failure boundary fired; the ablation held, as the design made nearly certain (40/40 extinctions without lifetime learning)
 
 **Заголовок по-русски (для понимания):** Предрегистрированный ALife-эксперимент
-про эволюцию обучения: объявленная граница провала сработала, но абляция чистая
-(40 вымираний из 40 без прижизненной пластичности)
+про эволюцию обучения: объявленная граница провала сработала; абляция сработала, как и было заложено
+в конструкцию (40 вымираний из 40 без прижизненного обучения)
 
 ### Текст (EN)
 
@@ -52,12 +52,21 @@ and should have been done in advance: a toxic bite costs about 5 energy against
 a cap of 100, one bite shifts taste by about 0.1, and crossing from the innate
 +3 to a stable -3 takes roughly 60 poisonings.
 
-2. Ablation is clean. life vs life_frozen, same seeds and ancestor: 8 discordant
-pairs, all in one direction, 0 reversed, exact McNemar p = 0.0078. Extinction
-32/40 against 40/40. No world survived without lifetime learning.
+2. Ablation held, and the design made it close to certain. life vs life_frozen,
+same seeds and ancestor: 8 discordant pairs, all in one direction, 0 reversed,
+exact McNemar p = 0.0078, which is the floor for eight pairs. Extinction 32/40
+against 40/40. No world survived without lifetime learning, but a frozen taste
+of +3 pays about 5 energy per bite of the old colour after a reversal and cannot
+inherit its way out in 350 ticks, so this is a property of the world as built.
+Lineage tracing: each of the 8 survivors descends from 1 to 4 individuals that
+happened to sit at or above the 92nd percentile of their population in learning
+rate at the switch (evolutionary rescue from standing variation). Two of the 8
+survivors are pilot seeds (1 and 2) that the preregistration promised to
+exclude; without them McNemar gives p = 0.031.
 
 3. Mechanism. Genome taste stayed near +3.0 in every condition including the
-changing ones, while the phenotype in life went to -4.92. Where learning is off,
+changing ones, while the phenotype in life tracks the current rule (median over
+8 worlds -4.92, 2 of 8 positive at the last tick). Where learning is off,
 phenotype equals genome exactly, which also validates the barrier. Within life
 learning is visible directly: edible bite fraction goes 0.845 in the first 50
 ticks of life to 0.94 by tick 100, and after a reversal agents born before it
@@ -70,8 +79,11 @@ multiplicatively, so without selection it is a random walk in log space and its
 variance grows with run length. The threshold went from 0.131 in log10 at tick
 2000 to 1.786 at tick 100k, that is from 1x to 61x. The measured effect was
 x14.5, or 1.16 in log10. The same effect would have passed at 20k ticks. The
-threshold measures run length, not effect size. I am not moving it post hoc; the
-next protocol compares against drift at the same tick.
+threshold measures run length, not effect size. The numerator is also clamped
+at the gene cap of 4.0 (q75 = 4.000 in 8/8 survivors), so the ratio is a
+ceiling divided by a random walk and moves between 10 and 36 depending on the
+tick; the stable statement is that the rate went to the cap and stayed there.
+I am not moving it post hoc; the next protocol compares against drift at the same tick.
 
 5. H-B2 not confirmed and it narrows an earlier claim of mine. In the stationary
 world learning did not get selected away (ratio 1.38, p = 0.115), contradicting
@@ -85,7 +97,9 @@ ratio describes evolution where evolution had time to happen, not the expected
 outcome in a random world. One plastic synapse, one grid, one metabolism, no
 generalisation to a general learning rule is claimed. H-B3 (frequency gradient)
 is untestable on these data rather than refuted, the first switch swamps it:
-life vs fast gave 3 discordant against 1, p = 0.625.
+life vs fast gave 3 discordant against 1, p = 0.625; the three switching
+conditions also share their pre-switch trajectory and schedule quantile, so the
+same seeds survive in all three and the test was untestable by design.
 
 One note for anyone recomputing from the raw data: because the rate gene mutates
 multiplicatively, all medians and quartiles of the learning rate are taken on
@@ -129,13 +143,21 @@ the repo. Results write up with all tables: https://minimir.ilinmaks.com/results
 укус сдвигает вкус примерно на 0,1, а переезд от врождённого +3 к устойчивому -3
 требует порядка 60 отравлений.
 
-2. Абляция чистая. life против life_frozen, те же семена и предок: 8
-расходящихся пар, все в одну сторону, 0 обратных, точный тест Макнемара p =
-0,0078. Вымирание 32/40 против 40/40. Без прижизненного обучения не выжил ни
-один мир.
+2. Абляция сработала, и конструкция делала это почти неизбежным. life против
+life_frozen, те же семена и предок: 8 расходящихся пар, все в одну сторону, 0
+обратных, точный тест Макнемара p = 0,0078, и это пол для восьми пар. Вымирание
+32/40 против 40/40. Без прижизненного обучения не выжил ни один мир, но
+замороженный вкус +3 после смены теряет около 5 энергии на каждом укусе старого
+цвета и за 350 тиков ничего унаследовать не успевает, так что это свойство
+мира, каким мы его построили. Родословные: каждый из 8 выживших миров происходит
+от 1-4 особей, которые в момент смены случайно стояли не ниже 92-го процентиля
+своей популяции по скорости обучения (эволюционное спасение за счёт стоячей
+изменчивости). Два из 8 выживших это пилотные семена (1 и 2), которые
+предрегистрация обещала не считать; без них Макнемар даёт p = 0,031.
 
 3. Механизм. Вкус в геноме остался около +3,0 во всех условиях, включая
-меняющиеся, а фенотип в life ушёл к -4,92. Там, где обучение отключено, фенотип
+меняющиеся, а фенотип в life следует за текущим правилом (медиана по 8 мирам -4,92, у 2
+из 8 на последнем тике плюс). Там, где обучение отключено, фенотип
 в точности равен геному, что заодно валидирует барьер. Обучение внутри жизни
 видно напрямую: доля съедобных укусов идёт от 0,845 в первые 50 тиков жизни к
 0,94 к сотому тику, а после переворота родившиеся до него проваливаются до 0,66
@@ -148,8 +170,11 @@ the repo. Results write up with all tables: https://minimir.ilinmaks.com/results
 длиной прогона. Порог вырос с 0,131 в log10 на тике 2000 до 1,786 на тике 100
 тысяч, то есть с 1x до 61x. Измеренный эффект составил x14,5, или 1,16 в log10.
 Тот же эффект прошёл бы на 20 тысячах тиков. Порог измеряет длину прогона, а не
-величину эффекта. Задним числом я его не двигаю, следующий протокол сравнивает с
-дрейфом на том же тике.
+величину эффекта. Числитель к тому же упёрся в потолок гена 4,0 (q75 = 4,000 у
+8 из 8 выживших), так что отношение это потолок, делённый на случайное
+блуждание, и оно гуляет от 10 до 36 в зависимости от тика; устойчивое
+утверждение одно: скорость ушла к потолку и там осталась. Задним числом я его
+не двигаю, следующий протокол сравнивает с дрейфом на том же тике.
 
 5. H-B2 не подтверждена, и это сужает моё же прежнее утверждение. В стационарном
 мире обучение не отобралось прочь (отношение 1,38, p = 0,115), что противоречит
@@ -171,7 +196,9 @@ the repo. Results write up with all tables: https://minimir.ilinmaks.com/results
 случайном мире. Один пластичный синапс, одна сетка, один метаболизм, обобщения
 на общее правило обучения не заявляется. H-B3 (градиент частоты) не проверяема на
 этих данных, а не опровергнута, первый переворот её перекрывает: life против fast
-дал 3 расхождения против 1, p = 0,625.
+дал 3 расхождения против 1, p = 0,625; к тому же три условия со сменой делят
+траекторию до первой смены и квантиль расписания, выживают одни и те же семена,
+и проверка была невозможна уже по дизайну.
 
 ---
 
@@ -211,11 +238,15 @@ that the rules changed.
 
 Three things did come out of it.
 
-The ablation is as clean as I have ever got. Same world, same random seeds, same
+The ablation held, which the design made close to certain: a creature with a
+frozen taste of +3 pays five energy per bite of the old colour after the switch
+and cannot inherit its way out in 350 ticks. Same world, same random seeds, same
 ancestor, the only difference being whether lifetime learning is applied at all.
 Without it, forty worlds out of forty went extinct. With it, eight survived. In
-a world that changes its rules, the ability to learn is not an advantage, it is
-the entry fee.
+this world, at one reversal per lifetime, no population without lifetime
+learning survived. At several reversals per lifetime one world did survive
+without learning at all, so the statement holds for the treatment condition,
+not for changing worlds in general.
 
 The split between heredity and learning is visible in two numbers. In the
 survivors the inherited taste never moved, it stayed at about the value they
@@ -223,13 +254,17 @@ started with. The taste learned during life flipped to the opposite sign. The
 genome cannot store a rule that changes at random, so it does not try. Knowledge
 about today lives inside one life and every generation earns it again.
 
-And the eight survivors did not survive by luck alone. Their populations were
-the same size as the ones that died, but their learning rates were slightly
-higher before the catastrophe hit. Selection had something to work with, and
-after the bottleneck the learning rate in those worlds grew about thirtyfold
-within a few hundred ticks.
+And the eight survivors survived on the luck of the tail. Their populations
+were the same size as the ones that died at tick 4,000, the last reading before
+the switch, but their learning rates were slightly higher. When I traced the
+lineages, each surviving world descends from one to four individuals that
+happened to sit in the top few percent of a neutral spread of the gene (1.4
+percent of agents had a rate above 1.0 at the switch) and that also got lucky
+with food. That is the finding: rescue from standing variation, not gradual
+selection. After the bottleneck the learning rate in those worlds went to the
+ceiling of its range within a few hundred ticks and stayed there.
 
-I also found a mistake of my own that is worth more than the experiment. The
+I also found a mistake of my own that is worth writing down. The
 threshold I had promised to beat grows with the length of the run, because the
 gene it is based on wanders further the longer you watch it. By the end it
 demanded a sixtyfold difference and my effect was fourteenfold. Stop the runs
@@ -271,11 +306,15 @@ at the end: https://minimir.ilinmaks.com/results-b.html
 
 Три вещи из этого всё же вышли.
 
-Абляция получилась самой чистой, какая у меня вообще была. Тот же мир, те же
+Абляция сработала, и конструкция мира делала это почти неизбежным: существо с
+замороженным вкусом +3 после смены теряет пять единиц энергии на каждом укусе
+старого цвета и за 350 тиков ничего унаследовать не успевает. Тот же мир, те же
 случайные семена, тот же предок, разница только в том, применяется ли
 прижизненное обучение вообще. Без него вымерли сорок миров из сорока. С ним
-выжило восемь. В мире, который меняет правила, способность учиться это не
-преимущество, это входная плата.
+выжило восемь. В этом мире при смене раз в жизнь без прижизненного обучения не
+выжила ни одна популяция. При смене несколько раз за жизнь один мир выжил вовсе
+без обучения, так что утверждение верно для условия life, а не для меняющихся
+миров вообще.
 
 Разделение между наследственностью и обучением видно в двух числах. У выживших
 врождённый вкус не сдвинулся, остался примерно тем, с которого начинали. Вкус,
@@ -283,12 +322,17 @@ at the end: https://minimir.ilinmaks.com/results-b.html
 правило, которое меняется случайно, поэтому он и не пытается. Знание о сегодняшнем
 дне живёт внутри одной жизни, и каждое поколение добывает его заново.
 
-И восемь выживших выжили не на одном везении. Их популяции были такого же
-размера, как у погибших, но скорость обучения у них была чуть выше ещё до
-катастрофы. Отбору было с чем работать, и после горлышка скорость обучения в тех
-мирах выросла примерно в тридцать раз за несколько сотен тиков.
+И восемь выживших выжили на везении хвоста. Их популяции на 4000-м тике,
+последнем замере перед сменой, были такого же размера, как у погибших, но
+скорость обучения у них была чуть выше. Когда я проследил родословные,
+оказалось, что каждый выживший мир восходит к одной-четырём особям, которые к
+моменту смены случайно оказались в верхних процентах нейтрального разброса гена
+(выше 1,0 было 1,4% агентов) и которым ещё повезло с едой. Это и есть находка:
+спасение за счёт стоячей изменчивости, а не постепенный отбор. После горлышка
+скорость обучения в тех мирах за несколько сотен тиков ушла к потолку диапазона
+и там осталась.
 
-Ещё я нашёл свою собственную ошибку, которая стоит больше, чем сам эксперимент.
+Ещё я нашёл свою собственную ошибку, которую стоит записать.
 Порог, который я обещал побить, растёт с длиной прогона, потому что ген, на
 котором он построен, уходит тем дальше, чем дольше за ним смотришь. К концу он
 требовал шестидесятикратной разницы, а мой эффект был в четырнадцать раз.
@@ -346,8 +390,11 @@ My second criterion was unreachable by construction. It compared the effect to
 two sigma of the neutral drift of the same gene, measured at the end of the run.
 Multiplicative mutation plus no selection equals a random walk in log space,
 whose variance grows with time, so the threshold grew from 1x at tick 2000 to
-61x at tick 100k while the effect stayed at 14.5x. Check that your neutral
-reference is stationary before freezing a number.
+61x at tick 100k while the effect stayed at 14.5x. The effect itself is also
+clamped: the gene has a cap of 4.0 and the survivors sit on it, so the ratio is
+a ceiling over a random walk and is not an effect size. Check that your neutral
+reference is stationary, and that your treatment is not censored, before
+freezing a number.
 
 Plasticity cost matters more than environmental stability. An earlier pilot of
 mine with a general Hebbian rule over the output layer showed the learning rate
@@ -404,8 +451,10 @@ Results page: https://minimir.ilinmaks.com/results-b.html
 Множительная мутация плюс отсутствие отбора это случайное блуждание в
 логарифмическом пространстве, дисперсия которого растёт со временем, поэтому
 порог вырос с 1x на тике 2000 до 61x на тике 100 тысяч, а эффект остался 14,5x.
-Проверяйте, стационарен ли ваш нейтральный контроль, прежде чем замораживать
-число.
+Сам эффект к тому же обрезан: у гена потолок 4,0, и выжившие на нём сидят, так
+что отношение это потолок, делённый на случайное блуждание, а не размер эффекта.
+Проверяйте, стационарен ли ваш нейтральный контроль и не цензурирован ли ваш
+эффект, прежде чем замораживать число.
 
 Цена пластичности важнее стабильности среды. Мой более ранний пилот с общим
 хеббовским правилом на выходном слое показывал падение скорости обучения вдвое в
@@ -423,7 +472,7 @@ Results page: https://minimir.ilinmaks.com/results-b.html
 
 This is from an artificial life simulation rather than from an organism, so take
 it as a model result and not as evidence about any real lineage. I think the
-mechanism is clean enough to be worth describing anyway.
+mechanism is simple enough to be worth describing anyway.
 
 The setup gives a population a problem with no heritable solution. Food comes in
 two colours, one nutritious and one toxic, and the roles reverse at moments
@@ -459,12 +508,16 @@ preference by about a tenth, and reversing a preference of +3 takes around sixty
 bites. A naive individual starves or poisons itself before it can relearn. Only
 populations that already carried faster learners in the tail of their variation
 made it through, which is standing variation doing the work in a single
-generation.
+generation: each surviving world descends from one to four individuals that
+happened to sit in the upper tail of the learning rate gene at the switch,
+evolutionary rescue in the sense of Gomulkiewicz and Holt (1995) and Bell (2017).
 
-The ablation is the one part that passed its declared criterion. In the same
-worlds with lifetime adjustment disabled, all forty replicates went extinct,
-against thirty two of forty with it. Exact McNemar on the eight discordant pairs
-gives p = 0.0078.
+The ablation is the one part that passed its declared criterion, and it is
+largely a property of the design: a frozen preference of +3 is lethal after a
+reversal on the energy arithmetic above. In the same worlds with lifetime
+adjustment disabled, all forty replicates went extinct, against thirty two of
+forty with it. Exact McNemar on the eight discordant pairs gives p = 0.0078, the
+floor for eight pairs.
 
 Preregistration, raw data and a full report with limitations:
 https://minimir.ilinmaks.com/results-b.html
@@ -473,7 +526,7 @@ https://minimir.ilinmaks.com/results-b.html
 
 Это результат симуляции искусственной жизни, а не организма, так что принимайте
 его как модельный результат, а не как свидетельство о какой-либо реальной линии.
-Мне кажется, механизм достаточно чистый, чтобы его стоило описать.
+Мне кажется, механизм достаточно простой, чтобы его стоило описать.
 
 Конструкция ставит популяции задачу, у которой нет наследуемого решения. Еда
 двух цветов, один питателен, другой токсичен, и роли переворачиваются в случайно
@@ -508,9 +561,14 @@ https://minimir.ilinmaks.com/results-b.html
 примерно на одну десятую, а обращение предпочтения +3 требует порядка шестидесяти
 укусов. Наивная особь гибнет от яда раньше, чем успевает переучиться. Прошли
 только те популяции, которые уже несли в хвосте изменчивости более быстро
-обучающихся, и это стоячая изменчивость, сработавшая за одно поколение.
+обучающихся, и это стоячая изменчивость, сработавшая за одно поколение: каждый
+выживший мир восходит к одной-четырём особям, которые в момент смены случайно
+оказались в верхнем хвосте гена скорости обучения, то есть эволюционное спасение
+в смысле Gomulkiewicz и Holt (1995) и Bell (2017).
 
-Абляция это единственная часть, прошедшая свой объявленный критерий. В тех же
-мирах с отключённой прижизненной подстройкой вымерли все сорок реплик, против
-тридцати двух из сорока с подстройкой. Точный тест Макнемара на восьми
-расходящихся парах даёт p = 0,0078.
+Абляция это единственная часть, прошедшая свой объявленный критерий, и в
+основном это свойство конструкции: замороженное предпочтение +3 после переворота
+смертельно уже по энергетической арифметике выше. В тех же мирах с отключённой
+прижизненной подстройкой вымерли все сорок реплик, против тридцати двух из
+сорока с подстройкой. Точный тест Макнемара на восьми расходящихся парах даёт
+p = 0,0078, это пол для восьми пар.

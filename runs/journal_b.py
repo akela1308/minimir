@@ -223,7 +223,7 @@ VERDICTS = {
                             "не расходится."),
     "world_fails": ("мир не выдерживает",
                     "Больше половины популяций в условии life вымерли: граница провала "
-                    "§6.3 предрегистрации. Сравнивать скорости обучения не на чем."),
+                    "§7.3 предрегистрации. Сравнивать скорости обучения не на чем."),
     "nodata": ("данных пока нет", "Завершённых seed'ов недостаточно."),
 }
 
@@ -291,12 +291,12 @@ def build_state():
 
 # ------------------------------------------------------------------ страница
 def fmt(x, digits=3):
-    return "—" if x is None else f"{x:.{digits}f}"
+    return "·" if x is None else f"{x:.{digits}f}"
 
 
 def fmt_p(p):
     if p is None:
-        return "—"
+        return "·"
     if p < 0.0001:
         return "&lt;0.0001"
     return f"{p:.4f}"
@@ -395,12 +395,12 @@ def render_section(st):
 
     rows_j = ""
     for e in reversed(st["entries"]):
-        vl = VERDICTS.get(e.get("verdict", "nodata"), ("—", ""))[0]
+        vl = VERDICTS.get(e.get("verdict", "nodata"), ("·", ""))[0]
         seeds = e.get("seeds") or []
-        srange = (f"{min(seeds)}–{max(seeds)}" if len(seeds) > 1
-                  else (str(seeds[0]) if seeds else "—"))
+        srange = (f"{min(seeds)}-{max(seeds)}" if len(seeds) > 1
+                  else (str(seeds[0]) if seeds else "·"))
         rows_j += (f"<tr><td class=\"mono\">{e['date']}</td><td>{srange}</td>"
-                   f"<td>{e.get('n_seeds', '—')}</td><td>×{fmt(e.get('ratio'), 2)}</td>"
+                   f"<td>{e.get('n_seeds', '·')}</td><td>×{fmt(e.get('ratio'), 2)}</td>"
                    f"<td>{fmt_p(e.get('p'))}</td><td>{vl}</td></tr>")
 
     ext = st["extinction"]
@@ -417,13 +417,21 @@ def render_section(st):
         '<a href="https://github.com/akela1308/minimir/blob/main/REPORT_B.md">'
         'REPORT_B.md</a>. Эти данные под новый протокол не пересчитываются: '
         'следующая версия мира получит свою предрегистрацию и свой файл '
-        'результатов.</p>')
+        'результатов.</p>'
+        '<p class="note"><b>Поправки от 28 октября 2026.</b> Пилотные seed\'ы 1 и 2 '
+        'попали в данные и в число восьми выживших миров life вопреки §9 '
+        'предрегистрации (без них выжило 6 из 38, Макнемар p = 0,031; без seed\'ов '
+        '1-3 p = 0,0625). Абляция H-B4 верна по построению, выжившие восходят к '
+        '1-4 особям на мир (спасение за счёт стоячей изменчивости), а в fast seed 10 '
+        'пережил 632 смены, не учась. Подробности: '
+        '<a href="https://github.com/akela1308/minimir/blob/main/ERRATUM_2026-10-28.md">'
+        'ERRATUM_2026-10-28.md</a>.</p>')
     return f'''
 <div class="card">
   <p class="big">{n} из {st['target']} seed'ов</p>
   <div class="bar"><i style="width:{pct}%"></i></div>
   <p class="muted">Измеряется ген скорости обучения «вкуса» (единственной пластичной
-  связи цвет → есть). Стартовое значение у всех {fmt(lr0, 2) if lr0 else '—'}. Шесть условий
+  связи цвет → есть). Стартовое значение у всех {fmt(lr0, 2) if lr0 else '·'}. Шесть условий
   на одних и тех же seed'ах и с одним предком: см. таблицу ниже.</p>
 </div>
 
@@ -463,6 +471,7 @@ def render_section(st):
 <tr><th>сравнение</th><th>отношение медиан</th><th>p</th><th>против 2σ</th>
 <th>подтв.</th><th>пар</th></tr>
 {rows_cmp}
+<tr><td colspan="6" class="dimtd">×{fmt(c.get('ratio'), 2)}: потолок гена, делённый на дрейф; не размер эффекта (ERRATUM 1.3). Столбец «квартили» выше это квартили медиан по seed'ам, не внутри популяции.</td></tr>
 </table>
 
 <h2>Журнал прогонов</h2>

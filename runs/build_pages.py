@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Собрать docs/ для GitHub Pages: страницы + SEO + разрешение ИИ-ботов.
 
-Главная (index) — ЖИВОЙ эксперимент (live.html, использует engine.js +
-ancestors.json). about.html — объяснение проекта. sim.html — точная запись
+Главная (index): ЖИВОЙ эксперимент (live.html, использует engine.js +
+ancestors.json). about.html: объяснение проекта. sim.html: точная запись
 Python-движка. Кросс-ссылки относительные; в каждую страницу вставляется
 богатый <head> (title, description, canonical, Open Graph, JSON-LD).
 Плюс robots.txt (разрешает поисковые и ИИ-краулеры), sitemap.xml, favicon,
@@ -15,7 +15,7 @@ BASE = "https://minimir.ilinmaks.com"
 GH = "https://github.com/akela1308/minimir"
 ART_VIEWER = "https://claude.ai/code/artifact/e9a5c20f-0137-466d-8f7b-769b5a24db34"
 ART_ABOUT = "https://claude.ai/code/artifact/7876772a-43f0-4fb5-b761-db802aa896a9"
-LASTMOD = "2026-10-07"
+LASTMOD = "2026-10-28"
 
 docs = Path("docs"); docs.mkdir(exist_ok=True)
 
@@ -79,7 +79,7 @@ def wrap(src, title, desc, canonical, replaces=()):
 LIVE_DESC = ("A controlled artificial-life experiment running live in your browser: two "
              "worlds (treatment vs shuffled control) evolve in parallel and a running "
              "verdict on whether self-knowledge changes behaviour accumulates as worlds "
-             "live and die. No fitness function, no reward — selection only.")
+             "live and die. No fitness function, no reward: selection only.")
 ABOUT_DESC = ("A tiny world of evolving creatures with no reward and no judge. We measure "
               "whether behaviour that looks like a need can emerge from selection alone: "
               "interoception, cooperation, and Vygotsky's sign. Open research: code, data, report.")
