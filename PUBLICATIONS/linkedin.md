@@ -44,8 +44,8 @@ Kozielska и Weissing в PLoS Computational Biology за 2024 год, и мы х
 Врождённый вкус у выживших не изменился совсем, остался тем же, с которым
 начинали. А выученный при жизни ходил вслед за правилом: в шести мирах из
 восьми на последнем тике он стоял с обратным знаком, в двух правило к тому
-моменту вернулось, и вкус вернулся с ним. Правило дня в генах не хранится,
-каждое поколение выучивает его само.
+моменту вернулось, и вкус вернулся с ним. Детям из выученного не передаётся
+ничего, каждое поколение учит правило заново.
 
 Ещё мы нашли ошибку в собственном критерии. Порог, с которым мы сравнивали
 эффект, растёт вместе с длиной прогона, потому что ген скорости обучения мутирует
@@ -102,8 +102,8 @@ Those eight worlds hold one more observation, and it needs no test. The
 inherited taste in the survivors did not change at all, it stayed what they
 started with. The taste learned during life followed the rule: in six of the
 eight worlds it stood at the opposite sign on the last tick, in the other two
-the rule had swung back by then and the taste had swung with it. The genes carry
-no rule of the day; each generation learns it for itself.
+the rule had swung back by then and the taste had swung with it. None of what
+was learned is passed to the children, so every generation learns the rule again.
 
 We also found an error in our own criterion. The threshold we compared the
 effect against grows with the length of the run, because the learning rate gene

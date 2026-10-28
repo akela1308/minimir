@@ -21,7 +21,7 @@
 
 ### Текст (EN)
 
-Setup. A grid world, agents with a 25-12-12 network, food, energy,
+Setup: A grid world, agents with a 25-12-12 network, food, energy,
 reproduction, death, no fitness function. Selection acts only through
 differences in offspring count. Food has two colours, one nutritious and one
 toxic, and the roles reverse at moments drawn from a separate seeded generator,
@@ -35,13 +35,13 @@ Hypothesis, from Kozielska and Weissing (PLoS Comput Biol 2024): the evolved
 learning rate is higher where the environment changes faster than generations
 turn over.
 
-Design. Six conditions on identical seeds, one ancestor per seed shared by all
+Design: Six conditions on identical seeds, one ancestor per seed shared by all
 six conditions: never (T=0), slow (T=5000), life (T=600), fast (T=150), plus
 life_frozen and never_frozen where the gene exists but learning is not applied.
 40 seeds, 100k ticks, 240 runs. Criteria, declared looks at the data at
 10/20/40 seeds and failure boundaries were frozen before the first run.
 
-Results.
+Results:
 
 1. Declared failure boundary fired. 32 of 40 populations in the treatment went
 extinct against a declared ceiling of 50 percent, so the primary comparison is
@@ -95,7 +95,7 @@ layer halved the learning rate within 15k ticks. The difference appears to be
 the cost of the plasticity rule rather than the stationarity of the world. One
 cheap synapse with a dead zone has nothing for selection to push against.
 
-Caveats. The 8 surviving life worlds are selected on survival, so anything
+Caveats: The 8 surviving life worlds are selected on survival, so anything
 measured on them describes the survivors, where evolution had time to happen;
 it says nothing about the expected outcome in a random world. One plastic
 synapse, one grid, one metabolism, no generalisation to a general learning rule
@@ -289,8 +289,8 @@ the switch, but their learning rates were slightly higher. When I traced the
 lineages, each surviving world descends from one to four individuals that
 happened to sit in the top few percent of a neutral spread of the gene (1.4
 percent of agents had a rate above 1.0 at the switch) and that also got lucky
-with food. That is the finding, and biologists have a name for it: evolutionary
-rescue from standing variation. After the bottleneck the learning rate in those
+with food. The finding is the mechanism itself, which biologists call
+evolutionary rescue from standing variation. After the bottleneck the learning rate in those
 worlds went to the ceiling of its range within a few hundred ticks and stayed
 there.
 
@@ -361,8 +361,8 @@ at the end: https://minimir.ilinmaks.com/results-b.html
 скорость обучения у них была чуть выше. Когда я проследил родословные,
 оказалось, что каждый выживший мир восходит к одной-четырём особям, которые к
 моменту смены случайно оказались в верхних процентах нейтрального разброса гена
-(выше 1,0 было 1,4% агентов) и которым ещё повезло с едой. Это и есть находка, и
-у биологов для неё есть имя: эволюционное спасение за счёт стоячей изменчивости.
+(выше 1,0 было 1,4% агентов) и которым ещё повезло с едой. Находка в самом
+механизме, биологи называют его эволюционным спасением за счёт стоячей изменчивости.
 После горлышка скорость обучения в тех мирах за несколько сотен тиков ушла к
 потолку диапазона и там осталась.
 

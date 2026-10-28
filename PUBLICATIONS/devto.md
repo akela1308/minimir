@@ -182,6 +182,8 @@ Full results with tables, caveats and the corrections of 28 October, plus links
 to the code, raw data and the frozen preregistration:
 https://minimir.ilinmaks.com/results-b.html
 
+Code, raw data and the frozen preregistration: https://github.com/akela1308/minimir
+
 ---
 
 ## Русская версия (для Habr, если захочется инженерный вариант)
@@ -348,3 +350,5 @@ p = 0,0078, и это пол для восьми пар (без двух пил�
 Полные результаты с таблицами, оговорками и поправками от 28 октября, оттуда же
 ссылки на код, сырые данные и замороженную предрегистрацию:
 https://minimir.ilinmaks.com/results-b.html
+
+Код, сырые данные и замороженная предрегистрация: https://github.com/akela1308/minimir
