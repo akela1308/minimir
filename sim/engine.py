@@ -49,7 +49,7 @@ class Engine:
         # Индивидуальные гистограммы: плотный массив (max_pop, 10, N_ACTIONS)
         # вместо питоновского цикла по агентам и словаря. Слот переиспользуется
         # при рождении нового агента, поэтому гистограмму умершего снимаем
-        # (harvest) в ind_done до обнуления среза — так ни одна жизнь не теряется.
+        # (harvest) в ind_done до обнуления среза: так ни одна жизнь не теряется.
         self.track_individual = cfg.track_individual
         if self.track_individual:
             self.ind_arr = np.zeros((cfg.max_pop, 10, N_ACTIONS), dtype=np.int32)
@@ -160,7 +160,7 @@ class Engine:
     def all_individual_hists(self):
         """Все накопленные индивидуальные гистограммы: снятые + текущие непустые.
 
-        Непустой срез — это либо живой агент, либо умерший, чей слот ещё не
+        Непустой срез: это либо живой агент, либо умерший, чей слот ещё не
         переиспользован; и то и другое суть завершённые/идущие жизни, и обе
         версии кода их учитывали.
         """
@@ -186,7 +186,7 @@ class Engine:
         """Число агентов в окне 3x3 вокруг каждого, включая себя.
 
         Считается через карту занятости, поэтому стоимость не зависит
-        от числа агентов — только от размера сетки.
+        от числа агентов, только от размера сетки.
         """
         H, W = self.world.H, self.world.W
         counts = np.zeros((H, W), dtype=np.int32)
@@ -205,7 +205,7 @@ class Engine:
         """
         H, W = self.world.H, self.world.W
         occ = np.full((H, W), -1, dtype=np.int64)
-        occ[self.pop.y[ids], self.pop.x[ids]] = ids            # при коллизии — последний
+        occ[self.pop.y[ids], self.pop.x[ids]] = ids            # при коллизии: последний
         yy = (self.pop.y[ids][:, None] + NB_Y[None, :]) % H    # (k, 48)
         xx = (self.pop.x[ids][:, None] + NB_X[None, :]) % W
         found = occ[yy, xx]
@@ -242,11 +242,11 @@ class Engine:
     def _interoceptive_signal(self, ids, partner):
         """Вход 8-9 по условию эксперимента.
 
-        Ключевое отличие от первой версии: контроль — это ПОДМЕНА, а не
+        Ключевое отличие от первой версии: контроль это ПОДМЕНА, а не
         зануление. Зануление меняет и информацию, и статистику входа сразу;
         тогда непонятно, что именно вызвало разницу. Перестановка энергии
         между агентами сохраняет распределение бит в бит и убирает ровно
-        одно — знание о себе.
+        одно: знание о себе.
         """
         cfg, pop = self.cfg, self.pop
         k = ids.size
@@ -294,13 +294,21 @@ class Engine:
             # 13.10.2026 (§2.1): настоящая траектория случайного живого близнеца.
             # Близнец назначается при первом же обращении после рождения и
             # переназначается, когда умирает (или если это сам агент).
+            # 28.10.2026: близнец это пара (слот, birth_tick), а не слот. Слот
+            # мёртвого близнеца в том же тике занимает новорождённый (cull, потом
+            # reproduce), и проверка alive его не ловила: агент молча смотрел на
+            # чужого новорождённого (13% смен близнеца на пилоте). Теперь
+            # переназначение идёт и когда birth_tick занявшего слот отличается от
+            # записанного при назначении (pop.twin_birth). Режимы кроме twin не
+            # затронуты: ветка выполняется только при intero_mode="twin".
             if k < 2:
                 return zeros, zeros
             tw = pop.twin[ids]
             bad = (tw < 0) | (tw == ids)
             okm = ~bad
             if okm.any():
-                bad[okm] = ~pop.alive[tw[okm]]
+                tok = tw[okm]
+                bad[okm] = (~pop.alive[tok]) | (pop.birth_tick[tok] != pop.twin_birth[ids[okm]])
             if bad.any():
                 nb = int(bad.sum())
                 pick = ids[self.rng.integers(0, k, nb)]
@@ -310,6 +318,7 @@ class Engine:
                     pos = np.searchsorted(ids, pick[same])
                     pick[same] = ids[(pos + 1) % k]
                 pop.twin[ids[bad]] = pick
+                pop.twin_birth[ids[bad]] = pop.birth_tick[pick]
                 tw = pop.twin[ids]
             e_t = (pop.E[tw] / cfg.e_max).astype(np.float32)
             de_t = np.clip((pop.E[tw] - pop.E_lag[tw]) / 5.0, -1.0, 1.0).astype(np.float32)
@@ -357,7 +366,7 @@ class Engine:
                 shift = int(self.rng.integers(1, k))
                 mine = mine[(np.arange(k) + shift) % k]
         X[:, 23] = mine.astype(np.float32)
-        # знакомый ли автор чужой метки — из памяти контактов
+        # знакомый ли автор чужой метки: из памяти контактов
         if cfg.social:
             stored = pop.mem_faces[ids]
             dist = np.abs(stored - author[:, None, :]).sum(axis=2)
@@ -507,7 +516,7 @@ class Engine:
                 w.signs[cy, cx] = self.sign_content[m]
                 w.sign_author[cy, cx] = pop.face[sub]
                 w.sign_age[cy, cx] = 0.0
-                # авторство и возраст автора — для теста порядка развития (C.4)
+                # авторство и возраст автора, для теста порядка развития (C.4)
                 w.sign_author_id[cy, cx] = sub
                 w.sign_author_age[cy, cx] = pop.age[sub].astype(np.float32)
                 cost[m] += cfg.mark_cost
@@ -687,7 +696,7 @@ class Engine:
         np.add.at(self.energy_action_hist, (bins, act), 1)
         np.add.at(self.window_hist, (bins, act), 1)
         if self.track_individual:
-            # слоты, чей занимающий сменился (переиспользование) — снять и обнулить
+            # слоты, чей занимающий сменился (переиспользование): снять и обнулить
             bt = pop.birth_tick[ids]
             changed = np.flatnonzero(bt != self.ind_birth[ids])
             for j in changed.tolist():
@@ -705,7 +714,7 @@ class Engine:
         self._last_act = act
         # пред-ходовой контекст метки под агентом (для теста порядка развития
         # C.4): есть ли метка, кто и в каком возрасте автор. Позиции ещё не
-        # сдвинуты — контекст совпадает с тем, на основе чего выбрано действие.
+        # сдвинуты: контекст совпадает с тем, на основе чего выбрано действие.
         if self.cfg.signs:
             w = self.world
             yy = pop.y[ids]; xx = pop.x[ids]
@@ -714,8 +723,8 @@ class Engine:
             self._ctx_author_age = w.sign_author_age[yy, xx]
 
         # метрика знака: совместное распределение (дециль энергии; класс
-        # содержания метки) на событиях MARK. Класс — знаковый квадрант
-        # двумерного содержания. Если MI≈0 — содержание не о состоянии.
+        # содержания метки) на событиях MARK. Класс: знаковый квадрант
+        # двумерного содержания. Если MI≈0, содержание не о состоянии.
         if self.cfg.signs and self.sign_content is not None:
             mk = act == A_MARK
             if mk.any():

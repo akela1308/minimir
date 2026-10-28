@@ -85,7 +85,7 @@ Speed: 380 to 600 ticks per second at working population sizes, so 200,000 ticks
 
 ## Simplifications
 
-One grid, one metabolism, one brain size, one ancestor per seed. In protocol B a single synapse is plastic, so nothing generalises to a general learning rule. The browser version differs from the nightly run in several parameters and two engine settings (general Hebbian plasticity and Lamarckian inheritance of learned weights are on in the browser engine and were never part of the measured protocols), listed on the front page. The full list is in `README.ru.md` and in the reports.
+One grid, one metabolism, one brain size, one ancestor per seed. In protocol B a single synapse is plastic, so nothing generalises to a general learning rule. The browser version differs from the nightly run in the parameters listed on the front page; since 28 October 2026 it uses the same learning mechanisms as the measured protocol. The full list is in `README.ru.md` and in the reports.
 
 ## How to cite
 

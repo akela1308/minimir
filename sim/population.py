@@ -39,13 +39,22 @@ class Population:
         # «близнец» для intero_mode="twin" (13.10.2026): слот агента, чью
         # энергию этот агент видит на входах 8-9; -1 = ещё не назначен
         self.twin = np.full(n, -1, dtype=np.int64)
+        # 28.10.2026: birth_tick близнеца на момент назначения. Слот сам по себе
+        # близнеца не определяет: cull() кладёт освободившиеся слоты в стек, а
+        # reproduce() того же тика их тут же занимает, так что мёртвый близнец
+        # к следующему считыванию часто уже заменён новорождённым в том же
+        # слоте, и проверка «близнец жив» не срабатывала (13% смен близнеца
+        # проходили молча, runs/a2/pilot и /science/check_twin_slot_reuse.py).
+        # Пара (слот, birth_tick) однозначна: новорождённый в тот же слот
+        # получает birth_tick не раньше следующего тика (cull идёт до reproduce).
+        self.twin_birth = np.full(n, -1, dtype=np.int64)
 
         self.brains = Brains(cfg, rng)
         self._free = list(range(n - 1, -1, -1))
         self._next_lineage = 0
         self.births = 0
         self.deaths = 0
-        self.lifespans = []      # возраст на момент смерти — для теста порядка развития
+        self.lifespans = []      # возраст на момент смерти, для теста порядка развития
         # 13.10.2026: журнал погибших (record_dead): возраст, ген скорости, маркер;
         # measure_b опустошает его на каждой точке кривой
         self.dead_age, self.dead_lr, self.dead_marker = [], [], []
@@ -90,6 +99,7 @@ class Population:
         if self.cfg.marker_gene:
             self.marker[slots] = self.cfg.marker_init
         self.twin[slots] = -1
+        self.twin_birth[slots] = -1
 
     def _place_random(self, slots):
         self.y[slots] = self.rng.integers(0, self.world.H, len(slots))
@@ -123,14 +133,14 @@ class Population:
         self.heading[children] = self.rng.integers(0, 8, children.size)
         self.lineage[children] = self.lineage[parents]
         self.birth_tick[children] = tick
-        # лицо наследуется с дрейфом — родство узнаваемо, но не абсолютно
+        # лицо наследуется с дрейфом: родство узнаваемо, но не абсолютно
         drift = self.rng.normal(0, 0.02, (children.size, 3)).astype(np.float32)
         self.face[children] = np.clip(self.face[parents] + drift, 0.0, 1.0)
         self.brains.inherit(parents, children)
         if self.cfg.taste:
             c = self.cfg
             # вкус наследуется как обычный вес (та же доля и сила мутаций),
-            # скорость обучения — на логарифмической шкале
+            # скорость обучения на логарифмической шкале
             mut = self.rng.random(children.size) < c.mutation_rate
             noise = self.rng.normal(0, c.mutation_sigma, children.size).astype(np.float32)
             self.taste_g[children] = np.clip(self.taste_g[parents] + mut * noise,
@@ -152,6 +162,7 @@ class Population:
                 * np.exp(self.rng.normal(0, c.taste_lr_sigma, children.size)),
                 0.0, c.taste_lr_max).astype(np.float32)
         self.twin[children] = -1
+        self.twin_birth[children] = -1
         self.births += children.size
         return children.size
 

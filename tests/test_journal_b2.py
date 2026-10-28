@@ -1,6 +1,8 @@
-"""Журнал B2 (13 октября 2026): на синтетических строках страница собирается,
-чисел до завершённого чтения не показывает, при полном чтении считает три
-критерия и вердикт по PREREGISTRATION_B2_черновик.md §4-§5."""
+"""Журнал B2 (13 октября 2026; критерий 2 и seed'ы 28 октября 2026): на
+синтетических строках страница собирается, чисел до завершённого чтения не
+показывает, при полном чтении считает три критерия и вердикт по
+PREREGISTRATION_B2_черновик.md §4-§5; критерий 2 это внутримировая R =
+log10(lr/marker) против R_MIN = 0,30; объявленные seed'ы 201..240."""
 import importlib.util
 import json
 import sys
@@ -35,9 +37,9 @@ def _row(label, seed, lr_end, marker_end, lr_read, marker_read, extinct=None, fi
                 lr_at_ceiling=ceiling, eat_accuracy=0.9, curve=curve)
 
 
-def _world(rng, n, effect=True, benefit=True):
+def _world(rng, n, effect=True, benefit=True, seed_start=201):
     rows = []
-    for s in range(1, n + 1):
+    for s in range(seed_start, seed_start + n):
         drift = float(np.exp(rng.normal(0, 0.15)))          # маркер гуляет вокруг 0,1
         never = 0.1 * float(np.exp(rng.normal(0, 0.2)))
         life_lr = (3.0 if effect else 0.1) * float(np.exp(rng.normal(0, 0.1)))
@@ -68,12 +70,53 @@ def test_incomplete_reading_shows_no_numbers(tmp_path):
     json.dumps(st)
 
 
+def test_seed_defaults_moved_away_from_b1_and_pilot():
+    """28.10.2026: объявленные seed'ы 201..240, не 1..40 протокола B1 и не 101-103 пилота."""
+    j = _load()
+    assert j.SEED_START == 201
+    seeds = j.declared_seeds(40)
+    assert seeds == list(range(201, 241))
+    assert not set(seeds) & set(range(1, 41)) and not set(seeds) & {101, 102, 103}
+    # строки со старой нумерацией 1..20 чтением не считаются
+    old_rows = _world(np.random.default_rng(0), 20, seed_start=1)
+    assert j.completed_seeds(old_rows, 20) == []
+    assert j.completed_seeds(_world(np.random.default_rng(0), 20), 20) == seeds[:20]
+
+
+def test_criterion2_within_world_R_rule():
+    """Критерий 2 (28.10.2026) на синтетических R: ДИ среднего выше 0,30 и
+    Уилкоксон p < 0,05 -> пройден; R около нуля -> нет; R положительная, но
+    меньше фактора 2 -> нет (p проходит, ДИ не выше 0,30); меньше 6 миров -> нет."""
+    j = _load()
+    rng = np.random.default_rng(11)
+    noise = rng.normal(0, 0.15, 12); noise -= noise.mean()
+    big = j.criterion2_from_R(0.7 + noise)
+    assert big["passed"] and big["ci_mean_low"] > j.R_MIN and big["p_wilcoxon"] < j.P_PAIRED
+    assert big["ci_median_low"] is not None and big["ratio_mean"] > 2
+    zero = j.criterion2_from_R(0.0 + noise)
+    assert not zero["passed"] and zero["ci_includes_zero"]
+    small = j.criterion2_from_R(0.15 + noise * 0.3)
+    assert small["p_wilcoxon"] < j.P_PAIRED and not small["passed"] and small["ci_mean_high"] < j.R_MIN
+    few = j.criterion2_from_R(0.7 + noise[:5])
+    assert not few["passed"] and not few["enough_worlds"] and few["p_wilcoxon"] is None
+    # пилотные значения (lr 0,5, seed'ы 101-103): 0,34, 1,27, 0,71: миров мало, критерий не считается
+    pilot = j.criterion2_from_R([0.339, 1.265, 0.713])
+    assert pilot["n"] == 3 and not pilot["passed"] and pilot["mean_R"] > j.R_MIN
+    # дрейф маркера описательно и знаковый тест
+    desc = j.criterion2_from_R(0.7 + noise, d_lr=0.8 + noise, d_mk=noise * 2)
+    assert desc["min_d_marker"] < 0 < desc["max_d_marker"] and desc["marker_sign_p"] is not None
+    # бутстреп воспроизводим
+    assert j.bootstrap_ci(noise) == j.bootstrap_ci(noise)
+
+
 def test_complete_reading_confirmed_and_verdicts():
     j = _load()
     rows = _world(np.random.default_rng(1), 20)
     st = j.analyse(rows, 20)
     assert st["criterion1"]["n"] >= 12 and st["criterion1"]["passed"]
     assert st["criterion2"]["n"] == 20 and st["criterion2"]["passed"]
+    assert st["criterion2"]["ci_mean_low"] > j.R_MIN and st["criterion2"]["p_wilcoxon"] < 0.05
+    assert st["criterion2"]["seeds"] == j.declared_seeds(20)
     assert st["criterion3"]["b"] == 10 and st["criterion3"]["c"] == 0 and st["criterion3"]["passed"]
     assert st["verdict"] == "confirmed"
     assert st["descriptive"]["alive_over_dead_lr_median"] > 1
@@ -83,6 +126,7 @@ def test_complete_reading_confirmed_and_verdicts():
 
     no_effect = j.analyse(_world(np.random.default_rng(3), 20, effect=False), 20)
     assert no_effect["verdict"] in ("not_distinguishable", "signal_within_drift")
+    assert not no_effect["criterion2"]["passed"] and no_effect["boundary2_R_includes_zero"]
 
     small = j.analyse(_world(np.random.default_rng(4), 10), 10)
     # 10 seed'ов: пар life/never ровно 10 < 12, критерий 1 не считается

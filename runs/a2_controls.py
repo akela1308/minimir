@@ -15,10 +15,15 @@ constant даёт ненулевой вход без информации и б�
 
 Файл результатов НОВЫЙ, runs/a2/controls.jsonl: старые compare.jsonl и
 compare_ext.jsonl не трогаются. Запускать только после заморозки
-PREREGISTRATION_A2.md:
+PREREGISTRATION_A2.md.
 
-  python runs/a2_controls.py --seeds 20 --ticks 120000 --workers 2
-  python runs/a2_controls.py --seeds 1 --ticks 20000      # короткая проверка кода
+Seed'ы (28.10.2026, решение владельца): объявленные seed'ы чтения это
+--seed_start..--seed_start+N-1, по умолчанию 201..220. Seed'ы 1-56 заняты
+протоколом A (их карты и предки уже известны как выжившие или нет), 101-103
+пилотом 13.10; ни те, ни другие повторно не берутся.
+
+  python runs/a2_controls.py --seeds 20 --ticks 120000 --workers 2      # seed'ы 201..220
+  python runs/a2_controls.py --seeds 1 --ticks 20000 --seed_list 999    # короткая проверка кода
 """
 import argparse
 import json
@@ -36,6 +41,7 @@ from experiments import run_series, wilcoxon_paired, effect_size, summarize  # n
 CONDS = ["self", "shuffled", "twin", "constant", "off"]
 OUT = ROOT / "runs" / "a2" / "controls.jsonl"
 PROTOCOL = "A2-controls-120k-blockavg-draft"      # «draft» снимается при заморозке
+SEED_START = 201        # 28.10.2026: не 1..56 протокола A и не 101-103 пилота
 
 
 def git_commit():
@@ -61,14 +67,16 @@ def read_jsonl(path):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--seeds", type=int, default=20, help="seed'ы 1..N, объявляются в предрегистрации")
+    p.add_argument("--seeds", type=int, default=20, help="число объявленных seed'ов N (предрегистрация §7)")
     p.add_argument("--ticks", type=int, default=120000)
     p.add_argument("--workers", type=int, default=0)
     p.add_argument("--conds", default=",".join(CONDS))
     p.add_argument("--out", default=str(OUT))
+    p.add_argument("--seed_start", type=int, default=SEED_START,
+                   help="первый объявленный seed (28.10.2026: 201; считаются seed_start..seed_start+N-1)")
     p.add_argument("--seed_list", default="",
                    help="явный список seed'ов через запятую (только для пилотов и проверок кода вне "
-                        "объявленных 1..N; по умолчанию пусто, тогда считаются 1..--seeds)")
+                        "объявленных; по умолчанию пусто, тогда считаются seed_start..seed_start+N-1)")
     args = p.parse_args()
     conds = [c for c in args.conds.split(",") if c]
     if "shuffled" not in conds:
@@ -77,7 +85,8 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     commit = git_commit()
     print(f"дата {stamp}, коммит {commit}, протокол {PROTOCOL}")
-    seeds = [int(x) for x in args.seed_list.split(",") if x.strip()] or list(range(1, args.seeds + 1))
+    seeds = ([int(x) for x in args.seed_list.split(",") if x.strip()]
+             or list(range(args.seed_start, args.seed_start + args.seeds)))
     print(f"считаю seed'ы {seeds[0]}..{seeds[-1]} ({len(seeds)}) × {conds} × {args.ticks} тиков -> {args.out}")
 
     jobs = []
@@ -126,7 +135,10 @@ def main():
             w = wilcoxon_paired(a, b)
             d = [x - y for x, y in pairs]
             sd_d = (sum((x - sum(d) / len(d)) ** 2 for x in d) / max(len(d) - 1, 1)) ** 0.5
-            print(f"  {c:>9} vs shuffled: Δ={sum(d)/len(d):+.4f}, 2σ парных разниц={2*sd_d:.4f}, "
+            se_d = sd_d / len(d) ** 0.5
+            # 28.10.2026: шкала шума SE = sd/sqrt(n), не 2 sd; вердикт считает runs/journal_a2.py
+            print(f"  {c:>9} vs shuffled: Δ={sum(d)/len(d):+.4f}, sd парных разниц={sd_d:.4f}, "
+                  f"SE={se_d:.4f}, Δ±2SE=[{sum(d)/len(d)-2*se_d:+.4f}; {sum(d)/len(d)+2*se_d:+.4f}], "
                   f"p={w.get('p')}, Клифф={effect_size(a, b)}, n={w['n']}")
     print(f"\nготово за {elapsed:.0f}s; строк в файле: {len(stamped)}")
 

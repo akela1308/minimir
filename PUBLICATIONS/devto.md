@@ -6,7 +6,7 @@ Front matter для dev.to, вставляется первым в редакт�
 ---
 title: "A preregistered artificial life experiment that runs itself on GitHub Actions, and the threshold bug that ate the result"
 published: false
-description: "Forty seeds, six conditions, one hundred thousand ticks each, on free CI. Plus a design error worth copying down: a significance threshold that grows with the length of the run."
+description: "Forty seeds, six conditions, one hundred thousand ticks each, on free CI. Plus a design error I would copy down: a significance threshold that grows with the length of the run."
 tags: python, githubactions, science, machinelearning
 ---
 ```
@@ -26,7 +26,7 @@ Selection happens only through differences in offspring count. Last month the
 second experiment finished accumulating, and the engineering side of it is
 probably more reusable than the biology, so that is what this post is about.
 
-Two things here might be worth stealing. One is a setup where a multi week
+Two things here you might want to steal. One is a setup where a multi week
 experiment accumulates itself on free CI and republishes its own results page.
 The other is a mistake in the statistical criterion that I would not have caught
 by reading my own code, only by plotting the threshold over time.
@@ -40,7 +40,7 @@ plastic synapse, and the rate at which it learns is itself a gene that mutates
 multiplicatively. The hypothesis, taken from Kozielska and Weissing 2024, is
 that selection raises that rate where the world keeps changing its rules.
 
-#### One source of truth for conditions
+#### Conditions live in one place
 
 The first thing that saved me real debugging time was refusing to let condition
 definitions live in more than one file. Six conditions, one dict:
@@ -85,26 +85,31 @@ reads how many seeds are already in the results file, computes which seeds are
 missing, runs those, appends one JSON line per run, then regenerates the public
 journal page from everything accumulated so far and commits it.
 
-Three details that matter more than they look:
+Three details that matter more than they look.
 
-The results file is append only JSON lines. Never rewritten, never sorted, never
-deduplicated in place. A crashed job leaves a short file, not a corrupted one.
+The results file is append-only JSON lines, and nothing rewrites, sorts or
+deduplicates it in place, so a crashed job leaves a short file rather than a
+corrupted one.
 
 Every line carries the protocol name, the tick count and the commit hash it was
 produced by. When I later changed the engine, I could tell at a glance which
-rows were no longer comparable. Earlier in the project I lost a pilot dataset
+rows were no longer comparable. Earlier in the project I lost a pilot data set
 because runs of different length were pooled, and the lines did not say so.
 
 The runner stops itself. Target forty seeds, and when the file already has forty
 it exits without computing anything. The experiment ends on its own on the date
-the preregistration implied, not on the date I remembered to switch it off.
+the preregistration implied, not on the date I remembered to switch it off. One
+thing the runner did not do, and should have: it started at seed 1, which is
+where the pilot had run, so two pilot seeds ended up in the confirmatory data.
+The preregistration had promised to count only new seeds. The next protocol
+starts at seed 101.
 
 Total cost: zero. 240 runs of a hundred thousand ticks each fit inside the free
 GitHub Actions allowance for a public repository, two runs at a time.
 
 #### The bug worth writing down
 
-Here is the part I would want someone to tell me about before I made it.
+I wish someone had told me this before I made it.
 
 The criterion declared in advance was a double one. A paired test at p below
 0.01, and the gap between median log10 learning rates exceeding two sigma of the
@@ -123,21 +128,20 @@ you a reference that widens every tick.
 | 20 000 | 1.006 | 10x |
 | 100 000 | 1.786 | 61x |
 
-The effect I measured was 1.16 in log10, a ratio of 14.5 at tick 100,000. It
-would have passed the criterion at twenty thousand ticks and failed at a hundred
-thousand. Same effect, same data, different declared run length. The ratio
-itself is also shaky: the numerator sits at the cap of the gene (4.0; the
-within-run 75th percentile is exactly 4.000 in all eight survivors) and the
-denominator is a random walk, so the number moves between 10 and 36 depending
-on the tick you read it at. What the data support is that the learning rate
-went to the ceiling of its range and stayed there.
+The gap I measured was 1.16 in log10, a ratio of 14.5 at tick 100,000. It would
+have passed the criterion at twenty thousand ticks and failed at a hundred
+thousand. Same data, different declared run length. The ratio itself is also
+shaky: the numerator sits at the cap of the gene (4.0; the within-run 75th
+percentile is exactly 4.000 in all eight survivors) and the denominator is a
+random walk, so the number moves between 10 and 36 depending on the tick you
+read it at. What the data support is that the learning rate went to the ceiling
+of its range and stayed there.
 
-That is not a statistical subtlety, it is a unit error of a sort: the threshold
-measures the duration of the run rather than the size of the effect. I am not
-moving it now, because a criterion rewritten after seeing the data is not a
-criterion. But if you are comparing anything against a neutral control, check
-whether your control is stationary. Plot it against time before you freeze the
-number.
+The threshold grows with run length, so an effect read at a fixed tick cannot
+be compared against it, whatever the effect is. I am not moving it now, because
+a bar rewritten after seeing the data no longer tests anything. But if you are
+comparing anything against a neutral control, check whether your control is
+stationary. Plot it against time before you freeze the number.
 
 #### What the runs produced
 
@@ -147,30 +151,35 @@ The declared failure boundary fired. In the main condition thirty two
 populations out of forty went extinct, against a declared ceiling of fifty
 percent, so the comparison is void and the protocol is replaced rather than
 retuned. The median population lives through exactly one rule reversal before
-dying, so the lethal thing is the first switch and not the switching frequency.
-The arithmetic, which belonged before the runs: a poisonous bite costs about
-five energy, the cap is a hundred, one bite shifts taste by about 0.1, and
-crossing from plus three to minus three takes sixty poisonings. A creature at
-the starting rate cannot afford to relearn.
+dying, so the lethal event is the first switch; the three switching conditions
+also share their history up to that switch, so the switching frequency was
+untestable on this design anyway. The arithmetic, which belonged before the
+runs: a poisonous bite costs about five energy, the cap is a hundred, one bite
+shifts taste by about 0.1, and crossing from plus three to minus three takes
+sixty poisonings. A creature at the starting rate cannot afford to relearn. One
+world in the fastest condition did survive 632 reversals without learning at
+all; at that switching rate a fixed taste is right half the time, and food pays
+more than poison costs.
 
 The ablation held, which the design made close to certain: a creature with a
 frozen taste of plus three pays five energy per bite of the old colour after the
 switch and cannot inherit its way out in 350 ticks. Without lifetime learning,
 forty worlds out of forty died. With it, eight survived. Eight discordant pairs,
 zero in the other direction, exact McNemar p = 0.0078, which is the floor for
-eight pairs. The eight survivors each descend from one to four individuals that
-happened to carry a high learning rate at the switch: evolutionary rescue from
-standing variation, not gradual selection.
+eight pairs (without the two pilot seeds, six of thirty eight survive and
+p = 0.031). The eight survivors each descend from one to four individuals that
+happened to carry a high learning rate at the switch, which biologists call
+evolutionary rescue from standing variation.
 
-And the clearest mechanism: the inherited taste stayed at about plus three in
-every condition, while in the changing world the learned phenotype tracks the
-current rule (median over eight worlds −4.92, two of eight positive at the last
-tick). The genome cannot record a rule that changes at random, lifetime
-learning can.
+And the one result you can see in the table without a test: the inherited taste
+stayed at about plus three in every condition, while in the changing world the
+learned phenotype tracks the current rule (median over eight worlds -4.92, two
+of eight positive at the last tick). The genome stayed put because a rule that
+flips at random gives it nothing stable to encode; the learned weight followed
+the rule.
 
-Code, raw data and the frozen preregistration:
-https://github.com/akela1308/minimir
-Full results with tables and caveats:
+Full results with tables, caveats and the corrections of 28 October, plus links
+to the code, raw data and the frozen preregistration:
 https://minimir.ilinmaks.com/results-b.html
 
 ---
@@ -199,9 +208,9 @@ https://minimir.ilinmaks.com/results-b.html
 взятая у Kozielska и Weissing 2024, состоит в том, что отбор поднимает эту
 скорость там, где мир меняет правила.
 
-#### Одна точка правды по условиям
+#### Условия описаны в одном месте
 
-Первое, что сэкономило мне реальное время на отладке, это отказ держать
+Первое, что заметно сэкономило мне время на отладке, это отказ держать
 определения условий больше чем в одном файле. Шесть условий, один словарь:
 
 ```python
@@ -245,25 +254,29 @@ child.weights = child.genome.copy()       # фенотип стартует от
 
 Три детали, которые важнее, чем выглядят.
 
-Файл результатов это append-only JSON lines. Не перезаписывается, не
-сортируется, не дедуплицируется на месте. Упавшая задача оставляет короткий
-файл, а не испорченный.
+Файл результатов это JSON lines только на дозапись: никто его не перезаписывает,
+не сортирует и не чистит от дублей на месте, поэтому упавшая задача оставляет
+короткий файл, а не испорченный.
 
 Каждая строка несёт имя протокола, число тиков и хеш коммита, на котором она
 получена. Когда я позже менял движок, было видно сразу, какие строки больше не
-сопоставимы. Раньше в этом проекте я потерял пилотный датасет именно потому, что
-в один пул попали прогоны разной длины, и строки об этом не сообщали.
+сопоставимы. Раньше в этом проекте я потерял пилотный набор данных именно
+потому, что в один пул попали прогоны разной длины, и строки об этом не
+сообщали.
 
 Раннер останавливается сам. Цель сорок семян, и когда в файле уже сорок, он
 выходит, ничего не посчитав. Эксперимент заканчивается в тот день, который
-следует из предрегистрации, а не в тот, когда я вспомнил его выключить.
+следует из предрегистрации, а не в тот, когда я вспомнил его выключить. Одного
+раннер не сделал, а должен был: он начал с первого семени, на котором шёл
+пилот, и два пилотных семени попали в подтверждающие данные. Предрегистрация
+обещала считать только новые семена. Следующий протокол начинается со 101-го.
 
 Стоимость: ноль. 240 прогонов по сто тысяч тиков укладываются в бесплатную квоту
 GitHub Actions для публичного репозитория, по два прогона за раз.
 
 #### Баг, который стоит записать
 
-Теперь то, о чём я хотел бы, чтобы мне рассказали заранее.
+Об этом мне хотелось бы узнать заранее, а не на собственном опыте.
 
 Объявленный критерий был двойной. Парный тест с p меньше 0,01 и превышение
 разницей медиан логарифма скорости обучения двух сигм разброса того же гена в
@@ -282,17 +295,17 @@ GitHub Actions для публичного репозитория, по два �
 | 20 000 | 1,006 | 10x |
 | 100 000 | 1,786 | 61x |
 
-Измеренный эффект составил 1,16 в log10, то есть отношение 14,5 на 100-тысячном
-тике. На двадцати тысячах тиков он бы критерий прошёл, на ста тысячах не прошёл.
-Тот же эффект, те же данные, разная объявленная длина прогона. Само отношение
-тоже ненадёжно: числитель упёрся в потолок гена (4,0; 75-й процентиль внутри
-прогона равен ровно 4,000 во всех восьми выживших мирах), а знаменатель
+Измеренная разница составила 1,16 в log10, то есть отношение 14,5 на
+100-тысячном тике. На двадцати тысячах тиков она бы критерий прошла, на ста
+тысячах не прошла. Те же данные, разная объявленная длина прогона. Само
+отношение тоже ненадёжно: числитель упёрся в потолок гена (4,0; 75-й процентиль
+внутри прогона равен ровно 4,000 во всех восьми выживших мирах), а знаменатель
 блуждает, поэтому число гуляет от 10 до 36 в зависимости от тика. Данные
 поддерживают одно: скорость обучения ушла к потолку диапазона и там осталась.
 
-Это не статистическая тонкость, это по сути ошибка размерности: порог измеряет
-длительность прогона, а не величину эффекта. Сейчас я его не двигаю, потому что
-критерий, переписанный после взгляда на данные, уже не критерий. Но если вы
+Порог растёт с длиной прогона, поэтому сравнивать с ним эффект на фиксированном
+тике нельзя, каким бы этот эффект ни был. Сейчас я его не двигаю: планка,
+переписанная после взгляда на данные, уже ничего не проверяет. Но если вы
 сравниваете что-нибудь с нейтральным контролем, проверьте, стационарен ли ваш
 контроль. Нарисуйте его как функцию времени до того, как заморозите число.
 
@@ -304,29 +317,34 @@ GitHub Actions для публичного репозитория, по два �
 мира из сорока при объявленном потолке в пятьдесят процентов, так что сравнение
 недействительно, и протокол заменяется, а не перенастраивается. Медианная
 популяция переживает ровно один переворот правила до гибели, значит летален
-первый переворот, а не частота переворотов. Арифметика, которой место было до
-прогонов: ядовитый укус стоит около пяти единиц энергии, предел сто, один укус
-сдвигает вкус примерно на 0,1, а переезд от плюс трёх к минус трём требует
-шестидесяти отравлений. Существо со стартовой скоростью не может позволить себе
-переучивание.
+первый переворот; к тому же три условия со сменой правила идут по одной
+траектории до этого переворота, так что частоту смен на этом дизайне проверить
+было нельзя в любом случае. Арифметика, которой место было до прогонов: ядовитый
+укус стоит около пяти единиц энергии, предел сто, один укус сдвигает вкус
+примерно на 0,1, а переезд от плюс трёх к минус трём требует шестидесяти
+отравлений. Существо со стартовой скоростью не может позволить себе
+переучивание. Один мир в самом быстром условии при этом пережил 632 переворота
+вообще без обучения: при такой частоте смен фиксированный вкус прав половину
+времени, а еда даёт больше, чем отнимает яд.
 
 Абляция сработала, и конструкция мира делала это почти неизбежным: существо с
 замороженным вкусом плюс три после смены теряет пять единиц энергии на каждом
 укусе старого цвета и за 350 тиков ничего унаследовать не успевает. Без
 прижизненного обучения вымерли сорок миров из сорока. С ним выжило восемь.
 Восемь расходящихся пар, ноль в обратную сторону, точный тест Макнемара
-p = 0,0078, и это пол для восьми пар. Каждый из восьми выживших миров происходит
-от одной-четырёх особей, у которых к моменту смены случайно была высокая
-скорость обучения: эволюционное спасение за счёт стоячей изменчивости, а не
-постепенный отбор.
+p = 0,0078, и это пол для восьми пар (без двух пилотных семян выжило шесть из
+тридцати восьми, p = 0,031). Каждый из восьми выживших миров происходит от
+одной-четырёх особей, у которых к моменту смены случайно была высокая скорость
+обучения; в биологии это называют эволюционным спасением за счёт стоячей
+изменчивости.
 
-И самый наглядный механизм: врождённый вкус остался около плюс трёх во всех
-условиях, а в меняющемся мире выученный фенотип следует за текущим правилом (медиана по
-восьми мирам −4,92, в двух из восьми на последнем тике плюс). Геном
-не может записать правило, которое меняется случайно, прижизненное обучение
-может.
+И единственный результат, который виден в таблице без теста: врождённый вкус
+остался около плюс трёх во всех условиях, а в меняющемся мире выученный фенотип
+следует за текущим правилом (медиана по восьми мирам -4,92, в двух из восьми на
+последнем тике плюс). Геном стоит на месте, потому что правилу, которое
+переворачивается случайно, в нём нечего закрепить; выученный вес ходил за
+правилом.
 
-Код, сырые данные и замороженная предрегистрация:
-https://github.com/akela1308/minimir
-Полные результаты с таблицами и оговорками:
+Полные результаты с таблицами, оговорками и поправками от 28 октября, оттуда же
+ссылки на код, сырые данные и замороженную предрегистрацию:
 https://minimir.ilinmaks.com/results-b.html

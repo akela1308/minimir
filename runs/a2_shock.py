@@ -16,10 +16,12 @@ self − shuffled это и есть мера использования сиг�
 стационарности MI (REPORT.md A.4).
 
 Файл результатов НОВЫЙ, runs/a2/shock.jsonl. Запускать только после заморозки
-PREREGISTRATION_A2.md:
+PREREGISTRATION_A2.md. Seed'ы (28.10.2026): --seed_start..--seed_start+N-1, по
+умолчанию 201..220, те же, что в части 1; seed'ы 1-56 протокола A и 101-103
+пилота не берутся.
 
-  python runs/a2_shock.py --seeds 20 --ticks 120000 --workers 2
-  python runs/a2_shock.py --seeds 1 --ticks 20000 --modes abrupt,sham --conds self,shuffled
+  python runs/a2_shock.py --seeds 20 --ticks 120000 --workers 2          # seed'ы 201..220
+  python runs/a2_shock.py --seeds 1 --ticks 20000 --modes abrupt,sham --conds self,shuffled --seed_list 999
 """
 import argparse
 import json
@@ -36,6 +38,7 @@ from experiments import run_series, wilcoxon_paired  # noqa: E402
 
 OUT = ROOT / "runs" / "a2" / "shock.jsonl"
 PROTOCOL = "A2-shock-120k-draft"
+SEED_START = 201        # 28.10.2026: не 1..56 протокола A и не 101-103 пилота
 SHOCK = dict(shock_every=500, shock_frac=0.2, shock_amount=20.0, shock_min_energy=30.0,
              shock_slow_ticks=50, shock_window=50, shock_survival_ticks=200)
 
@@ -69,9 +72,11 @@ def main():
     p.add_argument("--conds", default="self,shuffled,twin")
     p.add_argument("--modes", default="abrupt,slow,sham")
     p.add_argument("--out", default=str(OUT))
+    p.add_argument("--seed_start", type=int, default=SEED_START,
+                   help="первый объявленный seed (28.10.2026: 201; считаются seed_start..seed_start+N-1)")
     p.add_argument("--seed_list", default="",
                    help="явный список seed'ов через запятую (только для пилотов и проверок кода вне "
-                        "объявленных 1..N; по умолчанию пусто, тогда считаются 1..--seeds)")
+                        "объявленных; по умолчанию пусто, тогда считаются seed_start..seed_start+N-1)")
     args = p.parse_args()
     conds = [c for c in args.conds.split(",") if c]
     modes = [m for m in args.modes.split(",") if m]
@@ -79,7 +84,8 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     commit = git_commit()
     print(f"дата {stamp}, коммит {commit}, протокол {PROTOCOL}")
-    seeds = [int(x) for x in args.seed_list.split(",") if x.strip()] or list(range(1, args.seeds + 1))
+    seeds = ([int(x) for x in args.seed_list.split(",") if x.strip()]
+             or list(range(args.seed_start, args.seed_start + args.seeds)))
     print(f"считаю seed'ы {seeds[0]}..{seeds[-1]} ({len(seeds)}) × {conds} × {modes} × {args.ticks} тиков -> {args.out}")
 
     jobs = []

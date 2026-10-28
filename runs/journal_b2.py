@@ -11,9 +11,18 @@ docs/b2.html. Правило страницы то же, что у A2: чисе�
   1. направление: life против never по log10(медиана lr живых) в конце прогона,
      парный Уилкоксон, p < 0,05, не меньше 12 годных пар (§5), медиана парных
      разниц > 0;
-  2. выше дрейфа на том же тике: на T_read (первая точка кривой с tick >=
-     первая смена + 10 000) медиана по seed'ам D_lr = log10(lr/lr_init) в life
-     больше 2σ по seed'ам D_marker = log10(marker/marker_init) в тех же мирах;
+  2. выше нейтрального маркера в том же мире (правило заменено 28.10.2026,
+     решение владельца; прежнее «медиана D_lr > 2σ D_marker по мирам» было
+     недостижимо: потолок D_lr при lr_init 0,5 и cap 4,0 равен log10(8) = 0,90,
+     а 2σ маркера по мирам, пережившим горлышко, 0,96-1,57): на T_read (первая
+     точка кривой с tick >= первая смена + 10 000) для каждого мира life, дожившего
+     до T_read, R_i = log10(lr_median/lr_init) - log10(marker_median/marker_init),
+     то есть log10(lr_median / marker_median) при marker_init = lr_init (§3);
+     критерий проходит, если
+     одновыборочный Уилкоксон R против нуля даёт p < 0,05 при не меньше 6 мирах
+     И 95% бутстреп-ДИ среднего R (BOOT_N выборок, фиксированный генератор)
+     целиком выше R_MIN = 0,30 (фактор 2). Рядом описательно: ДИ медианы R,
+     D_lr, D_marker, доля у потолка, дрейф маркера;
   3. абляция: life_frozen вымирает чаще life, точный Макнемар по расходящимся
      парам, p < 0,05, b > c, расходящихся пар не меньше 6 (§5).
 Вердикты как в B1: все три = подтверждено; 1 и 2 без 3 = рост без пользы;
@@ -21,6 +30,10 @@ docs/b2.html. Правило страницы то же, что у A2: чисе�
 больше половины life вымерли = мир не выдерживает; меньше 12 годных пар =
 прибор слеп; маркер сам систематически сдвинут (знаковый тест p < 0,05) =
 маркер не нейтрален; lr_at_ceiling в life выше 0,5 = цензура.
+
+Seed'ы (28.10.2026): объявленные seed'ы это SEED_START..SEED_START+39, то есть
+201..240; seed'ы 1-40 протокола B1 и 101-103 пилота повторно не берутся. Чтение
+на k seed'ах означает первые k объявленных (201..200+k) во всех шести условиях.
 """
 import argparse
 import json
@@ -50,6 +63,18 @@ MIN_PAIRS = 12                # §5
 MIN_DISCORDANT = 6            # §5
 P_PAIRED = 0.05               # §5
 PROTOCOL = "B2-100k-draft"    # «draft» снимается при заморозке
+# 28.10.2026, решение владельца (§4 критерий 2): наименьший интересующий эффект
+# R_MIN = 0,30 в log10, то есть ген скорости выше нейтрального маркера в том же
+# мире не меньше чем вдвое. Достижимость: потолок R при lr_init 0,5 и cap 4,0 это
+# log10(8) = 0,90 минус дрейф маркера; пилот (lr 0,5, life, seed'ы 101-103) дал
+# R = 0,34, 1,27, 0,71 (runs/b2/attainability_check.py).
+R_MIN = 0.30
+MIN_WORLDS_R = 6              # минимум миров life на T_read для критерия 2
+BOOT_N = 10_000               # перцентильный бутстреп по мирам
+BOOT_SEED = 20261028          # фиксированный генератор: воспроизводимо
+CI_LEVEL = 0.95
+# 28.10.2026: объявленные seed'ы 201..240 (не 1-40 протокола B1, не 101-103 пилота)
+SEED_START = 201
 
 
 def git_commit():
@@ -81,29 +106,90 @@ def point_at_read(r):
     return None
 
 
-def group(rows, seed_limit):
+def declared_seeds(k, seed_start=SEED_START):
+    """Первые k объявленных seed'ов: seed_start..seed_start+k-1 (28.10.2026)."""
+    return list(range(seed_start, seed_start + k))
+
+
+def group(rows, k, seed_start=SEED_START):
+    """Строки первых k объявленных seed'ов по условиям."""
+    want = set(declared_seeds(k, seed_start))
     by = {c: {} for c in CONDS}
     for r in rows:
         if r.get("label") in by and r.get("seed") is not None and not r.get("error"):
-            if r["seed"] <= seed_limit:
+            if r["seed"] in want:
                 by[r["label"]][r["seed"]] = r
     return by
 
 
-def completed_seeds(rows, limit=None):
+def completed_seeds(rows, limit=None, seed_start=SEED_START):
+    """Seed'ы, посчитанные во всех шести условиях; с limit только первые limit объявленных."""
+    want = set(declared_seeds(limit, seed_start)) if limit is not None else None
     have = {}
     for r in rows:
         if r.get("error") or r.get("seed") is None:
             continue
-        if limit is not None and r["seed"] > limit:
+        if want is not None and r["seed"] not in want:
             continue
         have.setdefault(r["seed"], set()).add(r.get("label"))
     return sorted(s for s, cs in have.items() if set(CONDS) <= cs)
 
 
-def analyse(rows, k):
-    """Чтение на k seed'ах (1..k все шесть условий)."""
-    by = group(rows, k)
+def bootstrap_ci(x, stat="mean", n_boot=BOOT_N, seed=BOOT_SEED, level=CI_LEVEL):
+    """Перцентильный бутстреп по мирам с фиксированным генератором."""
+    x = np.asarray(x, float)
+    if x.size < 2:
+        return None, None
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, x.size, size=(n_boot, x.size))
+    s = np.median(x[idx], axis=1) if stat == "median" else x[idx].mean(axis=1)
+    lo, hi = 100 * (1 - level) / 2, 100 * (1 + level) / 2
+    return float(np.percentile(s, lo)), float(np.percentile(s, hi))
+
+
+def criterion2_from_R(R, d_lr=None, d_mk=None):
+    """Критерий 2 (28.10.2026) по вектору R_i = D_lr - D_marker (= log10(lr_median/
+    marker_median) при равных стартах) миров life на T_read: одновыборочный Уилкоксон против нуля (p < P_PAIRED,
+    не меньше MIN_WORLDS_R миров) и бутстреп-ДИ среднего R целиком выше R_MIN.
+    Описательно: ДИ медианы R, D_lr и D_marker, знаковый тест маркера (§8.3)."""
+    R = np.asarray(R, float)
+    n = int(R.size)
+    out = dict(n=n, r_min=R_MIN, min_worlds=MIN_WORLDS_R,
+               mean_R=None, median_R=None, sd_R=None, ratio_mean=None,
+               ci_mean_low=None, ci_mean_high=None, ci_median_low=None, ci_median_high=None,
+               p_wilcoxon=None, enough_worlds=n >= MIN_WORLDS_R, ci_includes_zero=None,
+               passed=False, marker_sign_p=None, median_d_lr=None, ratio_lr=None,
+               median_d_marker=None, mean_d_marker=None, sd_d_marker=None,
+               min_d_marker=None, max_d_marker=None)
+    if n == 0:
+        return out
+    out.update(mean_R=float(R.mean()), median_R=float(np.median(R)),
+               sd_R=(float(R.std(ddof=1)) if n > 1 else None), ratio_mean=float(10 ** R.mean()))
+    lo, hi = bootstrap_ci(R, "mean")
+    mlo, mhi = bootstrap_ci(R, "median")
+    out.update(ci_mean_low=lo, ci_mean_high=hi, ci_median_low=mlo, ci_median_high=mhi)
+    p = wilcoxon_p(R, np.zeros(n)) if n >= MIN_WORLDS_R else None
+    out["p_wilcoxon"] = p
+    if lo is not None:
+        out["ci_includes_zero"] = bool(lo <= 0.0 <= hi)
+    out["passed"] = bool(n >= MIN_WORLDS_R and p is not None and p < P_PAIRED
+                         and lo is not None and lo > R_MIN)
+    if d_lr is not None and len(d_lr):
+        dl = np.asarray(d_lr, float)
+        out.update(median_d_lr=float(np.median(dl)), ratio_lr=float(10 ** np.median(dl)))
+    if d_mk is not None and len(d_mk):
+        dm = np.asarray(d_mk, float)
+        out.update(median_d_marker=float(np.median(dm)), mean_d_marker=float(dm.mean()),
+                   sd_d_marker=(float(dm.std(ddof=1)) if dm.size > 1 else None),
+                   min_d_marker=float(dm.min()), max_d_marker=float(dm.max()),
+                   # граница провала 3: маркер сам сдвинут (знаковый тест по seed'ам)
+                   marker_sign_p=sign_test_p(dm))
+    return out
+
+
+def analyse(rows, k, seed_start=SEED_START):
+    """Чтение на k seed'ах (первые k объявленных, все шесть условий)."""
+    by = group(rows, k, seed_start)
 
     conds = {}
     for c in CONDS:
@@ -134,8 +220,10 @@ def analyse(rows, k):
     else:
         c1 = dict(n=0, enough_pairs=False, p=None, median_log_diff=None, ratio=None, passed=False)
 
-    # критерий 2: на T_read, в мирах life, доживших до T_read
-    d_lr, d_mk, d_lr_end, d_mk_end, seeds_read = [], [], [], [], []
+    # критерий 2 (28.10.2026): на T_read, в мирах life, доживших до T_read,
+    # внутримировая парная величина R_i = log10(lr_median / marker_median)
+    R, d_lr, d_mk, R_agents, seeds_read = [], [], [], [], []
+    R_end, lr_ceiling_end, lr_cap_at_read = [], [], []
     for s, r in sorted(by["life"].items()):
         pt = point_at_read(r)
         lr0, mk0 = r.get("lr_init"), r.get("marker_init")
@@ -144,29 +232,35 @@ def analyse(rows, k):
         a, b = log10_or_none(pt.get("lr_median")), log10_or_none(pt.get("marker_median"))
         if a is None or b is None:
             continue
-        d_lr.append(a - math.log10(lr0)); d_mk.append(b - math.log10(mk0)); seeds_read.append(s)
+        # R = D_lr - D_marker = log10(lr/marker) при marker_init = lr_init (§3);
+        # нормировка на стартовые значения снимает смещение, если старты разные
+        dl_i, dm_i = a - math.log10(lr0), b - math.log10(mk0)
+        R.append(dl_i - dm_i); d_lr.append(dl_i); d_mk.append(dm_i); seeds_read.append(s)
+        # описательно: та же величина по агентам (10^медиана log10(lr/marker)), если записана
+        ra = log10_or_none(pt.get("lr_over_marker"))
+        if ra is not None:
+            R_agents.append(ra)
+        # доля у потолка в кривой не пишется; флаг «медиана lr на T_read у потолка»
+        cap = r.get("taste_lr_max") or 4.0
+        lr_cap_at_read.append(bool(pt.get("lr_median") is not None and pt["lr_median"] >= 0.99 * cap))
         if alive(r):
             a2, b2 = log10_or_none(r.get("lr_median")), log10_or_none(r.get("marker_median"))
             if a2 is not None and b2 is not None:
-                d_lr_end.append(a2 - math.log10(lr0)); d_mk_end.append(b2 - math.log10(mk0))
-    if len(d_lr) >= 2:
-        dl, dm = np.array(d_lr), np.array(d_mk)
-        two_sigma = float(2 * dm.std(ddof=1))
-        c2 = dict(n=len(d_lr), median_d_lr=float(np.median(dl)), ratio_lr=float(10 ** np.median(dl)),
-                  median_d_marker=float(np.median(dm)), two_sigma_marker=two_sigma,
-                  passed=bool(np.median(dl) > two_sigma and np.median(dl) > 0),
-                  # граница провала 3: маркер сам сдвинут (знаковый тест по seed'ам)
-                  marker_sign_p=sign_test_p(dm))
+                R_end.append((a2 - math.log10(lr0)) - (b2 - math.log10(mk0)))
+            if r.get("lr_at_ceiling") is not None:
+                lr_ceiling_end.append(float(r["lr_at_ceiling"]))
+    c2 = criterion2_from_R(R, d_lr, d_mk)
+    c2["seeds"] = seeds_read
+    c2["median_R_agents"] = float(np.median(R_agents)) if R_agents else None
+    c2["lr_median_at_cap_share"] = (float(np.mean(lr_cap_at_read)) if lr_cap_at_read else None)
+    c2["lr_at_ceiling_end_mean"] = (float(np.mean(lr_ceiling_end)) if lr_ceiling_end else None)
+    # описательно: то же в конце прогона (без критерия: там дрейф маркера растёт с длиной)
+    if len(R_end) >= 2:
+        lo, hi = bootstrap_ci(R_end, "mean")
+        c2["end_of_run"] = dict(n=len(R_end), mean_R=float(np.mean(R_end)), median_R=float(np.median(R_end)),
+                                ci_mean_low=lo, ci_mean_high=hi, above_r_min=bool(lo is not None and lo > R_MIN))
     else:
-        c2 = dict(n=len(d_lr), median_d_lr=None, ratio_lr=None, median_d_marker=None,
-                  two_sigma_marker=None, passed=False, marker_sign_p=None)
-    if len(d_lr_end) >= 2:
-        dl, dm = np.array(d_lr_end), np.array(d_mk_end)
-        c2["end_of_run"] = dict(n=len(d_lr_end), median_d_lr=float(np.median(dl)),
-                                two_sigma_marker=float(2 * dm.std(ddof=1)),
-                                exceeds=bool(np.median(dl) > 2 * dm.std(ddof=1)))
-    else:
-        c2["end_of_run"] = dict(n=len(d_lr_end))
+        c2["end_of_run"] = dict(n=len(R_end))
 
     # критерий 3: абляция, life против life_frozen
     b_ = c_ = same = 0
@@ -234,6 +328,8 @@ def verdict_key(st):
     ext = st["extinction_life"]
     if ext is not None and ext > 0.5:
         return "world_fails"
+    # граница 2 (28.10.2026): ДИ R содержит ноль, lr и маркер движутся вместе
+    st["boundary2_R_includes_zero"] = c2.get("ci_includes_zero")
     # граница 3 проверяется раньше «слепоты»: на первом чтении (10 seed'ов) пар
     # меньше 12 по построению, а нейтральность маркера проверить уже можно
     if c2.get("marker_sign_p") is not None and c2["marker_sign_p"] < 0.05:
@@ -249,12 +345,13 @@ def verdict_key(st):
 
 VERDICTS = {
     "confirmed": ("подтверждено", "Все три критерия: направление (p&lt;0,05, не меньше 12 пар), "
-                  "рост выше 2σ дрейфа нейтрального маркера на том же тике, абляция даёт выигрыш в выживании."),
+                  "ген скорости выше нейтрального маркера в том же мире на T_read не меньше чем вдвое "
+                  "(ДИ R выше 0,30, Уилкоксон p&lt;0,05), абляция даёт выигрыш в выживании."),
     "growth_without_benefit": ("не подтверждено: рост без пользы",
                                "Ген скорости вырос по критериям 1 и 2, но без обучения миры гибнут не чаще."),
     "signal_within_drift": ("не подтверждено: сигнал внутри дрейфа",
-                            "Направление значимо, но рост lr не больше 2σ того, что сделал с нейтральным "
-                            "маркером тот же мир и то же горлышко."),
+                            "Направление значимо, но отношение lr к нейтральному маркеру в том же мире "
+                            "(R на T_read) не показывает фактора 2: ДИ R не выше 0,30 или Уилкоксон не прошёл."),
     "not_distinguishable": ("неотличимо", "Скорость обучения в меняющемся и стационарном мире не расходится."),
     "world_fails": ("мир не выдерживает", "Больше половины life вымерли: граница провала §8.1, версия заменяется."),
     "blind": ("прибор слеп", "Годных пар life/never меньше 12 (§5): критерий 1 не считается до следующего чтения."),
@@ -280,7 +377,7 @@ def build_state():
     done = completed_seeds(rows)
     readings = {}
     for k in CHECKPOINTS:
-        if completed_seeds(rows, k) == list(range(1, k + 1)):
+        if completed_seeds(rows, k) == declared_seeds(k):
             readings[str(k)] = analyse(rows, k)
     latest = max((int(k) for k in readings), default=None)
     validity = {}
@@ -321,16 +418,21 @@ def render(st):
             return f'<td class="{"yes" if b else "no"}">{"да" if b else "нет"}</td>'
         crit = (f"<tr><td class=\"mono\">1. направление, life против never в конце прогона</td>"
                 f"<td>пар {c1['n']}, ×{fmt(c1['ratio'], 2)}, p={fmt_p(c1['p'])}</td>{yn(c1['passed'])}</tr>"
-                f"<tr><td class=\"mono\">2. выше дрейфа маркера на T_read</td>"
-                f"<td>миров {c2['n']}, D_lr={fmt(c2['median_d_lr'])} (×{fmt(c2['ratio_lr'], 2)}), "
-                f"2σ маркера={fmt(c2['two_sigma_marker'])}, маркер сдвинут p={fmt_p(c2['marker_sign_p'])}</td>{yn(c2['passed'])}</tr>"
+                f"<tr><td class=\"mono\">2. lr выше маркера в том же мире на T_read (R = log10(lr/marker) &gt; 0,30)</td>"
+                f"<td>миров {c2['n']}, R среднее={fmt(c2['mean_R'])} (×{fmt(c2['ratio_mean'], 2)}), "
+                f"ДИ среднего [{fmt(c2['ci_mean_low'])}; {fmt(c2['ci_mean_high'])}], "
+                f"медиана {fmt(c2['median_R'])} ДИ [{fmt(c2['ci_median_low'])}; {fmt(c2['ci_median_high'])}], "
+                f"Уилкоксон p={fmt_p(c2['p_wilcoxon'])}; D_lr={fmt(c2['median_d_lr'])} (×{fmt(c2['ratio_lr'], 2)}), "
+                f"D_marker медиана {fmt(c2['median_d_marker'])} (от {fmt(c2['min_d_marker'])} до {fmt(c2['max_d_marker'])}), "
+                f"маркер сдвинут p={fmt_p(c2['marker_sign_p'])}; у потолка в конце {fmt(c2.get('lr_at_ceiling_end_mean'), 2)}</td>{yn(c2['passed'])}</tr>"
                 f"<tr><td class=\"mono\">3. абляция, life против life_frozen</td>"
                 f"<td>b={c3['b']}, c={c3['c']}, согласных {c3['concordant']}, p={fmt_p(c3['p'])}</td>{yn(c3['passed'])}</tr>")
         eor = c2.get("end_of_run", {})
         extra = ""
         if eor.get("n", 0) >= 2:
-            extra += (f"<p>Описательно, в конце прогона: D_lr={fmt(eor['median_d_lr'])}, 2σ маркера="
-                      f"{fmt(eor['two_sigma_marker'])} ({'выше' if eor['exceeds'] else 'не выше'}); порог там "
+            extra += (f"<p>Описательно, в конце прогона: R среднее={fmt(eor['mean_R'])}, ДИ "
+                      f"[{fmt(eor['ci_mean_low'])}; {fmt(eor['ci_mean_high'])}] "
+                      f"({'выше' if eor['above_r_min'] else 'не выше'} 0,30); дрейф маркера там "
                       f"растёт с длиной прогона, поэтому это не критерий.</p>")
         de = rd["descriptive"]
         if de["dead_vs_alive_n"]:
@@ -389,7 +491,7 @@ th:first-child,td:first-child{{text-align:left}} .mono{{color:var(--ink)}}
 рос с длиной прогона. В B2 рост гена скорости сравнивается с нейтральным маркерным геном в том же мире
 на том же тике, а параметры мира выбраны так, чтобы первую смену переживало большинство популяций.
 Протокол: <a href="https://github.com/akela1308/minimir/blob/main/PREREGISTRATION_B2_черновик.md">предрегистрация B2</a>.
-Чтения на 10, 20 и 40 seed'ах; между ними страница чисел не показывает.</p>
+Чтения на 10, 20 и 40 seed'ах (объявленные seed'ы {SEED_START}..{SEED_START + CHECKPOINTS[-1] - 1}); между ними страница чисел не показывает.</p>
 
 <div class="card"><p class="big">{st["n_done"]} из {st["target"]} seed'ов{f", следующее чтение на {nxt}" if nxt else ""}</p>
 <div class="bar"><i style="width:{pct}%"></i></div>
