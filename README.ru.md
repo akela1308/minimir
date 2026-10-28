@@ -8,7 +8,7 @@
 [о проекте](https://minimir.ilinmaks.com/about.html)
 (GitHub Pages, ничего ставить не нужно, открывается у любого).
 
-**DOI релиза v1.0-protocol-b:** [10.5281/zenodo.23713553](https://doi.org/10.5281/zenodo.23713553) (Zenodo, архив кода, данных и отчёта по протоколу B). Как цитировать: см. `CITATION.cff` и раздел How to cite в `README.md`.
+**DOI релиза v1.0.1-protocol-b:** [10.5281/zenodo.23729180](https://doi.org/10.5281/zenodo.23729180) (исходная версия v1.0 без поправок: 10.5281/zenodo.23713553) (Zenodo, архив кода, данных и отчёта по протоколу B). Как цитировать: см. `CITATION.cff` и раздел How to cite в `README.md`.
 
 ## Что уже закрыто
 
@@ -324,7 +324,7 @@ seed'ах (объём предрегистрации по числу seed'ов) 
 
 ## Как цитировать
 
-Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0.1. Zenodo. https://doi.org/10.5281/zenodo.23713553. Страница результатов: https://minimir.ilinmaks.com/results-b.html
+Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0.1. Zenodo. https://doi.org/10.5281/zenodo.23729180. Страница результатов: https://minimir.ilinmaks.com/results-b.html
 
 DOI выше указывает на релиз репозитория (версия кода 1.0.1-protocol-b; v1.0-protocol-b это архивный оригинал, v1.0.1 добавляет файл поправок `ERRATUM_2026-10-28.md`). DOI всех версий: 10.5281/zenodo.23713552. Файл `CITATION.cff` лежит в репозитории; GitHub показывает его предпочтительную ссылку (отчёт выше) в разделе «Cite this repository».
 

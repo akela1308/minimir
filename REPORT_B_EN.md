@@ -6,7 +6,7 @@ Maksim Ilin, independent researcher, Zagreb, Croatia. https://www.ilinmaks.com
 
 - Results page: https://minimir.ilinmaks.com/results-b.html
 - Code, data and the frozen preregistration: https://github.com/akela1308/minimir
-- DOI: https://doi.org/10.5281/zenodo.23713553 (release v1.0-protocol-b, Zenodo; all versions: https://doi.org/10.5281/zenodo.23713552)
+- DOI: https://doi.org/10.5281/zenodo.23729180 (release v1.0.1-protocol-b, Zenodo; the archived original v1.0-protocol-b is 10.5281/zenodo.23713553; all versions: https://doi.org/10.5281/zenodo.23713552)
 
 **Corrections of 28 October 2026.** Several statements in this report were stronger than the data; the list of corrections, with the numbers, is in `ERRATUM_2026-10-28.md`. The verdicts and the data do not change. Old wording below is kept, with dated notes next to it; plain factual slips are corrected in place.
 
@@ -268,7 +268,7 @@ One more thing needs saying, about our own measurement error. We declared in adv
 
 ## How to cite
 
-Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0.1. Zenodo. https://doi.org/10.5281/zenodo.23713553. Results page: https://minimir.ilinmaks.com/results-b.html
+Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0.1. Zenodo. https://doi.org/10.5281/zenodo.23729180. Results page: https://minimir.ilinmaks.com/results-b.html
 
 ```
 @techreport{ilin2026minimir_b,
@@ -278,7 +278,7 @@ Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment 
   year        = {2026},
   month       = {10},
   version     = {1.0.1},
-  doi         = {10.5281/zenodo.23713553},
+  doi         = {10.5281/zenodo.23729180},
   url         = {https://minimir.ilinmaks.com/results-b.html}
 }
 ```
