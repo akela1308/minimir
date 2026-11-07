@@ -259,6 +259,18 @@ And a third thing we had not expected. In the unchanging world, learning did not
 
 One more thing needs saying, about our own measurement error. We declared in advance that the effect had to exceed the spread of random drift, which is the right idea, but we chose a poor way to compute it. The result was that the longer the experiment ran, the higher the bar we had set ourselves. By the end of the run it demanded a sixtyfold difference, and the effect was fourteenfold. Had we stopped the runs five times earlier, the same result would have passed. We will not change the rule after the fact, because a criterion invented after looking at the data is not a criterion, but in the next version it will be different, and we have written down how. (This paragraph is in the Russian original, section 11; it was missing from the English version until 28 October 2026.)
 
+## How this research was done
+
+*Section added on 7 November 2026, so that a reader can judge how far to trust each step.*
+
+The questions, the theses and every key decision belong to Maksim Ilin: which hypothesis to test, what counts as failure, when to freeze a protocol, what to publish and how to correct errors. Maksim is not an engineer by training and does not write code himself. Almost all execution was done by Anthropic's Claude models in Claude Code and in Cowork mode: the world engine, the preregistration (drafts that Maksim approved), the analysis scripts, this report, the site pages and the translations into four languages. The nightly runs were computed by GitHub Actions on a schedule, without people or models in the loop.
+
+Which model version worked in each session from July to September was not recorded. From October, commits made by a model carry a Co-Authored-By line naming the model (the repository history shows Claude Fable 5.1, Claude Opus 5 and Claude Opus 5.5); nightly-run commits are signed "minimir daily".
+
+Verification had three layers. First, every number in the report was recomputed from the raw rows of `runs/daily/protocol_b.jsonl` when it was written. Second, on 13 and 28 October separate Claude instances, given no prepared conclusions, ran an independent audit of code and data with re-runs of the engine and a check of every text. They found the errors corrected in `ERRATUM_2026-10-28.md`: pilot seeds in the confirmatory data, a mislabelled table, the 14.5 ratio without the gene-cap caveat, and the ablation presented as a discovery. The same class of system made the errors and found them, and readers should weigh that. Third, since 7 November the script `runs/verify_report_numbers.py` recomputes the main numbers of protocols A and B1 and checks that exactly these numbers appear in the reports, the README and the corrections; it is part of the test suite and runs with every nightly job.
+
+What is missing: an external human reviewer. Neither the report nor the corrections have yet been read by an outside specialist in evolutionary biology or artificial life. If you are one and find an error, please open an issue in the repository; it will be corrected with a dated note like the others.
+
 ## Data and code availability
 
 - Repository with the engine, the frozen preregistration, the raw results (runs/daily/protocol_b.jsonl, 240 lines, one per run), the analysis scripts and the tests: https://github.com/akela1308/minimir

@@ -87,6 +87,10 @@ Speed: 380 to 600 ticks per second at working population sizes, so 200,000 ticks
 
 One grid, one metabolism, one brain size, one ancestor per seed. In protocol B a single synapse is plastic, so nothing generalises to a general learning rule. The browser version differs from the nightly run in the parameters listed on the front page; since 28 October 2026 it uses the same learning mechanisms as the measured protocol. The full list is in `README.ru.md` and in the reports.
 
+## How this was made
+
+Questions, theses and key decisions: Maksim Ilin. Code, analysis, reports, site and translations: Anthropic's Claude models working under his direction (commits made by a model carry a Co-Authored-By line). Errors found by independent Claude audits are corrected in `ERRATUM_2026-10-28.md`. Every main number in the reports is recomputed from raw data by `runs/verify_report_numbers.py`, which runs with the tests. No external human reviewer yet; issues are welcome. Details: section "How this research was done" in `REPORT_B_EN.md` (section 13 in `REPORT_B.md`).
+
 ## How to cite
 
 Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0.1. Zenodo. https://doi.org/10.5281/zenodo.23729180. Results page: https://minimir.ilinmaks.com/results-b.html
