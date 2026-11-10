@@ -36,14 +36,18 @@ class Params:
     k_max: int = 100
     cost: int = 2          # цена ответа
     gain: int = 14         # прибавка от действия B при K не ниже k_low
-    gain_low: int = 4      # прибавка от B при K ниже k_low: восстановление из
-                           # низкого состояния медленное, поэтому пополнять
-                           # выгодно заранее (версия 2, см. предрегистрацию §6.1)
+    gain_low: int = 0      # прибавка от B при K ниже k_low. Версия 3: ноль, то есть
+                           # ниже порога B уже не помогает до конца блока
+    block_len: int = 40    # каждые столько шагов K возвращается к k_start: агент
+                           # может учиться на собственных провалах от блока к блоку
     k_low: int = 40        # ниже этого окно сокращается
     w_max: int = 12        # полное окно
     lag_max: int = 10      # вопрос о записи не старше стольки шагов
     journal_len: int = 40  # сколько своих прошлых шагов видит агент
-    drain_prob: float = 0.05   # вероятность внешней просадки K на шаге
+    bad_block_prob: float = 0.25   # блок (кроме первого) начинается с K ниже порога:
+    bad_lo: int = 30               #   K = случайное из [bad_lo, bad_hi]. Одинаково во всех
+    bad_hi: int = 38               #   рукавах семени. Заменяет просадки версии 2
+    drain_prob: float = 0.0   # вероятность внешней просадки K на шаге
     drain_lo: int = 30         # просадка: K становится не выше случайного
     drain_hi: int = 38         #   числа из [drain_lo, drain_hi]
     drain_from: int = 6        # первые шаги без просадок
@@ -86,6 +90,11 @@ class Episode:
         self.drain = [drng.randint(params.drain_lo, params.drain_hi)
                       if (t + 1 >= params.drain_from and drng.random() < params.drain_prob) else None
                       for t in range(params.steps)]
+        brng = random.Random(f"stand11-blocks-{seed}")
+        nb = -(-params.steps // params.block_len)
+        self.block_start = [params.k_start] + [
+            brng.randint(params.bad_lo, params.bad_hi) if brng.random() < params.bad_block_prob
+            else params.k_start for _ in range(nb - 1)]
         self.t = 0                 # номер шага, с нуля
         self.k = params.k_start
         self.score = 0
@@ -138,15 +147,18 @@ class Episode:
         self.journal.append(entry)
         self.w_used.append(w)
         self.t += 1
+        if self.t < p.steps and self.t % p.block_len == 0:
+            self.k = self.block_start[self.t // p.block_len]   # новый блок
         if self.t < p.steps and self.drain[self.t] is not None:
             self.k = min(self.k, self.drain[self.t])   # просадка перед следующим шагом
         return entry
 
     def summary(self) -> dict:
-        half = self.p.steps // 2
+        half = (self.p.steps // self.p.block_len) * self.p.block_len * 2 // 5   # первые два блока из пяти: обучение
         b = [int(e["action"] == "B") for e in self.journal]
-        def antic(part):       # упреждающее B: доля B среди шагов, где ключ был виден
-            v = [e for e in part if e["vis"]]
+        def antic(part):       # упреждающее B: доля B среди шагов, где пополнить заранее
+            # было возможно, то есть ключ виден и K не ниже порога
+            v = [e for e in part if e["vis"] and e["k"] >= self.p.k_low]
             return (sum(e["action"] == "B" for e in v) / len(v)) if v else 0.0
         hid = [e for e in self.journal if not e["vis"]]
         ks_at_b = [e["k"] for e in self.journal if e["action"] == "B"]
@@ -166,5 +178,6 @@ class Episode:
             k_at_b_mean=(sum(ks_at_b) / len(ks_at_b)) if ks_at_b else None,
             w_mean=sum(self.w_used) / len(self.w_used),
             drains=sum(d is not None for d in self.drain),
+            bad_blocks=sum(k < self.p.k_low for k in self.block_start),
             params=asdict(self.p),
         )

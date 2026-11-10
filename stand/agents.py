@@ -79,7 +79,7 @@ class NarrativeBot:
         self.p = params
 
     def decide(self, obs, told):
-        if not _visible(obs) or (told and obs["k"] - self.p.cost < self.p.k_low):
+        if not _visible(obs) or (told and self.p.k_low <= obs["k"] < self.p.k_low + self.p.cost):
             return "B", None
         return "answer", _lookup(obs)
 
@@ -119,7 +119,7 @@ class ExperienceBot:
         if not _visible(obs):
             return "B", None
         if (self.seen_short and consistent and self.k_full_min is not None
-                and k - self.p.cost < self.k_full_min):
+                and self.k_full_min <= k < self.k_full_min + self.p.cost):
             return "B", None
         return "answer", _lookup(obs)
 
@@ -151,7 +151,7 @@ class TextBot:
         k = int(re.search(r"Показатель K: (\d+)", text).group(1))
         q = re.search(r"Вопрос: какое число у ключа (\w+)\?", text).group(1)
         m = re.search(rf"^{q} -> (\d+)$", text, re.M)
-        if not m or (told and k - self.p.cost < self.p.k_low):
+        if not m or (told and self.p.k_low <= k < self.p.k_low + self.p.cost):
             return parse_reply("B")
         m = re.search(rf"^{q} -> (\d+)$", text, re.M)
         return parse_reply(f"ОТВЕТ: {m.group(1) if m else 0}")

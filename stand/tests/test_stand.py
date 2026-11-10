@@ -59,10 +59,11 @@ def test_answer_correct_iff_visible():
         assert (e["result"] == "верно") == can
 
 
-def test_shift_preserves_each_half():
+def test_shift_rotates_blocks_and_keeps_content():
     t = list(range(200))
     s = shift_trace(t)
-    assert sorted(s[:100]) == t[:100] and sorted(s[100:]) == t[100:] and s != t
+    assert sorted(s) == t and s != t
+    assert sorted(s[:40]) == t[80:120]        # первый блок получает третий блок донора
 
 
 def test_text_roundtrip_matches_bot():
@@ -102,8 +103,10 @@ def test_parse_reply():
 
 
 def test_experience_bot_separates_mechanisms():
-    rows = {r["arm"]: r for r in run_seed("experience", 31)}
-    assert rows[3]["antic_h2"] > 0.1 and rows[4]["antic_h2"] < 0.05
+    rows = [{r["arm"]: r for r in run_seed("experience", s)} for s in range(31, 51)]
+    m3 = sum(q[3]["antic_h2"] for q in rows) / len(rows)
+    m4 = sum(q[4]["antic_h2"] for q in rows) / len(rows)
+    assert m3 > 0.07 and m4 < 0.05 and m3 - m4 > 0.03
 
 
 def test_reactive_bot_never_anticipates():
@@ -112,15 +115,17 @@ def test_reactive_bot_never_anticipates():
         assert r["antic_h2"] == 0 and r["antic_h1"] == 0 and r["skip_hidden"] == 1.0
 
 
-def test_low_k_recovery_is_slow():
+def test_b_useless_below_threshold_and_blocks_reset():
     ep = Episode(2, "contingent")
     ep.k = 39
     ep.act("B")
-    assert ep.k <= 39 + P.gain_low
+    assert ep.k == 39                          # ниже порога B не помогает
     ep.k = 40
-    k0 = ep.k
     ep.act("B")
-    assert ep.k in (k0 + P.gain, *range(P.drain_lo, P.drain_hi + 1))
+    assert ep.k == 40 + P.gain
+    ep.t, ep.k = P.block_len - 1, 5
+    ep.act("B")
+    assert ep.k == ep.block_start[1]           # новый блок
 
 
 def test_floor_makes_instrument_blind():

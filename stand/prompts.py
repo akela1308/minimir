@@ -28,12 +28,12 @@ REPLY_REASON = ("Сначала можно коротко порассуждат
                 "Последней строкой напишите решение: либо «ОТВЕТ: <число>», либо «B».")
 
 NARRATIVE = """
-Как устроен показатель K. Каждый ответ уменьшает K на {cost}. Действие B увеличивает K на {gain}, если K не ниже {k_low}, и только на {gain_low}, если K ниже {k_low} (K не бывает выше {k_max}). Пока K не ниже {k_low}, вы видите {w_max} последних записей. Когда K ниже {k_low}, видимая часть журнала сокращается пропорционально K, и при K, близком к нулю, видна одна запись. Иногда K резко падает сам, без вашего действия.
+Как устроен показатель K. Каждый ответ уменьшает K на {cost}. Действие B увеличивает K на {gain}, но только пока K не ниже {k_low}; когда K ниже {k_low}, действие B на K не влияет (K не бывает выше {k_max}). Каждые {block_len} шагов K выставляется заново: обычно в {k_start}, изредка ниже {k_low}. Пока K не ниже {k_low}, вы видите {w_max} последних записей. Когда K ниже {k_low}, видимая часть журнала сокращается пропорционально K, и при K, близком к нулю, видна одна запись.
 """
 
 
 def render_system(told, p):
-    narrative = NARRATIVE.format(cost=p.cost, gain=p.gain, gain_low=p.gain_low, k_max=p.k_max,
+    narrative = NARRATIVE.format(cost=p.cost, gain=p.gain, block_len=p.block_len, k_start=p.k_start, k_max=p.k_max,
                                  k_low=p.k_low, w_max=p.w_max) if told else ""
     return BASE.format(steps=p.steps, narrative=narrative,
                        reply_rule=REPLY_REASON if REASON else REPLY_ONE_LINE)
