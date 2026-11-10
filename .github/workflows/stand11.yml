@@ -1,0 +1,110 @@
+name: стенд 1.1
+
+# Стенд 1.1 «рассказ против механизма» (10 ноября 2026). Запуск только вручную.
+#
+# pilot:   семена 2001-2005, одна модель. В подтверждающие данные не входит,
+#          отвечает только на вопросы годности (предрегистрация, раздел 7).
+# confirm: семена 3001-3060 шестью частями по 10. Первый шаг проверяет, что
+#          stand/PREREGISTRATION_STAND11.md (без слова «черновик») существует,
+#          иначе прогон останавливается.
+#
+# Ключ API лежит в секрете репозитория STAND_API_KEY и в файлы не попадает.
+# Все промпты и ответы пишутся в stand/runs/<имя>/..._calls/ и коммитятся.
+# Прогон возобновляем: готовые семена не пересчитываются.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "pilot или confirm"
+        required: true
+        type: choice
+        options: [pilot, confirm]
+        default: pilot
+      api_base:
+        description: "адрес API (совместимый с OpenAI, либо https://api.anthropic.com)"
+        required: true
+      model:
+        description: "точный идентификатор модели у провайдера"
+        required: true
+      name:
+        description: "короткое имя папки для этой модели, латиницей (например gptoss120b)"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stand11-${{ inputs.name }}-${{ inputs.mode }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        part: [1, 2, 3, 4, 5, 6]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: что считать
+        id: plan
+        run: |
+          if [ "${{ inputs.mode }}" = "pilot" ]; then
+            if [ "${{ matrix.part }}" != "1" ]; then echo "skip=yes" >> "$GITHUB_OUTPUT"; exit 0; fi
+            echo "seeds=2001-2005" >> "$GITHUB_OUTPUT"
+            echo "out=stand/runs/${{ inputs.name }}/pilot.jsonl" >> "$GITHUB_OUTPUT"
+          else
+            if [ ! -f stand/PREREGISTRATION_STAND11.md ]; then
+              echo "::error::предрегистрация не заморожена: нет файла stand/PREREGISTRATION_STAND11.md"
+              exit 1
+            fi
+            lo=$(( 3001 + (${{ matrix.part }} - 1) * 10 ))
+            hi=$(( lo + 9 ))
+            echo "seeds=${lo}-${hi}" >> "$GITHUB_OUTPUT"
+            echo "out=stand/runs/${{ inputs.name }}/confirm_${lo}-${hi}.jsonl" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: тесты стенда
+        if: steps.plan.outputs.skip != 'yes'
+        run: |
+          pip install -q pytest
+          python -m pytest -q stand/tests
+
+      - name: прогон
+        if: steps.plan.outputs.skip != 'yes'
+        env:
+          STAND_API_BASE: ${{ inputs.api_base }}
+          STAND_API_KEY: ${{ secrets.STAND_API_KEY }}
+          STAND_MODEL: ${{ inputs.model }}
+        run: |
+          if [ -z "$STAND_API_KEY" ]; then echo "::error::не задан секрет STAND_API_KEY"; exit 1; fi
+          python stand/run.py --agent llm --seeds "${{ steps.plan.outputs.seeds }}" --out "${{ steps.plan.outputs.out }}"
+
+      - name: сводка
+        if: always() && steps.plan.outputs.skip != 'yes'
+        run: |
+          if [ -f "${{ steps.plan.outputs.out }}" ]; then
+            python stand/analyze.py "${{ steps.plan.outputs.out }}" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: сохранить результаты
+        if: always() && steps.plan.outputs.skip != 'yes'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stand/runs
+          git diff --cached --quiet && exit 0
+          git commit -m "Стенд 1.1: ${{ inputs.mode }} ${{ inputs.name }}, семена ${{ steps.plan.outputs.seeds }}"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep $(( i * 7 ))
+          done
+          exit 1
