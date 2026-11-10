@@ -121,3 +121,11 @@ def test_low_k_recovery_is_slow():
     k0 = ep.k
     ep.act("B")
     assert ep.k in (k0 + P.gain, *range(P.drain_lo, P.drain_hi + 1))
+
+
+def test_floor_makes_instrument_blind():
+    from analyze import contrasts
+    quads = {s: {r["arm"]: r for r in run_seed("reactive", s)} for s in range(40, 46)}
+    res = contrasts(quads, n_boot=200)
+    assert res["floor"] and res["A"]["verdict"] == res["B"]["verdict"] == "прибор слеп"
+    assert not res["thesis_failed"]
