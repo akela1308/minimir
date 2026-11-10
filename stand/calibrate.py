@@ -23,14 +23,15 @@ def pool(kind):
 def main():
     out = [f"# Калибровка стенда 1.1\n\nПул: {POOL} семян на каждого бота. "
            f"Воображаемых опытов на строку: {EXPERIMENTS}. Наименьший эффект DELTA = {DELTA}.\n"]
-    pools = {k: pool(k) for k in ("never", "random", "narrative", "experience")}
-    out.append("## Средняя доля B на шагах 101-200 по рукавам\n\n| бот | рукав 1 | рукав 2 | рукав 3 | рукав 4 |\n|---|---|---|---|---|")
+    pools = {k: pool(k) for k in ("never", "reactive", "random", "narrative", "experience")}
+    out.append("## Упреждающее пополнение (доля B среди шагов с видимым ключом, шаги 101-200) и очки\n\n| бот | рукав 1 | рукав 2 | рукав 3 | рукав 4 |\n|---|---|---|---|---|")
     for k, p in pools.items():
-        m = [sum(q[a]["b_share_h2"] for q in p) / len(p) for a in (1, 2, 3, 4)]
-        out.append(f"| {k} | " + " | ".join(f"{v:.3f}" for v in m) + " |")
+        m = [sum(q[a]["antic_h2"] for q in p) / len(p) for a in (1, 2, 3, 4)]
+        sc = [sum(q[a]["score"] for q in p) / len(p) for a in (1, 2, 3, 4)]
+        out.append(f"| {k} | " + " | ".join(f"{v:.3f} ({s:.0f})" for v, s in zip(m, sc)) + " |")
     rng = random.Random(7)
     for N in NS:
-      for contrast, bg in (("A", "random"), ("B", "narrative")):
+      for contrast, bg in (("A", "reactive"), ("B", "narrative")):
         out.append(f"\n## Контраст {contrast}, {N} семян: бот опыта в доле семян, фон {bg}\n\n"
                    "| доля семян с ботом опыта | средняя разница | подтверждён | не определён | опровергнут |\n|---|---|---|---|---|")
         for share in SHARES:

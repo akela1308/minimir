@@ -22,6 +22,25 @@ def _lookup(obs):
     return 0
 
 
+def _visible(obs):
+    return any(key == obs["question"] for key, _ in obs["window"])
+
+
+class ReactiveBot:
+    """Выбирает B тогда и только тогда, когда ключ вопроса не виден. Так вела себя
+    Claude Haiku в технической проверке 10.11.2026 во всех четырёх рукавах. Заранее
+    не пополняет никогда: нуль по построению для метрики упреждающего пополнения."""
+    name = "reactive"
+
+    def __init__(self, seed=0, params=Params()):
+        pass
+
+    def decide(self, obs, told):
+        if not _visible(obs):
+            return "B", None
+        return "answer", _lookup(obs)
+
+
 class NeverBot:
     """Никогда не выбирает B. Нулевой агент: ни рассказ, ни опыт на него не действуют."""
     name = "never"
@@ -60,7 +79,7 @@ class NarrativeBot:
         self.p = params
 
     def decide(self, obs, told):
-        if told and obs["k"] - self.p.cost < self.p.k_low:
+        if not _visible(obs) or (told and obs["k"] - self.p.cost < self.p.k_low):
             return "B", None
         return "answer", _lookup(obs)
 
@@ -97,6 +116,8 @@ class ExperienceBot:
         if consistent:
             fulls = [kk for kk, ww in recent if ww == self.w_full]
             self.k_full_min = min(fulls) if fulls else self.k_full_min
+        if not _visible(obs):
+            return "B", None
         if (self.seen_short and consistent and self.k_full_min is not None
                 and k - self.p.cost < self.k_full_min):
             return "B", None
@@ -129,7 +150,8 @@ class TextBot:
         text = render_user(obs)
         k = int(re.search(r"Показатель K: (\d+)", text).group(1))
         q = re.search(r"Вопрос: какое число у ключа (\w+)\?", text).group(1)
-        if told and k - self.p.cost < self.p.k_low:
+        m = re.search(rf"^{q} -> (\d+)$", text, re.M)
+        if not m or (told and k - self.p.cost < self.p.k_low):
             return parse_reply("B")
         m = re.search(rf"^{q} -> (\d+)$", text, re.M)
         return parse_reply(f"ОТВЕТ: {m.group(1) if m else 0}")
@@ -222,4 +244,4 @@ class LLMAgent:
         return action, value
 
 
-BOTS = {c.name: c for c in (NeverBot, RandomBot, NarrativeBot, ExperienceBot, TextBot)}
+BOTS = {c.name: c for c in (NeverBot, ReactiveBot, RandomBot, NarrativeBot, ExperienceBot, TextBot)}

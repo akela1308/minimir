@@ -35,14 +35,17 @@ class Params:
     k_start: int = 60
     k_max: int = 100
     cost: int = 2          # цена ответа
-    gain: int = 14         # прибавка от действия B
+    gain: int = 14         # прибавка от действия B при K не ниже k_low
+    gain_low: int = 4      # прибавка от B при K ниже k_low: восстановление из
+                           # низкого состояния медленное, поэтому пополнять
+                           # выгодно заранее (версия 2, см. предрегистрацию §6.1)
     k_low: int = 40        # ниже этого окно сокращается
     w_max: int = 12        # полное окно
     lag_max: int = 10      # вопрос о записи не старше стольки шагов
-    journal_len: int = 20  # сколько своих прошлых шагов видит агент
+    journal_len: int = 40  # сколько своих прошлых шагов видит агент
     drain_prob: float = 0.05   # вероятность внешней просадки K на шаге
-    drain_lo: int = 12         # просадка: K становится не выше случайного
-    drain_hi: int = 30         #   числа из [drain_lo, drain_hi]
+    drain_lo: int = 30         # просадка: K становится не выше случайного
+    drain_hi: int = 38         #   числа из [drain_lo, drain_hi]
     drain_from: int = 6        # первые шаги без просадок
 
 
@@ -121,7 +124,7 @@ class Episode:
         k_before = self.k
         truth = self.records[self.t + self.off - self.lags[self.t]][1]
         if action == "B":
-            self.k = min(p.k_max, self.k + p.gain)
+            self.k = min(p.k_max, self.k + (p.gain if self.k >= p.k_low else p.gain_low))
             result = "пропуск"
         elif action == "answer":
             self.k = max(0, self.k - p.cost)
@@ -131,7 +134,7 @@ class Episode:
         else:
             raise ValueError(action)
         entry = dict(step=self.t + 1, k=k_before, w=w, action=action, result=result,
-                     lag=self.lags[self.t])
+                     lag=self.lags[self.t], vis=self.lags[self.t] <= w - 1)
         self.journal.append(entry)
         self.w_used.append(w)
         self.t += 1
@@ -142,6 +145,10 @@ class Episode:
     def summary(self) -> dict:
         half = self.p.steps // 2
         b = [int(e["action"] == "B") for e in self.journal]
+        def antic(part):       # упреждающее B: доля B среди шагов, где ключ был виден
+            v = [e for e in part if e["vis"]]
+            return (sum(e["action"] == "B" for e in v) / len(v)) if v else 0.0
+        hid = [e for e in self.journal if not e["vis"]]
         ks_at_b = [e["k"] for e in self.journal if e["action"] == "B"]
         vis = [e for e in self.journal if e["action"] == "answer" and e["lag"] <= e["w"] - 1]
         last = self.journal[-10:]
@@ -149,6 +156,9 @@ class Episode:
             seed=self.seed, mechanism=self.mechanism, score=self.score,
             acc_visible=(sum(e["result"] == "верно" for e in vis) / len(vis)) if vis else None,
             b_share_last10=sum(e["action"] == "B" for e in last) / len(last),
+            antic_h1=antic(self.journal[:half]), antic_h2=antic(self.journal[half:]),
+            skip_hidden=(sum(e["action"] == "B" for e in hid) / len(hid)) if hid else None,
+            hidden_steps=len(hid),
             b_share_all=sum(b) / len(b),
             b_share_h1=sum(b[:half]) / half,
             b_share_h2=sum(b[half:]) / (len(b) - half),

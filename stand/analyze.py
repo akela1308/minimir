@@ -47,7 +47,7 @@ def verdict(lo, hi, delta=DELTA):
     return "не определён"
 
 
-def contrasts(by_seed, metric="b_share_h2", n_boot=N_BOOT, seed=0):
+def contrasts(by_seed, metric="antic_h2", n_boot=N_BOOT, seed=0):
     rng = random.Random(seed)
     seeds = sorted(by_seed)
     out = dict(n=len(seeds))

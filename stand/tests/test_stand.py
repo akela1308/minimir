@@ -103,4 +103,21 @@ def test_parse_reply():
 
 def test_experience_bot_separates_mechanisms():
     rows = {r["arm"]: r for r in run_seed("experience", 31)}
-    assert rows[3]["b_share_h2"] > 0.1 and rows[4]["b_share_h2"] < 0.05
+    assert rows[3]["antic_h2"] > 0.1 and rows[4]["antic_h2"] < 0.05
+
+
+def test_reactive_bot_never_anticipates():
+    # нуль по построению для первичной метрики: B только когда ключ не виден
+    for r in run_seed("reactive", 33):
+        assert r["antic_h2"] == 0 and r["antic_h1"] == 0 and r["skip_hidden"] == 1.0
+
+
+def test_low_k_recovery_is_slow():
+    ep = Episode(2, "contingent")
+    ep.k = 39
+    ep.act("B")
+    assert ep.k <= 39 + P.gain_low
+    ep.k = 40
+    k0 = ep.k
+    ep.act("B")
+    assert ep.k in (k0 + P.gain, *range(P.drain_lo, P.drain_hi + 1))
