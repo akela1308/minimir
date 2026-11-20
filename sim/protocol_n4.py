@@ -46,7 +46,7 @@ import numpy as np
 from .config import Config
 from .protocol_b import WORLD_B, config_b
 
-PROTOCOL = "N4-draft"            # «draft» снимается при заморозке
+PROTOCOL = "N4-v1"               # заморожен 20.11.2026; правки только новой версией
 
 SHIFT = 5000                     # тик единственной смены правила
 HORIZON = 12000                  # тиков наблюдения после смены (пилот 1: самое
