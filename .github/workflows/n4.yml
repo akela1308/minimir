@@ -1,0 +1,101 @@
+name: протокол N4
+
+# Протокол N4 (20 ноября 2026): «Сколько обучения нужно, чтобы пережить перемену».
+# Один подтверждающий прогон и одно чтение.
+#
+# Заморозка это и есть включение. Запуск начинается сам, когда в репозиторий
+# попадает файл PREREGISTRATION_N4.md (без слова «черновик»). Пока его нет или в
+# sim/protocol_n4.py не снято слово draft, запуск останавливается на первом шаге.
+# Ручной запуск (workflow_dispatch) нужен только чтобы досчитать прерванный прогон:
+# раннер возобновляемый, а чтение второй раз не выполняется.
+#
+# Оценка: 150 семян по 26 условий, от 100 до 190 ядро-секунд на семя, на четырёх
+# ядрах GitHub два-три часа.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "PREREGISTRATION_N4.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: minimir-n4
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: предрегистрация заморожена?
+        run: |
+          if [ ! -f PREREGISTRATION_N4.md ]; then
+            echo "::error::PREREGISTRATION_N4.md не найден: есть только черновик. Прогоны до заморозки не считаются."
+            exit 1
+          fi
+          if grep -q '^PROTOCOL = ".*draft' sim/protocol_n4.py; then
+            echo "::error::в sim/protocol_n4.py не снято слово draft"
+            exit 1
+          fi
+          echo "предрегистрация N4 на месте, commit $(git rev-parse --short HEAD)"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: зависимости
+        run: pip install --quiet numpy scipy pytest
+
+      - name: тесты протокола
+        run: python -m pytest tests/test_n4.py -q
+
+      - name: подтверждающий прогон
+        timeout-minutes: 320
+        run: python runs/n4_run.py --confirm --workers 4
+
+      - name: единственное чтение
+        run: |
+          if [ -f runs/n4/reading_n4.json ]; then
+            echo "чтение уже записано, второй раз не выполняется"
+          else
+            set -o pipefail
+            python runs/n4_analyze.py --confirm | tee runs/n4/reading_n4.txt
+          fi
+
+      - name: коммит результатов
+        if: always()
+        run: |
+          git config user.name  "minimir n4"
+          git config user.email "actions@users.noreply.github.com"
+          git add runs/n4
+          if git diff --cached --quiet; then
+            echo "нечего коммитить"
+            exit 0
+          fi
+          N=$(wc -l < runs/n4/protocol_n4.jsonl 2>/dev/null || echo 0)
+          if [ -f runs/n4/reading_n4.json ]; then
+            git commit -m "N4: подтверждающий прогон и чтение, строк $N"
+          else
+            git commit -m "N4: подтверждающий прогон, промежуточное сохранение без чтения, строк $N"
+          fi
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main
+
+      - name: сводка
+        if: always()
+        run: |
+          echo "### Протокол N4" >> $GITHUB_STEP_SUMMARY
+          if [ -f runs/n4/reading_n4.txt ]; then
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat runs/n4/reading_n4.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- чтения нет: прогон не досчитан или уже прочитан раньше" >> $GITHUB_STEP_SUMMARY
+          fi

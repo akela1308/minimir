@@ -57,7 +57,7 @@ def _passes_simulation(cfg, g, ticks=3000):
         cfg, grid_h=48, grid_w=48, init_pop=24, max_pop=400,
         crowd_cost=0.0, season_period=0, social=False, signs=False, hebbian=False,
         intero_mode="self", interoception=True, policy="evolved",
-        switch_mean=0,                       # предок отбирается при стабильном правиле
+        switch_mean=0, switch_once_at=0,     # предок отбирается при стабильном правиле
         founding_sigma=0.05, log_every=10 ** 9)
     eng = Engine(scr, ancestor=g)
     eng.run(ticks)
@@ -101,7 +101,8 @@ def find_viable_ancestor(cfg, cache_dir="runs/ancestors", verbose=False):
     rng = np.random.default_rng(cfg.seed * 1000003 + 7)
     # тот же поток случайных геномов, что и в мире A (тот же seed); в мире B
     # кандидат ослепляется к цвету и проходит отбор уже в мире B, со вкусом
-    base_cfg = dataclasses.replace(cfg, food_types=1, switch_mean=0) if cfg.food_types == 2 else cfg
+    base_cfg = (dataclasses.replace(cfg, food_types=1, switch_mean=0, switch_once_at=0)
+                if cfg.food_types == 2 else cfg)
     synth = 0
     for attempt in range(1, cfg.ancestor_tries + 1):
         g = _random_genome(rng, base_cfg)

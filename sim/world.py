@@ -40,6 +40,9 @@ class World:
             self._switch_rng = np.random.default_rng(cfg.seed * 7919 + 13)
             if cfg.switch_mean > 0:
                 self.next_switch = cfg.switch_from_tick + self._draw_interval()
+            elif cfg.switch_once_at > 0:
+                # N4: одна смена на фиксированном тике, расписание не тянется
+                self.next_switch = cfg.switch_once_at
 
     def _smooth_field(self, freq):
         """Низкочастотный шум в спектре (без зависимостей): основа для пятен."""
@@ -129,7 +132,8 @@ class World:
         self.t += 1
         if self.next_switch is not None and self.t >= self.next_switch:
             self.switch_rule()
-            self.next_switch = self._draw_interval()
+            self.next_switch = (None if self.cfg.switch_once_at > 0
+                                else self._draw_interval())
 
     @property
     def fertile_fraction(self) -> float:

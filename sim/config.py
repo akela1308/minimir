@@ -40,6 +40,13 @@ class Config:
     # есть окно, где оба цвета слабо питательны или слабо ядовиты. 0 = мгновенно,
     # как в B1 (бит в бит).
     switch_ramp_ticks: int = 0
+    # Одна смена на фиксированном тике (20.11.2026, протокол N4): при
+    # switch_once_at > 0 правило переворачивается ровно один раз, на этом тике,
+    # и больше никогда. Это классическая постановка эволюционного спасения:
+    # один резкий сдвиг среды, исход измеряется выживанием. Требует
+    # switch_mean = 0; генератор расписания не трогается. 0 = выключено,
+    # прежнее поведение бит в бит.
+    switch_once_at: int = 0
     # «Вкус»: одна пластичная связь цвет -> «есть». Логит действия «есть»
     # получает прибавку taste * color, если под ногами есть еда. Знак вкуса
     # и есть врождённое или выученное знание «какой цвет съедобен».
@@ -244,6 +251,11 @@ class Config:
             raise ValueError("food_types=2 несовместимо со знаковым слоем (signs=True)")
         if self.switch_mean and self.food_types != 2:
             raise ValueError("switch_mean имеет смысл только при food_types=2")
+        if self.switch_once_at:
+            if self.food_types != 2:
+                raise ValueError("switch_once_at имеет смысл только при food_types=2")
+            if self.switch_mean:
+                raise ValueError("switch_once_at и switch_mean вместе не задаются")
         if self.food_types == 2 and self.n_hidden < 2:
             raise ValueError("food_types=2: нужен хотя бы один нейрон под рефлекс")
         if self.intero_mode not in ("self", "shuffled", "neighbour", "off", "constant", "twin"):
