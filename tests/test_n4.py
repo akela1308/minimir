@@ -197,3 +197,19 @@ def test_next_seeds_fills_gaps_and_replaces_excluded():
     done = have | full(404) | full(405)
     assert nr.next_seeds(done, conds, 401, 4) == []
     assert nr.next_seeds(done, conds, 401, 5) == [406]
+
+
+def test_page_builds_in_every_state_without_leftover_placeholders():
+    """Страница опыта: пять языков, числа подставлены, длинных тире нет."""
+    import json
+    import re
+    import build_n4_page as bp
+    y, _ = an.load_table(bp.PILOT)
+    sh = bp.shares(y)
+    att = json.load(open(bp.ROOT / "runs/n4/attainability.json"))
+    for st in ("draft", "frozen"):
+        html_text = bp.page(sh, att, st)
+        assert html_text.count('<div class="langblock"') == 5
+        assert not re.search(r"\{[a-z_0-9]+\}", html_text.split("<script>")[0].split("</style>")[1])
+        assert "—" not in html_text
+        assert html_text.count('<section id="results">') == 5

@@ -110,6 +110,7 @@ sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps
 for loc, pr in ((BASE + "/", "1.0"), (BASE + "/interoception.html", "0.9"),
                 (BASE + "/journal.html", "0.9"), (BASE + "/notes.html", "0.9"),
                 (BASE + "/results-b.html", "0.9"),
+                (BASE + "/n4.html", "0.9"),
                 (BASE + "/learning.html", "0.8"), (BASE + "/agi.html", "0.8"),
                 (BASE + "/about.html", "0.8"), (BASE + "/sim.html", "0.6")):
     sm += (f"  <url><loc>{loc}</loc><lastmod>{LASTMOD}</lastmod>"
