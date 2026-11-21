@@ -21,7 +21,7 @@ T["en"] = dict(
  status=dict(
   draft="<b>Status: draft.</b> The protocol is not frozen and no confirmatory run exists. Once it is frozen, 150 new worlds are computed on GitHub servers, one reading is made, and the verdicts appear on this page.",
   frozen="<b>Status: frozen, counting.</b> The preregistration is in the repository as PREREGISTRATION_N4.md. GitHub servers are computing 150 new worlds. One reading follows, and the verdicts will appear in the last section of this page.",
-  read="<b>Status: read.</b> The single confirmatory reading was made on 150 new worlds. The verdicts are in the last section."),
+  read="<b>Status: read.</b> The single confirmatory reading was made on 150 new worlds. The verdicts are in the section right below."),
  s1=("why this experiment", "The question that comes first", [
   "In the second experiment thirty-two worlds out of forty died at the first reversal of the food rule. The question of when learning pays was left with nobody alive to answer it. So this protocol asks what comes before: what does a population need in order to live through one abrupt change of its environment?",
   "Biologists call this evolutionary rescue. The environment shifts once, the population starts to shrink, and either something saves it or it goes extinct. The outcome is survival, counted one world at a time."]),
@@ -109,7 +109,7 @@ T["ru"] = dict(
  status=dict(
   draft="<b>Статус: черновик.</b> Протокол не заморожен, подтверждающего прогона нет. После заморозки серверы GitHub посчитают 150 новых миров, будет сделано одно чтение, и вердикты появятся на этой странице.",
   frozen="<b>Статус: заморожен, идёт счёт.</b> Предрегистрация лежит в репозитории под именем PREREGISTRATION_N4.md. Серверы GitHub считают 150 новых миров. Потом одно чтение, и вердикты появятся в последнем разделе этой страницы.",
-  read="<b>Статус: прочитан.</b> Единственное подтверждающее чтение сделано на 150 новых мирах. Вердикты в последнем разделе."),
+  read="<b>Статус: прочитан.</b> Единственное подтверждающее чтение сделано на 150 новых мирах. Вердикты в разделе сразу ниже."),
  s1=("зачем этот опыт", "Вопрос, который стоит раньше", [
   "Во втором эксперименте тридцать два мира из сорока вымерли на первой же смене правила еды. Вопрос о том, когда выгодно учиться, остался без ответа, потому что отвечать на него было некому. Поэтому этот протокол спрашивает о том, что идёт раньше: что нужно популяции, чтобы пережить одну резкую перемену среды?",
   "У биологов это называется эволюционным спасением. Среда один раз сдвигается, популяция начинает убывать, и либо что-то её спасает, либо она вымирает. Исход здесь это выживание, и считается оно по одному миру."]),
@@ -197,7 +197,7 @@ T["de"] = dict(
  status=dict(
   draft="<b>Status: Entwurf.</b> Das Protokoll ist nicht eingefroren, einen bestätigenden Lauf gibt es nicht. Nach dem Einfrieren berechnen GitHub-Server 150 neue Welten, es folgt eine einzige Auswertung, und die Urteile erscheinen auf dieser Seite.",
   frozen="<b>Status: eingefroren, Berechnung läuft.</b> Die Präregistrierung liegt im Repository als PREREGISTRATION_N4.md. GitHub-Server berechnen 150 neue Welten. Danach folgt eine einzige Auswertung, und die Urteile erscheinen im letzten Abschnitt dieser Seite.",
-  read="<b>Status: ausgewertet.</b> Die einzige bestätigende Auswertung wurde an 150 neuen Welten gemacht. Die Urteile stehen im letzten Abschnitt."),
+  read="<b>Status: ausgewertet.</b> Die einzige bestätigende Auswertung wurde an 150 neuen Welten gemacht. Die Urteile stehen im Abschnitt direkt darunter."),
  s1=("warum dieses Experiment", "Die Frage, die davor liegt", [
   "Im zweiten Experiment starben zweiunddreißig von vierzig Welten beim ersten Wechsel der Futterregel. Die Frage, wann Lernen sich lohnt, blieb offen, weil niemand mehr lebte, der sie hätte beantworten können. Dieses Protokoll fragt deshalb nach dem, was davor liegt: Was braucht eine Population, um einen einzigen abrupten Umbruch ihrer Umwelt zu überleben?",
   "In der Biologie heißt das evolutionäre Rettung. Die Umwelt verschiebt sich einmal, die Population beginnt zu schrumpfen, und entweder rettet sie etwas, oder sie stirbt aus. Das Ergebnis ist Überleben, gezählt Welt für Welt."]),
@@ -285,7 +285,7 @@ T["es"] = dict(
  status=dict(
   draft="<b>Estado: borrador.</b> El protocolo no está congelado y no existe ninguna corrida confirmatoria. Cuando se congele, los servidores de GitHub calcularán 150 mundos nuevos, se hará una sola lectura y los veredictos aparecerán en esta página.",
   frozen="<b>Estado: congelado, en cálculo.</b> El prerregistro está en el repositorio como PREREGISTRATION_N4.md. Los servidores de GitHub calculan 150 mundos nuevos. Después viene una sola lectura, y los veredictos aparecerán en la última sección de esta página.",
-  read="<b>Estado: leído.</b> La única lectura confirmatoria se hizo con 150 mundos nuevos. Los veredictos están en la última sección."),
+  read="<b>Estado: leído.</b> La única lectura confirmatoria se hizo con 150 mundos nuevos. Los veredictos están en la sección que sigue."),
  s1=("por qué este experimento", "La pregunta que va antes", [
   "En el segundo experimento, treinta y dos mundos de cuarenta murieron en la primera inversión de la regla del alimento. La pregunta de cuándo conviene aprender se quedó sin nadie vivo que pudiera responderla. Por eso este protocolo pregunta por lo que va antes: ¿qué necesita una población para sobrevivir a un solo cambio brusco de su entorno?",
   "Los biólogos lo llaman rescate evolutivo. El entorno cambia una vez, la población empieza a menguar, y o algo la salva o se extingue. El resultado es la supervivencia, contada mundo por mundo."]),
@@ -373,7 +373,7 @@ T["zh"] = dict(
  status=dict(
   draft="<b>状态：草案。</b>协议尚未冻结，也没有验证性运行。冻结之后，GitHub 的服务器会计算 150 个新世界，只读取一次，判定结果会出现在这一页。",
   frozen="<b>状态：已冻结，正在计算。</b>预注册文件在仓库里，文件名是 PREREGISTRATION_N4.md。GitHub 的服务器正在计算 150 个新世界，之后只读取一次，判定结果会出现在本页最后一节。",
-  read="<b>状态：已读取。</b>唯一的一次验证性读取已在 150 个新世界上完成，判定结果见最后一节。"),
+  read="<b>状态：已读取。</b>唯一的一次验证性读取已在 150 个新世界上完成，判定结果见紧接着的一节。"),
  s1=("为什么做这个实验", "排在前面的那个问题", [
   "在第二个实验里，四十个世界有三十二个死在食物规则的第一次翻转上。学习什么时候划算，这个问题没有得到回答，因为能回答它的种群都没活下来。所以这份协议问的是更靠前的事：一个种群要靠什么，才能熬过环境的一次突变？",
   "生物学家把这叫作演化拯救。环境变一次，种群开始缩小，要么有什么东西救了它，要么它灭绝。这里的结果就是存活与否，一个世界一个世界地数。"]),
@@ -445,4 +445,57 @@ T["zh"] = dict(
  foot_links=["预注册 N4", "写成代码的判据", "实验二：结果", "观察日志"],
  foot_src="参考文献",
  foot_contact="联系",
+)
+
+
+# ------------------------------------------------------------------ после чтения
+# Тексты, которые показываются только когда чтение сделано (21 ноября 2026).
+# Подстановки считает сборщик из runs/n4/reading_n4.json и сырых строк:
+# {r_n} {v2} {k3d} {k3ci} {mild} {harsh} {k4d} {k4ci} {s06} {s06ci} {s15} {s15ci}
+# {mono} {e06r} {e15r} {low}.
+R = {}
+
+R["en"] = dict(
+ lede="<b>The preregistered run is finished. Of three hypotheses, two were confirmed and one could not be decided.</b> A spread of learning rates rescues populations whose typical member learns too slowly, and a milder poison saves fewer worlds, as predicted. Whether each world has its own threshold stayed undetermined under the rule fixed in advance. The rules were published before the {r_n} worlds were computed, and nothing below was decided after looking at them.",
+ res=["Variety rescues. With no spread of learning rates not one of {r_n} worlds survived, and with the widest spread {v2} did (difference {k3d}, 95% interval {k3ci}). Milder poison is worse: on middle rates it saved {mild} of worlds against {harsh} with regular poison (difference {k4d}, interval {k4ci}, entirely below the declared −0.05). Classical rescue theory predicts the opposite sign.",
+      "The hypothesis that each world has its own threshold is undetermined, and we leave it that way. At rate 0.6 survival was {s06} {s06ci}, well above the 10% floor. At rate 1.5 it was {s15} {s15ci}, and the upper end of that interval crosses the 90% ceiling by less than a point. The bar stays where it was drawn. Descriptively, {mono} of {r_n} worlds respond to the rate as a step, and the lowest rate that rescues a world ranges from 0.3 to 4.0.",
+      "Checks. No world was excluded. Recomputing the reading from the raw rows gives the same numbers, and two worlds recomputed on a different machine matched the GitHub run in all 26 conditions. {low} surviving populations ended with fewer than 50 individuals, and counting them as extinct changes no verdict. With learning switched off, 0 of {r_n} worlds survived. Random tries added {e06r} at rate 0.6 and {e15r} at rate 1.5; that part was declared descriptive."],
+ plain="The {r_n} new worlds have now been counted. Two of the three hints held. A few fast learners among many slow ones do save a population ({v2} of worlds against none), and gentler poison does make things worse ({mild} against {harsh}). The first hint, that every world needs its own amount, looks true in the numbers, but the rule we had fixed in advance could not confirm it, so it stays open.",
+ note=" Result, 21 November 2026: of three hypotheses two were confirmed (variety rescues, milder poison is worse) and one is undetermined.",
+)
+
+R["ru"] = dict(
+ lede="<b>Предрегистрированный прогон закончен. Из трёх гипотез две подтвердились, по одной решить не удалось.</b> Разброс скоростей обучения спасает популяции, в которых типичная особь учится слишком медленно, а мягкий яд спасает меньше миров, как и было предсказано. Есть ли у каждого мира свой порог, по правилу, названному заранее, осталось не определено. Правила были опубликованы до того, как посчитаны {r_n} миров, и ничто ниже не решалось после взгляда на них.",
+ res=["Разнообразие спасает. Без разброса скоростей обучения не выжил ни один мир из {r_n}, при самом широком разбросе выжило {v2} (разность {k3d}, 95% интервал {k3ci}). Мягкий яд хуже: на средних скоростях он спас {mild} миров против {harsh} при обычном яде (разность {k4d}, интервал {k4ci}, целиком ниже объявленных −0,05). Классическая теория спасения предсказывает обратный знак.",
+      "Гипотеза о том, что у каждого мира свой порог, не определена, и мы так её и оставляем. При скорости 0,6 выживаемость {s06} {s06ci}, заметно выше нижней границы в 10%. При скорости 1,5 она {s15} {s15ci}, и верхний край этого интервала заходит за потолок 90% меньше чем на один пункт. Планка остаётся там, где её провели. Описательно: в {mono} мирах из {r_n} ответ на скорость выглядит ступенькой, а наименьшая скорость, которая спасает мир, лежит от 0,3 до 4,0.",
+      "Проверки. Ни один мир не исключён. Пересчёт чтения по сырым строкам даёт те же числа, а два мира, пересчитанные на другой машине, совпали с прогоном GitHub во всех 26 условиях. Выживших популяций, которые закончили меньше чем с 50 особями, {low}; если считать их погибшими, ни один вердикт не меняется. При выключенном обучении выжило 0 миров из {r_n}. Случайные пробы прибавили {e06r} при скорости 0,6 и {e15r} при скорости 1,5; эта часть была объявлена описательной."],
+ plain="{r_n} новых миров посчитаны. Два из трёх намёков подтвердились. Несколько быстрых учеников среди многих медленных действительно спасают популяцию ({v2} миров против ни одного), и более мягкий яд действительно делает хуже ({mild} против {harsh}). Первый намёк, что каждому миру нужно своё количество, по числам похож на правду, но правило, которое мы назвали заранее, подтвердить его не смогло, поэтому он остаётся открытым.",
+ note=" Результат, 21 ноября 2026: из трёх гипотез две подтверждены (разнообразие спасает, мягкий яд хуже), одна не определена.",
+)
+
+R["de"] = dict(
+ lede="<b>Der präregistrierte Lauf ist abgeschlossen. Von drei Hypothesen wurden zwei bestätigt, eine ließ sich nicht entscheiden.</b> Eine Streuung der Lernraten rettet Populationen, deren typisches Mitglied zu langsam lernt, und ein milderes Gift rettet weniger Welten, wie vorhergesagt. Ob jede Welt ihre eigene Schwelle hat, blieb nach der vorab festgelegten Regel unbestimmt. Die Regeln wurden veröffentlicht, bevor die {r_n} Welten berechnet waren, und nichts weiter unten wurde nach einem Blick auf sie entschieden.",
+ res=["Vielfalt rettet. Ohne Streuung der Lernraten überlebte keine von {r_n} Welten, bei der breitesten Streuung überlebten {v2} (Differenz {k3d}, 95%-Intervall {k3ci}). Milderes Gift ist schlechter: bei mittleren Raten rettete es {mild} der Welten gegenüber {harsh} bei normalem Gift (Differenz {k4d}, Intervall {k4ci}, ganz unter den erklärten −0,05). Die klassische Theorie der Rettung sagt das umgekehrte Vorzeichen vorher.",
+      "Die Hypothese, dass jede Welt ihre eigene Schwelle hat, ist unbestimmt, und dabei belassen wir es. Bei Rate 0,6 lag das Überleben bei {s06} {s06ci}, deutlich über der Untergrenze von 10%. Bei Rate 1,5 lag es bei {s15} {s15ci}, und das obere Ende dieses Intervalls überschreitet die Obergrenze von 90% um weniger als einen Punkt. Die Latte bleibt, wo sie gezogen wurde. Beschreibend: in {mono} von {r_n} Welten gleicht die Antwort auf die Rate einer Stufe, und die niedrigste Rate, die eine Welt rettet, reicht von 0,3 bis 4,0.",
+      "Prüfungen. Keine Welt wurde ausgeschlossen. Die Neuberechnung der Auswertung aus den Rohzeilen ergibt dieselben Zahlen, und zwei auf einer anderen Maschine neu berechnete Welten stimmten in allen 26 Bedingungen mit dem GitHub-Lauf überein. {low} überlebende Populationen endeten mit weniger als 50 Individuen; zählt man sie als ausgestorben, ändert sich kein Urteil. Bei ausgeschaltetem Lernen überlebten 0 von {r_n} Welten. Zufallsversuche brachten {e06r} bei Rate 0,6 und {e15r} bei Rate 1,5; dieser Teil war als beschreibend erklärt."],
+ plain="Die {r_n} neuen Welten sind gezählt. Zwei der drei Hinweise haben gehalten. Ein paar schnelle Lerner unter vielen langsamen retten eine Population tatsächlich ({v2} der Welten gegenüber keiner), und milderes Gift macht es tatsächlich schlimmer ({mild} gegenüber {harsh}). Der erste Hinweis, dass jede Welt ihre eigene Menge braucht, sieht in den Zahlen richtig aus, aber die vorab festgelegte Regel konnte ihn nicht bestätigen, also bleibt er offen.",
+ note=" Ergebnis, 21. November 2026: von drei Hypothesen wurden zwei bestätigt (Vielfalt rettet, milderes Gift ist schlechter), eine ist unbestimmt.",
+)
+
+R["es"] = dict(
+ lede="<b>La corrida prerregistrada ha terminado. De tres hipótesis, dos se confirmaron y una no pudo decidirse.</b> La dispersión de velocidades de aprendizaje rescata a poblaciones cuyo individuo típico aprende demasiado despacio, y un veneno más suave salva menos mundos, como se predijo. Si cada mundo tiene su propio umbral quedó indeterminado según la regla fijada de antemano. Las reglas se publicaron antes de calcular los {r_n} mundos, y nada de lo que sigue se decidió después de mirarlos.",
+ res=["La variedad rescata. Sin dispersión de velocidades no sobrevivió ninguno de los {r_n} mundos, y con la dispersión más ancha sobrevivió el {v2} (diferencia {k3d}, intervalo del 95% {k3ci}). El veneno más suave es peor: en velocidades medias salvó el {mild} de los mundos frente al {harsh} con veneno normal (diferencia {k4d}, intervalo {k4ci}, entero por debajo del −0,05 declarado). La teoría clásica del rescate predice el signo contrario.",
+      "La hipótesis de que cada mundo tiene su propio umbral queda indeterminada, y así la dejamos. Con velocidad 0,6 la supervivencia fue {s06} {s06ci}, muy por encima del suelo del 10%. Con velocidad 1,5 fue {s15} {s15ci}, y el extremo superior de ese intervalo cruza el techo del 90% por menos de un punto. El listón se queda donde se trazó. De forma descriptiva, en {mono} de {r_n} mundos la respuesta a la velocidad es un escalón, y la velocidad más baja que rescata un mundo va de 0,3 a 4,0.",
+      "Comprobaciones. No se excluyó ningún mundo. Recalcular la lectura desde las filas en bruto da los mismos números, y dos mundos recalculados en otra máquina coincidieron con la corrida de GitHub en las 26 condiciones. {low} poblaciones supervivientes terminaron con menos de 50 individuos; contarlas como extintas no cambia ningún veredicto. Con el aprendizaje apagado sobrevivieron 0 de {r_n} mundos. Los intentos al azar sumaron {e06r} con velocidad 0,6 y {e15r} con velocidad 1,5; esa parte se declaró descriptiva."],
+ plain="Los {r_n} mundos nuevos ya están contados. Dos de las tres pistas se sostuvieron. Unos pocos aprendices rápidos entre muchos lentos sí salvan a una población (el {v2} de los mundos frente a ninguno), y un veneno más suave sí empeora las cosas (el {mild} frente al {harsh}). La primera pista, que cada mundo necesita su propia cantidad, parece cierta en los números, pero la regla fijada de antemano no pudo confirmarla, así que sigue abierta.",
+ note=" Resultado, 21 de noviembre de 2026: de tres hipótesis se confirmaron dos (la variedad rescata, el veneno más suave es peor) y una queda indeterminada.",
+)
+
+R["zh"] = dict(
+ lede="<b>预注册的运行已经结束。三个假设里，两个得到证实，一个无法判定。</b>学习速度的分散能救活那些典型个体学得太慢的种群，温和的毒救活的世界更少，与预测一致。每个世界是否有自己的门槛，按事先定下的规则没能判定。规则是在 {r_n} 个世界算出来之前公布的，下面没有任何一条是看了数据之后才决定的。",
+ res=["多样性能救命。学习速度没有分散时，{r_n} 个世界一个也没活下来；分散最宽时活下来 {v2}（差值 {k3d}，95% 区间 {k3ci}）。温和的毒更糟：在中等速度上，它救活了 {mild} 的世界，普通的毒是 {harsh}（差值 {k4d}，区间 {k4ci}，整个落在事先声明的 −0.05 以下）。经典的拯救理论预测的是相反的方向。",
+      "每个世界有自己的门槛，这个假设无法判定，我们就让它保持这样。速度 0.6 时存活率是 {s06} {s06ci}，明显高于 10% 的下限。速度 1.5 时是 {s15} {s15ci}，这个区间的上端越过 90% 的上限不到一个百分点。标准线画在哪里就留在哪里。作为描述：{r_n} 个世界里有 {mono} 个对速度的反应像一级台阶，能救活一个世界的最低速度从 0.3 到 4.0 不等。",
+      "核查。没有世界被排除。从原始数据重新计算读取，得到的数字相同；在另一台机器上重算的两个世界，在全部 26 个条件上都与 GitHub 的运行一致。有 {low} 个存活的种群最后不到 50 个个体，把它们算作灭绝，任何判定都不变。关闭学习时，{r_n} 个世界存活 0 个。随机尝试在速度 0.6 时多出 {e06r}，在速度 1.5 时多出 {e15r}；这一部分事先声明只作描述。"],
+ plain="{r_n} 个新世界已经数完。三条提示里有两条站住了。许多慢的个体里有几个学得快的，确实能救活种群（{v2} 的世界对零），把毒变温和确实更糟（{mild} 对 {harsh}）。第一条提示，每个世界需要的量不一样，从数字上看像是对的，但事先定下的规则没能证实它，所以它仍然悬着。",
+ note=" 结果，2026年11月21日：三个假设里两个得到证实（多样性能救命，温和的毒更糟），一个无法判定。",
 )

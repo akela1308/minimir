@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "runs"))
 import n4_analyze as an                                     # noqa: E402
-from n4_texts import T                                      # noqa: E402
+from n4_texts import T, R                                   # noqa: E402
 from sim.protocol_n4 import DOSES, SIGMAS, SEED_FIRST, N_CONFIRM, conditions  # noqa: E402
 
 LANGS = ["en", "ru", "de", "zh", "es"]          # порядок блоков, как на results-b.html
@@ -193,6 +193,27 @@ def attain_table(att, t, lang):
     return f'<div class="tw"><table>{head}{rows}</table></div>'
 
 
+def read_numbers(lang):
+    """Подстановки для текстов после чтения: всё из записанного чтения и сырых строк."""
+    rd = json.load(open(READING))
+    cr, noise = rd["criteria"], rd["noise"]
+    rows = [json.loads(l) for l in open(CONFIRM) if l.strip()]
+    y, _ = an.confirmatory_table(rows, list(conditions()), SEED_FIRST, N_CONFIRM)
+    seeds = sorted(y["D_L0.1"])
+    mono = sum(all(y[D_CONDS[i]][s] <= y[D_CONDS[i + 1]][s] for i in range(len(D_CONDS) - 1)) for s in seeds)
+    taken = set(seeds)
+    low = sum(1 for r in rows if r.get("rescued") and r["seed"] in taken and r["pop_end"] < 50)
+    ci = lambda v: f"[{num(v[0], lang, 3)}; {num(v[1], lang, 3)}]"
+    plus = lambda x: ("+" if x >= 0 else "") + num(x, lang)
+    return dict(r_n=len(seeds), v2=pct(cr["K3"]["curve"]["V_s2"], lang),
+                k3d=num(cr["K3"]["diff"], lang), k3ci=ci(cr["K3"]["ci"]),
+                mild=pct(cr["K4"]["s_mild"], lang), harsh=pct(cr["K4"]["s_harsh"], lang),
+                k4d=num(cr["K4"]["diff"], lang), k4ci=ci(cr["K4"]["ci"]),
+                s06=num(cr["K2"]["s_low"], lang), s06ci=ci(cr["K2"]["ci_low"]),
+                s15=num(cr["K2"]["s_high"], lang), s15ci=ci(cr["K2"]["ci_high"]),
+                mono=mono, low=low, e06r=plus(noise["E_L0.6"]["diff"]), e15r=plus(noise["E_L1.5"]["diff"]))
+
+
 def results(t, lang, st):
     name, h3 = t["s9"]
     if st != "read":
@@ -215,8 +236,11 @@ def results(t, lang, st):
     y, _ = an.confirmatory_table(rows_all, list(conditions()), SEED_FIRST, N_CONFIRM)
     sh = shares(y)
     cap = t["res_c1_cap"].format(n=sh["n"])
-    return (f'<section id="results"><h2>{name}</h2><h3>{h3}</h3>{table(t["res_head"], rows)}'
-            f'<p class="cap">{t["res_cap"].format(n=sh["n"])}</p>\n    {figures(sh, t, lang, cap, cap)}</section>')
+    rn = read_numbers(lang)
+    story = "".join(f"\n    <p>{p.format(**rn)}</p>" for p in R[lang]["res"])
+    return (f'<section id="results"><h2>{name}</h2><h3>{h3}</h3>'
+            f'{table(t["res_head"], rows).replace('<div class="tw">', '<div class="tw res">', 1)}'
+            f'<p class="cap">{t["res_cap"].format(n=sh["n"])}</p>{story}\n    {figures(sh, t, lang, cap, cap)}</section>')
 
 
 def block(lang, sh, att, st):
@@ -234,12 +258,14 @@ def block(lang, sh, att, st):
          f'  <h1>{t["h1"]}</h1>',
          f'  <div class="eyebrow">{t["eye"][st]}</div>',
          f'  <div class="byline"><b>MAKSIM ILIN</b> · {t["role"]}</div>',
-         f'  <p class="lede">{t["lede"]}</p>',
+         f'  <p class="lede">{(R[lang]["lede"].format(**read_numbers(lang)) if st == "read" else t["lede"])}</p>',
          f'  <div class="cta"><a class="btn" href="{prereg}" {ext}>{t["cta"][0]}</a>'
          f'<a class="btn ghost" href="https://github.com/akela1308/minimir/tree/main/runs/n4" {ext}>{t["cta"][1]}</a>'
          f'<a class="btn ghost" href="results-b.html">{t["cta"][2]}</a>'
          f'<a class="btn ghost" href="notes.html">{t["cta"][3]}</a></div>',
          f'  <div class="callout{"" if st == "read" else " warn"}">{t["status"][st]}</div>']
+    if st == "read":
+        o.append("\n  " + results(t, lang, st))
     o.append(sec(t["s1"], paras(t["s1"][2])))
     o.append(sec(t["s2"], paras(t["s2"][2]) + "\n    " + table(t["parts_head"], t["parts"])
                  + f'\n    <p class="cap">{t["parts_cap"]}</p>'))
@@ -254,8 +280,12 @@ def block(lang, sh, att, st):
                  f'\n    <p>{t["p_rest"].format(**f)}</p>'))
     o.append(sec(t["s6"], paras(t["s6"][2])))
     o.append(sec(t["s7"], "\n    <ul>" + "".join(f"<li>{x}</li>" for x in t["s7"][2]) + "</ul>"))
-    o.append(sec(t["s8"], paras(t["s8"][2])))
-    o.append("\n  " + results(t, lang, st))
+    plain = list(t["s8"][2])
+    if st == "read":
+        plain[-1] = R[lang]["plain"].format(**read_numbers(lang))
+    o.append(sec(t["s8"], paras(plain)))
+    if st != "read":
+        o.append("\n  " + results(t, lang, st))
     fl = t["foot_links"]
     o.append(
         f'\n  <footer>{t["foot_a"]}: <a href="https://www.ilinmaks.com/" {ext}>Maksim Ilin</a>, {t["foot_role"]} · '
@@ -302,6 +332,7 @@ CSS = """
   .chart .pt{stroke:var(--ground);stroke-width:2}
   .chart .pt.a{fill:var(--cyan)} .chart .pt.b{fill:var(--amber)}
   .chart .hit{fill:transparent}
+  .res td.k{white-space:normal;min-width:170px} .res td.d{min-width:150px}
   section ul{margin:0;padding-left:20px;max-width:70ch} section li{margin:0 0 8px}
 """
 

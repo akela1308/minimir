@@ -207,7 +207,8 @@ def test_page_builds_in_every_state_without_leftover_placeholders():
     y, _ = an.load_table(bp.PILOT)
     sh = bp.shares(y)
     att = json.load(open(bp.ROOT / "runs/n4/attainability.json"))
-    for st in ("draft", "frozen"):
+    states = ("draft", "frozen") + (("read",) if bp.READING.exists() else ())
+    for st in states:
         html_text = bp.page(sh, att, st)
         assert html_text.count('<div class="langblock"') == 5
         assert not re.search(r"\{[a-z_0-9]+\}", html_text.split("<script>")[0].split("</style>")[1])
