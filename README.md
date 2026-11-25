@@ -4,7 +4,7 @@
 
 A small artificial-life world for preregistered experiments on the evolution of learning. Creatures on a 128 by 128 torus look for food, burn energy, reproduce and die; each one is driven by a tiny neural network that passes to its offspring with mutations. No rewards, no goals. Every experiment has a control condition on the same seed, the same map and the same genome shape, and every hypothesis, criterion and failure boundary is frozen in a preregistration before the first run.
 
-**Live site:** [live experiment](https://minimir.ilinmaks.com/) · [results of protocol B](https://minimir.ilinmaks.com/results-b.html) · [observation journal](https://minimir.ilinmaks.com/journal.html) · [about](https://minimir.ilinmaks.com/about.html). GitHub Pages, nothing to install.
+**Live site:** [live experiment](https://minimir.ilinmaks.com/) · [results of protocol N4](https://minimir.ilinmaks.com/n4.html) · [results of protocol B](https://minimir.ilinmaks.com/results-b.html) · [observation journal](https://minimir.ilinmaks.com/journal.html) · [about](https://minimir.ilinmaks.com/about.html). GitHub Pages, nothing to install.
 
 Russian README with the engine details (an older, differently structured document): [README.ru.md](README.ru.md). Reports and preregistrations are in Russian unless marked otherwise; the site pages are in five languages (EN, RU, DE, ES, ZH).
 
@@ -14,6 +14,7 @@ Russian README with the engine details (an older, differently structured documen
 | --- | --- | --- | --- |
 | 1. Interoception (`self` against `shuffled`) | A, two readings passed | not confirmed by the registered criterion; the paired difference is real but small, inherited from the founders and decaying over the run, and the threshold could not be met at any sample size (see `ERRATUM_2026-10-28.md` §3) | `REPORT.md` |
 | 2. When learning pays | B1-100k-v1, closed 7 October 2026 | the declared failure boundary fired (32 of 40 treatment worlds died at the first rule reversal); the ablation H-B4 confirmed, exact McNemar p = 0.0078, true by construction, see corrections | `REPORT_B.md` (RU), `REPORT_B_EN.md` (EN), [results page](https://minimir.ilinmaks.com/results-b.html) |
+| 3. How much learning it takes to survive a change | N4-v1, frozen 20 November 2026, read once on 21 November 2026 | two of three hypotheses confirmed: a spread of learning rates rescues populations whose median individual learns too slowly (0 of 150 worlds against 134 of 150), and a milder poison rescues fewer worlds (0.445 against 0.582); that each world has its own threshold is undetermined | `REPORT_N4_EN.md`, `REPORT_N4.md`, `PREREGISTRATION_N4.md`, [page](https://minimir.ilinmaks.com/n4.html) |
 
 Protocol B in one table (40 seeds per condition, 100,000 ticks per run, 240 runs, accumulated automatically from 10 to 29 September 2026, no run failed):
 

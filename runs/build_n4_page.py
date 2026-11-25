@@ -37,6 +37,8 @@ PILOT = ROOT / "runs/n4/pilot/pilot2.jsonl"
 READING = ROOT / "runs/n4/reading_n4.json"
 CONFIRM = ROOT / "runs/n4/protocol_n4.jsonl"
 FROZEN = ROOT / "PREREGISTRATION_N4.md"
+REPORT_LABEL = {"en": "full report", "ru": "полный отчёт", "de": "vollständiger Bericht",
+                "es": "informe completo", "zh": "完整报告"}
 SIG_ALL = [0.0] + SIGMAS
 D_CONDS = [f"D_L{d:g}" for d in DOSES]
 M_CONDS = [f"M_L{d:g}" for d in DOSES]
@@ -261,6 +263,8 @@ def block(lang, sh, att, st):
          f'  <p class="lede">{(R[lang]["lede"].format(**read_numbers(lang)) if st == "read" else t["lede"])}</p>',
          f'  <div class="cta"><a class="btn" href="{prereg}" {ext}>{t["cta"][0]}</a>'
          f'<a class="btn ghost" href="https://github.com/akela1308/minimir/tree/main/runs/n4" {ext}>{t["cta"][1]}</a>'
+         + (f'<a class="btn ghost" href="{GH}{"REPORT_N4.md" if lang == "ru" else "REPORT_N4_EN.md"}" {ext}>{REPORT_LABEL[lang]}</a>'
+            if st == "read" else "") +
          f'<a class="btn ghost" href="results-b.html">{t["cta"][2]}</a>'
          f'<a class="btn ghost" href="notes.html">{t["cta"][3]}</a></div>',
          f'  <div class="callout{"" if st == "read" else " warn"}">{t["status"][st]}</div>']
