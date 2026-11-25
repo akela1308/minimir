@@ -2,7 +2,8 @@
 
 **A preregistered artificial-life experiment (mini-world, protocol N4-v1)**
 
-*Maksim Ilin, independent researcher, Zagreb. 21 November 2026.*
+*Maksim Ilin, independent researcher, Zagreb. 21 November 2026. Release v1.1.0-protocol-n4, DOI
+[10.5281/zenodo.24544016](https://doi.org/10.5281/zenodo.24544016).*
 
 *The preregistration `PREREGISTRATION_N4.md` was frozen by commit `944e88d` on
 20 November 2026, before the first confirmatory run. The run and the single

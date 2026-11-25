@@ -1,6 +1,6 @@
 # mini-world (minimir)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23729180.svg)](https://doi.org/10.5281/zenodo.23729180)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24544016.svg)](https://doi.org/10.5281/zenodo.24544016)
 
 A small artificial-life world for preregistered experiments on the evolution of learning. Creatures on a 128 by 128 torus look for food, burn energy, reproduce and die; each one is driven by a tiny neural network that passes to its offspring with mutations. No rewards, no goals. Every experiment has a control condition on the same seed, the same map and the same genome shape, and every hypothesis, criterion and failure boundary is frozen in a preregistration before the first run.
 
@@ -94,11 +94,15 @@ Questions, theses and key decisions: Maksim Ilin. Code, analysis, reports, site 
 
 ## How to cite
 
+Two reports, one per closed protocol with a DOI.
+
+Ilin, M. (2026). How much learning does it take to survive a change: evolutionary rescue by standing variation in learning rate, and a milder change that is harder to survive. A preregistered artificial-life experiment (mini-world, protocol N4-v1). Report version 1.1.0. Zenodo. https://doi.org/10.5281/zenodo.24544016. Page of the experiment: https://minimir.ilinmaks.com/n4.html
+
 Ilin, M. (2026). When learning pays: a preregistered artificial-life experiment on lifetime learning under unpredictable rule change (mini-world, protocol B1-100k-v1). Report version 1.0.1. Zenodo. https://doi.org/10.5281/zenodo.23729180. Results page: https://minimir.ilinmaks.com/results-b.html
 
-The DOI above points to release v1.0.1-protocol-b of the repository (v1.0-protocol-b, the archived original without the corrections, is 10.5281/zenodo.23713553). The DOI for all versions is 10.5281/zenodo.23713552.
+The first DOI points to release v1.1.0-protocol-n4 of the repository. The second points to release v1.0.1-protocol-b (v1.0-protocol-b, the archived original without the corrections, is 10.5281/zenodo.23713553). The DOI for all versions is 10.5281/zenodo.23713552.
 
-A `CITATION.cff` file is in the repository; GitHub shows its preferred citation (the report above) under "Cite this repository".
+A `CITATION.cff` file is in the repository; GitHub shows its preferred citation (the report on protocol N4) under "Cite this repository".
 
 ## Author
 

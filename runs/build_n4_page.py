@@ -39,6 +39,12 @@ CONFIRM = ROOT / "runs/n4/protocol_n4.jsonl"
 FROZEN = ROOT / "PREREGISTRATION_N4.md"
 REPORT_LABEL = {"en": "full report", "ru": "полный отчёт", "de": "vollständiger Bericht",
                 "es": "informe completo", "zh": "完整报告"}
+N4_DOI = "10.5281/zenodo.24544016"        # релиз v1.1.0-protocol-n4, 25 ноября 2026
+CITE_LABEL = {"en": "Cite", "ru": "Цитировать", "de": "Zitieren", "es": "Citar", "zh": "引用"}
+CITE_TEXT = ("Ilin, M. (2026). How much learning does it take to survive a change: evolutionary rescue by "
+             "standing variation in learning rate, and a milder change that is harder to survive. A "
+             "preregistered artificial-life experiment (mini-world, protocol N4-v1). Version "
+             "1.1.0-protocol-n4. Zenodo.")
 SIG_ALL = [0.0] + SIGMAS
 D_CONDS = [f"D_L{d:g}" for d in DOSES]
 M_CONDS = [f"M_L{d:g}" for d in DOSES]
@@ -258,7 +264,8 @@ def block(lang, sh, att, st):
     sec = lambda s, body: f'\n  <section><h2>{s[0]}</h2><h3>{s[1]}</h3>{body}</section>'
     o = [f'<div class="langblock" data-lang="{lang}" lang="{lang}">',
          f'  <h1>{t["h1"]}</h1>',
-         f'  <div class="eyebrow">{t["eye"][st]}</div>',
+         f'  <div class="eyebrow">{t["eye"][st]}'
+         + (f' · DOI <a href="https://doi.org/{N4_DOI}" {ext}>{N4_DOI}</a>' if st == "read" else "") + '</div>',
          f'  <div class="byline"><b>MAKSIM ILIN</b> · {t["role"]}</div>',
          f'  <p class="lede">{(R[lang]["lede"].format(**read_numbers(lang)) if st == "read" else t["lede"])}</p>',
          f'  <div class="cta"><a class="btn" href="{prereg}" {ext}>{t["cta"][0]}</a>'
@@ -301,7 +308,10 @@ def block(lang, sh, att, st):
         'G. Bell, A. Gonzalez, “Evolutionary rescue can prevent extinction following environmental change”, '
         'Ecology Letters, 2009; L.-M. Chevin, R. Lande, G. M. Mace, “Adaptation, plasticity, and extinction in a '
         'changing environment”, PLoS Biology, 2010; G. E. Hinton, S. J. Nowlan, “How learning can guide evolution”, '
-        f'Complex Systems, 1987.<span class="cite">{t["foot_contact"]}: '
+        f'Complex Systems, 1987.<span class="cite">'
+        + (f'{CITE_LABEL[lang]}{"：" if lang == "zh" else ": "}{CITE_TEXT} '
+           f'<a href="https://doi.org/{N4_DOI}" {ext}>https://doi.org/{N4_DOI}</a> · ' if st == "read" else "")
+        + f'{t["foot_contact"]}: '
         f'<a href="https://github.com/akela1308/minimir/issues" {ext}>GitHub issues</a> · '
         f'<a href="https://www.ilinmaks.com/" {ext}>www.ilinmaks.com</a></span></footer>\n</div>')
     return "\n".join(o)
@@ -345,7 +355,9 @@ def page(sh, att, st):
     plain = lambda s: s.replace("<br>", " ")
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "Article", "headline": plain(t["h1"]), "inLanguage": ["en", "ru", "de", "es", "zh"],
-         "datePublished": "2026-11-20", "url": f"{BASE}/n4.html",
+         "datePublished": "2026-11-20", "dateModified": "2026-11-25", "url": f"{BASE}/n4.html",
+         "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": N4_DOI},
+         "sameAs": [f"https://doi.org/{N4_DOI}", "https://zenodo.org/records/24544016"],
          "author": {"@id": f"{BASE}/#author"}, "publisher": {"@id": f"{BASE}/#author"},
          "isPartOf": {"@id": f"{BASE}/#website"}},
         {"@type": "Person", "@id": f"{BASE}/#author", "name": "Maksim Ilin", "alternateName": "Максим Ильин",
